@@ -1,0 +1,13 @@
+# top-most EditorConfig file
+root = true
+
+# 2 space indentation
+[*.js]
+indent_style = space
+indent_size = 2
+
+# Indentation override for all JS under lib directory
+[*.scss]
+indent_style = tab
+indent_size = 4
+
