@@ -1,0 +1,283 @@
+.logoContainer {
+	display: flex;
+    justify-content: center;
+	align-items: center;
+	.canvasParent {
+		display: inline-block;
+	}
+	.logoText {
+		font-size: 25px;
+		font-weight: 100;
+		padding-left: 4px;
+	}
+}
+
+.ReactModal__Content {
+	margin: 50px auto;
+	min-width: 320px;
+	max-width: 340px;
+	padding: 40px 50px 30px;
+	overflow: hidden;
+	background: #f8f8f8;
+	position: relative;
+	box-shadow: 0px 0px 40px #000;
+
+	.closeBtn {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		color: rgba(0,0,0,.5);
+		width: 30px;
+		height: 30px;
+		padding: 2px;
+	}
+
+	h2 {
+		font-size: 20px
+	}
+
+	div.about {
+		padding-bottom:10px;
+	}
+
+	label {
+		margin-top: 4px;
+		margin-bottom: 4px;
+
+		display: block;
+		padding: 10px;
+
+		div {
+			display: inline;
+		}
+
+		&:hover {
+			background: #f3f3f3;
+		}
+
+		input {
+			margin-right: 8px;
+		}
+	}
+
+	.btnBottom {
+		padding-top: 20px;
+		text-align: right;
+	}
+
+	.url {
+		background-color: #fff;
+		border: 0;
+		font-family: inherit;
+		font-weight: 400;
+		font-size: 1.05em;
+		padding: .6rem;
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 100%;
+		color: #474747;
+
+		&.disabled {
+			background: repeating-linear-gradient(
+			  45deg,
+			  rgba(0,0,0,0.1),
+			  rgba(0,0,0,0.1) 10px,
+			  rgba(0,0,0,0.05) 10px,
+			  rgba(0,0,0,0.05) 20px
+			);
+		}
+
+		&:focus{
+			color: black;
+		}
+	}
+
+	.formLabel {
+		font-size: 13px;
+		padding-left: 4px;
+		padding-bottom: 2px;
+		letter-spacing: normal;
+		color: #848484;
+	}
+
+	.formElement {
+		margin-top:18px;
+		margin-bottom:15px;
+	}
+}
+
+.ReactModal__Overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.3)
+}
+
+
+.title:not(:placeholder-shown) {
+  font-size: 20px;
+}
+
+.description:not(:placeholder-shown) {
+  font-weight: 600;
+}
+
+.description {
+  font-size: 14px;
+}
+.colors {
+	display: flex;
+	grid-template-columns: auto;
+
+	.color {
+		height:calc(100% / 8);
+		width: calc(100% / 8);
+		opacity: 0.3;
+
+		&.active {
+			opacity: 1;
+			cursor: default;
+		}
+		cursor: pointer;
+	}
+}
+.SelectedElement {
+	padding-top: 20px;
+	
+	
+}
+
+.Element{
+	width:100%;
+	padding:10px 0;
+	z-index:4
+}
+
+h2 {
+	font-size: 14px;
+	font-weight: thin
+}
+.infoColumn {
+	font-size: 12px;
+	
+}
+.quickstart {
+	/*padding-top:0px;*/
+}
+
+.padding {
+	padding-top: 20px;
+}
+
+.lanes {
+	padding-top: 12px
+}
+
+.domButton{
+	background: transparent;
+    border: none;
+    margin: 2px;
+    padding: 5px 12px;
+    font-size: 20px;
+    outline: none;
+    cursor: pointer;
+    color: #6b6b6b;
+    &:hover {
+    	background: #e7e7e7;
+    }
+}
+
+.button{
+	background: white;
+    border: solid 1px #d2d2d2;
+    margin: 2px;
+    padding: 5px;
+    outline: none;
+    cursor: pointer;
+    opacity: 0.7;
+    &.active {
+    	background: #fbf8f8;
+    	cursor: default;
+    	opacity: 1;
+    }
+    &.disabled {
+    	cursor: not-allowed;
+    	opacity: 0.2
+    }
+}
+
+.mdi-icon {
+	fill: #888888;
+	width: 100%;
+	height: 100%;
+}
+
+.schedules {
+	padding-top: 20px;
+}
+
+.tabs {
+	text-align: right;
+	padding-right: 10px;
+	.fuck {
+		background: transparent;
+		border: solid 1px black;
+		border-bottom: none;
+		/*border-left: none;*/
+		padding: 5px 8px;
+		transform: rotateX(40deg);
+
+		/*To conceal double border*/
+		/*WIll only work when there are just 2 tabs*/
+		&:first-child{
+			margin-right: -1px;
+		};
+
+		&:active{
+			padding-left:9px;
+			padding-right:7px;
+		};
+
+		&.active{
+			padding-left:9px;
+			padding-right:7px;
+			transform: rotateX(0deg);
+			transition: transform 0.3s;
+		};
+	}
+	
+}
+
+.metaInfo {
+	input[type=text], textarea{
+		width: 100%;
+		margin-bottom: 12px;
+		border: none;
+		border-bottom: #eaeaea 1px solid;
+		resize:none;
+		padding-left: 3px;
+		padding-bottom: 5px;
+		font-family: $fontStack;
+		outline: none;
+		box-sizing: border-box;
+		background: transparent;
+
+		&:focus {
+			border-bottom:#6dade4 2px solid;
+		}
+	}
+}
+
+canvas.canvas {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	transition: filter 0.3s;
+
+	&.blur {
+		filter: blur(6px) grayscale(100%);
+	}
+}
+
+
