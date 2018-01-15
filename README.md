@@ -6,7 +6,9 @@ Written using a `node.js` back-end and `react` for the front-end
 
 ## Installation
 
-First, install dependencies using npm
+⚠️ Napchart-website uses `node-canvas` as a dependency to render charts server-side. It needs some specific programs in order to work. Go to [Automattic/node-canvas](https://github.com/Automattic/node-canvas) to see instructions for you OS
+
+Then try to install dependencies using npm
 ````
 npm install
 ````
