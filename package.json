@@ -21,6 +21,7 @@
     "mdi-react": "^1.9.32",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.1",
+    "napchart": "^3.0.0-beta",
     "npm": "^5.1.0",
     "nunjucks": "^3.0.1",
     "path": "^0.12.7",
