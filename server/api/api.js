@@ -4,7 +4,6 @@ var getImage = require('./getImage')
 
 module.exports = {
   create: function (req, res) {
-    console.log(req.body.data)
     var data = JSON.parse(req.body.data)
     console.log(data)
     database.createChart(data, function (err, response) {
@@ -24,5 +23,14 @@ module.exports = {
     })
   },
 
-  getImage: getImage
+  getImage: getImage,
+  
+  postFeedback: function(req, res) {
+    var data = JSON.parse(req.body.data)
+    database.addFeedback(data, function (err, response) {
+      if (err) throw new Error(err)
+
+      res.send(response)
+    })
+  },
 }

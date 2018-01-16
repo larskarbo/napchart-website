@@ -2,6 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import Polyphasic from './add-ons/polyphasic/Polyphasic.jsx'
 
+import server from '../server'
+
 export default class InfoColumn extends React.Component {
   constructor (props) {
     super(props)
@@ -23,15 +25,19 @@ export default class InfoColumn extends React.Component {
 
         </div>
         <div className="padding">
-          <h2>Contribute</h2>
-          <p>Napchart is open-source and hackable. Check out the projects on github</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+          <h2>Feedback</h2>
+          <p>Issues, ideas, or other feedback appreciated 😏</p>
+          <textarea ref="feedback"></textarea>
+          <div style={{display:'none'}} ref="afterfeedback">
+            <p>Thank you for your feedback ❤️🤗</p>
+          </div>
+          <button ref="feedbacksend" onClick={this.sendFeedback} className="button block">Send</button>
         </div>
         <div className="padding">
-          <h2>Iphone/Android app</h2>
-
-          <p>Nope, not yet</p>
+          <h2>Contribute</h2>
+          <p>Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
+          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
+          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
         </div>
       </div>
     )
@@ -66,5 +72,19 @@ export default class InfoColumn extends React.Component {
     this.setState({
       activeTab: tab
     })
+  }
+
+  sendFeedback = (tab) => {
+    var value = this.refs.feedback.value
+
+
+    server.sendFeedback(value, function() {
+      console.log('feedback sent')
+    })
+
+    this.refs.feedback.style.display = 'none'
+    this.refs.feedbacksend.style.display = 'none'
+    this.refs.afterfeedback.style.display = 'block'
+
   }
 }

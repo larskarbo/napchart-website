@@ -46,5 +46,15 @@ module.exports = {
 
       return cb(data)
     })
+  },
+
+  sendFeedback: (feedback, cb) => {
+    axios.post('/api/postFeedback', {
+        data: JSON.stringify(feedback)
+    })
+    .then((response) => {
+      console.log(response)
+      cb()
+    })
   }
 }
