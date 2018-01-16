@@ -57,7 +57,6 @@ export default class Chart extends React.Component {
     }, {
       text: false,
       drawFace: false,
-      maxLaneSize: 16,
       interaction: false
     })
 
