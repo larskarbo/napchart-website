@@ -57,7 +57,8 @@ export default class Chart extends React.Component {
     }, {
       text: false,
       drawFace: false,
-      maxLaneSize: 16
+      maxLaneSize: 16,
+      interaction: false
     })
 
     napchart.data.elements.forEach(element => {

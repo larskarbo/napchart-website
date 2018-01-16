@@ -141,6 +141,10 @@
 			cursor: default;
 		}
 		cursor: pointer;
+
+		circle, svg {
+			pointer-events: none
+		}
 	}
 }
 .SelectedElement {

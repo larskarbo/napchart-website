@@ -1,4 +1,5 @@
 import React from 'react'
+import c from 'classnames'
 
 
 export default class Chart extends React.Component {
@@ -14,12 +15,11 @@ export default class Chart extends React.Component {
   	var shapes = ['circle', 'wide', 'line']
 
   	var shapeButtons = shapes.map(shape => {
-      var className = ""
-      if(napchart.data.shape == shape){
-        var className = "active"
+      var classes = {
+        active: napchart.data.shape == shape
       }
       return (
-        <button className={"button " + className}
+        <button className={c("button", "napchartDontLoseFocus", classes)}
         onClick={napchart.changeShape.bind(napchart, shape)}
         key={shape}>
           {shape}

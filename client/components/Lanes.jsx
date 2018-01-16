@@ -16,7 +16,8 @@ export default class Elements extends React.Component {
       var classes = {
         button: true,
         active: lane == lanes,
-        disabled: disabled
+        disabled: disabled,
+        napchartDontLoseFocus: true
       }
       return (
         <button className={classNames(classes)}
