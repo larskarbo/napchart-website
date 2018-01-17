@@ -118,11 +118,14 @@ export default class Header extends React.Component {
 
   save = () => {
     this.props.onLoading()
+    var firstTimeSave = !this.props.chartid
     server.save(this.props.napchart.data, this.props.title,
     this.props.description, (chartid) => {
       this.props.onLoadingFinish()
       this.props.onSave(chartid)
-      this.openModal("share")
+      if(firstTimeSave){
+        this.openModal("share")
+      }
     })
   }
 
