@@ -42,6 +42,9 @@ app.get('/:whatever', function (req, res) {
 
   database.getChart(chartid, function (err, response) {
     if (err) throw new Error(err)
+    if(response == null){
+      return res.status(404).send('404')
+    }
     var title = response.metaInfo.title
     var description = response.metaInfo.description
     var file = nunjucks.render(__dirname + '/../client/index.html', {
@@ -53,8 +56,6 @@ app.get('/:whatever', function (req, res) {
 
     res.send(file)
   })
-  
-  
 })
 
 
