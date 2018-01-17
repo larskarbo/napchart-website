@@ -39,6 +39,7 @@
     <script type="text/javascript">
       window.siteUrl = '{{siteUrl}}'
       window.chartid = '{{chartid}}'
+      window.chartid = window.chartid == 'false' ? false : window.chartid
 
       {% if description %}
       window.description = '{{description}}'

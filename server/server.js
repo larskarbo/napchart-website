@@ -27,7 +27,7 @@ if(process.env.NODE_ENV == 'production'){
 app.use('/public', express.static(path.resolve(__dirname + '/../dist')))
 app.use(express.static(path.resolve(__dirname + '/../favicon/generated')))
 
-app.get('/', function (req, res) {
+app.get(['/','/app'], function (req, res) {
   var file = nunjucks.render(__dirname + '/../client/index.html', {
     chartid: false,
     siteUrl: process.env.URL,

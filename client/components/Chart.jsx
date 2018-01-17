@@ -73,6 +73,7 @@ export default class Chart extends React.Component {
         this.props.onUpdate()
       }
 
+      // for debugging
       window.napchart = napchart
 
       canvas.oncontextmenu = function(event) {

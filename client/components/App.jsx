@@ -30,7 +30,7 @@ export default class App extends React.Component {
         polyphasic: eval(Cookies.get('polyphasic')) || false
       },
       url:window.siteUrl,
-      chartid:window.chartid == 'false' ? false : window.chartid,
+      chartid:window.chartid,
       title:window.title || '',
       description:window.description || '',
     }

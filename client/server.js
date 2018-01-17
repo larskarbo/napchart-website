@@ -26,15 +26,13 @@ module.exports = {
 
   loadChart: (loading, loadFinish, cb) => {
     // first check if fetch is needed
-    var url = window.location.href
+    var chartid = window.chartid
 
-    if (url.split('/')[3].length == 0) {
+    if (!chartid) {
+      console.log('no chartid, nothing to load')
       return cb({})
-    } else {
-      var splitted = url.split('/')
-      var chartid = splitted[splitted.length - 1]
     }
-    console.log(chartid)
+    
     loading()
     axios.get(`/api/get?chartid=${chartid}`, )
     .then(response => {
