@@ -1,6 +1,4 @@
 
-import update from 'react-addons-update'
-import fetch from 'whatwg-fetch'
 import Responsive from 'react-responsive'
 import classNames from 'classnames'
 import Cookies from 'js-cookie'

@@ -1,0 +1,33 @@
+.intro {
+	.bigLogo {
+		padding-top: 120px;
+		padding-bottom: 50px;
+	}
+
+	.header {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+	}
+
+	.HeaderElement {
+		opacity: 0.9;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.segment {
+		max-width: 600px;
+		margin: auto;
+		text-align: center;
+		padding: 50px 10px;
+	}
+
+	h2 {
+		font-size: 40px;
+		font-weight: 100;
+	}
+}

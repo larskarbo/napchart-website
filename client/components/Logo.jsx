@@ -1,23 +1,25 @@
-// data lives here (no it doesn't)
-var colors = {
-  red: '#EA4335',
-  blue: '#4285F4',
-  brown: '#B15911',
-  green: '#34A853',
-  gray: '#949494',
-  yellow: '#FBBC05',
-  purple: '#730B73',
-  pink: '#ff94d4'
-}
 import React from 'react'
 import Napchart from 'napchart'
+import classNames from 'classnames'
+import uuid from 'uuid'
 
 export default class Chart extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       napchart: false,
-      hasStartedSpinning: false
+      hasStartedSpinning: false,
+      ref: uuid.v4(),
+      colors: {
+        red: '#EA4335',
+        blue: '#4285F4',
+        brown: '#B15911',
+        green: '#34A853',
+        gray: '#949494',
+        yellow: '#FBBC05',
+        purple: '#730B73',
+        pink: '#ff94d4'
+      }
     }
   }
 
@@ -29,35 +31,54 @@ export default class Chart extends React.Component {
     if(this.props.loading && !this.state.hasStartedSpinning && this.state.napchart){
       this.spinLoad()
     }
+
+    var height = this.props.height
     return (
       <div className="logoContainer">
-        <div className="canvasParent" style={{width:45}}>
-          <canvas width="45" height="45" ref="logoCanvas"></canvas>
+        <div className="canvasParent" style={{width:height}}>
+          <canvas width={height} height={height} ref={this.state.ref}></canvas>
         </div>
-        <span className="logoText">Napchart</span>
+        <div className="text">
+          <span style={{fontSize: height/2}}
+          className={classNames("logoText", {dark: this.props.whiteBG})}
+          >{this.props.logoText || 'Napchart'}</span>
+
+          {height > 120 &&
+            <span className={classNames("slogan", {dark: this.props.whiteBG})}>
+              24 hour time-planner
+            </span>
+          }
+        </div>
       </div>
     )
   }
 
   initializeChart () {
-    var canvas = this.refs.logoCanvas
+    var canvas = this.refs[this.state.ref]
     var ctx = canvas.getContext('2d')
+
+    if(this.props.white){
+      for(var color in this.state.colors){
+        this.state.colors[color] = 'white'
+      }
+    }
+
     var napchart = Napchart.init(ctx, {
       elements: [{
-        "end":320,"start":30,"lane":0,"id":4082,"text":"","color":colors.red,"duration":240
+        "end":320,"start":30,"lane":0,"id":4082,"text":"","color":this.state.colors.red,"duration":240
       },{
-        "end":680,"start":390,"lane":0,"id":545,"text":"","color":colors.green,"duration":240
+        "end":680,"start":390,"lane":0,"id":545,"text":"","color":this.state.colors.green,"duration":240
       },{
-        "start":750,"end":1040,"lane":0,"id":8540,"text":"","color":colors.brown,"duration":240
+        "start":750,"end":1040,"lane":0,"id":8540,"text":"","color":this.state.colors.brown,"duration":240
       },{
-        "start":1110,"end":1400,"lane":0,"id":9693,"text":"","color":colors.yellow,"duration":240
+        "start":1110,"end":1400,"lane":0,"id":9693,"text":"","color":this.state.colors.yellow,"duration":240
       }],
       shape:'miniCircle',
       lanes:1
     }, {
       text: false,
       drawFace: false,
-      interaction: false
+      interaction: !this.props.noInteraction ? true : false
     })
 
     napchart.data.elements.forEach(element => {

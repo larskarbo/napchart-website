@@ -5,11 +5,28 @@
 	.canvasParent {
 		display: inline-block;
 	}
-	.logoText {
-		font-size: 25px;
-		font-weight: 100;
-		padding-left: 4px;
-		color: white;
+	.text {
+		display: block;
+		.logoText {
+			/*font-size: 25px;*/
+			font-weight: 100;
+			padding-left: 4px;
+			color: white;
+			&.dark {
+				color: black;
+			}
+		}
+		.slogan {
+			color: white;
+			display: block;
+			text-align:right;
+			font-size: 20px;
+			font-weight: 100;
+			margin-top: -12px;
+			&.dark {
+				color: black;
+			}
+		}
 	}
 }
 
@@ -123,6 +140,10 @@
 
 .description:not(:placeholder-shown) {
   font-weight: 600;
+}
+
+.colorTag:not(:focus) {
+  opacity:0.5;
 }
 
 .description {
@@ -258,23 +279,24 @@ h2 {
 	
 }
 
-.metaInfo {
-	input[type=text], textarea{
-		width: 100%;
-		margin-bottom: 12px;
-		border: none;
-		border-bottom: #eaeaea 1px solid;
-		resize:none;
-		padding-left: 3px;
-		padding-bottom: 5px;
-		font-family: $fontStack;
-		outline: none;
-		box-sizing: border-box;
-		background: transparent;
-
-		&:focus {
-			border-bottom:#6dade4 2px solid;
-		}
+input[type=text], textarea{
+	width: 100%;
+	margin-bottom: 12px;
+	border: none;
+	resize:none;
+	padding-left: 3px;
+	padding-bottom: 5px;
+	font-family: $fontStack;
+	outline: none;
+	box-sizing: border-box;
+	background: transparent;
+	
+	&:not(:focus) {
+		border-bottom: #eaeaea 1px solid !important;
+		color: black !important;
+	}
+	&:focus {
+		border-bottom:#ea4335 2px solid;
 	}
 }
 

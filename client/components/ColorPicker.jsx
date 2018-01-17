@@ -26,8 +26,8 @@ export default class ColorPicker extends React.Component {
     var dom = colorsArray.map(color => {
       return (
         <div className={classNames('color', 'napchartDontLoseFocus', {
-          active: colors[color] == this.props.activeColor
-        })} key={color} onClick={this.props.onClick.bind(null, colors[color])}>
+          active: color == this.props.activeColor
+        })} key={color} onClick={this.props.onClick.bind(null, color)}>
           <svg viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="40" fill={colors[color]} />
           </svg>

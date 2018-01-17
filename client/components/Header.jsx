@@ -27,7 +27,7 @@ export default class Header extends React.Component {
     return (
       <div className='header'>
         <HeaderElement className='logo' href="/app">
-          <Logo loading={this.props.loading} />
+          <Logo height="45" loading={this.props.loading} />
         </HeaderElement>
 
         <HeaderElement onClick={this.save}>

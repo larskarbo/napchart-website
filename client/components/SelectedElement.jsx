@@ -12,14 +12,18 @@ export default class Element extends React.Component {
   	if(napchart){
   		var element = napchart.data.elements.find(e => e.id == selected)
       var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
-  
+      
+
   		return(
   		  <div className="SelectedElement">
-  		    
   		    <ColorPicker
   		    	onClick={this.changeColor}
             activeColor={activeColor}
   		    />
+          <input style={{color: activeColor, borderBottomColor: activeColor}} className="colorTag" type='text' placeholder={activeColor + ' ='}
+           onChange={this.changeColorTag}
+           value={this.colorTag(activeColor)}
+            />
   		  </div>
   		)
 
@@ -27,6 +31,17 @@ export default class Element extends React.Component {
   	} else {
   		return null
   	}
+  }
+
+  colorTag = (color) => {
+    var napchart = this.props.napchart
+    var tagObj = napchart.data.colorTags.find(t => t.color == color)
+
+    if(typeof tagObj == 'undefined'){
+      return ''
+    } else {
+      return tagObj.tag
+    }
   }
 
   deleteElement = () => {
@@ -37,6 +52,14 @@ export default class Element extends React.Component {
   	var napchart = this.props.napchart
   	napchart.changeColor(this.props.napchart.selectedElement, color)
   	napchart.config.defaultColor = color
+    this.forceUpdate()
+  }
+
+  changeColorTag = (e) => {
+    var napchart = this.props.napchart
+    var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
+    
+    napchart.colorTag(activeColor, e.target.value)
     this.forceUpdate()
   }
 }

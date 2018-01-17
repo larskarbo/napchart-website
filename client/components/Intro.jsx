@@ -1,21 +1,13 @@
 
-import update from 'react-addons-update'
-import fetch from 'whatwg-fetch'
-import Responsive from 'react-responsive'
 import classNames from 'classnames'
-import Cookies from 'js-cookie'
 
 import React from 'react'
-import Header from './Header.jsx'
-import Chart from './Chart.jsx'
-import SelectedElement from './SelectedElement.jsx'
-import Shapes from './Shapes.jsx'
-import MetaInfo from './MetaInfo.jsx'
-import InfoColumn from './InfoColumn.jsx'
-import Lanes from './Lanes.jsx'
 
 import styles from '../styles/index.scss'
 
+import HeaderElement from './HeaderElement.jsx'
+import Logo from './Logo.jsx'
+import ShowOffCircleChart from './ShowOffCircleChart.jsx'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -27,9 +19,22 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <div>
-      yeeee
-      	<a href="/app">Go to app!</a>
+      <div className="intro">
+        <div className='header'>
+          <HeaderElement className="center" href="/app">
+            <Logo white noInteraction logoText="GO TO APP" height="45" />
+          </HeaderElement>
+        </div>
+
+        <div className="bigLogo">
+          <Logo height="150" whiteBG />
+        </div>
+
+        <div className="segment">
+          <h2>Visualize complex time schedules</h2>
+
+          <ShowOffCircleChart width="400" height="400" />
+        </div>
       </div>
     )
   }

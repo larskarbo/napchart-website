@@ -16,6 +16,13 @@ var chart = new Schema({
         _id: false
       }
     ],
+    colorTags: [
+      {
+        color: String,
+        tag: String,
+        _id: false
+      }
+    ],
     shape: String,
     lanes: Number
   },

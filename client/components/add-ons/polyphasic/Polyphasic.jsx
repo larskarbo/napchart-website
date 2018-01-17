@@ -16,7 +16,7 @@ export default class App extends React.Component {
   render () {
   	return (
       <div>
-        <div className="instruction">Clicking on any of theese schedules will overwrite all elements in selected lane</div>
+        <div className="instruction">Clicking on any of these schedules will overwrite all elements in selected lane</div>
   	    <div>
           <LaneChoose
             napchart={this.props.napchart}
