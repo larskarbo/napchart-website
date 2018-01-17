@@ -3,6 +3,7 @@ import update from 'react-addons-update'
 import fetch from 'whatwg-fetch'
 import Responsive from 'react-responsive'
 import classNames from 'classnames'
+import Cookies from 'js-cookie'
 
 import React from 'react'
 import Header from './Header.jsx'
@@ -26,13 +27,14 @@ export default class App extends React.Component {
       napchart: false, // until it is initialized
       loading: false,
       addOns: {
-        polyphasic: false
+        polyphasic: eval(Cookies.get('polyphasic')) || false
       },
       url:window.siteUrl,
       chartid:window.chartid == 'false' ? false : window.chartid,
       title:window.title || '',
       description:window.description || '',
     }
+    console.log(this.state)
   }
 // <p>It is useful for creating full-fledged complex schedules, but can also be used
 //               for simple things like calculating durations and spaces quickly.
@@ -118,11 +120,16 @@ export default class App extends React.Component {
   }
 
   changeAddOn = (event) => {
+    var name = event.target.name
+    var bool = event.target.checked
+    var addOns = {
+      ...this.state.addOns,
+      [name]: bool
+    }
+    console.log(name, bool)
+    Cookies.set(name, bool)
     this.setState({
-      addOns: {
-        ...this.state.addOns,
-        [event.target.name]: event.target.checked
-      }
+      addOns
     })
   }
 

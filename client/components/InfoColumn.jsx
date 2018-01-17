@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Polyphasic from './add-ons/polyphasic/Polyphasic.jsx'
+import Cookies from 'js-cookie'
 
 import server from '../server'
 
@@ -9,7 +10,17 @@ export default class InfoColumn extends React.Component {
     super(props)
 
     this.state = {
-      activeTab:'about'
+      activeTab: Cookies.get('activeTab') || 'about',
+      defaultTab: 'about'
+    }
+  }
+
+  componentWillReceiveProps () {
+    // check if activeTab Exists
+    if(!this.props.addOns[this.state.activeTab]){
+      this.setState({
+        activeTab: this.state.defaultTab
+      })
     }
   }
 
@@ -69,6 +80,7 @@ export default class InfoColumn extends React.Component {
 
   changeTab = (tab) => {
     console.log(tab)
+    Cookies.set('activeTab', tab)
     this.setState({
       activeTab: tab
     })
