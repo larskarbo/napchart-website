@@ -1,7 +1,5 @@
 import React from 'react'
 import Button from './Button.jsx'
-import Trash from 'mdi-react/DeleteCircleIcon'
-import Text from 'mdi-react/FormatTitleIcon'
 import ColorPicker from './ColorPicker.jsx'
 
 export default class Element extends React.Component {
@@ -42,10 +40,6 @@ export default class Element extends React.Component {
     } else {
       return tagObj.tag
     }
-  }
-
-  deleteElement = () => {
-  	this.props.napchart.deleteElement(this.props.napchart.selectedElement)
   }
 
   changeColor = (color) => {

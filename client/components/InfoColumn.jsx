@@ -32,13 +32,13 @@ export default class InfoColumn extends React.Component {
           <p>Napchart is a time planning tool that helps you visualize time around a 24 hour clock.</p>
           
           <p><strong>Create element:</strong> Click on an empty space on the chart and drag</p>
-          <p><strong>Delete element:</strong> Set duration to zero or click the delete button</p>
+          <p><strong>Delete element:</strong> Set duration to zero or press delete</p>
 
         </div>
         <div className="padding">
           <h2>Feedback</h2>
           <p>Issues, ideas, or other feedback appreciated 😏</p>
-          <textarea ref="feedback"></textarea>
+          <textarea className="reset" ref="feedback"></textarea>
           <div style={{display:'none'}} ref="afterfeedback">
             <p>Thank you for your feedback ❤️🤗</p>
           </div>

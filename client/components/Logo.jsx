@@ -9,17 +9,7 @@ export default class Chart extends React.Component {
     this.state = {
       napchart: false,
       hasStartedSpinning: false,
-      ref: uuid.v4(),
-      colors: {
-        red: '#EA4335',
-        blue: '#4285F4',
-        brown: '#B15911',
-        green: '#34A853',
-        gray: '#949494',
-        yellow: '#FBBC05',
-        purple: '#730B73',
-        pink: '#ff94d4'
-      }
+      ref: uuid.v4()
     }
   }
 
@@ -57,22 +47,25 @@ export default class Chart extends React.Component {
     var canvas = this.refs[this.state.ref]
     var ctx = canvas.getContext('2d')
 
+    var elements = [{
+      "end":320,"start":30,"lane":0,"id":4082,"text":"","color":"red","duration":240
+    },{
+      "end":680,"start":390,"lane":0,"id":545,"text":"","color":"green","duration":240
+    },{
+      "start":750,"end":1040,"lane":0,"id":8540,"text":"","color":"brown","duration":240
+    },{
+      "start":1110,"end":1400,"lane":0,"id":9693,"text":"","color":"yellow","duration":240
+    }]
+
     if(this.props.white){
-      for(var color in this.state.colors){
-        this.state.colors[color] = 'white'
-      }
+      elements = elements.map(e => ({
+        ...e,
+        color: 'white'
+      }))
     }
 
     var napchart = Napchart.init(ctx, {
-      elements: [{
-        "end":320,"start":30,"lane":0,"id":4082,"text":"","color":this.state.colors.red,"duration":240
-      },{
-        "end":680,"start":390,"lane":0,"id":545,"text":"","color":this.state.colors.green,"duration":240
-      },{
-        "start":750,"end":1040,"lane":0,"id":8540,"text":"","color":this.state.colors.brown,"duration":240
-      },{
-        "start":1110,"end":1400,"lane":0,"id":9693,"text":"","color":this.state.colors.yellow,"duration":240
-      }],
+      elements: elements,
       shape:'miniCircle',
       lanes:1
     }, {

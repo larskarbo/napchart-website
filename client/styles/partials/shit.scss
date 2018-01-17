@@ -147,7 +147,6 @@
 }
 
 .description {
-  font-size: 14px;
 }
 .block {
 	display: block;
@@ -185,19 +184,17 @@
 }
 
 h2 {
-	font-size: 14px;
-	font-weight: thin
+	font-size: 16px;
 }
 .infoColumn {
 	font-size: 12px;
-	
 }
 .quickstart {
 	/*padding-top:0px;*/
 }
 
 .padding {
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .lanes {
@@ -209,7 +206,6 @@ h2 {
     border: none;
     margin: 2px;
     padding: 5px 12px;
-    font-size: 20px;
     outline: none;
     cursor: pointer;
     color: #6b6b6b;
@@ -290,6 +286,7 @@ input[type=text], textarea{
 	outline: none;
 	box-sizing: border-box;
 	background: transparent;
+	font-size: 14px;
 	
 	&:not(:focus) {
 		border-bottom: #eaeaea 1px solid !important;
@@ -298,6 +295,12 @@ input[type=text], textarea{
 	&:focus {
 		border-bottom:#ea4335 2px solid;
 	}
+}
+
+textarea.reset {
+	width: auto;
+	border: solid 1px #eaeaea;
+	font-size: 10px;
 }
 
 canvas.canvas {

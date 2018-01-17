@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import React from 'react'
 import Header from './Header.jsx'
 import Chart from './Chart.jsx'
-import SelectedElement from './SelectedElement.jsx'
+import ColorHub from './ColorHub.jsx'
 import Shapes from './Shapes.jsx'
 import MetaInfo from './MetaInfo.jsx'
 import InfoColumn from './InfoColumn.jsx'
@@ -69,7 +69,7 @@ export default class App extends React.Component {
                 napchart={this.state.napchart}
                 clickLane={this.setNumberOfLanes}
               />
-              <SelectedElement napchart={this.state.napchart} />
+              <ColorHub napchart={this.state.napchart} />
             </div>
           </Desktop>
           
