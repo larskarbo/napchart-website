@@ -9,6 +9,7 @@
 		font-size: 25px;
 		font-weight: 100;
 		padding-left: 4px;
+		color: white;
 	}
 }
 
@@ -287,4 +288,17 @@ canvas.canvas {
 	}
 }
 
+a:link, a:visited {
+	color: #ef3a3a;
+	text-decoration: none;
+	font-weight: bold;
+}
 
+a:hover {
+	text-decoration: none;
+	/*text-shadow: 2px 2px #01b078;*/
+}
+
+a:active {
+	color:#751304;
+}

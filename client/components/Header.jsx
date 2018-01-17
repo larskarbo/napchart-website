@@ -79,6 +79,8 @@ export default class Header extends React.Component {
               <div className="formElement">
                 <div className="formLabel">URL</div>
                 <input
+                autoFocus
+                ref="focusman"
                 className="url"
                 type="text"
                 spellCheck={false}
@@ -90,7 +92,7 @@ export default class Header extends React.Component {
                 <div
                 className="url">
                   <a target="_blank" href={this.props.url + 'api/getImage?width=600&height=600&chartid=' + this.props.chartid}>
-                    {this.props.url + 'api/getImage?width=600&height=600&chartid=' + this.props.chartid}
+                    Image link
                   </a>
                 </div>
               </div>
