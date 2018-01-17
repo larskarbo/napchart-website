@@ -8,6 +8,8 @@ var database = require('./database/database')
 
 require('dotenv').config()
 
+process.env.URL = process.env.URL || 'https://napchart.com/'
+
 var api = require('./api/api')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
