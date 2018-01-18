@@ -22,6 +22,16 @@ export default class Element extends React.Component {
            onChange={this.changeColorTag}
            value={this.colorTag(activeColor)}
             />
+
+          {selected &&
+            <div>
+              Selected element:
+              <button onClick={napchart.deleteElement.bind(napchart, selected)} className="napchartDontLoseFocus button">Delete</button>
+              {napchart.isTouchUser &&
+                <button onClick={napchart.forceFocusSelected} className="napchartDontLoseFocus button">Edit text</button>
+              }
+            </div>
+          }
   		  </div>
   		)
 

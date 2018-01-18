@@ -29,7 +29,9 @@
 		}
 	}
 }
-
+.hiddenInput[type=text]:not(:focus){
+	border-bottom: none !important;
+}
 .ReactModal__Content {
 	margin: 50px auto;
 	min-width: 320px;
@@ -281,7 +283,7 @@ h2 {
 	background: white;
     border: solid 1px #d2d2d2;
     margin: 2px;
-    padding: 5px;
+    padding: 8px;
     outline: none;
     cursor: pointer;
     opacity: 0.7;
