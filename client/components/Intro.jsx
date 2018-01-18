@@ -33,7 +33,7 @@ export default class App extends React.Component {
         <div className="segment">
           <h1>Visualize complex time schedules</h1>
 
-          <video src="/public/chartvideo.mp4" autoPlay loop muted>
+          <video src="/public/chartvideo.mp4" poster="/public/chartvideothumb.png" autoPlay loop muted>
           </video>
         </div>
 
