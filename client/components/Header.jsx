@@ -78,13 +78,12 @@ export default class Header extends React.Component {
 
               <div className="formElement">
                 <div className="formLabel">URL</div>
-                <input
-                autoFocus
-                ref="focusman"
-                className="url"
-                type="text"
-                spellCheck={false}
-                value={this.props.url + this.props.chartid} />
+                <div
+                className="url">
+                  <a href={this.props.url + this.props.chartid}>
+                    {this.props.url + this.props.chartid}
+                  </a>
+                </div>
               </div>
 
               <div className="formElement">
