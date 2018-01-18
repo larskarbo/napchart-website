@@ -25,6 +25,7 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 app.use('/public', express.static(path.resolve(__dirname + '/../dist')))
+app.use('/public', express.static(path.resolve(__dirname + '/../public')))
 app.use(express.static(path.resolve(__dirname + '/../favicon/generated')))
 
 app.get(['/','/app'], function (req, res) {

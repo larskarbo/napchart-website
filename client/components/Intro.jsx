@@ -27,14 +27,54 @@ export default class App extends React.Component {
         </div>
 
         <div className="bigLogo">
-          <Logo height="150" whiteBG />
+          <Logo noInteraction height="150" whiteBG />
         </div>
 
         <div className="segment">
-          <h2>Visualize complex time schedules</h2>
+          <h1>Visualize complex time schedules</h1>
 
-          <ShowOffCircleChart width="400" height="400" />
+          <video src="/public/chartvideo.mp4" autoPlay loop muted>
+          </video>
         </div>
+
+        <div className="segment">
+          <div className="row">
+            <div className="col">
+              <h2>Save and share your creations</h2>
+              <p>Save a chart in one click, and share the unique link with the world.</p>
+            </div>
+            <div className="col">
+              <img src="/public/save.png" />
+            </div>
+          </div>
+        </div>
+
+        <div className="segment">
+          <div className="row rtl">
+            <div className="col">
+                <h2>Experiment with polyphasic sleep</h2>
+                <p>Napchart has over 20 polyphasic sleep presets and is often
+                used by the community to share, discuss and plan schedules</p>
+            </div>
+            <div className="col">
+              <img src="/public/polyphasic.png" />
+            </div>
+          </div>
+        </div>
+
+
+        <div className="segment">
+          <a href="/app"><button className="button">
+            <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
+          </button></a>
+        </div>
+
+        <div className="segment end">
+          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
+          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+          <p>🌟 Copyright 2013-2018 Lars Karbo 🌟</p>
+        </div>
+
       </div>
     )
   }

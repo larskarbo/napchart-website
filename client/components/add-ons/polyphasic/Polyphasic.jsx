@@ -9,7 +9,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       sleepLane: 0,
-      color: '#EA4335'
+      color: 'red'
     }
   }
 
