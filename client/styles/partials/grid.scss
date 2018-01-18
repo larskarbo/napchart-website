@@ -1,11 +1,37 @@
 .grid {
+	display: flex;
 	&.loading {
 		background: #f6f6f6;
 		filter: grayscale(1) blur(1px);
 	}
+
+	
+
+	.left {
+		.metaInfo {
+			padding-top:15px;
+		}
+		.shapes {
+			padding-top:15px;
+		}
+	}
+
+	.mainChartArea {
+		height: 100vw;
+		width: 100%;
+
+		#resizer {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.left {
+		order: 1;
+	}
 }
 
-@media (min-width: 500px) {
+@media (min-width: 770px) {
 	.grid {
 		display: flex;
 		justify-content: space-between;
@@ -13,12 +39,31 @@
 			/*grid-template-columns: 280px auto;*/
 			min-width: 500px;
 			min-height: 500px;
+			width: 100%;
+			height: 100%;
+		}
+		.left {
+			order:0;
+			display: flex;
+			flex-direction: column;
+			.metaInfo {
+				order: 0;
+			}
+			.colorHub {
+				order:3;
+			}
+			.shapes {
+				order:2;
+			}
+			.lanes {
+				order: 1;
+			}
 		}
 		.column {
 			/*border: solid 1px black;*/
 			/*display: flex;
 			flex-direction: column;*/
-			padding: 20px;
+			padding: 0 20px;
 			color:gray;
 
 			min-width: 270px;
@@ -40,16 +85,23 @@
 	}
 }
 
-@media (max-width: 500px) {
+@media (max-width: 770px) {
 	.grid {
+		flex-direction: column;
+		align-items: center;
 		.mainChartArea {
 			/*grid-template-columns: 280px auto;*/
 			width: 100%;
+			max-width: 500px;
+			max-height: 500px;
 		}
 		.column {
-			padding-left:20px;
-			padding-right:20px;
-
+			max-width: 500px;
+			@media (max-width: 500px) {
+				width: 90%; /* sick hotfix*/
+				padding: 0 20px;
+			}
+			width: 100vw;
 			.shapes {
 				padding-top: 12px;
 				padding-bottom: 12px;
@@ -63,17 +115,10 @@
 				padding-top: 50px;
 			}
 		}
-		.mainChartArea {
-			height: 100vw;
-			display: flex;
-			flex-grow: 1;
-			overflow: hidden;
 
-			position: relative;
-			#resizer {
-				width: 100%;
-				height: 100%;
-			}
+		.last {
+			order: 2;
+			padding-top:50px;
 		}
 	}
 }

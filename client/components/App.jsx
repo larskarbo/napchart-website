@@ -14,8 +14,8 @@ import Lanes from './Lanes.jsx'
 
 import styles from '../styles/index.scss'
 
-const Desktop = props => <Responsive {...props} minWidth={500} />;
-const Mobile = props => <Responsive {...props} maxWidth={500} />;
+// const Desktop = props => <Responsive {...props} minWidth={500} />;
+// const Mobile = props => <Responsive {...props} maxWidth={500} />;
 
 export default class App extends React.Component {
   constructor (props) {
@@ -56,22 +56,20 @@ export default class App extends React.Component {
           />
         
         <div className={classNames('grid', {loading: this.state.loading})}>
-          <Desktop>
-            <div className='column left'>
-              <MetaInfo
-                title={this.state.title}
-                description={this.state.description} 
-                changeTitle={this.changeTitle}
-                changeDescription={this.changeDescription}
-              />
-              <Shapes napchart={this.state.napchart}/>
-              <Lanes
-                napchart={this.state.napchart}
-                clickLane={this.setNumberOfLanes}
-              />
-              <ColorHub napchart={this.state.napchart} />
-            </div>
-          </Desktop>
+          <div className='column left'>
+            <ColorHub napchart={this.state.napchart} />
+            <Lanes
+              napchart={this.state.napchart}
+              clickLane={this.setNumberOfLanes}
+            />
+            <Shapes napchart={this.state.napchart}/>
+            <MetaInfo
+              title={this.state.title}
+              description={this.state.description} 
+              changeTitle={this.changeTitle}
+              changeDescription={this.changeDescription}
+            />
+          </div>
           
           <div className={classNames('mainChartArea')}>
             <Chart 

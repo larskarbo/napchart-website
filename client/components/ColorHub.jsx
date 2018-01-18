@@ -13,7 +13,7 @@ export default class Element extends React.Component {
       
 
   		return(
-  		  <div className="SelectedElement">
+  		  <div className="colorHub">
   		    <ColorPicker
   		    	onClick={this.changeColor}
             activeColor={activeColor}

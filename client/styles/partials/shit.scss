@@ -171,11 +171,74 @@
 		}
 	}
 }
-.SelectedElement {
+.colorHub {
 	padding-top: 20px;
-	
-	
 }
+
+.sidebar {
+	/* sidebar hidden */
+	display: none;
+
+	@media (min-width: 770px)  {
+		height: calc(100vh - #{$header-height} - 5px);
+	}
+
+	@media (max-width: 1122px) and (min-width: 770px) {
+		/* Small but force open */
+		position: absolute;
+		right: 0;
+		background: white;
+		border-left: 1px solid #8c8c8c;
+		&.open {
+			display: block;
+		}
+	}
+
+	@media (max-width: 1350px) and (min-width: 770px) {
+		/* Small but force open */
+		/*display: block;*/
+		/*position: absolute;*/
+		/*right: 0;*/
+		background: white;
+		border-left: 1px solid #8c8c8c;
+		&.open {
+			display: block;
+		}
+
+	}
+
+	@media (min-width: 1350px) {
+		/* Sidebar always show */
+		display: block;
+	}
+
+	@media (max-width: 770px) {
+		/* Sidebar always show */
+		display: block;
+	}
+}
+.sidebarOpenButton {
+	position: absolute;
+	right: 0;
+}
+@media (min-width: 1350px) {
+	.sidebarOpenButton {
+		display: none;
+	}
+	.sidebarCloseButton {
+		display: none;
+	}
+}
+@media (max-width: 770px) {
+	.sidebarOpenButton {
+		display: none;
+	}
+	.sidebarCloseButton {
+		display: none;
+	}
+}
+
+
 
 .Element{
 	width:100%;
@@ -246,33 +309,12 @@ h2 {
 .tabs {
 	text-align: right;
 	padding-right: 10px;
-	.fuck {
-		background: transparent;
-		border: solid 1px black;
-		border-bottom: none;
-		/*border-left: none;*/
-		padding: 5px 8px;
-		transform: rotateX(40deg);
+}
 
-		/*To conceal double border*/
-		/*WIll only work when there are just 2 tabs*/
-		&:first-child{
-			margin-right: -1px;
-		};
-
-		&:active{
-			padding-left:9px;
-			padding-right:7px;
-		};
-
-		&.active{
-			padding-left:9px;
-			padding-right:7px;
-			transform: rotateX(0deg);
-			transition: transform 0.3s;
-		};
-	}
-	
+.sideBarToggle {
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
 input[type=text], textarea{

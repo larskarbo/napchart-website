@@ -40,8 +40,8 @@ export default class App extends React.Component {
         <div className="segment">
           <div className="row">
             <div className="col">
-              <h2>Save and share your creations</h2>
-              <p>Save a chart in one click, and share the unique link with the world.</p>
+              <h2>Ultimate sharing experience</h2>
+              <p>Save a chart with one click, and share the unique link with the world.</p>
             </div>
             <div className="col">
               <img src="/public/save.png" />

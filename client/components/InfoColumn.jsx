@@ -11,7 +11,8 @@ export default class InfoColumn extends React.Component {
 
     this.state = {
       activeTab: Cookies.get('activeTab') || 'about',
-      defaultTab: 'about'
+      defaultTab: 'about',
+      sidebarOpen: false
     }
   }
 
@@ -29,6 +30,7 @@ export default class InfoColumn extends React.Component {
     var about = (
       <div className='infoColumn'>
         <div className="quickstart">
+        <div id="debug"></div> 
           <p>Napchart is a time planning tool that helps you visualize time around a 24 hour clock.</p>
           
           <p><strong>Create element:</strong> Click on an empty space on the chart and drag</p>
@@ -63,6 +65,10 @@ export default class InfoColumn extends React.Component {
     var howMany = Object.keys(tabs).length
     var tabsRender = (
       <div className="tabs">
+        {this.state.sidebarOpen &&
+          <button className="button sidebarCloseButton"
+          onClick={this.sideBarToggle}>Close sidebar</button>
+        }
         {howMany > 1 && Object.keys(tabs).map(tab => (
           <button className={classNames('button', {active:tab == this.state.activeTab})}
           onClick={this.changeTab.bind('', tab)}>{tab}</button>
@@ -70,12 +76,36 @@ export default class InfoColumn extends React.Component {
       </div>
     )
 
-    return (
-      <div className="column right">
-        {tabsRender}
-        {tabs[this.state.activeTab]}
+    var sidebar = (
+      <div className="sideBarToggle">
+        <button className="button"
+        onClick={this.sideBarToggle}>Open sidebar</button>
       </div>
     )
+
+    if(this.state.sidebarOpen){
+
+    }
+    return (
+      <div className="last">
+        {!this.state.sidebarOpen &&
+          <div className="sidebarOpenButton">
+            <button className="button"
+            onClick={this.sideBarToggle}>Open sidebar</button>
+          </div>
+        }
+        <div className={classNames("column","right", "sidebar", {open: this.state.sidebarOpen})}>
+          {tabsRender}
+          {tabs[this.state.activeTab]}
+        </div>
+      </div>
+    )
+  }
+
+  sideBarToggle = (tab) => {
+    this.setState({
+      sidebarOpen: !this.state.sidebarOpen
+    })
   }
 
   changeTab = (tab) => {
