@@ -46,8 +46,9 @@ app.get('/:whatever', function (req, res) {
     if(response == null){
       return res.status(404).send('404')
     }
-    var title = response.metaInfo.title
-    var description = response.metaInfo.description
+    var metaInfo = response.metaInfo || {}
+    var title = metaInfo.title || ''
+    var description = metaInfo.description || ''
     var file = nunjucks.render(__dirname + '/../client/index.html', {
       chartid: chartid,
       siteUrl: process.env.URL,
