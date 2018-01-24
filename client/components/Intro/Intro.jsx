@@ -3,11 +3,9 @@ import classNames from 'classnames'
 
 import React from 'react'
 
-import styles from '../styles/index.scss'
-
-import HeaderElement from './HeaderElement.jsx'
-import Logo from './Logo.jsx'
-import ShowOffCircleChart from './ShowOffCircleChart.jsx'
+import HeaderElement from '../common/HeaderElement.jsx'
+import UserHeaderElement from '../common/UserHeaderElement.jsx'
+import Logo from '../common/Logo.jsx'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -24,6 +22,8 @@ export default class App extends React.Component {
           <HeaderElement className="center" href="/app">
             <Logo white noInteraction logoText="GO TO APP" height="45" />
           </HeaderElement>
+
+          <UserHeaderElement user={this.props.user} />
         </div>
 
         <div className="bigLogo">

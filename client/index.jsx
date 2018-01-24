@@ -6,9 +6,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import Router from './components/Router.jsx'
+import App from './components/App.jsx'
 
 render(
-  <Router pathname={location.pathname} />,
+  <App />,
   document.getElementById('root')
 )

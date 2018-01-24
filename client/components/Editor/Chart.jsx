@@ -1,11 +1,10 @@
 // data lives here (no it doesn't)
 
 import React from 'react'
-import Elements from './Elements.jsx'
 import uuid from 'uuid'
 import Napchart from 'napchart'
 
-import server from '../server'
+import server from '../../server'
 
 export default class Chart extends React.Component {
   constructor (props) {

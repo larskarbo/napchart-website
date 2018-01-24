@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './Button.jsx'
 import ColorPicker from './ColorPicker.jsx'
 
 export default class Element extends React.Component {

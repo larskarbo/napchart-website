@@ -1,6 +1,7 @@
 
 var database = require('../database/database')
 var getImage = require('./getImage')
+var fs = require('fs')
 
 module.exports = {
   create: function (req, res) {
@@ -32,4 +33,14 @@ module.exports = {
       res.send(response)
     })
   },
+
+  getBlogPost: function (req, res) {
+    var post = req.params.post
+
+    fs.readFile(`${__dirname}/../../blog-src/${post}.md`, "utf8", (err, data) => {
+      if (err) throw err;
+      
+      res.send(JSON.stringify(data))
+    });
+  }
 }

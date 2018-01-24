@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Polyphasic from './add-ons/polyphasic/Polyphasic.jsx'
 import Cookies from 'js-cookie'
 
-import server from '../server'
+import server from '../../server'
 
 export default class InfoColumn extends React.Component {
   constructor (props) {

@@ -1,14 +1,12 @@
 
 import React from 'react'
-import Logo from './Logo.jsx'
-import HeaderElement from './HeaderElement.jsx'
-import UndoIcon from 'mdi-react/UndoVariantIcon'
+import Logo from '../common/Logo.jsx'
+import HeaderElement from '../common/HeaderElement.jsx'
 import CloseIcon from 'mdi-react/CloseIcon'
 import Modal from 'react-modal'
-import RedoIcon from 'mdi-react/RedoVariantIcon'
 
 import Shapes from './Shapes.jsx'
-import server from '../server'
+import server from '../../server'
 
 
 
@@ -42,6 +40,15 @@ export default class Header extends React.Component {
 
         <HeaderElement right onClick={this.openModal.bind('','addOns')}>
           Add-ons
+        </HeaderElement>
+
+
+        <HeaderElement right href="/login">
+          Log in
+        </HeaderElement>
+
+        <HeaderElement right href="/blog">
+          Blog
         </HeaderElement>
 
         <Modal

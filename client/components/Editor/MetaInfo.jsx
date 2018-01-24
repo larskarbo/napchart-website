@@ -1,6 +1,5 @@
 
 import React from 'react'
-import Button from './Button.jsx'
 
 export default class Elements extends React.Component {
 

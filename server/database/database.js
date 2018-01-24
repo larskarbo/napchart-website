@@ -29,5 +29,15 @@ module.exports = {
     feedback.save(function (err, response) {
       callback(err, response)
     })
+  },
+
+  addFeedback: function (f, callback) {
+    var feedback = new Feedback({
+      feedback: f
+    })
+
+    feedback.save(function (err, response) {
+      callback(err, response)
+    })
   }
 }

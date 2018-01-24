@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import Link from './Link.jsx'
 
 export default class HeaderElement extends React.Component {
 	
@@ -10,16 +11,12 @@ export default class HeaderElement extends React.Component {
       var onClick = this.onClick
     }
     return (
-      <a style={this.props.style} href={this.props.href}
+      <Link style={this.props.style} href={this.props.href}
       className={classNames('HeaderElement',this.props.className,{right:this.props.right})}
-      onClick={onClick}>
+      onClick={this.props.onClick}>
         <span>{this.props.children}</span>
         
-      </a>)
-  }
-
-  onClick = () => {
-  	this.props.onClick()
+      </Link>)
   }
 
   doNothing = () => {}

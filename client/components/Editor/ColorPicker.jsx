@@ -9,7 +9,6 @@ var colors = {
   pink: '#ff94d4'
 }
 import React from 'react'
-import Button from './Button.jsx'
 import classNames from 'classnames'
 
 export default class ColorPicker extends React.Component {
