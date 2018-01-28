@@ -6,7 +6,6 @@ import CloseIcon from 'mdi-react/CloseIcon'
 import Modal from 'react-modal'
 
 import Shapes from './Shapes.jsx'
-import server from '../../server'
 
 
 

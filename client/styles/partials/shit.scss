@@ -370,3 +370,19 @@ a:hover {
 a:active {
 	/*color:#751304;*/
 }
+
+.credentials {
+	max-width: 400px;
+	margin: 40px auto 0;
+	background: white;
+	padding: 40px
+}
+
+.loginRegister {
+	background: #e3e3e3; //$graybg
+	min-height: 100vh;
+
+	.logoContainer {
+		padding-top: 40px
+	}
+}

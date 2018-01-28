@@ -35,12 +35,13 @@ app.use('/public', express.static(path.resolve(__dirname + '/../dist')))
 app.use('/public', express.static(path.resolve(__dirname + '/../public')))
 app.use(express.static(path.resolve(__dirname + '/../favicon/generated')))
 
-app.get(['/','/app','/blog','/login'], function (req, res) {
+var env = {
+  siteUrl: process.env.URL
+}
+
+app.get(['/','/app','/login'], function (req, res) {
   var file = nunjucks.render(__dirname + '/../client/index.html', {
-    chartid: false,
-    siteUrl: process.env.URL,
-    title: false,
-    description: false
+    ...env
   })
   res.send(file)
 })
@@ -57,10 +58,12 @@ app.get('/:whatever', function (req, res) {
     var title = metaInfo.title || ''
     var description = metaInfo.description || ''
     var file = nunjucks.render(__dirname + '/../client/index.html', {
-      chartid: chartid,
-      siteUrl: process.env.URL,
-      title: title.length==0 ? false : title,
-      description: description.length==0 ? false : description 
+      env,
+      data: {
+        chartid: chartid,
+        title: title.length==0 ? false : title,
+        description: description.length==0 ? false : description 
+      }
     })
 
     res.send(file)
@@ -71,7 +74,6 @@ app.post('/api/create', api.create)
 app.post('/api/postFeedback', api.postFeedback)
 app.get('/api/get', api.get)
 app.get('/api/getImage', api.getImage)
-app.get('/api/getBlogPost/:post', api.getBlogPost)
 
 var port = process.env.PORT || 3000
 app.listen(port, function () {

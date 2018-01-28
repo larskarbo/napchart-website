@@ -33,14 +33,4 @@ module.exports = {
       res.send(response)
     })
   },
-
-  getBlogPost: function (req, res) {
-    var post = req.params.post
-
-    fs.readFile(`${__dirname}/../../blog-src/${post}.md`, "utf8", (err, data) => {
-      if (err) throw err;
-      
-      res.send(JSON.stringify(data))
-    });
-  }
 }

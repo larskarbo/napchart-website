@@ -1,5 +1,3 @@
-// data lives here (no it doesn't)
-
 import React from 'react'
 import uuid from 'uuid'
 import Napchart from 'napchart'
@@ -34,7 +32,7 @@ export default class Chart extends React.Component {
       blurClass = 'blur'
     }
     return (
-      <div id="resizer" ref="resizer">
+      <div className="Chart" ref="resizer">
         <canvas className={"canvas " + blurClass} width={this.state.width} height={this.state.height} ref={this.state.id}>
           A chart
         </canvas>

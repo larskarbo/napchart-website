@@ -24,14 +24,16 @@ export default class Chart extends React.Component {
 
     var height = this.props.height
     return (
-      <div className="logoContainer">
+      <div className={"logoContainer " + this.props.className}>
         <div className="canvasParent" style={{width:height}}>
           <canvas width={height} height={height} ref={this.state.ref}></canvas>
         </div>
         <div className="text">
-          <span style={{fontSize: height/2}}
-          className={classNames("logoText", {dark: this.props.whiteBG})}
-          >{this.props.logoText || 'Napchart'}</span>
+          {this.props.logoText &&
+            <span style={{fontSize: height/2}}
+            className={classNames("logoText", {dark: this.props.whiteBG})}
+            >{this.props.logoText}</span>
+          }
 
           {height > 120 &&
             <span className={classNames("slogan", {dark: this.props.whiteBG})}>

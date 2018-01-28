@@ -1,0 +1,31 @@
+.logoContainer {
+	display: flex;
+    justify-content: center;
+	align-items: center;
+	.canvasParent {
+		display: inline-block;
+	}
+	.text {
+		display: block;
+		.logoText {
+			/*font-size: 25px;*/
+			font-weight: 100;
+			padding-left: 4px;
+			color: white;
+			&.dark {
+				color: black;
+			}
+		}
+		.slogan {
+			color: white;
+			display: block;
+			text-align:right;
+			font-size: 20px;
+			font-weight: 100;
+			margin-top: -12px;
+			&.dark {
+				color: black;
+			}
+		}
+	}
+}

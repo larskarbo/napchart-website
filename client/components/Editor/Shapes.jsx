@@ -16,19 +16,30 @@ export default class Chart extends React.Component {
 
   	var shapeButtons = shapes.map(shape => {
       var classes = {
-        active: napchart.data.shape == shape
+        'is-active': napchart.data.shape == shape,
+        'is-primary': napchart.data.shape == shape
       }
       return (
-        <button className={c("button", "napchartDontLoseFocus", classes)}
-        onClick={napchart.changeShape.bind(napchart, shape)}
-        key={shape}>
-          {shape}
-        </button>
+        <p className="control" key={shape}>
+          <button className={c("button", "napchartDontLoseFocus", classes)}
+          onClick={napchart.changeShape.bind(napchart, shape)}
+          >
+            {shape}
+          </button>
+        </p>
       )
   	})
     return (
-      <div className="shapes">
-        Shape: {shapeButtons}
-      </div>)
+      <div className="field has-addons level is-mobile">
+        <div className="level-left">
+          <div className="level-item">
+            Shape:
+          </div>
+          <div className="level-item">
+            {shapeButtons}
+          </div>
+        </div>
+      </div>
+    )
   }
 }

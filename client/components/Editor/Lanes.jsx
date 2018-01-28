@@ -14,21 +14,31 @@ export default class Elements extends React.Component {
       var disabled = lane <= whichLaneIsTheLastOccupied
       var classes = {
         button: true,
-        active: lane == lanes,
+        'is-active': lane == lanes,
+        'is-dark': lane == lanes,
         disabled: disabled,
         napchartDontLoseFocus: true
       }
       return (
-        <button className={classNames(classes)}
-        onClick={!disabled && this.props.clickLane.bind('', lane)}
-        key={lane}>
-          {lane}
-        </button>
+        <p className="control" key={lane}>
+          <button className={classNames(classes)}
+          onClick={!disabled && this.props.clickLane.bind('', lane)}
+          >
+            {lane}
+          </button>
+        </p>
       )
     })
     return (
-      <div className="lanes">
-        Lanes: {laneButtons}
+      <div className="field has-addons level is-mobile">
+        <div className="level-left">
+          <div className="level-item">
+            Lanes:
+          </div>
+          <div className="level-item">
+            {laneButtons}
+          </div>
+        </div>
       </div>
     )
   }

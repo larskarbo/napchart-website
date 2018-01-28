@@ -6,7 +6,8 @@ var config = {
   devtool: 'source-map',
   entry: {
     corejs: 'core-js',
-    index_bundle: './client/index.jsx'
+    index_bundle: ['babel-polyfill','./client/index.jsx'],
+
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -38,7 +39,12 @@ var config = {
         }, {
           loader: 'css-loader' // translates CSS into CommonJS
         }, {
-          loader: 'sass-loader' // compiles Sass to CSS
+          loader: 'sass-loader', // compiles Sass to CSS
+          options: {
+            // did only work first build when webpack --watch
+            // put folder in styles instead
+            // includePaths: ["node_modules"]
+          }
         }]
       }, 
     ]
@@ -62,8 +68,8 @@ if(process.env.NODE_ENV == 'production'){
     })
   ]
 } else {
-  // development
-  delete config.entry.corejs
+  config.plugins = [
+  ]
 }
 
 module.exports = config

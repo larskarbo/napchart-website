@@ -22,19 +22,17 @@ export default class ColorPicker extends React.Component {
 
   render() {
     var colorsArray = Object.keys(colors)
-    var dom = colorsArray.map(color => {
-      return (
-        <div className={classNames('color', 'napchartDontLoseFocus', {
-          active: color == this.props.activeColor
-        })} key={color} onClick={this.props.onClick.bind(null, color)}>
-          <svg viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" fill={colors[color]} />
-          </svg>
-        </div>
-      )
-    })
+    var dom = colorsArray.map(color => (
+      <div className={classNames('color', 'napchartDontLoseFocus', {
+        active: color == this.props.activeColor
+      })} key={color} onClick={this.props.onClick.bind(null, color)}>
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill={colors[color]} />
+        </svg>
+      </div>
+    ))
     return(
-      <div className="colors">
+      <div className="ColorPicker">
         {dom}
       </div>
     )

@@ -3,11 +3,10 @@ import classNames from 'classnames'
 
 import React from 'react'
 
-import HeaderElement from '../common/HeaderElement.jsx'
-import UserHeaderElement from '../common/UserHeaderElement.jsx'
 import Logo from '../common/Logo.jsx'
+import Link from '../common/Link.jsx'
 
-export default class App extends React.Component {
+export default class extends React.Component {
   constructor (props) {
     super(props)
 
@@ -17,63 +16,96 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <div className="intro">
-        <div className='header'>
-          <HeaderElement className="center" href="/app">
-            <Logo white noInteraction logoText="GO TO APP" height="45" />
-          </HeaderElement>
+      <div>
+        <section className="section hero is-dark is-bold is-fullheight">
+          <div className="hero-body">
+            <div className="column has-text-centered">
+              <div className="bigLogo">
+                <Logo noInteraction logoText="Napchart" height="150"  />
+              </div>
+            </div>
+          </div>
+          <div className="hero-foot">
+            <Link href="/app">
+              <Logo white noInteraction logoText="GO TO APP" height="45" />
+            </Link>
+            <Link href="/blog">
+              <Logo white noInteraction logoText="GO TO BLOG" height="45" />
+            </Link>
+            <Link href="/login">
+              <Logo white noInteraction logoText="GO TO LOGIN" height="45" />
+            </Link>
+          </div>
+        </section>
 
-          <UserHeaderElement user={this.props.user} />
-        </div>
 
-        <div className="bigLogo">
-          <Logo noInteraction height="150" whiteBG />
-        </div>
+        <section className="section hero is-light">
+          <div className="hero-body">
+            <div className="container">
+              <div className="columns">
+                <div className="column has-text-centered">
+                  <h1 className="title is-3">Visualize complex time schedules</h1>
 
-        <div className="segment">
-          <h1>Visualize complex time schedules</h1>
+                  <video src="/public/chartvideo.mp4" poster="/public/chartvideothumb.png" autoPlay loop muted>
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <video src="/public/chartvideo.mp4" poster="/public/chartvideothumb.png" autoPlay loop muted>
-          </video>
-        </div>
-
-        <div className="segment">
-          <div className="row">
-            <div className="col">
-              <h2>Ultimate sharing experience</h2>
+        <section className="section hero is-warning">
+          <div className="hero-body">
+          <div className="container">
+          <div className="columns">
+            <div className="column has-text-centered vertical-align-center">
+              <h2 className="title is-4">Ultimate sharing experience</h2>
               <p>Save a chart with one click, and share the unique link with the world.</p>
             </div>
-            <div className="col">
+            <div className="column has-text-centered">
               <img src="/public/save.png" />
             </div>
           </div>
-        </div>
+          </div>
+          </div>
+        </section>
 
-        <div className="segment">
-          <div className="row rtl">
-            <div className="col">
-                <h2>Experiment with polyphasic sleep</h2>
+        <section className="section hero is-light">
+          <div className="hero-body">
+          <div className="container">
+          <div className="columns rtl">
+            <div className="column has-text-centered vertical-align-center">
+                <h2 className="title is-2">Experiment with polyphasic sleep</h2>
                 <p>Napchart has over 20 polyphasic sleep presets and is often
                 used by the community to share, discuss and plan schedules</p>
             </div>
-            <div className="col">
+            <div className="column has-text-centered">
               <img src="/public/polyphasic.png" />
             </div>
           </div>
-        </div>
+          </div>
+          </div>
+        </section>
 
 
-        <div className="segment">
-          <a href="/app"><button className="button">
-            <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
-          </button></a>
-        </div>
+        <section className="section hero is-dark">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <a href="/app"><button className="button">
+                <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
+              </button></a>
+            </div>
+          </div>
 
-        <div className="segment end">
-          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
-          <p>🌟 Copyright 2013-2018 Lars Karbo 🌟</p>
-        </div>
+          <div className="hero-foot">
+            <div className="container has-text-centered">
+              <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
+              <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+              <p>🌟 Copyright 2013-2018 Lars Karbo 🌟</p>
+
+            </div>
+          </div>
+        </section>
 
       </div>
     )

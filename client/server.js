@@ -20,7 +20,7 @@ module.exports = {
     .then((response) => {
       console.log(response)
       var chartid = response.data.id
-      window.history.pushState(response.data, '', '/' + chartid)
+      // window.history.pushState(response.data, '', '/' + chartid)
       cb(chartid)
     })
   },
