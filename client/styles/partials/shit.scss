@@ -370,3 +370,17 @@ a:hover {
 a:active {
 	/*color:#751304;*/
 }
+
+
+.notification {
+	background: #3c3cf0;
+	padding: 15px;
+	color: white;
+	line-height: 2;
+
+	a {
+		background: #f30000;
+		color: #fff;
+		padding: 0 3px;
+	}
+}

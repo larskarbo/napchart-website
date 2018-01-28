@@ -39,12 +39,13 @@ export default class InfoColumn extends React.Component {
         </div>
         <div className="padding">
           <h2>Feedback</h2>
-          <p>Issues, ideas, or other feedback appreciated 😏</p>
-          <textarea className="reset" ref="feedback"></textarea>
+          <div className="notification">
+            I wrote a post about <a href="https://blog.napchart.com/the-future-of-napchart">The Future of Napchart</a> on the new <a href="https://blog.napchart.com">Napchart Blog</a>.
+            Feel free to comment there ✍️
+          </div>
           <div style={{display:'none'}} ref="afterfeedback">
             <p>Thank you for your feedback ❤️🤗</p>
           </div>
-          <button ref="feedbacksend" onClick={this.sendFeedback} className="button block">Send</button>
         </div>
         <div className="padding">
           <h2>Contribute</h2>
