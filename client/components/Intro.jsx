@@ -70,8 +70,8 @@ export default class App extends React.Component {
         </div>
 
         <div className="segment end">
-          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+          <p><a target="_blank" href="https://github.com/larskarbo/napchart-website"><strong>napchart-website</strong></a> on GitHub</p>
+          <p><a target="_blank" href="https://github.com/larskarbo/napchart"><strong>napchart</strong></a> on GitHub</p>
           <p>🌟 Copyright 2013-2018 Lars Karbo 🌟</p>
         </div>
 

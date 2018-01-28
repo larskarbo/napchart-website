@@ -50,8 +50,8 @@ export default class InfoColumn extends React.Component {
         <div className="padding">
           <h2>Contribute</h2>
           <p>Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+          <p><a target="_blank" href="https://github.com/larskarbo/napchart-website"><strong>napchart-website</strong></a> on GitHub</p>
+          <p><a target="_blank" href="https://github.com/larskarbo/napchart"><strong>napchart</strong></a> on GitHub</p>
         </div>
       </div>
     )
