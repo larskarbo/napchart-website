@@ -31,6 +31,7 @@ module.exports = function (req, res) {
 
     var chartData = {
       elements: response.chartData.elements,
+      colorTags: response.chartData.colorTags,
       lanes: response.chartData.lanes,
       shape
     }
@@ -38,7 +39,8 @@ module.exports = function (req, res) {
     var mynapchart = Napchart.init(ctx, chartData, {
       interaction:false,
       font: 'Consolas',
-      background: 'white'
+      background: 'white',
+      baseFontSize: 'noscale:1.5'
     })
 
     canvas.pngStream().pipe(res)
