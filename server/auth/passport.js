@@ -4,20 +4,36 @@ var database = require('../database/database')
 
 passport.use(new Strategy(
   function(username, password, cb) {
-    db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err) }
-      if (!user) { return cb(null, false) }
-      if (user.password != password) { return cb(null, false) }
-      return cb(null, user)
+    var query;
+    var emailrules = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(emailrules.test(username)){
+      query = {
+        email: username
+      }
+    } else {
+      query = {
+        username: username
+      }
+    }
+    database.verifyUser(query, password, function (err, user) {
+      if (err){
+        return cb(err)
+      }
+      if(user){
+        //true log him in
+        return cb(null, user)
+      }else{
+        return cb(null, false)
+      }
     })
 }))
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user.id)
+  cb(null, user._id)
 })
 
-passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
+passport.deserializeUser(function(_id, cb) {
+  database.findUser(_id, function (err, user) {
     if (err) { return cb(err) }
     cb(null, user)
   })

@@ -43,12 +43,14 @@ export default class extends React.Component {
             {this.props.chartid &&
               <div className="byline">
                 A chart by 
-                {this.props.user &&
-                  <a href={this.props.user.username}>
-                    {this.props.user.username}
-                  </a> 
-                }
-                {!this.props.user && ' anonymous'}
+                <b>
+                  {this.props.user &&
+                    <a href={this.props.user.username}>
+                      {this.props.user.username}
+                    </a>
+                  }
+                  {!this.props.user && ' anonymous'}
+                </b>
               </div>
             }
           </div>

@@ -20,7 +20,7 @@ export default class Router extends React.Component {
     var Component = router.resolve(location)
     return (
       <div>
-        <Component />
+        <Component user={window.user || false} />
       </div>
     )
   }

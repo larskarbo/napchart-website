@@ -29,6 +29,10 @@ var chart = new Schema({
   metaInfo: {
     title: String,
     description: String
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 

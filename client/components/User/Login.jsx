@@ -5,6 +5,9 @@ import React from 'react'
 
 import Logo from '../common/Logo.jsx'
 import Link from '../common/Link.jsx'
+import LoginSignupLayout from './LoginSignupLayout.jsx'
+
+import server from '../../server'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -15,61 +18,78 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount () {
+
+  }
+
   render () {
     return (
-      <div>
-        <section className="section hero is-dark is-bold is-fullheight">
-          <div className="hero-body">
-            <div className="container">
-            <div className="column is-6 is-offset-3 has-text-centered">
-              <div className="box">
-                
-                <div className="field">
-                  <label className="label">Username</label>
-                  <div className="control">
-                    <input ref="username" className="input" type="text" placeholder="Text input" value="bulma" />
-                  </div>
-                </div>
-                <div className="field">
-                  <label className="label">Password</label>
-                  <div className="control">
-                    <input ref="password" className="input" type="password" placeholder="Text input" value="bulma" />
-                  </div>
-                </div>
-
-
-                <div className="field">
-                  <a className={c("button","is-primary",{'is-loading': this.state.loading})}
-                    onClick={this.login}>Log in</a>
-                </div>
-
-
-                <div className="field">
-                  <div className="notification">
-                    We saved your chart anonymously. Login and we'll transfer it to your account. 
-                  </div>
-                </div>
-              </div>
-
-              <div className="box">
-                <p>Don't have an account? <Link href="/sign-up">Sign up</Link></p>
+      <LoginSignupLayout>
+        <div className="box">
+          <h1 className="title is-3 has-text-dark">Log in</h1>
+          <form onSubmit={this.login}>
+            <div className="field has-text-left">
+              <label className="label">Username/email</label>
+              <div className="control">
+                <input ref="username" className="input" type="text" required />
               </div>
             </div>
+            <div className="field has-text-left">
+              <label className="label">Password</label>
+              <div className="control">
+                <input ref="password" className="input" type="password" required />
+              </div>
             </div>
-          </div>
-        </section>
-      </div>
+
+
+            <div className="field">
+              <button type="submit" className={c("button","is-primary",{'is-loading': this.state.loading})}
+                >Log in</button>
+              <p className="help is-danger">{this.state.error}</p>
+            </div>
+          </form>
+
+
+          {/*<div className="field">
+            <div className="notification">
+              We saved your chart anonymously. Login and we'll transfer it to your account. 
+            </div>
+          </div>*/}
+        </div>
+
+        <div className="box">
+          <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        </div>
+      </LoginSignupLayout>
     )
   }
 
-  login = () => {
-    var username = this.refs.username
-    var password = this.refs.password
+  login = (e) => {
+    e.preventDefault()
 
-    console.log(username, password)
+    var username = this.refs.username.value
+    var password = this.refs.password.value
 
     this.setState({
-      loading: true
+      loading: true,
+      error: ''
+    })
+
+    server.login({
+      username,
+      password
+    }, (err, res) => {
+
+      this.setState({
+        loading: false
+      })
+      if(err){
+        this.setState({
+          error: err
+        })
+      }else{
+        window.location = window.siteUrl + 'user/' + res.username
+      }
     })
   }
 }

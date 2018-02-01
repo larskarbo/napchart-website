@@ -1,49 +1,59 @@
 var mongoose = require('mongoose')
+var bcrypt = require('bcrypt')
+var SALT_WORK_FACTOR = 12
 
 var Schema = mongoose.Schema
 
-var chart = new Schema({
-  id: String,
-  chartData: {
-    elements: [
-      {
-        id: Number,
-        start: Number,
-        end: Number,
-        color: String,
-        text: String,
-        lane: Number,
-        _id: false
-      }
-    ],
-    colorTags: [
-      {
-        color: String,
-        tag: String,
-        _id: false
-      }
-    ],
-    shape: String,
-    lanes: Number
+var user = new Schema({
+  username: {
+    type: String,
+    required: true,
+    index: {
+      unique: true
+    }
   },
-  metaInfo: {
-    title: String,
-    description: String
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
 })
 
-chart.pre('save', function (next) {
-  if(typeof this.id == 'undefined'){
-    this.id = idgen()
-  }
-  next()
+user.pre('save', function(next) { 
+  var user = this
+  // only hash the password if it has been modified (or is new)
+  if (!user.isModified('password')) return next()
+
+  // generate a salt
+  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    if (err) return next(err)
+
+    // hash the password along with our new salt
+    bcrypt.hash(user.password, salt, function(err, hash) {
+        if (err) return next(err)
+
+        // override the cleartext password with the hashed one
+        user.password = hash
+        next()
+    })
+  })
 })
 
-module.exports = mongoose.model('Chart', chart)
-
-function idgen () {
-  alphabet = 'abcdefghijklmnopqrstuwxyz0123456789'
-  id = ''
-  for (var i = 0; i < 5; i++) { id += alphabet.charAt(Math.floor(Math.random() * alphabet.length)) }
-  return id
+user.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) return cb(err)
+    cb(null, isMatch)
+  })
 }
+
+module.exports = mongoose.model('User', user)

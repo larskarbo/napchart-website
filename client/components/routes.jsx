@@ -7,6 +7,7 @@ import Intro from './Intro/Intro.jsx'
 import Blog from './Blog/Blog.jsx'
 import Login from './User/Login.jsx'
 import Signup from './User/Signup.jsx'
+import User from './User/User.jsx'
 
 const routes = [
 	{
@@ -26,7 +27,7 @@ const routes = [
 	  component: Login
 	},
 	{
-	  path: '/sign-up',
+	  path: '/signup',
 	  component: Signup
 	},
 	{
@@ -39,7 +40,7 @@ const routes = [
 	},
 	{
 	  path: '/user/:username',
-	  component: Editor
+	  component: User
 	}
 ]
 

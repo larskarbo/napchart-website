@@ -132,13 +132,6 @@ export default class App extends React.Component {
               </div>
 
               <div className="otherLane">
-                {!user && this.state.chartid &&
-                  <div className="notification is-warning">
-                    <button className="delete"></button>
-                    <Link href="/login">Log in</Link> to associate this chart with your account
-                  </div>
-                }
-
                 <div className="currentInfo">
                   {sections[this.state.currentSection].element}
                 </div>

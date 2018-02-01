@@ -2,34 +2,47 @@ var express = require('express')
 var app = express()
 var path = require('path')
 var bodyParser = require('body-parser')
-var argv = require('minimist')(process.argv.slice(2))
 var database = require('./database/database')
 var nunjucks = require('nunjucks')
-var fs = require('fs')
 
 var api = require('./api/api')
-var auth = require('./auth/passport')
 
+var auth = require('./auth/auth')
+var passport = require('./auth/passport')
+
+// ENVIRONMENTAL:
 require('dotenv').config()
-
 process.env.URL = process.env.URL || 'https://napchart.com/'
 
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({extended: false}))
 
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-app.use(auth.initialize());
-app.use(auth.session());
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: database.connection,
+    ttl: 3 * 31 * 24 * 60 * 60 // three months
+  })
+}))
 
+app.use(passport.initialize());
+app.use(passport.authenticate('session'));
+
+// <PRODUCTION>
 if(process.env.NODE_ENV == 'production'){
-	console.log('Starting node server in production mode')
-	app.get('*.js', function (req, res, next) {
-		console.log('fj')
-	  req.url = req.url + '.gz'
-	  res.set('Content-Encoding', 'gzip')
-	  next()
-	})
+  console.log('Starting node server in production mode')
+  app.get('*.js', function (req, res, next) {
+    console.log('fj')
+    req.url = req.url + '.gz'
+    res.set('Content-Encoding', 'gzip')
+    next()
+  })
 }
+// </PRODUCTION>
 
 app.use('/public', express.static(path.resolve(__dirname + '/../dist')))
 app.use('/public', express.static(path.resolve(__dirname + '/../public')))
@@ -39,9 +52,27 @@ var env = {
   siteUrl: process.env.URL
 }
 
-app.get(['/','/app','/login'], function (req, res) {
+app.get(['/signup','/login'], function (req, res, next) {
+  if(req.user){
+    return res.redirect('/user/' + req.user.username)
+  } else {
+    next()
+  }
+})
+
+app.get(['/','/app','/login','/user/:username'], function (req, res) {
+  console.log('user', req.user)
   var file = nunjucks.render(__dirname + '/../client/index.html', {
-    ...env
+    ...env,
+    user: req.user
+  })
+  res.send(file)
+})
+
+app.get('/signup', function (req, res) {
+  var file = nunjucks.render(__dirname + '/../client/index.html', {
+    ...env,
+    captcha: true
   })
   res.send(file)
 })
@@ -63,7 +94,8 @@ app.get('/:whatever', function (req, res) {
         chartid: chartid,
         title: title.length==0 ? false : title,
         description: description.length==0 ? false : description 
-      }
+      },
+      user: req.user
     })
 
     res.send(file)
@@ -74,6 +106,10 @@ app.post('/api/create', api.create)
 app.post('/api/postFeedback', api.postFeedback)
 app.get('/api/get', api.get)
 app.get('/api/getImage', api.getImage)
+
+app.post('/auth/signup', auth.signup)
+app.post('/auth/login', auth.login)
+app.post('/auth/available/:what', auth.available)
 
 var port = process.env.PORT || 3000
 app.listen(port, function () {
