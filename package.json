@@ -24,7 +24,6 @@
     "express-session": "^1.15.6",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
-    "marked": "^0.3.12",
     "mdi-react": "^1.9.32",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.1",
