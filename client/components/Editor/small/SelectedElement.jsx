@@ -6,12 +6,12 @@ export default class extends React.Component {
     var napchart = this.props.napchart
     var selected = napchart.selectedElement
 
-    if(napchart){
+    if (napchart) {
       var element = napchart.data.elements.find(e => e.id == selected)
       var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
-      
 
-      return(
+
+      return (
         <div className="SelectedElement">
           <ColorPicker
             onClick={this.changeColor}
@@ -35,26 +35,26 @@ export default class extends React.Component {
               </div>
 
 
-              <input style={{color: activeColor}} className="colorTag napchartDontLoseFocus" type='text' placeholder={activeColor + ' ='}
-               onChange={this.changeColorTag}
-               value={this.colorTag(activeColor)}
-                />
+              <input style={{ color: activeColor }} className="colorTag napchartDontLoseFocus" type='text' placeholder={activeColor + ' ='}
+                onChange={this.changeColorTag}
+                value={this.colorTag(activeColor)}
+              />
             </div>
           }
-  		  </div>
-  		)
+        </div>
+      )
 
 
-  	} else {
-  		return null
-  	}
+    } else {
+      return null
+    }
   }
 
   colorTag = (color) => {
     var napchart = this.props.napchart
     var tagObj = napchart.data.colorTags.find(t => t.color == color)
 
-    if(typeof tagObj == 'undefined'){
+    if (typeof tagObj == 'undefined') {
       return ''
     } else {
       return tagObj.tag
@@ -62,16 +62,16 @@ export default class extends React.Component {
   }
 
   changeColor = (color) => {
-  	var napchart = this.props.napchart
-  	napchart.changeColor(this.props.napchart.selectedElement, color)
-  	napchart.config.defaultColor = color
+    var napchart = this.props.napchart
+    napchart.changeColor(this.props.napchart.selectedElement, color)
+    napchart.config.defaultColor = color
     this.forceUpdate()
   }
 
   changeColorTag = (e) => {
     var napchart = this.props.napchart
     var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
-    
+
     napchart.colorTag(activeColor, e.target.value)
     this.forceUpdate()
   }

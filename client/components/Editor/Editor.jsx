@@ -1,70 +1,52 @@
 
 import c from 'classnames'
-import Cookies from 'js-cookie'
 
 import React from 'react'
+
 import Header from './Header.jsx'
 import Chart from './Chart.jsx'
-import SelectedElement from './SelectedElement.jsx'
-import Shapes from './Shapes.jsx'
-import MetaInfo from './MetaInfo.jsx'
-import Lanes from './Lanes.jsx'
 import Link from '../common/Link.jsx'
 
 import Export from './sections/Export.jsx'
 import Info from './sections/Info.jsx'
-import Polyphasic from './sections/polyphasic/Polyphasic.jsx'
+import Polyphasic from './sections/Polyphasic.jsx'
+import Controls from './sections/Controls.jsx'
 
 import server from '../../server'
 
-
 export default class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       napchart: false, // until it is initialized
       loading: false,
-      url:window.siteUrl,
-      chartid:window.chartid,
-      title:window.title || '',
-      description:window.description || '',
-      currentSection: 0
+      url: window.siteUrl,
+      chartid: window.chartid,
+      title: window.title || '',
+      description: window.description || '',
+      currentSection: 3
     }
     console.log(this.state)
   }
-// <EditorHeader 
-//           onLoading={this.loading} 
-//           onLoadingFinish={this.loadingFinish}
-//           onSave={this.onSave}
-//           loading={this.state.loading}
-//           napchart={this.state.napchart}
-//           url={this.state.url}
-//           chartid={this.state.chartid}
-//           title={this.state.title}
-//           description={this.state.description} 
-//           />
-  render () {
-    var Controllers = (
-      <div>
-        <div className="field">
-          <Lanes
-            napchart={this.state.napchart}
-            clickLane={this.setNumberOfLanes}
-          />
-        </div>
-        <div className="field">
-          <Shapes napchart={this.state.napchart}/>
-        </div>
-        <div className="field">
-          <SelectedElement napchart={this.state.napchart} />
-        </div>
-      </div>
-    )
+  // <EditorHeader 
+  //           onLoading={this.loading} 
+  //           onLoadingFinish={this.loadingFinish}
+  //           onSave={this.onSave}
+  //           loading={this.state.loading}
+  //           napchart={this.state.napchart}
+  //           url={this.state.url}
+  //           chartid={this.state.chartid}
+  //           title={this.state.title}
+  //           description={this.state.description} 
+  //           />
+  render() {
 
     var sections = [
       {
-        element: Controllers,
+        element: <Controls
+          napchart={this.state.napchart}
+          setNumberOfLanes={this.setNumberOfLanes} />,
         icon: 'controls',
         text: ''
       },
@@ -79,7 +61,7 @@ export default class App extends React.Component {
         text: 'Info'
       },
       {
-        element: <Polyphasic />,
+        element: <Polyphasic napchart={this.state.napchart} />,
         icon: 'Sleep',
         text: 'Polyphasic'
       }
@@ -92,17 +74,17 @@ export default class App extends React.Component {
         <div className="grid">
           <div className="sidebar">
             <Header
-                title={this.state.title}
-                changeTitle={this.changeTitle}
-                chartid={this.state.chartid}
-                save={this.save}
+              title={this.state.title}
+              changeTitle={this.changeTitle}
+              chartid={this.state.chartid}
+              save={this.save}
             />
             <div className="sidebarContent">
               <div className="sideLane">
                 <div className="up">
-                  {sections.map((section, i) => 
-                    <button  onClick={this.changeSection.bind(null, i)} key={i}
-                      className={c("squareBtn", {'is-primary': (i==this.state.currentSection)})}>
+                  {sections.map((section, i) =>
+                    <button onClick={this.changeSection.bind(null, i)} key={i}
+                      className={c("squareBtn", { 'is-primary': (i == this.state.currentSection) })}>
                       {section.icon}
                     </button>
                   )}
@@ -128,7 +110,7 @@ export default class App extends React.Component {
                     </Link>
                   }
                 </div>
-                
+
               </div>
 
               <div className="otherLane">
@@ -137,14 +119,14 @@ export default class App extends React.Component {
                 </div>
               </div>
             </div>
-            
+
           </div>
 
           <div className="main">
-            <Chart 
+            <Chart
               napchart={this.state.napchart}
               onUpdate={this.somethingUpdate}
-              setGlobalNapchart={this.setGlobalNapchart} 
+              setGlobalNapchart={this.setGlobalNapchart}
               onLoading={this.loading} onLoadingFinish={this.loadingFinish}
             />
           </div>
@@ -155,7 +137,7 @@ export default class App extends React.Component {
 
   changeSection = (i) => {
     this.setState({
-      currentSection:i
+      currentSection: i
     })
   }
 
@@ -185,26 +167,12 @@ export default class App extends React.Component {
     this.loading()
     var firstTimeSave = !this.props.chartid
     server.save(this.state.napchart.data, this.state.title,
-    this.state.description, (chartid) => {
-      this.loadingFinish()
-      this.onSave(chartid)
-      if(firstTimeSave){
-      }
-    })
-  }
-
-  changeAddOn = (event) => {
-    var name = event.target.name
-    var bool = event.target.checked
-    var addOns = {
-      ...this.state.addOns,
-      [name]: bool
-    }
-    console.log(name, bool)
-    Cookies.set(name, bool)
-    this.setState({
-      addOns
-    })
+      this.state.description, (chartid) => {
+        this.loadingFinish()
+        this.onSave(chartid)
+        if (firstTimeSave) {
+        }
+      })
   }
 
   onSave = (chartid) => {

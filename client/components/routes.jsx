@@ -4,7 +4,6 @@ import React from 'react';
 
 import Editor from './Editor/Editor.jsx'
 import Intro from './Intro/Intro.jsx'
-import Blog from './Blog/Blog.jsx'
 import Login from './User/Login.jsx'
 import Signup from './User/Signup.jsx'
 import User from './User/User.jsx'
@@ -13,14 +12,6 @@ const routes = [
 	{
 	  path: '/',
 	  component: Intro
-	},
-	{
-	  path: '/blog',
-	  component: Blog
-	},
-	{
-	  path: '/blog/:id',
-	  component: Blog
 	},
 	{
 	  path: '/login',

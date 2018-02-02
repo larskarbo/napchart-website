@@ -3,14 +3,14 @@ import React from 'react'
 
 export default class extends React.Component {
 
-  render () {
+  render() {
     return (
       <div className="MetaInfo">
         <div className="field">
           <div className="control">
             <input className="input" type='text' placeholder='Title'
-               onChange={this.props.changeTitle}
-               value={this.props.title} />
+              onChange={this.props.changeTitle}
+              value={this.props.title} />
           </div>
         </div>
 
@@ -18,14 +18,14 @@ export default class extends React.Component {
         <div className="field">
           <div className="control">
             <textarea className="textarea" type='text' placeholder='Description'
-             onChange={this.props.changeDescription}
-             value={this.props.description}
-              />
+              onChange={this.props.changeDescription}
+              value={this.props.description}
+            />
           </div>
         </div>
       </div>
     )
   }
 
-  
+
 }

@@ -3,23 +3,25 @@ import React from 'react'
 import classNames from 'classnames'
 
 export default class Elements extends React.Component {
-  render () {
+  render() {
     var napchart = this.props.napchart
-    if(!napchart){
+    if (!napchart) {
       return null
     }
+    console.log('drawing');
 
-    var lanes = napchart.data.lanes
-    var laneButtons = [1,2,3,4].map(lane => {
-      var disabled = lane > lanes
+    var laneButtons = [1, 2, 3, 4].map(lane => {
+      var disabled = this.props.disabledLane(lane)
+      console.log(disabled);
       var classes = {
-        active: lane-1 == this.props.active,
+        active: lane - 1 == this.props.active,
         disabled: disabled
       }
       return (
         <button className={classNames('button', classes)}
-        onClick={!disabled && this.props.clickLane.bind('', (lane-1))}
-        key={lane}>
+          disabled={disabled}
+          onClick={!disabled && this.props.clickLane.bind('', (lane - 1))}
+          key={lane}>
           {lane}
         </button>
       )

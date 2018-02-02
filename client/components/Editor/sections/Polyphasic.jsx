@@ -1,11 +1,11 @@
 import React from 'react'
-import sampleSchedules from './sampleSchedules.json'
-import LaneChoose from './LaneChoose.jsx'
-import ColorPicker from '../../ColorPicker.jsx'
+import sampleSchedules from './polyphasic/sampleSchedules.json'
+import ColorPicker from '../small/ColorPicker.jsx'
+import LaneChoose from './polyphasic/LaneChoose.jsx'
 
 
-export default class App extends React.Component {
-  constructor (props) {
+export default class Polyphasic extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       sleepLane: 0,
@@ -13,15 +13,16 @@ export default class App extends React.Component {
     }
   }
 
-  render () {
-  	return (
+  render() {
+    return (
       <div>
         <div className="instruction">Clicking on any of these schedules will overwrite all elements in selected lane</div>
-  	    <div>
+        <div>
           <LaneChoose
             napchart={this.props.napchart}
             clickLane={this.setLane}
             active={this.state.sleepLane}
+            disabledLane={(lane) => lane > this.props.napchart.data.lanes}
           />
           <ColorPicker
             onClick={this.changeColor}
@@ -30,7 +31,7 @@ export default class App extends React.Component {
         </div>
         <div className="schedules">
           {sampleSchedules.map(schedule => (
-            <button onClick={this.changeSchedule.bind(null, schedule)} className="button">{schedule.name}</button>
+            <button key={schedule.name} onClick={this.changeSchedule.bind(null, schedule)} className="button">{schedule.name}</button>
           ))}
         </div>
       </div>

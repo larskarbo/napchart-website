@@ -1,16 +1,15 @@
-
 import React from 'react'
 import classNames from 'classnames'
 
 export default class Elements extends React.Component {
-  render () {
+  render() {
     var napchart = this.props.napchart
-    if(!napchart){
+    if (!napchart) {
       return null
     }
     var lanes = napchart.data.lanes
     var whichLaneIsTheLastOccupied = napchart.whichLaneIsTheLastOccupied()
-    var laneButtons = [1,2,3,4].map(lane => {
+    var laneButtons = [1, 2, 3, 4].map(lane => {
       var disabled = lane <= whichLaneIsTheLastOccupied
       var classes = {
         button: true,
@@ -22,7 +21,7 @@ export default class Elements extends React.Component {
       return (
         <p className="control" key={lane}>
           <button className={classNames(classes)}
-          onClick={!disabled && this.props.clickLane.bind('', lane)}
+            onClick={!disabled && this.props.clickLane.bind('', lane)}
           >
             {lane}
           </button>
