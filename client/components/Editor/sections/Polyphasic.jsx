@@ -1,14 +1,14 @@
 import React from 'react'
 import sampleSchedules from './polyphasic/sampleSchedules.json'
 import ColorPicker from '../small/ColorPicker.jsx'
-import LaneChoose from './polyphasic/LaneChoose.jsx'
+import Lanes from '../small/Lanes.jsx'
 
 
 export default class Polyphasic extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      sleepLane: 0,
+      sleepLane: 1,
       color: 'red'
     }
   }
@@ -18,7 +18,7 @@ export default class Polyphasic extends React.Component {
       <div>
         <div className="instruction">Clicking on any of these schedules will overwrite all elements in selected lane</div>
         <div>
-          <LaneChoose
+          <Lanes
             napchart={this.props.napchart}
             clickLane={this.setLane}
             active={this.state.sleepLane}
@@ -39,20 +39,21 @@ export default class Polyphasic extends React.Component {
   }
 
   changeSchedule = (schedule) => {
+    var lane = this.state.sleepLane - 1 // because napchart counts from 0, 1, 2 ...
     var elements = schedule.elements.map(element => {
       return {
         start: element.start,
         end: element.end,
-        lane: this.state.sleepLane,
+        lane: lane,
         color: this.state.color
       }
     })
     var napchart = this.props.napchart
-    napchart.emptyLane(this.state.sleepLane)
+    napchart.emptyLane(lane)
     napchart.initAndAddElements(elements)
 
     // find a element on the lane and select it
-    var eol = napchart.data.elements.find(e => e.lane == this.state.sleepLane)
+    var eol = napchart.data.elements.find(e => e.lane == lane)
     napchart.setSelected(eol.id)
   }
 

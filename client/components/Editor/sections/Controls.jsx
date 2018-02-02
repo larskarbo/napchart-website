@@ -6,20 +6,23 @@ import SelectedElement from '../small/SelectedElement.jsx'
 
 export default class Controls extends Component {
   render() {
+    var { napchart } = this.props
     return (
       <div>
         <div>
           <div className="field">
             <Lanes
-              napchart={this.props.napchart}
+              napchart={napchart}
               clickLane={this.props.setNumberOfLanes}
+              active={napchart.data.lanes}
+              disabledLane={(lane) => lane <= napchart.whichLaneIsTheLastOccupied()}
             />
           </div>
           <div className="field">
-            <Shapes napchart={this.props.napchart} />
+            <Shapes napchart={napchart} />
           </div>
           <div className="field">
-            <SelectedElement napchart={this.props.napchart} />
+            <SelectedElement napchart={napchart} />
           </div>
         </div>
       </div>
