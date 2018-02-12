@@ -8,8 +8,17 @@ export default class extends React.Component {
     super(props)
 
     this.state = {
-      editingTitle: false
+      editingTitle: false,
+      spinning: true,
     }
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        spinning: false
+      })
+    }, 1000)
   }
 
   render() {
@@ -17,7 +26,7 @@ export default class extends React.Component {
       <header className="Header level is-mobile">
         <div className="level-left">
           <a href="/app">
-            <Logo className="cornerLogo level-item" white height="45" loading={this.props.loading} whiteBG />
+            <Logo className="cornerLogo level-item" white height="45" loading={this.state.spinning} whiteBG />
           </a>
           <div className="meta level-item">
             <div className="chartTitle">

@@ -26,7 +26,7 @@ export default class App extends React.Component {
       chartid: window.chartid,
       title: window.title || '',
       description: window.description || '',
-      currentSection: 0
+      currentSection: 2
     }
   }
   // <EditorHeader 

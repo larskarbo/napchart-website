@@ -5,41 +5,46 @@ import server from '../../../server'
 
 export default class extends React.Component {
 
-  render () {
+  render() {
     return (
       <div className='Info'>
-        <div className="quickstart">
-        <div id="debug"></div> 
-          <p>Napchart is a time planning tool that helps you visualize time around a 24 hour clock.</p>
-          
-          <p><strong>Create element:</strong> Click on an empty space on the chart and drag</p>
-          <p><strong>Delete element:</strong> Set duration to zero or press delete</p>
+        <div className="part">
+          <div className="field">
+            <p>Napchart is a time planning tool that helps you visualize time around a 24 hour clock.</p>
+          </div>
 
+          <div className="field">
+            <p><strong>Create element:</strong> Click on an empty space on the chart and drag</p>
+          </div>
+          <div className="field">
+            <p><strong>Delete element:</strong> Set duration to zero or press <kbd>delete</kbd> or <kbd>⌘-⌫</kbd></p>
+          </div>
         </div>
-        <div className="padding">
-          <h2>Feedback</h2>
-          <p>Issues, ideas, or other feedback appreciated 😏</p>
+        <div className="part">
+          <h2 className="title is-6">Feedback</h2>
+          <p className="field">Blog with updates: <a href="https://blog.napchart.com"><strong>blog.napchart.com</strong></a></p>
+          <p className="field">Issues, ideas, or other feedback appreciated 😏</p>
           <textarea className="reset" ref="feedback"></textarea>
-          <div style={{display:'none'}} ref="afterfeedback">
+          <div className="field" style={{ display: 'none' }} ref="afterfeedback">
             <p>Thank you for your feedback ❤️🤗</p>
           </div>
           <button ref="feedbacksend" onClick={this.sendFeedback} className="button block">Send</button>
         </div>
-        <div className="padding">
-          <h2>Contribute</h2>
-          <p>Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+        <div className="part">
+          <h2 className="title is-6">Contribute</h2>
+          <p className="field">Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
+          <p className="field"><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
+          <p className="field"><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
         </div>
       </div>
     )
   }
-  
+
   sendFeedback = (tab) => {
     var value = this.refs.feedback.value
 
 
-    server.sendFeedback(value, function() {
+    server.sendFeedback(value, function () {
       console.log('feedback sent')
     })
 

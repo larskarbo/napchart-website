@@ -53,9 +53,6 @@ $header-height: 50px;
 				overflow-y: auto;
 				.currentInfo {
 					padding: 20px 20px 10px 10px;
-					.part:not(:last-child) {
-						margin-bottom: 1.75rem;
-					}
 				}
 				.fullWidth {
 					margin-right: -20px;
@@ -115,4 +112,8 @@ $header-height: 50px;
 
 .SuperLanes {
 	.domLane {}
+}
+
+.Info {
+	font-size: 0.9rem
 }
