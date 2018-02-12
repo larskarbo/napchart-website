@@ -26,7 +26,7 @@ export default class App extends React.Component {
       chartid: window.chartid,
       title: window.title || '',
       description: window.description || '',
-      currentSection: 2
+      currentSection: 0
     }
   }
   // <EditorHeader 
@@ -53,19 +53,22 @@ export default class App extends React.Component {
         text: ''
       },
       {
-        element: <Export />,
+        element: <Export
+          url={this.state.url}
+          chartid={this.state.chartid}
+        />,
         icon: 'share',
         text: 'Share and export'
-      },
-      {
-        element: <Info />,
-        icon: 'Info',
-        text: 'Info'
       },
       {
         element: <Polyphasic napchart={this.state.napchart} />,
         icon: 'Sleep',
         text: 'Polyphasic'
+      },
+      {
+        element: <Info />,
+        icon: 'Info',
+        text: 'Info'
       }
     ]
 

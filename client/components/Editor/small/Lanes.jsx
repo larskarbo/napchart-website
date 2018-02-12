@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import c from 'classnames'
 
 export default class Lanes extends React.Component {
   render() {
@@ -19,7 +19,7 @@ export default class Lanes extends React.Component {
       }
       return (
         <p className="control" key={laneIndex}>
-          <button className={classNames(classes)}
+          <button className={c(classes)}
             onClick={!disabled && this.props.clickLane.bind('', laneIndex)}
             disabled={disabled}
           >
@@ -28,14 +28,21 @@ export default class Lanes extends React.Component {
         </p>
       )
     })
+
+    const activeLane = napchart.data.lanes[this.props.active - 1];
     return (
-      <div className="field has-addons level is-mobile">
+      <div className="field has-addons level is-mobile" >
         <div className="level-left">
           <div className="level-item">
             Lane:
           </div>
           <div className="level-item">
             {laneButtons}
+          </div>
+          <div className="level-item">
+            <button
+              onClick={napchart.toggleLockLane.bind(napchart, this.props.active - 1)}
+              className={c("button is-small", { 'is-active': activeLane.locked, 'is-dark': activeLane.locked })}>Lock</button>
           </div>
         </div>
       </div>

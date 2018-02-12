@@ -32,7 +32,7 @@ $header-height: 50px;
 		min-height: 100vh;
 		.sidebarContent {
 			$sideLaneWidth: 60px;
-			height: calc(100vh - #{$header-height});
+			height: calc(100vh - #{$header-height + 44});
 			display: grid;
 			grid-template-columns: $sideLaneWidth auto;
 			.sideLane {
@@ -52,7 +52,7 @@ $header-height: 50px;
 				background: #f9f9f9;
 				overflow-y: auto;
 				.currentInfo {
-					padding: 20px 20px 10px 10px;
+					padding: 20px 20px 20px 10px;
 				}
 				.fullWidth {
 					margin-right: -20px;
@@ -116,4 +116,13 @@ $header-height: 50px;
 
 .Info {
 	font-size: 0.9rem
+}
+
+.Polyphasic {
+	.schedule {
+		width: 100%;
+		.duration {
+			color: $black-lighter
+		}
+	}
 }

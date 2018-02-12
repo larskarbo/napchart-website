@@ -23,6 +23,10 @@ var schedules = {
 	'Monophasic': 'q6fkh'
 }
 
+// TODO: this is outdated
+
+// do not use
+
 var util = require('util');
 var fs = require('fs')
 var database = require('../server/database/database')
@@ -33,38 +37,30 @@ var keys = Object.keys(schedules)
 var i = 0
 
 function next(argument) {
-  if(i == keys.length){
-    fs.writeFileSync('sampleSchedules.js', JSON.stringify(refined, null, 2))
-    return 
-  }
+	if (i == keys.length) {
+		fs.writeFileSync('sampleSchedules.js', JSON.stringify(refined, null, 2))
+		return
+	}
 	var scheduleID = schedules[keys[i]]
 
 	database.getChart(scheduleID, function (err, response) {
-    if (err) throw new Error(err)
+		if (err) throw new Error(err)
 
-    var elements = response.chartData.elements.map(el => {
-      return {
-        start: el.start,
-        end: el.end,
-        text: el.text
-      }
-    })
-    refined.push({
-    	name: keys[i],
-    	elements
-    })
+		var elements = response.chartData.elements.map(el => {
+			return {
+				start: el.start,
+				end: el.end,
+				text: el.text
+			}
+		})
+		refined.push({
+			name: keys[i],
+			elements
+		})
 
-    i++
-	  next()
-  })
+		i++
+		next()
+	})
 }
 
 next()
-
-
-
-
-
-
-
-

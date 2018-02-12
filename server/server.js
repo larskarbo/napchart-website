@@ -59,7 +59,7 @@ app.get(['/signup', '/login'], function (req, res, next) {
     next()
   }
 })
-
+console.log(env)
 app.get(['/', '/app', '/login', '/user/:username'], function (req, res) {
   console.log('user', req.user)
   var file = nunjucks.render(__dirname + '/../client/index.html', {
@@ -89,7 +89,7 @@ app.get('/:whatever', function (req, res) {
     var title = metaInfo.title || ''
     var description = metaInfo.description || ''
     var file = nunjucks.render(__dirname + '/../client/index.html', {
-      env,
+      ...env,
       data: {
         chartid: chartid,
         title: title.length == 0 ? false : title,

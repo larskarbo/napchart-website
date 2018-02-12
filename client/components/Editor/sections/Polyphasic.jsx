@@ -9,33 +9,77 @@ export default class Polyphasic extends React.Component {
     super(props)
     this.state = {
       sleepLane: 1,
-      color: 'red'
+      color: 'blue'
     }
   }
 
   render() {
     return (
-      <div>
-        <div className="instruction">Clicking on any of these schedules will overwrite all elements in selected lane</div>
-        <div>
+      <div className="Polyphasic">
+        <div className="field">Clicking on any of the schedules will overwrite all elements in the selected lane</div>
+        <div className="field">
           <Lanes
             napchart={this.props.napchart}
             clickLane={this.setLane}
             active={this.state.sleepLane}
             disabledLane={(lane) => lane > this.props.napchart.data.lanes}
           />
+        </div>
+        <div className="field">
           <ColorPicker
             onClick={this.changeColor}
             activeColor={this.state.color}
           />
         </div>
-        <div className="schedules">
+        <div className="panel field">
+          <p className="panel-heading">
+            Schedules
+          </p>
+          {/* <div className="panel-block">
+            <p className="control has-icons-left">
+              <input className="input is-small" type="text" placeholder="search" />
+              <span className="icon is-small is-left">
+                <i className="fas fa-search"></i>
+              </span>
+            </p>
+          </div> */}
+          {/* <p className="panel-tabs">
+            <a className="is-active">all</a>
+            <a>public</a>
+            <a>private</a>
+            <a>sources</a>
+            <a>forks</a>
+          </p> */}
+
+
           {sampleSchedules.map(schedule => (
-            <button key={schedule.name} onClick={this.changeSchedule.bind(null, schedule)} className="button">{schedule.name}</button>
+            <a key={schedule.name} className="panel-block"
+              onClick={this.changeSchedule.bind(null, schedule)}>
+              <div className="level is-mobile schedule">
+                <div className="level-left">
+                  <div className="level-item">
+                    <span>{schedule.name}</span>
+                  </div>
+                </div>
+                <div className="level-right">
+                  <div className="level-item">
+                    <span className="duration">{this.calculateDuration(schedule)}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
           ))}
         </div>
       </div>
     )
+  }
+
+  calculateDuration = (schedule) => {
+    var helpers = this.props.napchart.helpers
+    const minutes = schedule.elements.reduce((minutes, element) => {
+      return minutes + helpers.duration(element.start, element.end)
+    }, 0)
+    return helpers.minutesToReadable(minutes)
   }
 
   changeSchedule = (schedule) => {

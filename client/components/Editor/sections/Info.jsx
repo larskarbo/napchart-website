@@ -24,7 +24,7 @@ export default class extends React.Component {
           <h2 className="title is-6">Feedback</h2>
           <p className="field">Blog with updates: <a href="https://blog.napchart.com"><strong>blog.napchart.com</strong></a></p>
           <p className="field">Issues, ideas, or other feedback appreciated 😏</p>
-          <textarea className="reset" ref="feedback"></textarea>
+          <textarea className="textarea field" ref="feedback"></textarea>
           <div className="field" style={{ display: 'none' }} ref="afterfeedback">
             <p>Thank you for your feedback ❤️🤗</p>
           </div>
