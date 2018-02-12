@@ -7,22 +7,23 @@ export default class Lanes extends React.Component {
     if (!napchart) {
       return null
     }
-    var laneButtons = [1, 2, 3, 4].map(lane => {
-      var disabled = this.props.disabledLane(lane)
+    var laneButtons = napchart.data.lanes.map((lane, index) => {
+      var laneIndex = index + 1
+      var disabled = this.props.disabledLane(laneIndex)
       var classes = {
         button: true,
-        'is-active': lane == this.props.active,
-        'is-dark': lane == this.props.active,
+        'is-active': laneIndex == this.props.active,
+        'is-dark': laneIndex == this.props.active,
         disabled: disabled,
         napchartDontLoseFocus: true
       }
       return (
-        <p className="control" key={lane}>
+        <p className="control" key={laneIndex}>
           <button className={classNames(classes)}
-            onClick={!disabled && this.props.clickLane.bind('', lane)}
+            onClick={!disabled && this.props.clickLane.bind('', laneIndex)}
             disabled={disabled}
           >
-            {lane}
+            {laneIndex}
           </button>
         </p>
       )
@@ -31,7 +32,7 @@ export default class Lanes extends React.Component {
       <div className="field has-addons level is-mobile">
         <div className="level-left">
           <div className="level-item">
-            Lanes:
+            Lane:
           </div>
           <div className="level-item">
             {laneButtons}

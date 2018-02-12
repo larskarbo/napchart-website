@@ -37,7 +37,6 @@ $header-height: 50px;
 			grid-template-columns: $sideLaneWidth auto;
 			.sideLane {
 				background: $dark;
-				padding-top: 30px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
@@ -50,6 +49,7 @@ $header-height: 50px;
 				}
 			}
 			.otherLane {
+				background: #f9f9f9;
 				overflow-y: auto;
 				.currentInfo {
 					padding: 30px 20px 10px 10px;
@@ -89,8 +89,7 @@ $header-height: 50px;
 	}
 }
 
-.UserBox {
-	background: $black;
-	margin: 0px !important;
-	height: $header-height;
+.ToolBar {
+	background: #ab3f3f;
+	padding: 10px 0
 }

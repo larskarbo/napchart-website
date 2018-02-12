@@ -51,6 +51,7 @@ export default class Polyphasic extends React.Component {
     var napchart = this.props.napchart
     napchart.emptyLane(lane)
     napchart.initAndAddElements(elements)
+    napchart.history.add('Use polyphasic schedule')
 
     // find a element on the lane and select it
     var eol = napchart.data.elements.find(e => e.lane == lane)

@@ -4,7 +4,7 @@ import c from 'classnames'
 import React from 'react'
 
 import Header from './Header.jsx'
-import UserBox from './UserBox.jsx'
+import ToolBar from './ToolBar.jsx'
 import Chart from './Chart.jsx'
 import Link from '../common/Link.jsx'
 
@@ -82,6 +82,9 @@ export default class App extends React.Component {
               user={this.props.user}
               userOwnsThisChart={userOwnsThisChart}
             />
+
+            <ToolBar napchart={this.state.napchart} />
+
             <div className="sidebarContent">
               <div className="sideLane">
                 <div className="up">
@@ -92,28 +95,13 @@ export default class App extends React.Component {
                     </button>
                   )}
                 </div>
-                {/* <div className="down">
+                <div className="down">
                   <Link href="/blog">
                     <button className="squareBtn">
                       Blog
                     </button>
                   </Link>
-                  {user &&
-                    <Link href="/user">
-                      <button className="squareBtn">
-                        Hi {user.username}
-                      </button>
-                    </Link>
-                  }
-                  {!user &&
-                    <Link href="/login">
-                      <button className="squareBtn">
-                        Login
-                      </button>
-                    </Link>
-                  }
-                </div> */}
-
+                </div>
               </div>
 
               <div className="otherLane">
@@ -122,10 +110,6 @@ export default class App extends React.Component {
                 </div>
               </div>
             </div>
-            {/* <UserBox
-              user={this.props.user}
-            // userOwnsThisChart={userOwnsThisChart}
-            /> */}
           </div>
 
           <div className="main">

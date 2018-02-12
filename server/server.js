@@ -113,6 +113,6 @@ app.post('/auth/login', auth.login)
 app.post('/auth/available/:what', auth.available)
 
 var port = process.env.PORT || 3000
-app.listen(port, function () {
+app.listen(port, "0.0.0.0", function () {
   console.log(`listening at ${port}`)
 })
