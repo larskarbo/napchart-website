@@ -7,21 +7,21 @@ import Logo from '../common/Logo.jsx'
 import Link from '../common/Link.jsx'
 
 export default class extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
     }
   }
 
-  render () {
+  render() {
     return (
       <div>
         <section className="section hero is-dark is-bold is-fullheight">
           <div className="hero-body">
             <div className="column has-text-centered">
               <div className="bigLogo">
-                <Logo noInteraction logoText="Napchart" height="150"  />
+                <Logo noInteraction logoText="Napchart" height="150" />
               </div>
             </div>
           </div>
@@ -29,12 +29,7 @@ export default class extends React.Component {
             <Link href="/app">
               <Logo white noInteraction logoText="GO TO APP" height="45" />
             </Link>
-            <Link href="/blog">
-              <Logo white noInteraction logoText="GO TO BLOG" height="45" />
-            </Link>
-            <Link href="/login">
-              <Logo white noInteraction logoText="GO TO LOGIN" height="45" />
-            </Link>
+
           </div>
         </section>
 
@@ -56,34 +51,34 @@ export default class extends React.Component {
 
         <section className="section hero is-warning">
           <div className="hero-body">
-          <div className="container">
-          <div className="columns">
-            <div className="column has-text-centered vertical-align-center">
-              <h2 className="title is-4">Ultimate sharing experience</h2>
-              <p>Save a chart with one click, and share the unique link with the world.</p>
+            <div className="container">
+              <div className="columns">
+                <div className="column has-text-centered vertical-align-center">
+                  <h2 className="title is-4">Ultimate sharing experience</h2>
+                  <p>Save a chart with one click, and share the unique link with the world.</p>
+                </div>
+                <div className="column has-text-centered">
+                  <img src="/public/save.png" />
+                </div>
+              </div>
             </div>
-            <div className="column has-text-centered">
-              <img src="/public/save.png" />
-            </div>
-          </div>
-          </div>
           </div>
         </section>
 
         <section className="section hero is-light">
           <div className="hero-body">
-          <div className="container">
-          <div className="columns rtl">
-            <div className="column has-text-centered vertical-align-center">
-                <h2 className="title is-2">Experiment with polyphasic sleep</h2>
-                <p>Napchart has over 20 polyphasic sleep presets and is often
+            <div className="container">
+              <div className="columns rtl">
+                <div className="column has-text-centered vertical-align-center">
+                  <h2 className="title is-2">Experiment with polyphasic sleep</h2>
+                  <p>Napchart has over 20 polyphasic sleep presets and is often
                 used by the community to share, discuss and plan schedules</p>
+                </div>
+                <div className="column has-text-centered">
+                  <img src="/public/polyphasic.png" />
+                </div>
+              </div>
             </div>
-            <div className="column has-text-centered">
-              <img src="/public/polyphasic.png" />
-            </div>
-          </div>
-          </div>
           </div>
         </section>
 
@@ -91,9 +86,9 @@ export default class extends React.Component {
         <section className="section hero is-dark">
           <div className="hero-body">
             <div className="container has-text-centered">
-              <a href="/app"><button className="button">
+              <a href="/app" className="button">
                 <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
-              </button></a>
+              </a>
             </div>
           </div>
 
