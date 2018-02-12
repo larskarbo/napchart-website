@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     {% if data.description %}
-    <meta name="description" content="{{data.description}}">
+    <meta name="description" content="{{data.description | replace("\n", " ")}}">
     {% else %}
     <meta name="description" content="Napchart is an app created to visualize complex time schedules">
     {% endif %}
@@ -46,7 +46,7 @@
       window.chartid = window.chartid == 'false' ? false : window.chartid
 
       {% if data.description %}
-      window.description = '{{data.description}}'
+      window.description = `{{data.description}}`
       {% endif %}
 
       {% if data.title %}

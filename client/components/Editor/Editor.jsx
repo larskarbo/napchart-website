@@ -46,7 +46,9 @@ export default class App extends React.Component {
       {
         element: <Controls
           napchart={this.state.napchart}
-          setNumberOfLanes={this.setNumberOfLanes} />,
+          description={this.state.description}
+          changeDescription={this.changeDescription}
+        />,
         icon: 'controls',
         text: ''
       },

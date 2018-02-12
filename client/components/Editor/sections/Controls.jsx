@@ -14,6 +14,14 @@ export default class Controls extends Component {
       <div>
         <div>
           <div>
+            <div className="part fullWidth">
+              {/* <div className="field title is-6">
+                Description:
+              </div> */}
+              <textarea type='text' className="description" placeholder='Describe this chart'
+                onChange={this.props.changeDescription}
+                value={this.props.description} />
+            </div>
             <div className="part">
               <Shapes napchart={napchart} />
             </div>

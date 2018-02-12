@@ -8,7 +8,7 @@ export default class extends React.Component {
       return null
     }
     var lanes = napchart.data.lanes.map((lane, index) => (
-      <div className="field domLane" key={index}>
+      <div className="field domLane fullWidth" key={index}>
         <div className="level is-mobile">
           <div className="level-left">
             <p>{index + 1}	 {this.duration(index)}</p>
