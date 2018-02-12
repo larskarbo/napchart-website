@@ -4,6 +4,7 @@ import c from 'classnames'
 import React from 'react'
 
 import Header from './Header.jsx'
+import UserBox from './UserBox.jsx'
 import Chart from './Chart.jsx'
 import Link from '../common/Link.jsx'
 
@@ -25,9 +26,8 @@ export default class App extends React.Component {
       chartid: window.chartid,
       title: window.title || '',
       description: window.description || '',
-      currentSection: 3
+      currentSection: 0
     }
-    console.log(this.state)
   }
   // <EditorHeader 
   //           onLoading={this.loading} 
@@ -68,6 +68,7 @@ export default class App extends React.Component {
     ]
 
     var user = this.props.user
+    var userOwnsThisChart = typeof window.chartAuthor != 'undefined' && this.props.user.username == window.chartAuthor
 
     return (
       <div className="Editor">
@@ -78,6 +79,8 @@ export default class App extends React.Component {
               changeTitle={this.changeTitle}
               chartid={this.state.chartid}
               save={this.save}
+              user={this.props.user}
+              userOwnsThisChart={userOwnsThisChart}
             />
             <div className="sidebarContent">
               <div className="sideLane">
@@ -89,7 +92,7 @@ export default class App extends React.Component {
                     </button>
                   )}
                 </div>
-                <div className="down">
+                {/* <div className="down">
                   <Link href="/blog">
                     <button className="squareBtn">
                       Blog
@@ -109,7 +112,7 @@ export default class App extends React.Component {
                       </button>
                     </Link>
                   }
-                </div>
+                </div> */}
 
               </div>
 
@@ -119,7 +122,10 @@ export default class App extends React.Component {
                 </div>
               </div>
             </div>
-
+            {/* <UserBox
+              user={this.props.user}
+            // userOwnsThisChart={userOwnsThisChart}
+            /> */}
           </div>
 
           <div className="main">

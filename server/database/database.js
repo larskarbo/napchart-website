@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/napchart')
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
@@ -19,7 +18,9 @@ module.exports = {
   },
 
   getChart: function (chartid, callback) {
-    Chart.findOne({id: chartid}, callback)
+    Chart.findOne({
+      id: chartid
+    }, callback)
   },
 
   addFeedback: function (f, callback) {
@@ -52,10 +53,10 @@ module.exports = {
 
   userExists: function (query, callback) {
     console.log(query)
-    User.find(query, function(err, res) {
-      if(err) throw err
+    User.find(query, function (err, res) {
+      if (err) throw err
 
-      if(res.length > 0){
+      if (res.length > 0) {
         callback(null, true)
       } else {
         callback(null, false)
@@ -64,19 +65,21 @@ module.exports = {
   },
 
   findUser: function (id, callback) {
-    // dont give password and id field
-    User.findById(id, {password: 0, _id: 0},callback);
+    // dont give password field
+    User.findById(id, {
+      password: 0
+    }, callback);
   },
 
   verifyUser: function (query, password, callback) {
-    User.findOne(query, function(err, user) {
-      if(err) throw err
+    User.findOne(query, function (err, user) {
+      if (err) throw err
 
-      if(user){
-        user.comparePassword(password, function(err, isMatch) {
-          if(err) throw err
+      if (user) {
+        user.comparePassword(password, function (err, isMatch) {
+          if (err) throw err
 
-          if(isMatch){
+          if (isMatch) {
             callback(null, user)
           } else {
             callback(null, false)

@@ -1,21 +1,18 @@
 // stuff in editor and editor ONLY
 $header-height: 50px;
-
 .ColorPicker {
 	display: flex;
-
 	.color {
-		height:calc(100% / 8);
+		height: calc(100% / 8);
 		width: calc(100% / 8);
 		opacity: 0.3;
-
 		&.active {
 			opacity: 1;
 			cursor: default;
 		}
 		cursor: pointer;
-
-		circle, svg {
+		circle,
+		svg {
 			pointer-events: none
 		}
 	}
@@ -31,24 +28,19 @@ $header-height: 50px;
 .grid {
 	display: grid;
 	grid-template-columns: 340px auto;
-	
 	.sidebar {
 		min-height: 100vh;
-		
-
 		.sidebarContent {
 			$sideLaneWidth: 60px;
 			height: calc(100vh - #{$header-height});
 			display: grid;
 			grid-template-columns: $sideLaneWidth auto;
-
 			.sideLane {
 				background: $dark;
 				padding-top: 30px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
-
 				.squareBtn {
 					width: $sideLaneWidth;
 					height: $sideLaneWidth;
@@ -57,10 +49,8 @@ $header-height: 50px;
 					color: white;
 				}
 			}
-
 			.otherLane {
 				overflow-y: auto;
-
 				.currentInfo {
 					padding: 30px 20px 10px 10px;
 				}
@@ -80,23 +70,27 @@ $header-height: 50px;
 		width: 60px;
 	}
 	height:$header-height;
-
 	.meta {
 		display: flex;
 		flex-direction: column;
 		align-items: left;
 		.chartTitle {
-			a, h1 {
-				font-size:14px;
+			a,
+			h1 {
+				font-size: 14px;
 				font-weight: bold;
 				color: white;
 			}
 		}
-
 		.byline {
 			color: white;
 			font-size: 12px;
 		}
 	}
-	
+}
+
+.UserBox {
+	background: $black;
+	margin: 0px !important;
+	height: $header-height;
 }

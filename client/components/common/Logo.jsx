@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import uuid from 'uuid'
 
 export default class Chart extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       napchart: false,
@@ -13,30 +13,30 @@ export default class Chart extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.initializeChart()
   }
 
-  render () {
-    if(this.props.loading && !this.state.hasStartedSpinning && this.state.napchart){
+  render() {
+    if (this.props.loading && !this.state.hasStartedSpinning && this.state.napchart) {
       this.spinLoad()
     }
 
     var height = this.props.height
     return (
       <div className={"logoContainer " + this.props.className}>
-        <div className="canvasParent" style={{width:height}}>
+        <div className="canvasParent" style={{ width: height + 'px' }}>
           <canvas width={height} height={height} ref={this.state.ref}></canvas>
         </div>
         <div className="text">
           {this.props.logoText &&
-            <span style={{fontSize: height/2}}
-            className={classNames("logoText", {dark: this.props.whiteBG})}
+            <span style={{ fontSize: height / 2 }}
+              className={classNames("logoText", { dark: this.props.whiteBG })}
             >{this.props.logoText}</span>
           }
 
           {height > 120 &&
-            <span className={classNames("slogan", {dark: this.props.whiteBG})}>
+            <span className={classNames("slogan", { dark: this.props.whiteBG })}>
               24 hour time-planner
             </span>
           }
@@ -45,21 +45,21 @@ export default class Chart extends React.Component {
     )
   }
 
-  initializeChart () {
+  initializeChart() {
     var canvas = this.refs[this.state.ref]
     var ctx = canvas.getContext('2d')
 
     var elements = [{
-      "end":320,"start":30,"lane":0,"id":4082,"text":"","color":"red","duration":240
-    },{
-      "end":680,"start":390,"lane":0,"id":545,"text":"","color":"green","duration":240
-    },{
-      "start":750,"end":1040,"lane":0,"id":8540,"text":"","color":"brown","duration":240
-    },{
-      "start":1110,"end":1400,"lane":0,"id":9693,"text":"","color":"yellow","duration":240
+      "end": 320, "start": 30, "lane": 0, "id": 4082, "text": "", "color": "red", "duration": 240
+    }, {
+      "end": 680, "start": 390, "lane": 0, "id": 545, "text": "", "color": "green", "duration": 240
+    }, {
+      "start": 750, "end": 1040, "lane": 0, "id": 8540, "text": "", "color": "brown", "duration": 240
+    }, {
+      "start": 1110, "end": 1400, "lane": 0, "id": 9693, "text": "", "color": "yellow", "duration": 240
     }]
 
-    if(this.props.white){
+    if (this.props.white) {
       elements = elements.map(e => ({
         ...e,
         color: 'white'
@@ -68,13 +68,13 @@ export default class Chart extends React.Component {
 
     var napchart = Napchart.init(ctx, {
       elements: elements,
-      shape:'miniCircle',
-      lanes:1
+      shape: 'miniCircle',
+      lanes: [{}]
     }, {
-      text: false,
-      drawFace: false,
-      interaction: !this.props.noInteraction ? true : false
-    })
+        text: false,
+        drawFace: false,
+        interaction: !this.props.noInteraction ? true : false
+      })
 
     napchart.data.elements.forEach(element => {
       element.initialStart = element.start
@@ -90,9 +90,9 @@ export default class Chart extends React.Component {
     })
 
     var shouldIContinue = () => {
-      if(this.props.loading){
+      if (this.props.loading) {
         this.continueSpin(shouldIContinue)
-      }else{
+      } else {
         this.endSpin(() => {
           this.setState({
             hasStartedSpinning: false
@@ -104,21 +104,21 @@ export default class Chart extends React.Component {
     this.startSpin(() => {
       this.continueSpin(shouldIContinue)
     })
-  } 
+  }
 
   startSpin = (callback) => {
-    this.spin(500, easingEffects.easeInSine, 290, 1440/4, callback)
+    this.spin(500, easingEffects.easeInSine, 290, 1440 / 4, callback)
   }
 
   continueSpin = (callback) => {
-    this.spin(250, easingEffects.linear, 1440/4, 1440/4, callback)
+    this.spin(250, easingEffects.linear, 1440 / 4, 1440 / 4, callback)
   }
 
   endSpin = (callback) => {
-    this.spin(500, easingEffects.easeOutSine, 1440/4, 290, callback)
+    this.spin(500, easingEffects.easeOutSine, 1440 / 4, 290, callback)
   }
 
-  spin (duration, easingEffect, animateFromDuration, animateToDuration, callback) {
+  spin(duration, easingEffect, animateFromDuration, animateToDuration, callback) {
     var napchart = this.state.napchart
 
     var start = Date.now()
@@ -126,7 +126,7 @@ export default class Chart extends React.Component {
     function step() {
       var now = Date.now()
       var progress = Math.min((now - start) / duration, 1)
-      if(progress >= 1){
+      if (progress >= 1) {
         return callback()
       }
       var progress = easingEffect(progress)
@@ -134,11 +134,11 @@ export default class Chart extends React.Component {
 
       var newElements = napchart.data.elements.map(element => {
         var distance = 1440
-        
+
         var sizeAnimate = 36 * progress
         var thisDuration = animateFromDuration + (animateToDuration - animateFromDuration) * progress
         // console.log(sizeAnimate)
-        var start =  element.initialStart + distance * progress - sizeAnimate
+        var start = element.initialStart + distance * progress - sizeAnimate
         var end = start + thisDuration
         return {
           ...element,
@@ -147,7 +147,7 @@ export default class Chart extends React.Component {
         }
       })
       napchart.setElements(newElements)
-      if(progress < 1){
+      if (progress < 1) {
         // console.log(progress)
         requestAnimationFrame(step)
       }

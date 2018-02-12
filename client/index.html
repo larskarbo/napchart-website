@@ -50,6 +50,10 @@
       {% if data.title %}
       window.title = '{{data.title}}'
       {% endif %}
+
+      {% if data.chartAuthor %}
+      window.chartAuthor = '{{data.chartAuthor}}'
+      {% endif %}
       
       {% if user %}
       window.user = {{user | dump | safe}}

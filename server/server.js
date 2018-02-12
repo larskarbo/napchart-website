@@ -33,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.authenticate('session'));
 
 // <PRODUCTION>
-if(process.env.NODE_ENV == 'production'){
+if (process.env.NODE_ENV == 'production') {
   console.log('Starting node server in production mode')
   app.get('*.js', function (req, res, next) {
     console.log('fj')
@@ -52,15 +52,15 @@ var env = {
   siteUrl: process.env.URL
 }
 
-app.get(['/signup','/login'], function (req, res, next) {
-  if(req.user){
+app.get(['/signup', '/login'], function (req, res, next) {
+  if (req.user) {
     return res.redirect('/user/' + req.user.username)
   } else {
     next()
   }
 })
 
-app.get(['/','/app','/login','/user/:username'], function (req, res) {
+app.get(['/', '/app', '/login', '/user/:username'], function (req, res) {
   console.log('user', req.user)
   var file = nunjucks.render(__dirname + '/../client/index.html', {
     ...env,
@@ -82,7 +82,7 @@ app.get('/:whatever', function (req, res) {
 
   database.getChart(chartid, function (err, response) {
     if (err) throw new Error(err)
-    if(response == null){
+    if (response == null) {
       return res.status(404).send('404')
     }
     var metaInfo = response.metaInfo || {}
@@ -92,8 +92,9 @@ app.get('/:whatever', function (req, res) {
       env,
       data: {
         chartid: chartid,
-        title: title.length==0 ? false : title,
-        description: description.length==0 ? false : description 
+        title: title.length == 0 ? false : title,
+        description: description.length == 0 ? false : description,
+        chartAuthor: response.author
       },
       user: req.user
     })

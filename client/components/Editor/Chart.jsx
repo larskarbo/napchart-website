@@ -5,16 +5,16 @@ import Napchart from 'napchart'
 import server from '../../server'
 
 export default class Chart extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       id: uuid.v4()
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     var resizer = this.refs.resizer
-    
+
     this.updateDimensions(() =>
       this.initializeChart()
     )
@@ -22,13 +22,13 @@ export default class Chart extends React.Component {
     window.addEventListener("resize", this.handleResize);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize)
   }
 
-  render () {
+  render() {
     var blurClass = ''
-    if(this.props.loading){
+    if (this.props.loading) {
       blurClass = 'blur'
     }
     return (
@@ -54,7 +54,7 @@ export default class Chart extends React.Component {
     }, callback)
   }
 
-  initializeChart () {
+  initializeChart() {
     var canvas = this.refs[this.state.id]
     var ctx = canvas.getContext('2d')
 
@@ -73,10 +73,10 @@ export default class Chart extends React.Component {
       // for debugging
       window.napchart = napchart
 
-      canvas.oncontextmenu = function(event) {
-           event.preventDefault()
-           event.stopPropagation()
-           return false
+      canvas.oncontextmenu = function (event) {
+        event.preventDefault()
+        event.stopPropagation()
+        return false
       }
 
       this.props.setGlobalNapchart(napchart)
