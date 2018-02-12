@@ -41,6 +41,7 @@ module.exports = {
           ...response.data,
           ...response.data.chartData,
         }
+        delete data.chartData
         loadFinish()
 
         return cb(data)
