@@ -36,8 +36,26 @@ export default class extends React.Component {
           <p className="field"><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
           <p className="field"><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
         </div>
+        <div className="part">
+          <label className="label">Time format</label>
+          <div className="control">
+            <label className="radio">
+              <input type="radio" name="answer" onChange={this.changeAmpm.bind(null, true)} checked={this.props.ampm} />
+              <span> AM/PM</span>
+            </label>
+            <label className="radio">
+              <input type="radio" name="answer" onChange={this.changeAmpm.bind(null, false)} checked={!this.props.ampm} />
+              <span> 24 hours</span>
+            </label>
+          </div>
+        </div>
       </div>
     )
+  }
+
+  changeAmpm = (ampm) => {
+    console.log(ampm)
+    this.props.setAmpm(ampm)
   }
 
   sendFeedback = (tab) => {

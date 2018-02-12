@@ -13,6 +13,8 @@ import Info from './sections/Info.jsx'
 import Polyphasic from './sections/Polyphasic.jsx'
 import Controls from './sections/Controls.jsx'
 
+import Cookies from 'js-cookie';
+
 import server from '../../server'
 
 export default class App extends React.Component {
@@ -26,7 +28,8 @@ export default class App extends React.Component {
       chartid: window.chartid,
       title: window.title || '',
       description: window.description || '',
-      currentSection: 0
+      currentSection: 0,
+      ampm: this.getAmpm()
     }
   }
   // <EditorHeader 
@@ -66,7 +69,7 @@ export default class App extends React.Component {
         text: 'Polyphasic'
       },
       {
-        element: <Info />,
+        element: <Info ampm={this.state.ampm} setAmpm={this.setAmpm} />,
         icon: 'Info',
         text: 'Info'
       }
@@ -101,11 +104,11 @@ export default class App extends React.Component {
                   )}
                 </div>
                 <div className="down">
-                  <Link href="/blog">
+                  <a href="https://blog.napchart.com/" >
                     <button className="squareBtn">
                       Blog
                     </button>
-                  </Link>
+                  </a>
                 </div>
               </div>
 
@@ -123,6 +126,7 @@ export default class App extends React.Component {
               onUpdate={this.somethingUpdate}
               setGlobalNapchart={this.setGlobalNapchart}
               onLoading={this.loading} onLoadingFinish={this.loadingFinish}
+              ampm={this.state.ampm}
             />
           </div>
         </div>
@@ -194,5 +198,32 @@ export default class App extends React.Component {
   setNumberOfLanes = (lanes) => {
     console.log(lanes)
     this.state.napchart.setNumberOfLanes(lanes)
+  }
+
+  getAmpm = () => {
+
+    const cookiePref = Cookies.get('preferAmpm')
+    if (cookiePref) {
+      return eval(cookiePref)
+    }
+
+    var date = new Date(Date.UTC(2012, 11, 12, 3, 0, 0));
+    var dateString = date.toLocaleTimeString();
+
+    //apparently toLocaleTimeString() has a bug in Chrome. toString() however returns 12/24 hour formats. If one of two contains AM/PM execute 12 hour coding.
+    if (dateString.match(/am|pm/i) || date.toString().match(/am|pm/i)) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  setAmpm = (ampm) => {
+    Cookies.set('preferAmpm', ampm)
+
+    this.setState({
+      ampm: ampm
+    })
   }
 }

@@ -26,6 +26,10 @@ export default class Chart extends React.Component {
     window.removeEventListener("resize", this.handleResize)
   }
 
+  componentWillUpdate() {
+    return false
+  }
+
   render() {
     var blurClass = ''
     if (this.props.loading) {
@@ -63,7 +67,8 @@ export default class Chart extends React.Component {
       // returns {} if no data was loaded (you are on base napchart.com/)
       // returns the data if you are on napchart.com/xxxxx
       var napchart = Napchart.init(ctx, data, {
-        responsive: true
+        responsive: true,
+        ampm: this.props.ampm
       })
 
       napchart.onUpdate = () => {

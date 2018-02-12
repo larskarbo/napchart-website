@@ -36,7 +36,9 @@ export default class Controls extends Component {
               </div>
               <SelectedElement napchart={napchart} />
             </div>
+
           </div>
+
         </div>
       </div>
     )
