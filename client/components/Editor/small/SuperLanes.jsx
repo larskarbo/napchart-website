@@ -8,10 +8,10 @@ export default class extends React.Component {
       return null
     }
     var lanes = napchart.data.lanes.map((lane, index) => (
-      <div className="box" key={index}>
+      <div className="field domLane" key={index}>
         <div className="level is-mobile">
           <div className="level-left">
-            <p>{index + 1}</p>
+            <p>{index + 1}	 {this.duration(index)}</p>
           </div>
           <div className="level-right">
             <div className="level-item">
@@ -29,8 +29,8 @@ export default class extends React.Component {
       </div>
     ))
     return (
-      <div className="field">
-        <p className="field">Lanes</p>
+      <div className="field SuperLanes">
+        <p className="field title is-6">Lanes:</p>
         <div className="field">
           {lanes}
         </div>
@@ -38,5 +38,17 @@ export default class extends React.Component {
           className="button is-small">Add lane +</button>
       </div>
     )
+  }
+
+  duration = (laneIndex) => {
+    const helpers = napchart.helpers
+    const minutes = napchart.data.elements.reduce((minutes, element) => {
+      if (element.lane == laneIndex) {
+        return minutes + helpers.duration(element.start, element.end)
+      } else {
+        return minutes
+      }
+    }, 0)
+    return helpers.minutesToReadable(minutes)
   }
 }

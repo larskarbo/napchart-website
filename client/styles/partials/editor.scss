@@ -52,7 +52,10 @@ $header-height: 50px;
 				background: #f9f9f9;
 				overflow-y: auto;
 				.currentInfo {
-					padding: 30px 20px 10px 10px;
+					padding: 20px 20px 10px 10px;
+					.part:not(:last-child) {
+						margin-bottom: 1.75rem;
+					}
 				}
 			}
 		}
@@ -92,4 +95,12 @@ $header-height: 50px;
 .ToolBar {
 	background: #ab3f3f;
 	padding: 10px 0
+}
+
+.SuperLanes {
+	.domLane {
+		background: #e0e0e0;
+		margin: 20px -20px 20px -10px;
+		padding: 10px 20px;
+	}
 }

@@ -14,16 +14,19 @@ export default class Controls extends Component {
       <div>
         <div>
           <div>
-            <div className="field">
+            <div className="part">
               <Shapes napchart={napchart} />
             </div>
-            <div className="field">
-              <SelectedElement napchart={napchart} />
-            </div>
-            <div className="field">
+            <div className="part">
               <SuperLanes
                 napchart={napchart}
               />
+            </div>
+            <div className="part">
+              <div className="field title is-6">
+                Color:
+              </div>
+              <SelectedElement napchart={napchart} />
             </div>
           </div>
         </div>

@@ -57,7 +57,7 @@ export default class extends React.Component {
 
         <div className="level-right">
 
-          <a onClick={this.props.save} className="button is-small is-light level-item">Save</a>
+          <a onClick={this.props.save} className="button is-light level-item">Save</a>
 
           {/* {!this.props.userOwnsThisChart &&
             <a onClick={this.props.save} className="button is-small is-light level-item">Salve</a>

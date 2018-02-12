@@ -13,10 +13,18 @@ export default class extends React.Component {
 
       return (
         <div className="SelectedElement">
-          <ColorPicker
-            onClick={this.changeColor}
-            activeColor={activeColor}
-          />
+          <div className="field">
+            <ColorPicker
+              onClick={this.changeColor}
+              activeColor={activeColor}
+            />
+          </div>
+          <div className="field">
+            <input style={{ color: activeColor }} className="colorTag napchartDontLoseFocus" type='text' placeholder={activeColor + ' ='}
+              onChange={this.changeColorTag}
+              value={this.colorTag(activeColor)}
+            />
+          </div>
 
           {selected &&
             <div>
@@ -35,10 +43,7 @@ export default class extends React.Component {
               </div>
 
 
-              <input style={{ color: activeColor }} className="colorTag napchartDontLoseFocus" type='text' placeholder={activeColor + ' ='}
-                onChange={this.changeColorTag}
-                value={this.colorTag(activeColor)}
-              />
+
             </div>
           }
         </div>

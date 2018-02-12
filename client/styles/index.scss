@@ -1,50 +1,30 @@
-
 @import 'animations/animations';
-
-
 // $fontStack: system-ui, -apple-system, BlinkMacSystemFont, 
 // 	"Segoe UI", "Roboto", "Oxygen", 
 // 	"Ubuntu", "Cantarell", "Fira Sans", 
 // 	"Droid Sans", "Helvetica Neue", sans-serif;
-
 // body, input {
 // 	font-family: $fontStack;
 // 	font-size: 14px
 // }
-
 // /* smart */
 // html {
 //     width: 100%;
 //     height: 100%;
 // }
-// body {
-//     width: 100%;
-//     height: 100%;
-// }
-
 // .monospace {
-	// font-family: Consolas, "Liberation Mono", Courier, monospace
+// font-family: Consolas, "Liberation Mono", Courier, monospace
 // }
-
 // //bootstrap 
-// 1. Import the initial variables
 @import "bulma/sass/utilities/initial-variables";
 @import "bulma/sass/utilities/functions";
-
 @import 'partials/bulmavars';
-
-// 5. Add new color variables to the color map.
 @import "bulma/sass/utilities/derived-variables.sass";
-
-
 @import 'bulma/bulma';
+html {
+	font-size: 14px
+}
 
-// @import 'partials/layout';
-// @import 'partials/header';
-// @import 'partials/pages';
-// @import 'partials/grid';
-// @import 'partials/shit';
-// @import 'partials/intro';
 @import 'partials/helpers';
 @import 'partials/custom';
 @import 'partials/editor';
