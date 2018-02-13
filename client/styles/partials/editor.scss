@@ -32,7 +32,7 @@ $header-height: 50px;
 		min-height: 100vh;
 		.sidebarContent {
 			$sideLaneWidth: 60px;
-			height: calc(100vh - #{$header-height + 44});
+			height: calc(100vh - #{$header-height});
 			display: grid;
 			grid-template-columns: $sideLaneWidth auto;
 			.sideLane {
@@ -40,6 +40,7 @@ $header-height: 50px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
+				padding-top:44px;
 				.squareBtn {
 					width: $sideLaneWidth;
 					height: $sideLaneWidth;
@@ -47,6 +48,12 @@ $header-height: 50px;
 					background: transparent;
 					color: white;
 					cursor: pointer;
+					outline: none;
+
+					&.active {
+						background: #ab3f3f;
+						// color: $dark;
+					}
 				}
 			}
 			.otherLane {
@@ -107,7 +114,7 @@ $header-height: 50px;
 }
 
 .ToolBar {
-	background: #ab3f3f;
+	background: transparent;
 	padding: 10px 0
 }
 

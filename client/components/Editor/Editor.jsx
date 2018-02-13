@@ -52,26 +52,26 @@ export default class App extends React.Component {
           description={this.state.description}
           changeDescription={this.changeDescription}
         />,
-        icon: 'controls',
-        text: ''
+        text: 'Chart',
+        title: 'Chart controls'
       },
       {
         element: <Export
           url={this.state.url}
           chartid={this.state.chartid}
         />,
-        icon: 'share',
-        text: 'Share and export'
+        text: 'Share',
+        title: 'Share and export'
       },
       {
         element: <Polyphasic napchart={this.state.napchart} />,
-        icon: 'Sleep',
-        text: 'Polyphasic'
+        text: 'Sleep',
+        title: 'Polyphasic Sleep'
       },
       {
         element: <Info ampm={this.state.ampm} setAmpm={this.setAmpm} />,
-        icon: 'Info',
-        text: 'Info'
+        text: 'About',
+        title: 'About'
       }
     ]
 
@@ -91,20 +91,19 @@ export default class App extends React.Component {
               userOwnsThisChart={userOwnsThisChart}
             />
 
-            <ToolBar napchart={this.state.napchart} />
 
             <div className="sidebarContent">
               <div className="sideLane">
                 <div className="up">
                   {sections.map((section, i) =>
                     <button onClick={this.changeSection.bind(null, i)} key={i}
-                      className={c("squareBtn", { 'is-primary': (i == this.state.currentSection) })}>
-                      {section.icon}
+                      className={c("squareBtn", { 'active': (i == this.state.currentSection) })}>
+                      {section.text}
                     </button>
                   )}
                 </div>
                 <div className="down">
-                  <a href="https://blog.napchart.com/" >
+                  <a href="https://blog.napchart.com/" target="_blank" >
                     <button className="squareBtn">
                       Blog
                     </button>
@@ -113,7 +112,9 @@ export default class App extends React.Component {
               </div>
 
               <div className="otherLane">
+                <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
                 <div className="currentInfo">
+                  
                   {sections[this.state.currentSection].element}
                 </div>
               </div>
