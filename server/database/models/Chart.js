@@ -20,10 +20,7 @@ var chart = new Schema({
       _id: false
     }],
     shape: String,
-    lanes: [{
-      name: String,
-      locked: Boolean
-    }]
+    lanes: Number
   },
   metaInfo: {
     title: String,

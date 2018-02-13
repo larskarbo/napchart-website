@@ -7,29 +7,33 @@ export default class Lanes extends React.Component {
     if (!napchart) {
       return null
     }
-    var laneButtons = napchart.data.lanes.map((lane, index) => {
-      var laneIndex = index + 1
-      var disabled = this.props.disabledLane(laneIndex)
+    // generate array with laneIndexes: [0,1,2,3,4]
+    var laneIndexes = []
+    for (let i = 0; i < napchart.data.lanes; i++) {
+      laneIndexes.push(i)
+    }
+    var laneButtons = laneIndexes.map((index) => {
+      var disabled = this.props.disabledLane(index)
       var classes = {
         button: true,
-        'is-active': laneIndex == this.props.active,
-        'is-dark': laneIndex == this.props.active,
+        'is-active': index == this.props.active,
+        'is-dark': index == this.props.active,
         disabled: disabled,
         napchartDontLoseFocus: true
       }
       return (
-        <p className="control" key={laneIndex}>
+        <p className="control" key={index}>
           <button className={c(classes)}
-            onClick={!disabled && this.props.clickLane.bind('', laneIndex)}
+            onClick={!disabled && this.props.clickLane.bind('', index)}
             disabled={disabled}
           >
-            {laneIndex}
+            {index + 1}
           </button>
         </p>
       )
     })
 
-    const activeLane = napchart.data.lanes[this.props.active - 1];
+    const activeLaneConfig = napchart.getLaneConfig(this.props.active);
     return (
       <div className="field has-addons level is-mobile" >
         <div className="level-left">
@@ -41,8 +45,8 @@ export default class Lanes extends React.Component {
           </div>
           <div className="level-item">
             <button
-              onClick={napchart.toggleLockLane.bind(napchart, this.props.active - 1)}
-              className={c("button is-small", { 'is-active': activeLane.locked, 'is-dark': activeLane.locked })}>Lock</button>
+              onClick={napchart.toggleLockLane.bind(napchart, this.props.active)}
+              className={c("button is-small", { 'is-active': activeLaneConfig.locked, 'is-dark': activeLaneConfig.locked })}>Lock</button>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ export default class Polyphasic extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      sleepLane: 1,
+      sleepLane: 0,
       color: 'blue'
     }
   }

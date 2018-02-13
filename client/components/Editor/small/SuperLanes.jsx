@@ -7,27 +7,35 @@ export default class extends React.Component {
     if (!napchart) {
       return null
     }
-    var lanes = napchart.data.lanes.map((lane, index) => (
-      <div className="field domLane fullWidth" key={index}>
-        <div className="level is-mobile">
-          <div className="level-left">
-            <p>{index + 1}	 {this.duration(index)}</p>
-          </div>
-          <div className="level-right">
-            <div className="level-item">
-              <button
-                onClick={napchart.toggleLockLane.bind(napchart, index)}
-                className={c("button is-small", { 'is-active': lane.locked, 'is-dark': lane.locked })}>Lock</button>
+    // generate array with laneIndexes: [0,1,2,3,4]
+    var laneIndexes = []
+    for (let i = 0; i < napchart.data.lanes; i++) {
+      laneIndexes.push(i)
+    }
+    var lanes = laneIndexes.map((index) => {
+      var laneConfig = napchart.getLaneConfig(index)
+      return (
+        <div className="field domLane fullWidth" key={index}>
+          <div className="level is-mobile">
+            <div className="level-left">
+              <p>{index + 1}	 {this.duration(index)}</p>
             </div>
-            <div className="level-item">
-              <button onClick={napchart.deleteLane.bind(napchart, index)}
-                className="button is-small"
-                disabled={napchart.data.lanes.length == 1}>Delete</button>
+            <div className="level-right">
+              <div className="level-item">
+                <button
+                  onClick={napchart.toggleLockLane.bind(napchart, index)}
+                  className={c("button is-small", { 'is-active': laneConfig.locked, 'is-dark': laneConfig.locked })}>Lock</button>
+              </div>
+              <div className="level-item">
+                <button onClick={napchart.deleteLane.bind(napchart, index)}
+                  className="button is-small"
+                  disabled={napchart.data.lanes == 1}>Delete</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ))
+      )
+    })
     return (
       <div className="field SuperLanes">
         <p className="field title is-6">Lanes:</p>

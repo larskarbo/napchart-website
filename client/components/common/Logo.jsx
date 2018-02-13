@@ -69,7 +69,7 @@ export default class Chart extends React.Component {
     var napchart = Napchart.init(ctx, {
       elements: elements,
       shape: 'miniCircle',
-      lanes: [{}]
+      lanes: 1
     }, {
         text: false,
         drawFace: false,
