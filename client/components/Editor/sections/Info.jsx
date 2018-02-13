@@ -4,6 +4,12 @@ import server from '../../../server'
 
 
 export default class extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ampmChanged: false
+    }
+  }
 
   render() {
     return (
@@ -47,6 +53,9 @@ export default class extends React.Component {
               <input type="radio" name="answer" onChange={this.changeAmpm.bind(null, false)} checked={!this.props.ampm} />
               <span> 24 hours</span>
             </label>
+            {this.state.ampmChanged &&
+              <p>Refresh to update</p>  
+            }
           </div>
         </div>
       </div>
@@ -56,6 +65,9 @@ export default class extends React.Component {
   changeAmpm = (ampm) => {
     console.log(ampm)
     this.props.setAmpm(ampm)
+    this.setState({
+      ampmChanged: true
+    })
   }
 
   sendFeedback = (tab) => {
