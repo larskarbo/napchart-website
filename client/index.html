@@ -3,19 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    {% if description %}
-    <meta name="description" content="{{description}}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    {% if data.description %}
+    <meta name="description" content="{{data.description | replace("\n", " ")}}">
     {% else %}
     <meta name="description" content="Napchart is an app created to visualize complex time schedules">
     {% endif %}
-    {% if chartid %}
-      <meta name="twitter:image" content="{{siteUrl}}api/getImage?chartid={{chartid}}&width=600&height=600&shape=circle" />
-      <meta property="og:image" content="{{siteUrl}}api/getImage?chartid={{chartid}}&width=600&height=600&shape=circle" />
+    {% if data.chartid %}
+      <meta name="twitter:image" content="{{siteUrl}}api/getImage?chartid={{data.chartid}}&width=600&height=600&shape=circle" />
+      <meta property="og:image" content="{{siteUrl}}api/getImage?chartid={{data.chartid}}&width=600&height=600&shape=circle" />
       <meta property="og:image:width" content="600" />
       <meta property="og:image:height" content="600" />
     {% endif %}
-    {% if title %}
-    <title>{{title}} - Napchart</title>
+    {% if data.title %}
+    <title>{{data.title}} - Napchart</title>
     {% else %}
     <title>Napchart</title>
     {% endif %}
@@ -29,7 +31,9 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#d56c5b">
     <meta name="theme-color" content="#e01f0f">
 
-
+    {% if false %}
+      {# <script src='https://www.google.com/recaptcha/api.js'></script> #}
+    {% endif %}
     
   </head>
   <body>
@@ -38,17 +42,24 @@
     </div>
     <script type="text/javascript">
       window.siteUrl = '{{siteUrl}}'
-      window.chartid = '{{chartid}}'
+      window.chartid = '{{data.chartid}}'
       window.chartid = window.chartid == 'false' ? false : window.chartid
 
-      {% if description %}
-      window.description = '{{description}}'
+      {% if data.description %}
+      window.description = `{{data.description}}`
       {% endif %}
 
-      {% if title %}
-      window.title = '{{title}}'
+      {% if data.title %}
+      window.title = '{{data.title}}'
+      {% endif %}
+
+      {% if data.chartAuthor %}
+      window.chartAuthor = '{{data.chartAuthor}}'
       {% endif %}
       
+      {% if user %}
+      window.user = {{user | dump | safe}}
+      {% endif %}
       
       
     </script>

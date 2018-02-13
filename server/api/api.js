@@ -1,10 +1,16 @@
-
 var database = require('../database/database')
 var getImage = require('./getImage')
+var fs = require('fs')
 
 module.exports = {
   create: function (req, res) {
     var data = JSON.parse(req.body.data)
+
+    // which user does this belong to??
+    if (req.user) {
+      data.author = req.user.username
+    }
+
     database.createChart(data, function (err, response) {
       if (err) throw new Error(err)
 
@@ -23,13 +29,13 @@ module.exports = {
   },
 
   getImage: getImage,
-  
-  postFeedback: function(req, res) {
+
+  postFeedback: function (req, res) {
     var data = JSON.parse(req.body.data)
     database.addFeedback(data, function (err, response) {
       if (err) throw new Error(err)
 
       res.send(response)
     })
-  },
+  }
 }
