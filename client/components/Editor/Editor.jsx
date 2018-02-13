@@ -28,7 +28,7 @@ export default class App extends React.Component {
       chartid: window.chartid,
       title: window.title || '',
       description: window.description || '',
-      currentSection: 0,
+      currentSection: this.getInitialSection(),
       ampm: this.getAmpm()
     }
   }
@@ -180,7 +180,7 @@ export default class App extends React.Component {
     // })
 
     // refresh (feels better for the user)
-    window.location = '/' + chartid
+    window.location = '/' + chartid + '?s=1'
   }
 
   changeTitle = event => {
@@ -225,5 +225,16 @@ export default class App extends React.Component {
     this.setState({
       ampm: ampm
     })
+  }
+
+  getInitialSection = () => {
+    // should always return 0 except when s=1 found in url, because
+    // then the user just saved chart and we will show share section instead
+
+    if (window.location.toString().includes('s=1')) {
+      return 1
+    }
+
+    return 0
   }
 }

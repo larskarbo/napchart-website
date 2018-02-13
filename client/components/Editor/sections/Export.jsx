@@ -15,7 +15,7 @@ export default class extends React.Component {
             <div className="field">
               <label className="label">URL</label>
               <div className="control">
-                <input onChange={() => { }} className="input" type="text" value={this.props.url + this.props.chartid} />
+                <input onChange={() => { }} ref={this.userJustSaved} className="input" type="text" value={this.props.url + this.props.chartid} />
               </div>
             </div>
             <div className="field">
@@ -35,5 +35,20 @@ export default class extends React.Component {
         }
       </div>
     )
+  }
+
+  userJustSaved = (input) => {
+
+    const url = window.location.toString()
+    if (url.includes('s=1')) {
+      input.focus()
+      input.setSelectionRange(input.value.length, input.value.length)
+
+      // remove tag from url
+      const cleanUrl = url.split("?")[0].split("#")[0];
+      window.history.replaceState({}, document.title, cleanUrl)
+
+      return true
+    }
   }
 }
