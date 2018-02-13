@@ -83,7 +83,7 @@ export default class Polyphasic extends React.Component {
   }
 
   changeSchedule = (schedule) => {
-    var lane = this.state.sleepLane - 1 // because napchart counts from 0, 1, 2 ...
+    var lane = this.state.sleepLane // because napchart counts from 0, 1, 2 ...
     var elements = schedule.elements.map(element => {
       return {
         start: element.start,
