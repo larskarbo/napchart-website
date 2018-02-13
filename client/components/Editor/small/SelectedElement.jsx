@@ -20,7 +20,7 @@ export default class extends React.Component {
             />
           </div>
           <div className="field">
-            <input style={{ color: activeColor }} className="colorTag napchartDontLoseFocus" type='text' placeholder={activeColor + ' ='}
+            <input style={{ color: activeColor }} className="colorTag" type='text' placeholder={activeColor + ' ='}
               onChange={this.changeColorTag}
               value={this.colorTag(activeColor)}
             />
