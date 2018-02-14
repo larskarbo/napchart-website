@@ -1,5 +1,8 @@
 // stuff in editor and editor ONLY
 $header-height: 50px;
+$breakpoint-mobile: 550px;
+$gap-right-when-mobile: 80px;
+
 .ColorPicker {
 	display: flex;
 	.color {
@@ -25,9 +28,35 @@ $header-height: 50px;
 	}
 }
 
+// button only on mobile that you can click to slide
+.slider {
+	display: none;
+	@media (max-width: $breakpoint-mobile) { 
+		display: block;
+		position: absolute;
+		top: 0;
+		&.right {
+			left: 0;
+		}
+		&.left {
+			right: 0;
+		}
+		width: $gap-right-when-mobile;
+	}
+}
+
 .grid {
 	display: grid;
 	grid-template-columns: 340px auto;
+	@media (max-width: $breakpoint-mobile) {
+		grid-template-columns: calc(100vw - #{$gap-right-when-mobile}) 100vw;
+		position: relative;
+		right: calc(100vw - #{$gap-right-when-mobile});
+		transition: right 0.3s;
+		&.slideSidebarMobile{
+			right: 0;
+		}
+	}
 	.sidebar {
 		min-height: 100vh;
 		.sidebarContent {

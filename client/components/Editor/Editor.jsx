@@ -80,7 +80,7 @@ export default class App extends React.Component {
 
     return (
       <div className="Editor">
-        <div className="grid">
+        <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
           <div className="sidebar">
             <Header
               title={this.state.title}
@@ -114,7 +114,7 @@ export default class App extends React.Component {
               <div className="otherLane">
                 <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
                 <div className="currentInfo">
-                  
+
                   {sections[this.state.currentSection].element}
                 </div>
               </div>
@@ -131,8 +131,25 @@ export default class App extends React.Component {
             />
           </div>
         </div>
+
+        {this.state.slideSidebarMobile &&
+          <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
+            →
+          </button>
+        }
+        {!this.state.slideSidebarMobile &&
+          <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
+            ←
+          </button>
+        }
       </div>
     )
+  }
+
+  slideSidebarMobile = () => {
+    this.setState({
+      slideSidebarMobile: !this.state.slideSidebarMobile
+    })
   }
 
   changeSection = (i) => {
