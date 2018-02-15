@@ -1,7 +1,13 @@
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/napchart')
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
 
+var server_uri = process.env.SERVER_URI
+if (typeof server_uri == 'undefined') {
+  server_uri = 'mongodb://localhost/napchart'
+  console.log('SERVER_URI is undefined. using default: ', server_uri)
+}
+
+mongoose.connect(server_uri)
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
 
 var Chart = require('./models/Chart')
 var Feedback = require('./models/Feedback')

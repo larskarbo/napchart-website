@@ -2,17 +2,19 @@ var express = require('express')
 var app = express()
 var path = require('path')
 var bodyParser = require('body-parser')
-var database = require('./database/database')
 var nunjucks = require('nunjucks')
+
+// ENVIRONMENTAL:
+require('dotenv').config()
+process.env.URL = process.env.URL || 'https://napchart.com/'
+
+var database = require('./database/database')
 
 var api = require('./api/api')
 
 var auth = require('./auth/auth')
 var passport = require('./auth/passport')
 
-// ENVIRONMENTAL:
-require('dotenv').config()
-process.env.URL = process.env.URL || 'https://napchart.com/'
 
 app.use(bodyParser.json())
 // app.use(bodyParser.urlencoded({extended: false}))
