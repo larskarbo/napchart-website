@@ -21,7 +21,11 @@ module.exports = {
         console.log(response)
         var chartid = response.data.id
         
-        cb(chartid)
+        cb(null, chartid)
+      })
+      .catch((hm) => {
+        console.error('oh no!:', hm)
+        cb('Oh no! There was an error with your request. Please try again')
       })
   },
 

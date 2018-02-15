@@ -14,6 +14,7 @@ import Polyphasic from './sections/Polyphasic.jsx'
 import Controls from './sections/Controls.jsx'
 
 import Cookies from 'js-cookie';
+import NotificationSystem from 'react-notification-system'
 
 import server from '../../server'
 
@@ -80,6 +81,7 @@ export default class App extends React.Component {
 
     return (
       <div className="Editor">
+        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />  
         <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
           <div className="sidebar">
             <Header
@@ -185,11 +187,17 @@ export default class App extends React.Component {
     this.loading()
     var firstTimeSave = !this.props.chartid
     server.save(this.state.napchart.data, this.state.title,
-      this.state.description, (chartid) => {
+      this.state.description, (err, chartid) => {
         this.loadingFinish()
-        this.onSave(chartid)
-        if (firstTimeSave) {
+        if (err) {
+          this._notify.addNotification({
+            message: err,
+            level: 'error'
+          })
+        } else {
+          this.onSave(chartid)
         }
+          
       })
   }
 
