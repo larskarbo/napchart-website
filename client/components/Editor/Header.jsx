@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Logo from '../common/Logo.jsx'
+import c from 'classnames'
 
 
 export default class extends React.Component {
@@ -9,16 +10,7 @@ export default class extends React.Component {
 
     this.state = {
       editingTitle: false,
-      spinning: true,
     }
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        spinning: false
-      })
-    }, 1000)
   }
 
   render() {
@@ -26,7 +18,7 @@ export default class extends React.Component {
       <header className="Header level is-mobile">
         <div className="level-left">
           <a href="/app">
-            <Logo className="cornerLogo level-item" white height="45" loading={this.state.spinning} whiteBG />
+            <Logo className="cornerLogo level-item" white height="45" loading={this.props.loading} whiteBG />
           </a>
           <div className="meta level-item">
             <div className="chartTitle">
@@ -66,7 +58,7 @@ export default class extends React.Component {
 
         <div className="level-right">
 
-          <a onClick={this.props.save} className="button is-light level-item">Save</a>
+          <a onClick={this.props.save} className={c("button is-light level-item", {'is-loading': this.props.loading})}>Save</a>
 
           {/* {!this.props.userOwnsThisChart &&
             <a onClick={this.props.save} className="button is-small is-light level-item">Salve</a>

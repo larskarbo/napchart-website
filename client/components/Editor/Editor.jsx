@@ -89,6 +89,7 @@ export default class App extends React.Component {
               save={this.save}
               user={this.props.user}
               userOwnsThisChart={userOwnsThisChart}
+              loading={this.state.loading}
             />
 
 
