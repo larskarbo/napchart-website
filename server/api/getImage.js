@@ -24,6 +24,9 @@ module.exports = function (req, res) {
 	database.getChart(chartid, function (err, response) {
 	  if (err) throw new Error(err)
     
+    if (!response) {
+      return res.status(404).send('404')
+    }
 
     if(typeof shape == 'undefined'){
       shape = response.chartData.shape
