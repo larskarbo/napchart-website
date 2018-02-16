@@ -4,6 +4,7 @@ import c from 'classnames'
 import React from 'react'
 
 import Header from './Header.jsx'
+import BadBrowser from './BadBrowser.jsx'
 import ToolBar from './ToolBar.jsx'
 import Chart from './Chart.jsx'
 import Link from '../common/Link.jsx'
@@ -81,6 +82,7 @@ export default class App extends React.Component {
 
     return (
       <div className="Editor">
+        <BadBrowser />  
         <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />  
         <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
           <div className="sidebar">
