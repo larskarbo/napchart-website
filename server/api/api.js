@@ -4,8 +4,6 @@ var fs = require('fs')
 
 module.exports = {
   create: function (req, res) {
-    var data = JSON.parse(req.body.data)
-
     // which user does this belong to??
     if (req.user) {
       data.author = req.user.username
@@ -31,7 +29,6 @@ module.exports = {
   getImage: getImage,
 
   postFeedback: function (req, res) {
-    var data = JSON.parse(req.body.data)
     database.addFeedback(data, function (err, response) {
       if (err) throw new Error(err)
 
