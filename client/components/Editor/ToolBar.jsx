@@ -15,7 +15,6 @@ export default class extends React.Component {
       return null
     }
 
-    var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
     return (
       <div className="ToolBar">
         <div className="level is-mobile">

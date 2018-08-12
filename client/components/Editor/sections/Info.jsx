@@ -28,7 +28,6 @@ export default class extends React.Component {
         </div>
         <div className="part">
           <h2 className="title is-6">Feedback</h2>
-          <p className="field">Blog with updates: <a href="https://blog.napchart.com"><strong>blog.napchart.com</strong></a></p>
           <p className="field">Issues, ideas, or other feedback appreciated 😏</p>
           <textarea className="textarea field" ref="feedback"></textarea>
           <div className="field" style={{ display: 'none' }} ref="afterfeedback">
@@ -39,8 +38,8 @@ export default class extends React.Component {
         <div className="part">
           <h2 className="title is-6">Contribute</h2>
           <p className="field">Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
-          <p className="field"><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-          <p className="field"><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+          <p className="field"><a target="_blank" href="https://github.com/larskarbo/napchart-website"><strong>napchart-website</strong></a> on GitHub</p>
+          <p className="field"><a target="_blank" href="https://github.com/larskarbo/napchart"><strong>napchart</strong></a> on GitHub</p>
         </div>
         <div className="part">
           <label className="label">Time format</label>

@@ -25,10 +25,6 @@ var chart = new Schema({
   metaInfo: {
     title: String,
     description: String
-  },
-  author: {
-    type: String,
-    ref: 'User'
   }
 })
 

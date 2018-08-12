@@ -49,8 +49,8 @@ export default class extends React.Component {
   }
 
   duration = (laneIndex) => {
-    const helpers = napchart.helpers
-    const minutes = napchart.data.elements.reduce((minutes, element) => {
+    const helpers = this.props.napchart.helpers
+    const minutes = this.props.napchart.data.elements.reduce((minutes, element) => {
       if (element.lane == laneIndex) {
         return minutes + helpers.duration(element.start, element.end)
       } else {
