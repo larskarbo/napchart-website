@@ -75,7 +75,7 @@ export default class extends React.Component {
 
   changeColorTag = (e) => {
     var napchart = this.props.napchart
-    var activeColor = (typeof element == 'undefined') ? napchart.config.defaultColor : element.color
+    var activeColor = napchart.config.defaultColor
 
     napchart.colorTag(activeColor, e.target.value)
     this.forceUpdate()

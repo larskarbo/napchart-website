@@ -12,29 +12,10 @@ var database = require('./database/database')
 
 var api = require('./api/api')
 
-var auth = require('./auth/auth')
-var passport = require('./auth/passport')
-
-
 app.use(bodyParser.json())
 // app.use(bodyParser.urlencoded({extended: false}))
 
-const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: database.connection,
-    ttl: 3 * 31 * 24 * 60 * 60 // three months
-  })
-}))
-
-app.use(passport.initialize());
-app.use(passport.authenticate('session'));
-
-// <PRODUCTION>
+// <PRODUCTION> send gzipped file
 if (process.env.NODE_ENV == 'production') {
   console.log('Starting node server in production mode')
   app.get('*.js', function (req, res, next) {
@@ -50,69 +31,56 @@ app.use('/public', express.static(path.resolve(__dirname + '/../dist')))
 app.use('/public', express.static(path.resolve(__dirname + '/../public')))
 app.use(express.static(path.resolve(__dirname + '/../favicon/generated')))
 
-var env = {
-  siteUrl: process.env.URL
-}
 
-app.get(['/signup', '/login'], function (req, res, next) {
-  if (req.user) {
-    return res.redirect('/user/' + req.user.username)
-  } else {
-    next()
+app.get(['/', '/app'], function (req, res) {
+  var file = nunjucks.render(__dirname + '/../client/index.html', {
+    siteUrl: process.env.URL
+  })
+  res.send(file)
+})
+
+app.get('/:chartid', function (req, res) {
+  var chartid = req.params.chartid
+
+  if (typeof process.env.SERVER_URI === 'undefined') {
+    res.status(503).send('Database not connected')
   }
-})
-console.log(env)
-app.get(['/', '/app', '/login', '/user/:username'], function (req, res) {
-  console.log('user', req.user)
-  var file = nunjucks.render(__dirname + '/../client/index.html', {
-    ...env,
-    user: req.user
-  })
-  res.send(file)
-})
 
-app.get('/signup', function (req, res) {
-  var file = nunjucks.render(__dirname + '/../client/index.html', {
-    ...env,
-    captcha: true
-  })
-  res.send(file)
-})
-
-app.get('/:whatever', function (req, res) {
-  var chartid = req.params.whatever
-
-  database.getChart(chartid, function (err, response) {
+  database.getChart(chartid, function (err, response, next) {
     if (err) throw new Error(err)
+
     if (response == null) {
-      return res.status(404).send('404')
+      return next()
     }
+
     var metaInfo = response.metaInfo || {}
     var title = metaInfo.title || ''
     var description = metaInfo.description || ''
+
     var file = nunjucks.render(__dirname + '/../client/index.html', {
-      ...env,
+      siteUrl: process.env.URL,
       data: {
         chartid: chartid,
         title: title.length == 0 ? false : title,
-        description: description.length == 0 ? false : description,
-        chartAuthor: response.author
-      },
-      user: req.user
+        description: description.length == 0 ? false : description
+      }
     })
 
     res.send(file)
   })
 })
 
+app.all('/api/*', function (req, res, next) {
+  if (typeof process.env.SERVER_URI === 'undefined') {
+    res.status(503).send('Database not connected')
+  }
+  next()
+})
+
 app.post('/api/create', api.create)
 app.post('/api/postFeedback', api.postFeedback)
 app.get('/api/get', api.get)
 app.get('/api/getImage', api.getImage)
-
-app.post('/auth/signup', auth.signup)
-app.post('/auth/login', auth.login)
-app.post('/auth/available/:what', auth.available)
 
 var port = process.env.PORT || 3000
 app.listen(port, "0.0.0.0", function () {

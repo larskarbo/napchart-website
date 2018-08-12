@@ -40,37 +40,12 @@ export default class extends React.Component {
                 </h1>
               }
             </div>
-            {//this.props.chartid &&
-              // <div className="byline">
-              //   A chart by
-              //   <b>
-              //     {this.props.user &&
-              //       <a className="has-text-white" href={'user/' + this.props.user.username}>
-              //         {' ' + this.props.user.username}
-              //       </a>
-              //     }
-              //     {!this.props.user && ' anonymous'}
-              //   </b>
-              // </div>
-            }
           </div>
         </div>
 
         <div className="level-right">
 
           <a onClick={this.props.save} className={c("button is-light level-item", {'is-loading': this.props.loading})}>Save</a>
-
-          {/* {!this.props.userOwnsThisChart &&
-            <a onClick={this.props.save} className="button is-small is-light level-item">Salve</a>
-          }
-
-          {this.props.chartid &&
-            <a onClick={this.props.save} className="button is-small is-light level-item">Fork</a>
-          }
-
-          {this.props.chartid && this.props.userOwnsThisChart &&
-            <a onClick={this.props.save} className="button is-small is-light level-item">Update</a>
-          } */}
         </div>
 
       </header>

@@ -6,11 +6,6 @@ module.exports = {
   create: function (req, res) {
     var data = JSON.parse(req.body.data)
 
-    // which user does this belong to??
-    if (req.user) {
-      data.author = req.user.username
-    }
-
     database.createChart(data, function (err, response) {
       if (err) throw new Error(err)
 

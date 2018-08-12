@@ -4,23 +4,12 @@ import React from 'react';
 
 import Editor from './Editor/Editor.jsx'
 import Intro from './Intro/Intro.jsx'
-import Login from './User/Login.jsx'
-import Signup from './User/Signup.jsx'
-import User from './User/User.jsx'
 
 const routes = [
 	{
 		path: '/',
 		component: Intro
 	},
-	// {
-	// 	path: '/login',
-	// 	component: Login
-	// },
-	// {
-	// 	path: '/signup',
-	// 	component: Signup
-	// },
 	{
 		path: '/app',
 		component: Editor
@@ -29,10 +18,6 @@ const routes = [
 		path: '/:chartid',
 		component: Editor
 	},
-	// {
-	// 	path: '/user/:username',
-	// 	component: User
-	// }
 ]
 
 function matchURI(path, uri) {

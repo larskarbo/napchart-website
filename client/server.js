@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 
-module.exports = {
+export default {
   save: (data, title, description, cb) => {
     var dataForDatabase = {
       metaInfo: {
@@ -60,85 +60,5 @@ module.exports = {
         console.log(response)
         cb()
       })
-  },
-
-  signup: (data, cb) => {
-    console.log(data)
-    fetch('/auth/signup', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
-      })
-      .then((response) => {
-        console.log(response)
-        return response.json()
-      })
-      .then((hm) => {
-        console.log(hm)
-        if (typeof hm.errmsg != 'undefined') {
-          return cb(hm.errmsg)
-        } else {
-          return cb(null, hm)
-        }
-      })
-      .catch((err) => {
-        return cb(err.message)
-      })
-  },
-
-  userAvailable: (key, value, cb) => {
-    fetch('/auth/available/' + key, {
-        method: 'POST',
-        body: JSON.stringify({
-          [key]: value
-        }),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
-      })
-      .then((response) => {
-        console.log(response)
-        if (response.status == 200) {
-          return response.json()
-        } else {
-          return response.text()
-        }
-      })
-      .then((text) => {
-        if (typeof text == 'string') {
-          //error
-          console.log('err:', text)
-          cb(text)
-        } else {
-          //javascript object
-          cb(null, text)
-        }
-      })
-  },
-
-  login: (data, cb) => {
-    fetch('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        }),
-        credentials: 'same-origin'
-      })
-      .then((response) => {
-        return response.json()
-      })
-      .then((hm) => {
-        if (typeof hm.errmsg != 'undefined') {
-          return cb(hm.errmsg)
-        } else {
-          return cb(null, hm)
-        }
-      })
-      .catch((err) => {
-        return cb(err.message)
-      })
-  },
+  }
 }

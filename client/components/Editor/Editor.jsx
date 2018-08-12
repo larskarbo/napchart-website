@@ -34,17 +34,7 @@ export default class App extends React.Component {
       ampm: this.getAmpm()
     }
   }
-  // <EditorHeader 
-  //           onLoading={this.loading} 
-  //           onLoadingFinish={this.loadingFinish}
-  //           onSave={this.onSave}
-  //           loading={this.state.loading}
-  //           napchart={this.state.napchart}
-  //           url={this.state.url}
-  //           chartid={this.state.chartid}
-  //           title={this.state.title}
-  //           description={this.state.description} 
-  //           />
+
   render() {
 
     var sections = [
@@ -77,8 +67,6 @@ export default class App extends React.Component {
       }
     ]
 
-    var user = this.props.user
-    var userOwnsThisChart = typeof window.chartAuthor != 'undefined' && this.props.user.username == window.chartAuthor
 
     return (
       <div className="Editor">
@@ -91,8 +79,6 @@ export default class App extends React.Component {
               changeTitle={this.changeTitle}
               chartid={this.state.chartid}
               save={this.save}
-              user={this.props.user}
-              userOwnsThisChart={userOwnsThisChart}
               loading={this.state.loading}
             />
 
@@ -108,11 +94,6 @@ export default class App extends React.Component {
                   )}
                 </div>
                 <div className="down">
-                  <a href="https://blog.napchart.com/" target="_blank" >
-                    <button className="squareBtn">
-                      Blog
-                    </button>
-                  </a>
                 </div>
               </div>
 
@@ -204,10 +185,6 @@ export default class App extends React.Component {
   }
 
   onSave = (chartid) => {
-    // this.setState({
-    //   chartid
-    // })
-
     // refresh (feels better for the user)
     window.location = '/' + chartid + '?s=1'
   }
@@ -225,7 +202,6 @@ export default class App extends React.Component {
   }
 
   setNumberOfLanes = (lanes) => {
-    console.log(lanes)
     this.state.napchart.setNumberOfLanes(lanes)
   }
 

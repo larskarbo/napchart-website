@@ -11,16 +11,15 @@ export default class Router extends React.Component {
     super(props)
 
     this.state = {
-      currentPath: history.location,
-      user: false
+      currentPath: history.location
     }
   }
 
   render() {
-    var Component = router.resolve(location)
+    var Component = router.resolve(window.location)
     return (
       <div>
-        <Component user={window.user || false} />
+        <Component />
       </div>
     )
   }

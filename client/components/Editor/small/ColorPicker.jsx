@@ -1,3 +1,5 @@
+import React from 'react'
+import classNames from 'classnames'
 var colors = {
   red: '#EA4335',
   blue: '#4285F4',
@@ -8,15 +10,13 @@ var colors = {
   purple: '#730B73',
   pink: '#ff94d4'
 }
-import React from 'react'
-import classNames from 'classnames'
 
 export default class ColorPicker extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
 
     this.state = {
-    	panelOpen: false
+      panelOpen: false
     }
   }
 
@@ -31,7 +31,7 @@ export default class ColorPicker extends React.Component {
         </svg>
       </div>
     ))
-    return(
+    return (
       <div className="ColorPicker">
         {dom}
       </div>
