@@ -22,7 +22,9 @@ By default, the app will be available at `localhost:3000`
 ## Environmental variables
 
 `SERVER_URI`: (optional) a mongodb uri string for connecting to a DB, for example `(mongodb://admin:<PASSWORD>@cluster0-shar ... 7/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true)`
+
 `URL`: (optional) defaults to `https://napchart.com/`
+
 `PORT`: (optional) defaults to `3000`
 
 ## API
