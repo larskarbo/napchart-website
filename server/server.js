@@ -39,14 +39,14 @@ app.get(['/', '/app'], function (req, res) {
   res.send(file)
 })
 
-app.get('/:chartid', function (req, res) {
+app.get('/:chartid', function (req, res, next) {
   var chartid = req.params.chartid
 
   if (typeof process.env.SERVER_URI === 'undefined') {
     res.status(503).send('Database not connected')
   }
 
-  database.getChart(chartid, function (err, response, next) {
+  database.getChart(chartid, function (err, response) {
     if (err) throw new Error(err)
 
     if (response == null) {
