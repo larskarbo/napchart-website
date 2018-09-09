@@ -71,9 +71,9 @@ app.get('/:chartid', function (req, res, next) {
 })
 
 app.all('/api/*', function (req, res, next) {
-  if (typeof process.env.SERVER_URI === 'undefined') {
-    res.status(503).send('Database not connected')
-  }
+  // if (typeof process.env.SERVER_URI === 'undefined') {
+  //   res.status(503).send('Database not connected')
+  // }
   next()
 })
 

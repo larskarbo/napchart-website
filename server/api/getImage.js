@@ -1,5 +1,6 @@
 var database = require('../database/database')
 var Napchart = require('napchart')
+const { createCanvas, registerFont } = require('canvas')
 
 module.exports = function (req, res) {
   var chartid = req.query.chartid
@@ -14,38 +15,39 @@ module.exports = function (req, res) {
     return res.send('Invalid request')
   }
 
-  var Canvas = require('canvas')
-  Canvas.registerFont('server/Consolas.ttf', {family: 'Consolas'})
+  registerFont('server/Consolas.ttf', {family: 'Consolas'})
 
-  var Image = Canvas.Image
-  var canvas = Canvas.createCanvas(width, height)
+  var canvas = createCanvas(width, height)
   var ctx = canvas.getContext('2d')
 
-	database.getChart(chartid, function (err, response) {
-	  if (err) throw new Error(err)
+  canvas.pngStream().pipe(res)
+
+
+	// database.getChart(chartid, function (err, response) {
+	//   if (err) throw new Error(err)
     
-    if (!response) {
-      return res.status(404).send('404')
-    }
+  //   if (!response) {
+  //     return res.status(404).send('404')
+  //   }
 
-    if(typeof shape == 'undefined'){
-      shape = response.chartData.shape
-    }
+  //   if(typeof shape == 'undefined'){
+  //     shape = response.chartData.shape
+  //   }
 
-    var chartData = {
-      elements: response.chartData.elements,
-      colorTags: response.chartData.colorTags,
-      lanes: response.chartData.lanes,
-      shape
-    }
+  //   var chartData = {
+  //     elements: response.chartData.elements,
+  //     colorTags: response.chartData.colorTags,
+  //     lanes: response.chartData.lanes,
+  //     shape
+  //   }
 
-    var mynapchart = Napchart.init(ctx, chartData, {
-      interaction:false,
-      font: 'Consolas',
-      background: 'white',
-      baseFontSize: 'noscale:1.5'
-    })
+  //   var mynapchart = Napchart.init(ctx, chartData, {
+  //     interaction:false,
+  //     font: 'Consolas',
+  //     background: 'white',
+  //     baseFontSize: 'noscale:1.5'
+  //   })
 
-    canvas.pngStream().pipe(res)
-	})
+  //   canvas.pngStream().pipe(res)
+	// })
 }
