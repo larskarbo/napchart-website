@@ -1,5 +1,6 @@
 
 import React from 'react'
+import csvExport from './csvExport.js'
 
 export default class extends React.Component {
 
@@ -29,6 +30,13 @@ export default class extends React.Component {
               <label className="label">EMBED</label>
               <div className="control">
                 Embed is possible with the <a target="_blank" href="https://github.com/larskarbo/napchart">napchart library</a>
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">CSV</label>
+              <div className="control">
+                <a onClick={() => { csvExport() }} className="button">Download csv</a>
               </div>
             </div>
           </div>

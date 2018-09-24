@@ -20,34 +20,33 @@ module.exports = function (req, res) {
   var canvas = createCanvas(width, height)
   var ctx = canvas.getContext('2d')
 
-  canvas.pngStream().pipe(res)
 
 
-	// database.getChart(chartid, function (err, response) {
-	//   if (err) throw new Error(err)
+	database.getChart(chartid, function (err, response) {
+	  if (err) throw new Error(err)
     
-  //   if (!response) {
-  //     return res.status(404).send('404')
-  //   }
+    if (!response) {
+      return res.status(404).send('404')
+    }
 
-  //   if(typeof shape == 'undefined'){
-  //     shape = response.chartData.shape
-  //   }
+    if(typeof shape == 'undefined'){
+      shape = response.chartData.shape
+    }
 
-  //   var chartData = {
-  //     elements: response.chartData.elements,
-  //     colorTags: response.chartData.colorTags,
-  //     lanes: response.chartData.lanes,
-  //     shape
-  //   }
+    var chartData = {
+      elements: response.chartData.elements,
+      colorTags: response.chartData.colorTags,
+      lanes: response.chartData.lanes,
+      shape
+    }
 
-  //   var mynapchart = Napchart.init(ctx, chartData, {
-  //     interaction:false,
-  //     font: 'Consolas',
-  //     background: 'white',
-  //     baseFontSize: 'noscale:1.5'
-  //   })
+    var mynapchart = Napchart.init(ctx, chartData, {
+      interaction:false,
+      font: 'Consolas',
+      background: 'white',
+      baseFontSize: 'noscale:1.5'
+    })
 
-  //   canvas.pngStream().pipe(res)
-	// })
+    canvas.pngStream().pipe(res)
+	})
 }
