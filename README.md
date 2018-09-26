@@ -2,7 +2,7 @@ Napchart Website
 
 *Front-end project to create, save and share napcharts.*
 
-Written using `react` and `firebase` as database.
+Written using `react` for front-end. Uses `firebase` as database.
 
 ## Installation
 
