@@ -3,12 +3,16 @@
 import axios from 'axios'
 import firebase from 'firebase'
 
-// Initialize Firebase
-
-
+var config = {
+  apiKey: "AIzaSyDTg18EW6Qu52hgqJhAhn_bQsKl5XKaMG8",
+  authDomain: "napchart-v8.firebaseapp.com",
+  databaseURL: "https://napchart-v8.firebaseio.com",
+  projectId: "napchart-v8",
+  storageBucket: "napchart-v8.appspot.com",
+  messagingSenderId: "518752038140"
+};
 
 // Get a reference to the database service
-// var database = firebase.database();
 
 function idgen() {
   const alphabet = 'abcdefghijklmnopqrstuwxyz0123456789'
@@ -20,6 +24,9 @@ function idgen() {
 }
 
 export default {
+  begin: () => {
+    firebase.initializeApp(config)
+  },
   save: (data, title, description, cb) => {
     var database = firebase.database();
     
@@ -47,7 +54,8 @@ export default {
 
   loadChart: (loading, loadFinish, cb) => {
     // first check if fetch is needed
-    var chartid = 'fuckboy'
+    const locString = window.location.toString().split('/')
+    var chartid = locString[locString.length - 1]
 
     // if (!chartid) {
     //   console.log('no chartid, nothing to load')

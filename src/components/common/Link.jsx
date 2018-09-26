@@ -1,5 +1,5 @@
 import React from 'react'
-import history from '../../history'
+import history from '../../utils/history'
 
 export default class extends React.Component {
 	

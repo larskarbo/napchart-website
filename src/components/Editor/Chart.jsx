@@ -1,8 +1,8 @@
 import React from 'react'
 import uuid from 'uuid'
-import Napchart from '../../napchart'
+import Napchart from '../../draw'
 
-import server from '../../server'
+import serverCom from '../../utils/serverCom'
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ export default class Chart extends React.Component {
     var ctx = canvas.getContext('2d')
 
     // first check if we should fetch some data
-    server.loadChart(this.props.onLoading, this.props.onLoadingFinish, (data) => {
+    serverCom.loadChart(this.props.onLoading, this.props.onLoadingFinish, (data) => {
       // returns {} if no data was loaded (you are on base napchart.com/)
       // returns the data if you are on napchart.com/xxxxx
       var napchart = Napchart.init(ctx, data, {

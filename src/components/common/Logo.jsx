@@ -1,5 +1,5 @@
 import React from 'react'
-import Napchart from '../../napchart/lib'
+import Napchart from '../../draw/lib'
 import classNames from 'classnames'
 import uuid from 'uuid'
 

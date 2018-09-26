@@ -17,8 +17,8 @@
     "react-scripts": "1.1.5"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar ./src/client/styles/index.scss ./src/client/styles/index.css",
-    "watch-css": "npm run build-css && node-sass-chokidar ./src/client/styles/index.scss ./src/client/styles/index.css --watch --recursive",
+    "build-css": "node-sass-chokidar ./src/styles/index.scss ./src/styles/index.css",
+    "watch-css": "npm run build-css && node-sass-chokidar ./src/styles/index.scss ./src/styles/index.css --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",

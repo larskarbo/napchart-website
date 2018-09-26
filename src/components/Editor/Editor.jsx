@@ -17,7 +17,7 @@ import Controls from './sections/Controls.jsx'
 import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'
 
-import server from '../../server'
+import server from '../../utils/serverCom'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,11 +26,11 @@ export default class App extends React.Component {
     this.state = {
       napchart: false, // until it is initialized
       loading: false,
-      url: window.siteUrl,
-      chartid: window.chartid,
+      url: window.location.origin + '/',
+      chartid: this.getInitialChartid(),
       title: window.title || '',
       description: window.description || '',
-      currentSection: this.getInitialSection(),
+      currentSection: 0,
       ampm: this.getAmpm()
     }
   }
@@ -179,14 +179,18 @@ export default class App extends React.Component {
           })
         } else {
           this.onSave(chartid)
+          this.setState({
+            // currentSection: 1,
+            chartid: chartid
+          })
+          window.history.pushState({}, "", chartid);
         }
-          
       })
   }
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
-    window.location = '/' + chartid + '?s=1'
+    // window.location = '/' + chartid + '?s=1'
   }
 
   changeTitle = event => {
@@ -232,14 +236,10 @@ export default class App extends React.Component {
     })
   }
 
-  getInitialSection = () => {
+  getInitialChartid = () => {
     // should always return 0 except when s=1 found in url, because
     // then the user just saved chart and we will show share section instead
-
-    if (window.location.toString().includes('s=1')) {
-      return 1
-    }
-
-    return 0
+    const lol = window.location.toString().split('/')
+    return lol[lol.length - 1]
   }
 }

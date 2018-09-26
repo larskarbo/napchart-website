@@ -3,23 +3,16 @@ import React from 'react'
 
 import styles from '../styles/index.scss'
 
-import history from '../history'
+import history from '../utils/history'
 import router from './routes.jsx'
 import * as firebaseui from 'firebaseui'
 
 import firebase from 'firebase'
 
+import serverCom from '../utils/serverCom'
 
-var config = {
-  apiKey: "AIzaSyDTg18EW6Qu52hgqJhAhn_bQsKl5XKaMG8",
-  authDomain: "napchart-v8.firebaseapp.com",
-  databaseURL: "https://napchart-v8.firebaseio.com",
-  projectId: "napchart-v8",
-  storageBucket: "napchart-v8.appspot.com",
-  messagingSenderId: "518752038140"
-};
 
-firebase.initializeApp(config);
+serverCom.begin();
 
 var uiConfig = {
   signInSuccessUrl: 'hahahhahahahahhahahaahahah',
