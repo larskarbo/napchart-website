@@ -1,9 +1,9 @@
 import React from 'react'
 import uuid from 'uuid'
-import Napchart from '../../draw'
+import Napchart from '../../canvas'
 
 import serverCom from '../../utils/serverCom'
-
+console.log('🎉🎉🎉', Napchart)
 export default class Chart extends React.Component {
   constructor(props) {
     super(props)

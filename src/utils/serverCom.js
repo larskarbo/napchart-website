@@ -57,10 +57,10 @@ export default {
     const locString = window.location.toString().split('/')
     var chartid = locString[locString.length - 1]
 
-    // if (!chartid) {
-    //   console.log('no chartid, nothing to load')
-    //   return cb({})
-    // }
+    if (!chartid || chartid.length < 6) {
+      console.log('no chartid, nothing to load')
+      return cb({})
+    }
 
     var database = firebase.database();
 
@@ -76,7 +76,9 @@ export default {
 
       return cb(data)
       
-    });
+    }).catch(function (asdf) {
+      console.log('bad', asdf)
+    })
 
     // axios.get(`/api/get?chartid=${chartid}`, )
     //   .then(response => {
