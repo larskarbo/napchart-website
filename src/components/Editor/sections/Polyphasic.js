@@ -1,7 +1,7 @@
 import React from 'react'
 import sampleSchedules from './polyphasic/sampleSchedules.json'
-import ColorPicker from '../small/ColorPicker.jsx'
-import Lanes from '../small/Lanes.jsx'
+import ColorPicker from '../small/ColorPicker.js'
+import Lanes from '../small/Lanes.js'
 
 
 export default class Polyphasic extends React.Component {

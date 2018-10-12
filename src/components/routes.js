@@ -2,8 +2,8 @@ import toRegex from 'path-to-regexp';
 
 import React from 'react';
 
-import Editor from './Editor/Editor.jsx'
-import Intro from './Intro/Intro.jsx'
+import Editor from './Editor/Editor.js'
+import Intro from './Intro/Intro.js'
 
 const routes = [
 	{

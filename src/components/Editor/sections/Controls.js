@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import Shapes from '../small/Shapes.jsx'
-import SuperLanes from '../small/SuperLanes.jsx'
-import SelectedElement from '../small/SelectedElement.jsx'
+import Shapes from '../small/Shapes.js'
+import SuperLanes from '../small/SuperLanes.js'
+import SelectedElement from '../small/SelectedElement.js'
 
 export default class Controls extends Component {
   render() {

@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Logo from '../common/Logo.jsx'
+import Logo from '../common/Logo.js'
 import c from 'classnames'
 
 

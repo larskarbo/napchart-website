@@ -1,7 +1,3 @@
-/* global window: false */
-/* global document: false */
-'use strict'
-
 module.exports = function (Chart) {
   // Global Chart helpers object for utility methods and classes
   var helpers = Chart.helpers = {}

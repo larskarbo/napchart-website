@@ -4,7 +4,7 @@ import React from 'react'
 import styles from '../styles/index.scss'
 
 import history from '../utils/history'
-import router from './routes.jsx'
+import router from './routes.js'
 import * as firebaseui from 'firebaseui'
 
 import firebase from 'firebase'
@@ -77,7 +77,6 @@ export default class Router extends React.Component {
     // The start method will wait until the DOM is loaded.
     ui.start('#firebaseui-auth-container', uiConfig);
 
-    console.log(firebase.auth().currentUser)
 
     // firebase.auth().signOut()
     //   .then(function () {
@@ -90,7 +89,6 @@ export default class Router extends React.Component {
     // You have to add an auth state change observer.
 
       firebase.auth().onAuthStateChanged(function (user) {
-        console.log('asdf', user)
         if (user) {
           this.setState({
             user

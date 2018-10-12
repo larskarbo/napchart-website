@@ -1,4 +1,4 @@
-var calculateShape = require('../../views/two24/shape/calculateShape')
+var calculateShape = require('./calculateShape')
 
 module.exports = function animateShape (chart, shape, newShape, globalProgress, callback) {
   var helpers = chart.helpers

@@ -3,16 +3,16 @@ import c from 'classnames'
 
 import React from 'react'
 
-import Header from './Header.jsx'
-import BadBrowser from './BadBrowser.jsx'
-import ToolBar from './ToolBar.jsx'
-import Chart from './Chart.jsx'
-import Link from '../common/Link.jsx'
+import Header from './Header.js'
+import BadBrowser from './BadBrowser.js'
+import ToolBar from './ToolBar.js'
+import Chart from './Chart.js'
+import Link from '../common/Link.js'
 
-import Export from './sections/Export.jsx'
-import Info from './sections/Info.jsx'
-import Polyphasic from './sections/Polyphasic.jsx'
-import Controls from './sections/Controls.jsx'
+import Export from './sections/Export.js'
+import Info from './sections/Info.js'
+import Polyphasic from './sections/Polyphasic.js'
+import Controls from './sections/Controls.js'
 
 import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'

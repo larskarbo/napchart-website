@@ -22,6 +22,9 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.6/svg.js" integrity="sha256-9x/FhNMIxod0K9WfGBu9Sj/UypHSOIfrnvshR96qqIM=" crossorigin="anonymous"></script>
+    <script src="svg.path.js"></script>
+    <script src="paths.js"></script>
   </head>
   <body>
     <noscript>
@@ -39,4 +42,8 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script>
+var draw = SVG('root').size(300, 300)
+var rect = draw.path().M({x: 100, y: 100})
+  </script>
 </html>

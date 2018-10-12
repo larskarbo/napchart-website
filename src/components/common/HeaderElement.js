@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import Link from './Link.jsx'
+import Link from './Link.js'
 
 export default class HeaderElement extends React.Component {
 	

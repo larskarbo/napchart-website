@@ -3,7 +3,7 @@ var Napchart = {}
 /* helper functions */
 require('./helpers')(Napchart)
 require('./draw/canvasHelpers')(Napchart)
-require('./shape/shapeHelpers')(Napchart)
+require('../views/two24/shape/shapeHelpers')(Napchart)
 
 /* config file */
 require('./config')(Napchart)
@@ -12,7 +12,7 @@ require('./config')(Napchart)
 require('./core')(Napchart)
 
 /* drawing */
-require('./shape/shape')(Napchart)
+require('../views/two24/shape/shape')(Napchart)
 require('./draw/draw')(Napchart)
 
 /* interaction */
