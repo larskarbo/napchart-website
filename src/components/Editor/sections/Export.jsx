@@ -1,5 +1,6 @@
 
-import React from 'react'
+import React from "react"
+import iCal from "../../../modules/export/ical/main"
 
 export default class extends React.Component {
 
@@ -21,7 +22,7 @@ export default class extends React.Component {
             <div className="field">
               <label className="label">IMAGE</label>
               <div className="control">
-                <a href={this.props.url + 'api/getImage?width=600&height=600&chartid=' + this.props.chartid}
+                <a href={this.props.url + "api/getImage?width=600&height=600&chartid=" + this.props.chartid}
                 >Image link (600x600)</a>
               </div>
             </div>
@@ -29,6 +30,12 @@ export default class extends React.Component {
               <label className="label">EMBED</label>
               <div className="control">
                 Embed is possible with the <a target="_blank" href="https://github.com/larskarbo/napchart">napchart library</a>
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">EXPORT</label>
+              <div className="control">
+                <a onClick={() => {_export_iCal()}} className="button">Download iCal</a>
               </div>
             </div>
           </div>
@@ -40,7 +47,7 @@ export default class extends React.Component {
   userJustSaved = (input) => {
 
     const url = window.location.toString()
-    if (url.includes('s=1')) {
+    if (url.includes("s=1")) {
       input.focus()
       input.setSelectionRange(input.value.length, input.value.length)
 
@@ -51,4 +58,24 @@ export default class extends React.Component {
       return true
     }
   }
+}
+
+function _export_iCal(){
+  const day = iCal.Day
+
+  // TODO: replace with user input
+  const days = [day.MONDAY, day.TUESDAY, day.WEDNESDAY, day.THURSDAY, day.FRIDAY, day.SATURDAY, day.SUNDAY]
+
+  const entries =
+    window.napchart.data.elements.map( (element) =>
+      new iCal.Entry({
+        lane:      element.lane,
+        color:     element.color,
+        title:     element.text,
+        startTime: element.start,
+        endTime:   element.end,
+      })
+    )
+
+  iCal.export(entries, days, window.napchart)
 }
