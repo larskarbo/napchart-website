@@ -6,10 +6,6 @@ import SelectedElement from '../small/SelectedElement.js'
 
 export default class Controls extends Component {
   render() {
-    var { napchart } = this.props
-    if (!napchart) {
-      return null
-    }
     return (
       <div>
         <div>
@@ -23,18 +19,18 @@ export default class Controls extends Component {
                 value={this.props.description} />
             </div>
             <div className="part">
-              <Shapes napchart={napchart} />
+              {/* <Shapes napchart={napchart} /> */}
             </div>
             <div className="part">
-              <SuperLanes
+              {/* <SuperLanes
                 napchart={napchart}
-              />
+              /> */}
             </div>
             <div className="part">
               <div className="field title is-6">
                 Color:
               </div>
-              <SelectedElement napchart={napchart} />
+              {/* <SelectedElement napchart={napchart} /> */}
             </div>
 
           </div>

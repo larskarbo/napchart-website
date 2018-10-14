@@ -6563,6 +6563,9 @@ html {
       .logoContainer .text .slogan.dark {
         color: black; }
 
+.handle {
+  z-index: 999; }
+
 .ColorPicker {
   display: flex; }
   .ColorPicker .color {

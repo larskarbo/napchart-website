@@ -38,7 +38,9 @@ module.exports = {
 
     function focusSelected(selected) {
       var selectedElement = chart.data.elements.find(e => e.id == selected)
-      input.value = selectedElement.text
+      if (typeof selectedElement != 'undefined') {
+        input.value = selectedElement.text
+      }
       input.focus()
       positionInput(input, selectedElement)
       input.oninput = function (e) {

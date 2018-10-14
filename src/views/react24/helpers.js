@@ -14,7 +14,7 @@ helpers.angleDuration = function (start, end) {
   return helpers.limitAngle(end - start)
 }
 
-helpers.arcToPath = (path, centerX, centerY, radius, startAngle, endAngle, anticlockwise) => {
+helpers.arc = (path, centerX, centerY, radius, startAngle, endAngle, anticlockwise) => {
   function polarToCartesian(centerX, centerY, radius, angleInRadians) {
     // var angleInRadians = angleInDegrees * Math.PI / 180.0;
     var x = centerX + radius * Math.cos(angleInRadians);

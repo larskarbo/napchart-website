@@ -49,7 +49,7 @@ export default class Router extends React.Component {
   }
 
   render() {
-    console.log('user', this.state.user)
+    // console.log('user', this.state.user)
     var Component = router.resolve(window.location)
     return (
       <div>
@@ -88,15 +88,15 @@ export default class Router extends React.Component {
 
     // You have to add an auth state change observer.
 
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          this.setState({
-            user
-          })
-        } else {
-          // No user is signed in.
-        }
-      });
+      // firebase.auth().onAuthStateChanged(function (user) {
+      //   if (user) {
+      //     this.setState({
+      //       user
+      //     })
+      //   } else {
+      //     // No user is signed in.
+      //   }
+      // });
 
 
   }

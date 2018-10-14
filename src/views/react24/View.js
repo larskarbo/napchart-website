@@ -1,18 +1,27 @@
 import calculateShape from './calculateShape'
 import shapes from './shapes'
 
-const progr = (from, to, progress) => {
+const progr = (value, from, to, progress) => {
     const duration = to - from;
-    return from + duration * progress
+    const out = from + duration * progress
+    if (typeof out === 'undefined' || out == null || isNaN(out)) {
+        console.log(value, from, to, progress)
+        throw `Stopping because ${value} was suddenly ${out}`
+    }
+    return out
 }
 
 const getShapeDiff = (from, to, progress) => {
     return {
         ...from,
+        startAngle: progr('startAngle', from.startAngle, to.startAngle, progress),
+        gravity: progr('gravity', from.gravity, to.gravity, progress),
         elements: from.elements.map((element, i) => {
             return {
                 ...element,
-                bend: progr(element.bend, to.elements[i].bend, progress)
+                // bend: progr(element.bend, to.elements[i].bend, progress),
+                minutes: progr('minutes', element.minutes, to.elements[i].minutes, progress),
+                angleLength: progr('angleLength', element.angleLength, to.elements[i].angleLength, progress),
             }
         })
     }
@@ -27,7 +36,7 @@ export default class View {
         this.width = props.width
 
         this.state = {
-            shape: 'circle'
+            shape: 'circleWithHoleRotated'
         }
         
         // this.animateToWave()
@@ -40,7 +49,7 @@ export default class View {
         this.to = shapes['circle']
     }
 
-    getShape = () => {
+    getShape = (shape) => {
         // if (this.animationActive) {
         //     // 
         //     const timeStamp = performance.now()
@@ -56,22 +65,17 @@ export default class View {
         //         return JSON.parse(JSON.stringify(calculateShape(shapes['circle'])))
         //     }
         // }
-        return JSON.parse(JSON.stringify(calculateShape(shapes[this.state.shape], this.width, this.height)))
+        return JSON.parse(JSON.stringify(calculateShape(shapes[shape], this.width, this.height)))
     }
 
-    render = () => {
-        const { chart, ctx, progress } = this
-        const { start, duration, color } = this.state
+    getShapeAnimated = (progress, from, to) => {
+        if (typeof shapes[from] == 'undefined' || typeof shapes[to] == 'undefined') {
+            throw "couldn't find shape"
+        }
+        console.log('shapes[from], shapes[to]: ', shapes[from], shapes[to], progress);
+        const newSHape = getShapeDiff(shapes[from], shapes[to], progress)
+        console.log('newSHape: ', newSHape);
 
-        const animatedEnd = start + progress(duration)
-
-        ctx.fillStyle = color
-        ctx.globalAlpha = progress(1)
-        // if (start > 960) {
-        //     ctx.globalAlpha = progress(1) * 0.2
-        // }
-        this.createSegment(-10, -70, start, animatedEnd, function () {
-            ctx.fill()
-        })
+        return JSON.parse(JSON.stringify(calculateShape(newSHape, this.width, this.height)))
     }
 }

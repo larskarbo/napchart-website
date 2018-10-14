@@ -4,10 +4,9 @@ export default class Rail extends BaseComponent {
     constructor(props) {
         super(props)
 
-        this.ctx = props.ctx
+        this.draw = props.draw
 
-        const outerC = this.ctx.path()
-        this.createCurve(outerC, 0, 1440, 90)
+        const outerC = this.draw.path().plot(this.createCurve('', 0, 1440, 90))
         outerC.drawAnimated({
             duration: 500
         })
@@ -15,9 +14,8 @@ export default class Rail extends BaseComponent {
         outerC.stroke({ color: 'gray', width: 1, linecap: 'round', linejoin: 'round' })
 
 
-        const innerC = this.ctx.path()
-        this.createCurve(innerC, 0, 1440, 0)
-        innerC.drawAnimated({
+        const innerC = this.draw.path()
+        innerC.plot(this.createCurve('', 0, 1440, 0)).drawAnimated({
             duration: 500,
             delay: 200
         })

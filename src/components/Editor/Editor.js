@@ -13,26 +13,154 @@ import Export from './sections/Export.js'
 import Info from './sections/Info.js'
 import Polyphasic from './sections/Polyphasic.js'
 import Controls from './sections/Controls.js'
-
+import helpers from '../../views/react24/helpers'
 import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'
 
 import server from '../../utils/serverCom'
+import Two24 from '../../views/two24'
+import React24 from '../../views/react24'
+import firebase from 'firebase'
+
+// var config = {
+//   apiKey: "AIzaSyDTg18EW6Qu52hgqJhAhn_bQsKl5XKaMG8",
+//   authDomain: "napchart-v8.firebaseapp.com",
+//   databaseURL: "https://napchart-v8.firebaseio.com",
+//   projectId: "napchart-v8",
+//   storageBucket: "napchart-v8.appspot.com",
+//   messagingSenderId: "518752038140"
+// };
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      napchart: false, // until it is initialized
       loading: false,
       url: window.location.origin + '/',
       chartid: this.getInitialChartid(),
-      title: window.title || '',
-      description: window.description || '',
+      title: '',
+      description: '',
       currentSection: 0,
-      ampm: this.getAmpm()
+      ampm: this.getAmpm(),
+      elements: [
+        {
+          id: 'asdf',
+          title: 'Krets',
+          start: 8 * 60 + 15,
+          end: 10 * 60 + 15,
+          color: 'pink'
+        },
+        {
+          id: 8,
+          title: 'Matte 1',
+          start: 0 * 60 + 15,
+          end: 2 * 60 + 15,
+          color: 'green'
+        },
+        {
+          id: 2,
+          title: 'Elsys',
+          start: 15 * 60 + 15,
+          end: 18 * 60,
+          color: 'yellow'
+        }
+      ]
     }
+
+    for (let i = 0; i < 50; i++) {
+      this.state.elements.push({
+        id: Math.random()*2000,
+        title: 'Krets',
+        start: helpers.limit(8 * i),
+        end: helpers.limit(8 * i + 20),
+        color: 'pink'
+      })
+      
+    }
+
+    this.ref = firebase.database().ref('charts').child('testl');
+    this.ref.on('value', (snapshot) => {
+      const newo = snapshot.val()
+
+      const elements = this.denormalizeObj(newo.elements)
+      this.setState({
+        elements
+      })
+    });
+  }
+
+
+  save = () => {
+    this.loading()
+    console.log(this.normalizeArray(this.state.elements))
+    // firebase.database().ref('charts').child('testl').set({
+    //   elements: this.normalizeArray(this.state.elements)
+    // })
+    // .then((response) => {
+    //   this.loadingFinish()
+    // })
+    // .catch((hm) => {
+    //   this.loadingFinish()
+    // })
+  }
+
+  changeElement = (id, newEl) => {
+    console.log('🥂', id, newEl)
+
+    this.setState({
+      elements: this.state.elements.map(e => {
+        if (e.id == id) {
+          return {
+            ...e,
+            ...newEl
+          }
+        }
+        return e
+      })
+    })
+    this.ref.child('elements').child(id).update({
+      ...newEl
+    })
+    .then((response) => {
+    })
+    .catch((hm) => {
+      console.log('ERROR 👺👺👺', hm)
+    })
+  }
+
+  selectElement = id => {
+    this.deselect()
+
+    // this.setState({
+    //   elements: this.state.elements.map(e => {
+    //     if (e.id == id) {
+    //       return {
+    //         ...e,
+    //         selected: true
+    //       }
+    //     }
+    //     return e
+    //   })
+    // })
+    this.ref.child('elements').child(id).update({
+      selected: true
+    })
+  }
+
+  deselectElement = id => {
+    this.ref.child('elements').child(id).update({
+      selected: false
+    })
+  }
+
+  deselect = id => {
+    this.ref.child('elements').update(this.normalizeArray(this.state.elements.map(e => {
+      return {
+        ...e,
+        selected: false
+      }
+    })))
   }
 
   render() {
@@ -40,7 +168,6 @@ export default class App extends React.Component {
     var sections = [
       {
         element: <Controls
-          napchart={this.state.napchart}
           description={this.state.description}
           changeDescription={this.changeDescription}
         />,
@@ -56,12 +183,15 @@ export default class App extends React.Component {
         title: 'Share and export'
       },
       {
-        element: <Polyphasic napchart={this.state.napchart} />,
+        element: <Polyphasic />,
         text: 'Sleep',
         title: 'Polyphasic Sleep'
       },
       {
-        element: <Info ampm={this.state.ampm} setAmpm={this.setAmpm} />,
+        element: <Info
+          ampm={this.state.ampm}
+          setAmpm={this.setAmpm}
+        />,
         text: 'About',
         title: 'About'
       }
@@ -70,8 +200,8 @@ export default class App extends React.Component {
 
     return (
       <div className="Editor">
-        <BadBrowser />  
-        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />  
+        <BadBrowser />
+        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />
         <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
           <div className="sidebar">
             <Header
@@ -108,12 +238,13 @@ export default class App extends React.Component {
           </div>
 
           <div className="main">
-            <Chart
-              napchart={this.state.napchart}
-              onUpdate={this.somethingUpdate}
-              setGlobalNapchart={this.setGlobalNapchart}
-              onLoading={this.loading} onLoadingFinish={this.loadingFinish}
-              ampm={this.state.ampm}
+            <React24
+              elements={this.state.elements}
+              changeElement={this.changeElement}
+              selectElement={this.selectElement}
+              deselectElement={this.deselectElement}
+              deselect={this.deselect}
+              ref={bro => this.bro = bro}
             />
           </div>
         </div>
@@ -166,27 +297,27 @@ export default class App extends React.Component {
     })
   }
 
-  save = () => {
-    this.loading()
-    var firstTimeSave = !this.props.chartid
-    server.save(this.state.napchart.data, this.state.title,
-      this.state.description, (err, chartid) => {
-        this.loadingFinish()
-        if (err) {
-          this._notify.addNotification({
-            message: err,
-            level: 'error'
-          })
-        } else {
-          this.onSave(chartid)
-          this.setState({
-            // currentSection: 1,
-            chartid: chartid
-          })
-          window.history.pushState({}, "", chartid);
-        }
-      })
-  }
+  // save = () => {
+  //   this.loading()
+  //   var firstTimeSave = !this.props.chartid
+  //   server.save(this.state.napchart.data, this.state.title,
+  //     this.state.description, (err, chartid) => {
+  //       this.loadingFinish()
+  //       if (err) {
+  //         this._notify.addNotification({
+  //           message: err,
+  //           level: 'error'
+  //         })
+  //       } else {
+  //         this.onSave(chartid)
+  //         this.setState({
+  //           // currentSection: 1,
+  //           chartid: chartid
+  //         })
+  //         window.history.pushState({}, "", chartid);
+  //       }
+  //     })
+  // }
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
@@ -241,5 +372,21 @@ export default class App extends React.Component {
     // then the user just saved chart and we will show share section instead
     const lol = window.location.toString().split('/')
     return lol[lol.length - 1]
+  }
+
+  normalizeArray = (arr) => {
+    const o = {}
+    arr.forEach((element) => {
+      o[element.id] = element
+    })
+    return o
+  }
+
+  denormalizeObj = (obj) => {
+    const a = []
+    for (const id in obj) {
+      a.push(obj[id])
+    }
+    return a
   }
 }

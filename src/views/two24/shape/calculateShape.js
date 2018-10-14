@@ -101,7 +101,7 @@ module.exports = function calculateShape(chart, shape) {
   })
 
   if (totalMinutes != 1440) {
-    console.warn('bad things might happen')
+    
   }
 
   /**
@@ -202,9 +202,9 @@ module.exports = function calculateShape(chart, shape) {
   // create lanes based on how many
   shape.lanes = []
   var lanes = chart.data.lanes
-  console.log(lanes)
+  
   if (typeof lanes == 'undefined' || lanes == 0) {
-    console.error(`chart.data.lanes is undefined, not an array OR HAS 0 ELEMENTS:`, chart.data.lanes)
+    
   }
   var maxLaneSize = shape.maxLaneSize * chart.ratio
   var laneMaxRadius = shape.laneMaxRadius * chart.ratio

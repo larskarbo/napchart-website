@@ -20,7 +20,7 @@ module.exports = function (Napchart) {
       // helper function for event listeners
       function addListeners(element, eventNames, listener) {
         eventNames.split(' ').forEach(eventName => {
-          element.addEventListener(eventName, listener)
+          // element.addEventListener(eventName, listener)
         })
       }
 

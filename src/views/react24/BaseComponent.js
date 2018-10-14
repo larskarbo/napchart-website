@@ -1,25 +1,28 @@
+import React from 'react'
+import ReactDOM from 'react-dom';
 import helpers from './helpers'
 // import Larsact from '../../Larsact'
 import moment from 'moment'
 import Path from 'svg-path-generator'
 
-export default class BaseComponent {
+export default class BaseComponent extends React.Component {
     constructor(props) {
-
+        super(props)
         this.props = props
-        
+
         // this.cr()
         // this.easing = 'easeInOutCubic'
     }
 
-    animate = (dur, eas, fun, cb) => {
+    animate = (opt, fun, cb) => {
         const initTime = performance.now()
-        const duration = dur || 400
-        const easing = eas || 'easeInOutCubic'
+        const duration = opt.duration || 400
+        const easing = opt.easing || 'easeInOutCubic'
+        const delay = opt.delay || 0
 
         const yabbadadoda = () => {
             const timeStamp = performance.now()
-            const animationProgress = Math.max(Math.min(((timeStamp - initTime)) / duration, 1), 0)
+            const animationProgress = Math.max(Math.min((timeStamp - initTime - delay) / duration, 1), 0)
             const withEasing = helpers.easingEffects[easing](animationProgress)
 
             fun(withEasing)
@@ -27,178 +30,153 @@ export default class BaseComponent {
             if (animationProgress < 1) {
                 requestAnimationFrame(yabbadadoda)
             } else {
-                cb()
+                if (cb) {
+                    cb()
+                }
             }
         }
 
         requestAnimationFrame(yabbadadoda)
     }
 
-    createCurve = (p, start, end, radius, anticlockwise, sumpath, callback) => {
+    createCurve = (p, start, end, radius, anticlockwise) => {
         if (typeof anticlockwise === 'undefined') {
             var anticlockwise = false
         }
 
         let path = p
-        // the reason for this silly function inside function: callback see at the end
-        const createCurve = (startMoment, endMoment) => {
-            var shape = helpers.clone(this.props.shape)
-            if (anticlockwise) {
-                shape.elements.reverse()
-            }
 
-            let start, end;
-
-            const zero = moment().startOf('day')
-            if (typeof startMoment === 'number') {
-                start = startMoment
-            } else {
-                start = startMoment.diff(zero, 'minutes')
-            }
-
-            if (typeof endMoment === 'number') {
-                end = endMoment
-            } else {
-                end = endMoment.diff(zero, 'minutes')
-            }
-
-            
-
-            // find out which shapeElement has the start and end
-            var startElementIndex, endElementIndex
-            shape.elements.forEach(function (element, i) {
-                if (helpers.isInside(start, element.start, element.end)) {
-                    startElementIndex = i
-                }
-                if (helpers.isInside(end, element.start, element.end)) {
-                    endElementIndex = i
-                }
-            })
-
-            var shapeElements = []
-            // create iterable task array
-            var taskArray = []
-            var skipEndCheck = false
-            var defaultTask
-            if (anticlockwise) {
-                defaultTask = {
-                    start: 1,
-                    end: 0
-                }
-            } else {
-                defaultTask = {
-                    start: 0,
-                    end: 1
-                }
-            }
-
-            if (typeof startElementIndex === 'undefined' || typeof endElementIndex === 'undefined') {
-                
-                
-                throw 'error: something is not right here'
-            }
-
-            for (var i = startElementIndex; i < shape.elements.length; i++) {
-                var task = {
-                    shapeElement: shape.elements[i],
-                    start: defaultTask.start,
-                    end: defaultTask.end
-                }
-
-                if (i == startElementIndex) {
-                    task.start = helpers.getPositionBetweenTwoValues(start, shape.elements[i].start, shape.elements[i].end)
-                }
-                if (i == endElementIndex) {
-                    task.end = helpers.getPositionBetweenTwoValues(end, shape.elements[i].start, shape.elements[i].end)
-                }
-                if (i == startElementIndex && i == endElementIndex && (task.end > task.start && anticlockwise) || (task.end < task.start && !anticlockwise)) {
-                    // make sure things are correct when end is less than start
-                    if (taskArray.length == 0) {
-                        // it is beginning
-                        task.end = defaultTask.end
-                        skipEndCheck = true
-                    } else {
-                        // it is end
-                        task.start = defaultTask.start
-                    }
-                }
-
-                taskArray.push(task)
-
-                if (i == endElementIndex) {
-                    if (skipEndCheck) {
-                        skipEndCheck = false
-                        // let it run a round and add all shapes
-                    } else {
-                        // finished.. nothing more to do here!
-                        break
-                    }
-                }
-
-                // if we reached end of array without having found
-                // the end point, it means that we have to go to
-                // the beginning again
-                // ex. when start:700 end:300
-                if (i == shape.elements.length - 1) {
-                    i = -1
-                }
-            }
-
-            taskArray.forEach(function (task, i) {
-
-                var { shapeElement } = task
-
-                const reverse = shapeElement.bend < 0
-
-                const { startPoint, endPoint, startAngle, endAngle, totalAngle, circleCenter, circleRadius } = shapeElement
-                let startAngleThis = startAngle + (task.start * totalAngle)
-                
-                
-                let endAngleThis
-                if (shapeElement.bend < 0) {
-                    startAngleThis = startAngle - (task.start * totalAngle)
-                    endAngleThis = startAngle - (task.end * totalAngle)
-                } else {
-                    startAngleThis = startAngle + (task.start * totalAngle)
-                    endAngleThis = startAngle + (task.end * totalAngle)
-                }
-
-                let ourRadius
-                if (shapeElement.bend < 0) {
-                    ourRadius = circleRadius - radius
-                } else {
-                    ourRadius = circleRadius + radius
-                }
-
-
-
-                // straight down
-                // ctx.arc(circleCenter.x, circleCenter.y - radius, shapeElement.circleRadius, startAngleThis, endAngleThis, reverse ? !anticlockwise : anticlockwise)
-
-                // to center
-                // ctx.arc(circleCenter.x, circleCenter.y, ourRadius, startAngleThis, endAngleThis, reverse ? !anticlockwise : anticlockwise)
-                // graphic.arc(500, 200, 300, 0, Math.PI)
-
-                
-
-                
-                
-                path = helpers.arcToPath(path, circleCenter.x, circleCenter.y, ourRadius, startAngleThis, endAngleThis, reverse ? !anticlockwise : anticlockwise)
-                // 
-                
-                // 
-                // 
-                // const path = .moveTo(start[0], start[1]).ellipticalArc(start[0], start[1], 0, 0, 0, end[0], end[1]).end()
-                // const path = `M ${start[0]} ${start[1]} A ${ourRadius} ${ourRadius} 0 0 0 ${end[0]} ${end[1]}`
-                // 
-                // sumpath += path
-
-            })
+        var shape = helpers.clone(this.props.shape)
+        if (anticlockwise) {
+            shape.elements.reverse()
         }
 
-        // if (typeof callback === 'undefined') {
-        createCurve(start, end)
 
+        // find out which shapeElement has the start and end
+        var startElementIndex, endElementIndex
+        shape.elements.forEach(function (element, i) {
+            if (helpers.isInside(start, element.start, element.end)) {
+                startElementIndex = i
+            }
+            if (helpers.isInside(end, element.start, element.end)) {
+                endElementIndex = i
+            }
+        })
+
+        var shapeElements = []
+        // create iterable task array
+        var taskArray = []
+        var skipEndCheck = false
+        var defaultTask
+        if (anticlockwise) {
+            defaultTask = {
+                start: 1,
+                end: 0
+            }
+        } else {
+            defaultTask = {
+                start: 0,
+                end: 1
+            }
+        }
+
+        if (typeof startElementIndex === 'undefined' || typeof endElementIndex === 'undefined') {
+            
+            throw 'error: something is not right here'
+        }
+
+        for (var i = startElementIndex; i < shape.elements.length; i++) {
+            var task = {
+                shapeElement: shape.elements[i],
+                start: defaultTask.start,
+                end: defaultTask.end
+            }
+
+            if (i == startElementIndex) {
+                task.start = helpers.getPositionBetweenTwoValues(start, shape.elements[i].start, shape.elements[i].end)
+            }
+            if (i == endElementIndex) {
+                task.end = helpers.getPositionBetweenTwoValues(end, shape.elements[i].start, shape.elements[i].end)
+            }
+            if (i == startElementIndex && i == endElementIndex && (task.end > task.start && anticlockwise) || (task.end < task.start && !anticlockwise)) {
+                // make sure things are correct when end is less than start
+                if (taskArray.length == 0) {
+                    // it is beginning
+                    task.end = defaultTask.end
+                    skipEndCheck = true
+                } else {
+                    // it is end
+                    task.start = defaultTask.start
+                }
+            }
+
+            taskArray.push(task)
+
+            if (i == endElementIndex) {
+                if (skipEndCheck) {
+                    skipEndCheck = false
+                    // let it run a round and add all shapes
+                } else {
+                    // finished.. nothing more to do here!
+                    break
+                }
+            }
+
+            // if we reached end of array without having found
+            // the end point, it means that we have to go to
+            // the beginning again
+            // ex. when start:700 end:300
+            if (i == shape.elements.length - 1) {
+                i = -1
+            }
+        }
+
+        taskArray.forEach(function (task, i) {
+
+            var { shapeElement } = task
+
+            const reverse = shapeElement.bend < 0
+
+            const { startPoint, endPoint, startAngle, endAngle, totalAngle, circleCenter, circleRadius } = shapeElement
+            
+            let startAngleThis = startAngle + (task.start * totalAngle)
+            
+            let endAngleThis
+            if (shapeElement.bend < 0) {
+                startAngleThis = startAngle - (task.start * totalAngle) - Math.PI / 2
+                endAngleThis = startAngle - (task.end * totalAngle) - Math.PI / 2
+            } else {
+                startAngleThis = startAngle + (task.start * totalAngle) - Math.PI / 2
+                endAngleThis = startAngle + (task.end * totalAngle) - Math.PI / 2
+            }
+
+            let ourRadius
+            if (shapeElement.bend < 0) {
+                ourRadius = circleRadius - radius
+            } else {
+                ourRadius = circleRadius + radius
+            }
+
+
+            function polarToCartesian(centerX, centerY, radius, angleInRadians) {
+                var x = centerX + radius * Math.cos(angleInRadians);
+                var y = centerY + radius * Math.sin(angleInRadians);
+                return { x, y };
+            }
+
+            let startPointThis, endPointThis
+            startPointThis = polarToCartesian(circleCenter.x, circleCenter.y, ourRadius, startAngleThis)
+            endPointThis = polarToCartesian(circleCenter.x, circleCenter.y, ourRadius, endAngleThis)
+
+            if (path.length === 0) {
+                path += ` M ${startPointThis.x} ${startPointThis.y}`
+            } else {
+                path += ` L ${startPointThis.x} ${startPointThis.y}`
+            }
+
+            path += ` A ${ourRadius} ${ourRadius} 0 0 ${(reverse ? !anticlockwise : anticlockwise) ? 0 : 1} ${endPointThis.x} ${endPointThis.y}`
+
+        })
         return path
         // } else {
         //     // callback makes it possible for this function to do two operations
@@ -218,9 +196,9 @@ export default class BaseComponent {
         // }
     }
 
-    
 
-    createSegment = (path, start, end,outer, inner) => {
+
+    createSegment = (path, start, end, outer, inner) => {
 
         let p = path
         p = this.createCurve(p, start, end, outer, false)
@@ -301,7 +279,7 @@ export default class BaseComponent {
         })
         // 
         if (!shapeElement) {
-            
+
             return false
         }
         // if (typeof shapeElement === 'undefined') {
@@ -341,7 +319,7 @@ export default class BaseComponent {
         distance = helpers.distance(x, y, shapeElement.circleCenter) - shapeElement.circleRadius
 
         if (isNaN(minutes) || isNaN(distance)) {
-            
+
             throw new 'ouch'()
         }
 

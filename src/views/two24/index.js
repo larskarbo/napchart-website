@@ -16,11 +16,56 @@ export default class Chart extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps) {
+
+
+
+        const { elements } = nextProps
+
+        const newElements = elements.reduce((cumm, thisE) => {
+            if (!this.props.elements.some(e => e.id === thisE.id)) {
+                return [...cumm, thisE]
+            }
+            return cumm
+        }, [])
+
+        const elementsThatShouldBeDeleted = this.props.elements.reduce((cumm, thisE) => {
+            if (!elements.some(e => e.id === thisE.id)) {
+                return [...cumm, thisE.id]
+            }
+            return cumm
+        }, [])
+
+        const changedElements = elements.filter(thisE => {
+            const corresponding = this.props.elements.find(e => e.id === thisE.id)
+            if (typeof corresponding != 'undefined') {
+                if (!areEqualShallow(corresponding, thisE)) {
+                    return true
+                }
+            }
+        })
+
+        newElements.forEach((e) => {
+            this.addElement(e)
+        })
+
+        elementsThatShouldBeDeleted.forEach((id) => {
+            this.deleteElement(id)
+        })
+
+        changedElements.forEach((e) => {
+            this.changeElement(e)
+        })
+
+        return false
+    }
+
     componentDidMount() {
 
         const container = ReactDOM.findDOMNode(this.container)
-        var ctx = window.SVG(container)
-        // var rect = ctx.rect(100, 100).attr({ fill: '#f06' })
+        const draw = window.SVG(container)
+        this.draw = draw
+        // var rect = draw.rect(100, 100).attr({ fill: '#f06' })
 
         // rect.mouseover(function () {
         //     this.fill({ color: '#0f5' })
@@ -31,37 +76,74 @@ export default class Chart extends React.Component {
             width: container.offsetWidth,
             height: container.offsetHeight
         }).getShape()
+        this.shape = shape
 
         // for (let i = 0; i < 48; i++) {
         //     const c1 = new Circle({
-        //         ctx,
+        //         draw,
         //         shape,
         //         minutes: i * 30,
         //         delay: i* 20
         //     })
         // }
 
-        // const c1 = new Rail({
-        //     ctx,
-        //     shape
-        // })
-        console.log(ctx)
+        draw.rect(container.offsetWidth, container.offsetHeight)
+            .fill('transparent')
+            .click(this.onClickBG)
 
-        this.props.elements.forEach(e => {
-
-            new Element({
-                ctx,
-                shape,
-                start: e.start,
-                end: e.end,
-                svg: ctx.node
-            })
+        const c1 = new Rail({
+            draw,
+            shape
         })
-        
 
-        console.log(this.props)
-        console.log('this.props: ', this.props);
 
+
+        this.elements = []
+        this.props.elements.forEach(e => {
+            this.addElement(e)
+        })
+
+        // elements.forEach(e => {
+        //     e.init()
+        // })
+
+        // draw.click(this.onClickBG)
+    }
+
+    addElement = (element) => {
+        this.elements.push(new Element({
+            draw: this.draw,
+            shape: this.shape,
+            data: {
+                ...element
+            },
+            changeElement: this.props.changeElement,
+            selectElement: this.props.selectElement,
+            deselectElement: this.props.deselectElement,
+        }).init())
+    }
+
+    deleteElement = (id) => {
+        const element = this.elements.find(e => id == e.id)
+
+        element.destroy()
+        this.elements = this.elements.filter(e => e.id != id)
+    }
+
+    changeElement = (elementData) => {
+        const elementInstance = this.elements.find(e => elementData.id == e.id)
+
+        elementInstance.updateData(elementData)
+        elementInstance.render()
+    }
+
+    componentDidUpdate() {
+
+    }
+
+    onClickBG = () => {
+        console.log('asdfs')
+        this.props.deselect()
     }
 
     render() {
@@ -70,12 +152,30 @@ export default class Chart extends React.Component {
             blurClass = 'blur'
         }
         return (
-            <div style={{
-                width: '100%',
-                height: '100vh',
-                // background: 'red'
-            }} ref={(c) => this.container = c}>
+            <div
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    // background: 'red'
+                }}
+                ref={(c) => this.container = c}
+                // onClick={this.onClickBG}
+            >
             </div>
         )
     }
+}
+
+function areEqualShallow(a, b) {
+    for (var key in a) {
+        if (!(key in b) || a[key] !== b[key]) {
+            return false;
+        }
+    }
+    for (var key in b) {
+        if (!(key in a) || a[key] !== b[key]) {
+            return false;
+        }
+    }
+    return true;
 }
