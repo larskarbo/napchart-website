@@ -20,7 +20,7 @@ import NotificationSystem from 'react-notification-system'
 import server from '../../utils/serverCom'
 import Two24 from '../../views/two24'
 import React24 from '../../views/react24'
-import firebase from 'firebase'
+// import firebase from 'firebase'
 
 // var config = {
 //   apiKey: "AIzaSyDTg18EW6Qu52hgqJhAhn_bQsKl5XKaMG8",
@@ -68,7 +68,7 @@ export default class App extends React.Component {
       ]
     }
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 5; i++) {
       this.state.elements.push({
         id: Math.random()*2000,
         title: 'Krets',
@@ -79,21 +79,21 @@ export default class App extends React.Component {
       
     }
 
-    this.ref = firebase.database().ref('charts').child('testl');
-    this.ref.on('value', (snapshot) => {
-      const newo = snapshot.val()
+    // this.ref = firebase.database().ref('charts').child('testl');
+    // this.ref.on('value', (snapshot) => {
+    //   const newo = snapshot.val()
 
-      const elements = this.denormalizeObj(newo.elements)
-      this.setState({
-        elements
-      })
-    });
+    //   const elements = this.denormalizeObj(newo.elements)
+    //   this.setState({
+    //     elements
+    //   })
+    // });
   }
 
 
   save = () => {
     this.loading()
-    console.log(this.normalizeArray(this.state.elements))
+    
     // firebase.database().ref('charts').child('testl').set({
     //   elements: this.normalizeArray(this.state.elements)
     // })
@@ -106,7 +106,7 @@ export default class App extends React.Component {
   }
 
   changeElement = (id, newEl) => {
-    console.log('🥂', id, newEl)
+    
 
     this.setState({
       elements: this.state.elements.map(e => {
@@ -119,33 +119,33 @@ export default class App extends React.Component {
         return e
       })
     })
-    this.ref.child('elements').child(id).update({
-      ...newEl
-    })
-    .then((response) => {
-    })
-    .catch((hm) => {
-      console.log('ERROR 👺👺👺', hm)
-    })
+    // this.ref.child('elements').child(id).update({
+    //   ...newEl
+    // })
+    // .then((response) => {
+    // })
+    // .catch((hm) => {
+    //   
+    // })
   }
 
   selectElement = id => {
-    this.deselect()
+    // this.deselect()
 
-    // this.setState({
-    //   elements: this.state.elements.map(e => {
-    //     if (e.id == id) {
-    //       return {
-    //         ...e,
-    //         selected: true
-    //       }
-    //     }
-    //     return e
-    //   })
-    // })
-    this.ref.child('elements').child(id).update({
-      selected: true
+    this.setState({
+      elements: this.state.elements.map(e => {
+        if (e.id == id) {
+          return {
+            ...e,
+            selected: true
+          }
+        }
+        return e
+      })
     })
+    // this.ref.child('elements').child(id).update({
+    //   selected: true
+    // })
   }
 
   deselectElement = id => {
@@ -155,12 +155,12 @@ export default class App extends React.Component {
   }
 
   deselect = id => {
-    this.ref.child('elements').update(this.normalizeArray(this.state.elements.map(e => {
-      return {
-        ...e,
-        selected: false
-      }
-    })))
+    // this.ref.child('elements').update(this.normalizeArray(this.state.elements.map(e => {
+    //   return {
+    //     ...e,
+    //     selected: false
+    //   }
+    // })))
   }
 
   render() {
@@ -238,7 +238,7 @@ export default class App extends React.Component {
           </div>
 
           <div className="main">
-            <React24
+            <Two24
               elements={this.state.elements}
               changeElement={this.changeElement}
               selectElement={this.selectElement}

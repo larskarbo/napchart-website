@@ -17,9 +17,6 @@ export default class Chart extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-
-
-
         const { elements } = nextProps
 
         const newElements = elements.reduce((cumm, thisE) => {
