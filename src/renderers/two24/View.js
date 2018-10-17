@@ -1,3 +1,5 @@
+// TODO refactor shape system
+
 import calculateShape from './calculateShape'
 import shapes from './shapes'
 

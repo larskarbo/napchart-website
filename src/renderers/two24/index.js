@@ -93,9 +93,7 @@ export default class Two24 extends React.Component {
             }),
             draw.pattern(10, 10, function (add) {
                 add.rect(10, 10).fill('#ded6c7')
-                // add.rect(10, 10)
-                // add.rect(10, 10).move(10, 10)
-                add.path(pathGen(10, '2/8')).stroke({ color: '#343434', width: 1, linecap: 'round', linejoin: 'round' })
+                add.path(pathGen(10, '0/8')).stroke({ color: '#343434', width: 1, linecap: 'round', linejoin: 'round' })
             })
         ]
 

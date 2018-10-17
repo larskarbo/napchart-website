@@ -1,3 +1,5 @@
+// TODO refactor shape system
+
 /**
  *
  * function calculateShape
@@ -13,9 +15,11 @@
 import helpers from './helpers'
 
 export default function calculateShape(sh, width, height) {
+
   // clone
+
   const shape = Object.assign({}, sh)
-  
+  const padding = 20
 
   /**
    * Calculate information
@@ -26,17 +30,20 @@ export default function calculateShape(sh, width, height) {
     let startAngle
     let start
 
-    const angle = Math.asin(element.bend)
+    const angleLength = element.angleLength || 1
+
+    const angle = Math.asin(element.bend) * angleLength
     const totalAngle = Math.abs(angle * 2)
-    
-    window.d
+
     if (i === 0) {
       // first element
-      startAngle = totalAngle/-2
+      startAngle = shape.startAngle
+      // || (totalAngle / -2)
       startPoint = {
-        x: window.innerWidth / 2 - 360,
-        y: 400,
+        x: padding + shape.gravity * width,
+        y: 200,
       }
+
       start = shape.startAt || 0
     } else {
       // all other elements
@@ -44,38 +51,21 @@ export default function calculateShape(sh, width, height) {
       startAngle = shape.elements[i - 1].endAngle
       start = shape.elements[i - 1].end
     }
-    
+
     if (element.bend < 0) {
       startAngle += Math.PI
     }
-    
+
     let endAngle = startAngle + totalAngle
     if (element.bend < 0) {
       endAngle = startAngle - totalAngle
     }
 
-    // const correction = 1 / (element.bend * element.bend)
-
-    // nice link to understand sin cos https://www.mathsisfun.com/geometry/unit-circle.html
-    const specialNumber = Math.sqrt(1 - Math.pow(element.bend, 2))
-    const cosine = Math.cos(angle)
-    // 
-    // 
-    // 
-    
-    
-    const halfMinutes = element.minutes / 4
-    const lastAngle = (Math.PI / 2) - angle
-    let circleRadius = halfMinutes / Math.sin(Math.abs(angle))
-    // let circleRadius = (element.minutes) / totalAngle
+    const length = 200
+    let circleRadius = length / element.bend
 
 
-    // let circleRadius = ((element.minutes) / totalAngle) * (1 / Math.abs(element.bend))
-    // 
-    // circleRadius = (element.minutes/2) * (cosine)
-    // 
-    // 
-    // 
+
     let circleCenter
     circleCenter = {
       x: startPoint.x - Math.cos(Math.PI / 2 - startAngle) * circleRadius,
@@ -86,13 +76,13 @@ export default function calculateShape(sh, width, height) {
       x: circleCenter.x + Math.cos(Math.PI / 2 - endAngle) * circleRadius,
       y: circleCenter.y - Math.sin(Math.PI / 2 - endAngle) * circleRadius,
     }
-    // 
-    // 
+
+    const end = element.ghost ? start : start + element.minutes
 
     shape.elements[i] = {
       ...element,
       start,
-      end: start + element.minutes,
+      end: end,
       startPoint,
       endPoint,
       startAngle: helpers.limitAngle(startAngle),
@@ -102,6 +92,8 @@ export default function calculateShape(sh, width, height) {
       circleRadius,
     }
   })
-  
+
+
+
   return shape
 }
