@@ -25,7 +25,7 @@ function idgen() {
 
 export default {
   begin: () => {
-    firebase.initializeApp(config)
+    // firebase.initializeApp(config)
   },
   save: (data, title, description, cb) => {
     var database = firebase.database();

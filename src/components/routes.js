@@ -3,21 +3,21 @@ import toRegex from 'path-to-regexp';
 import React from 'react';
 
 import Editor from './Editor/Editor.js'
-import Intro from './Intro/Intro.js'
+// import Intro from './Intro/Intro.js'
 
 const routes = [
-	{
-		path: '/',
-		component: Intro
-	},
+	// {
+	// 	path: '/',
+	// 	component: Intro
+	// },
 	{
 		path: '/app',
 		component: Editor
 	},
-	{
-		path: '/:chartid',
-		component: Editor
-	},
+	// {
+	// 	path: '/:chartid',
+	// 	component: Editor
+	// },
 ]
 
 function matchURI(path, uri) {
