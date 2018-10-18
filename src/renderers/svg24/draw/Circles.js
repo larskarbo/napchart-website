@@ -1,12 +1,16 @@
 import BaseComponent from './BaseComponent'
+import shapeHelpers from '../shape/shapeHelpers'
 
-export default class Rail extends BaseComponent {
+// in this component we use the native animation capabilities
+// of svg.js
+
+export default class Circles extends BaseComponent {
     constructor(props) {
         super(props)
 
         this.draw = props.draw
 
-        const outerC = this.draw.path().plot(this.createCurve('', 0, 1440, 90))
+        const outerC = this.draw.path().plot(shapeHelpers.createCurve(props.shape, '', 0, 1440, 90))
         outerC.drawAnimated({
             duration: 500
         })
@@ -15,7 +19,7 @@ export default class Rail extends BaseComponent {
 
 
         const innerC = this.draw.path()
-        innerC.plot(this.createCurve('', 0, 1440, 0)).drawAnimated({
+        innerC.plot(shapeHelpers.createCurve(props.shape, '', 0, 1440, 0)).drawAnimated({
             duration: 500,
             delay: 200
         })

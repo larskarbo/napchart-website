@@ -14,6 +14,10 @@ const routes = [
 		path: '/app',
 		component: Editor
 	},
+	{
+		path: '/',
+		component: Editor
+	},
 	// {
 	// 	path: '/:chartid',
 	// 	component: Editor

@@ -1,19 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
-import Two from 'two.js'
-import Snap from 'snapsvg-cjs';
-import Sector from 'paths-js/sector'
-// import SVG from 'svg.js'
-import Circle from './Circle'
-import Rail from './Rail'
-import Segment from './Segment'
-import View from './View';
+import Circles from './draw/Circles'
+import Segment from './draw/Segment'
+import View from './shape/View';
 
-export default class Two24 extends React.Component {
+export default class Svg24 extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-        }
 
         this.segments = []
     }
@@ -28,8 +21,6 @@ export default class Two24 extends React.Component {
     onOperations(operations) {
         operations.forEach(operation => {
             const { data } = operation
-            
-            
 
             switch (operation.type) {
                 case 'change_element':
@@ -38,8 +29,11 @@ export default class Two24 extends React.Component {
                 case 'select_element':
                     this.changeSegment(data.id, {})
                     return
+                case 'add_element':
+                    this.addSegment(data.newElement)
+                    return
                 default:
-                    throw new Error('Couldn\'t find anything to do with operation ' + operation.type)
+                    throw new Error('Renderer is ignoring the operation: ' + operation.type)
             }
         })
 
@@ -56,6 +50,8 @@ export default class Two24 extends React.Component {
         }).getShape()
         this.shape = shape
 
+        // begin initialize patterns
+        // todo move to own module
         const pathGen = (size, orientation) => {
             const s = size
             switch (orientation) {
@@ -82,9 +78,6 @@ export default class Two24 extends React.Component {
                     return `M ${s / 2}, 0 l 0, ${s}`;
             }
         };
-
-        
-        // initialize patterns
         const patternSize = 10
         this.patterns = [
             draw.pattern(patternSize, patternSize, function (add) {
@@ -96,16 +89,18 @@ export default class Two24 extends React.Component {
                 add.path(pathGen(10, '0/8')).stroke({ color: '#343434', width: 1, linecap: 'round', linejoin: 'round' })
             })
         ]
+        // end initialize patterns
 
+        // make transparent background rect used for event listening
         draw.rect(container.offsetWidth, container.offsetHeight)
             .fill('transparent')
             .click(this.onClickBG)
 
-        const c1 = new Rail({
+        
+        const c1 = new Circles({
             draw,
             shape
         })
-
 
         // simulating z-index with two groups
         this.lowGroup = draw.group()
@@ -130,19 +125,10 @@ export default class Two24 extends React.Component {
         }).init())
     }
 
-    deleteSegment = (id) => {
-        const element = this.elements.find(e => id == e.id)
-
-        element.destroy()
-        this.elements = this.elements.filter(e => e.id != id)
-    }
-
     changeSegment = (id, newAttrs) => {
-        
         const segment = this.segments.find(s => id == s.element.id)
 
         segment.updateElement(newAttrs)
-        segment.render()
     }
 
     onClickBG = () => {
@@ -150,19 +136,13 @@ export default class Two24 extends React.Component {
     }
 
     render() {
-        var blurClass = ''
-        if (this.props.loading) {
-            blurClass = 'blur'
-        }
         return (
             <div
                 style={{
                     width: '100%',
                     height: '100vh',
-                    // background: 'red'
                 }}
                 ref={(c) => this.container = c}
-                // onClick={this.onClickBG}
             >
             </div>
         )

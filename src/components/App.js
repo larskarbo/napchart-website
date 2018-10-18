@@ -6,8 +6,6 @@ import styles from '../styles/index.scss'
 import history from '../utils/history'
 import router from './routes.js'
 
-// import serverCom from '../utils/serverCom'
-
 
 export default class Router extends React.Component {
   constructor(props){
@@ -23,12 +21,6 @@ export default class Router extends React.Component {
     var Component = router.resolve(window.location)
     return (
       <div>
-        <div
-          style={{
-            display: (this.state.user == null) ? 'none' : 'block'
-          }}
-          id="firebaseui-auth-container"
-        ></div>
         <Component />
       </div>
     )

@@ -1,8 +1,9 @@
-import helpers from '../../../renderers/two24/helpers'
+import helpers from '../../../renderers/svg24/helpers'
 
 const valid_operations = [
     'change_element',
-    'select_element'
+    'select_element',
+    'add_element'
 ]
 
 class Operation {
@@ -16,7 +17,8 @@ class Operation {
 
         // check validity in data
         for (const prop in data) {
-            if (typeof data[prop] === 'undefined' || isNaN(data[prop])) {
+            if (typeof data[prop] === 'undefined' || helpers.isNaN(data[prop])) {
+                console.log(isNaN(data[prop]))
                 throw new Error(prop + ' is ' + data[prop])
             }
         }

@@ -1,16 +1,8 @@
-
-import c from 'classnames'
-
 import React from 'react'
-
+import c from 'classnames'
 import Header from './Header.js'
 
-import helpers from '../../renderers/two24/helpers'
-
-import server from '../../utils/serverCom'
-import Two24 from '../../renderers/two24'
-// import React24 from '../../renderers/react24'
-// import Canvas24 from '../../renderers/canvas24'
+import Svg24 from '../../renderers/svg24'
 
 import Element from './models/Element'
 import Value from './models/Value'
@@ -23,31 +15,35 @@ export default class App extends React.Component {
     const value = new Value({
       onChange: this.onValueChange
     })
-    
-    
-    value
-      .addElement({
-        title: 'Element 1',
-        start: 8 * 60 + 15,
-        end: 10 * 60 + 15,
-        color: 'pink'
-      })
-      .addElement({
-        title: 'Picknic',
-        start: 0 * 60 + 15,
-        end: 2 * 60 + 15,
-        color: 'green'
-      })
-      .addElement({
-        title: 'School',
-        start: 15 * 60 + 15,
-        end: 18 * 60,
-        color: 'yellow'
-      })
 
     this.state = {
       value: value
     }
+
+  }
+
+  componentDidMount() {
+    /// add 3 initial elements
+    const operations = [
+      new Operation('add_element', {
+        title: 'Element 1',
+        start: 8 * 60 + 15,
+        end: 10 * 60 + 15,
+      }),
+      new Operation('add_element', {
+        title: 'Picknic',
+        start: 0 * 60 + 15,
+        end: 2 * 60 + 15,
+      }),
+      new Operation('add_element', {
+        title: 'School',
+        start: 15 * 60 + 15,
+        end: 18 * 60,
+      })
+    ]
+    setTimeout(() => {
+      this.state.value.applyOperations(operations)
+    }, 700)
   }
 
   onValueChange = (newValue, operations) => {
@@ -73,8 +69,6 @@ export default class App extends React.Component {
   }
 
   selectElement = id => {
-    // this.deselect()
-
     const operations = [
       new Operation('select_element', {
         id
@@ -85,18 +79,11 @@ export default class App extends React.Component {
   }
 
   deselectElement = id => {
-    // this.ref.child('elements').child(id).update({
-    //   selected: false
-    // })
+    // TODO
   }
 
-  deselect = id => {
-    // this.ref.child('elements').update(this.normalizeArray(this.state.elements.map(e => {
-    //   return {
-    //     ...e,
-    //     selected: false
-    //   }
-    // })))
+  deselect = () => {
+    // TODO
   }
 
   render() {
@@ -110,7 +97,7 @@ export default class App extends React.Component {
           </div>
 
           <div className="main">
-            <Two24
+            <Svg24
               value={this.state.value}
 
               changeElement={this.changeElement}
@@ -121,41 +108,8 @@ export default class App extends React.Component {
             />
           </div>
         </div>
-
-        {this.state.slideSidebarMobile &&
-          <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
-            →
-          </button>
-        }
-        {!this.state.slideSidebarMobile &&
-          <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
-            ←
-          </button>
-        }
       </div>
     )
-  }
-
-  slideSidebarMobile = () => {
-    this.setState({
-      slideSidebarMobile: !this.state.slideSidebarMobile
-    })
-  }
-
-  changeSection = (i) => {
-    this.setState({
-      currentSection: i
-    })
-  }
-
-  setGlobalNapchart = (napchart) => {
-    this.setState({
-      napchart: napchart
-    })
-  }
-
-  somethingUpdate = (napchart) => {
-    this.forceUpdate()
   }
 
   loadingFinish = () => {
@@ -170,81 +124,12 @@ export default class App extends React.Component {
     })
   }
 
-  // save = () => {
-  //   this.loading()
-  //   var firstTimeSave = !this.props.chartid
-  //   server.save(this.state.napchart.data, this.state.title,
-  //     this.state.description, (err, chartid) => {
-  //       this.loadingFinish()
-  //       if (err) {
-  //         this._notify.addNotification({
-  //           message: err,
-  //           level: 'error'
-  //         })
-  //       } else {
-  //         this.onSave(chartid)
-  //         this.setState({
-  //           // currentSection: 1,
-  //           chartid: chartid
-  //         })
-  //         window.history.pushState({}, "", chartid);
-  //       }
-  //     })
-  // }
-
-  onSave = (chartid) => {
-    // refresh (feels better for the user)
-    // window.location = '/' + chartid + '?s=1'
-  }
-
-  changeTitle = element => {
-    this.setState({
-      title: element.target.value
-    })
-  }
-
-  changeDescription = element => {
-    this.setState({
-      description: element.target.value
-    })
-  }
-
-  setNumberOfLanes = (lanes) => {
-    this.state.napchart.setNumberOfLanes(lanes)
-  }
-
-  getAmpm = () => {
-
-    // const cookiePref = Cookies.get('preferAmpm')
-    // if (cookiePref) {
-    //   return eval(cookiePref)
-    // }
-
-    var date = new Date(Date.UTC(2012, 11, 12, 3, 0, 0));
-    var dateString = date.toLocaleTimeString();
-
-    //apparently toLocaleTimeString() has a bug in Chrome. toString() however returns 12/24 hour formats. If one of two contains AM/PM execute 12 hour coding.
-    if (dateString.match(/am|pm/i) || date.toString().match(/am|pm/i)) {
-      return true
-    }
-    else {
-      return false
-    }
-  }
-
   setAmpm = (ampm) => {
     // Cookies.set('preferAmpm', ampm)
 
     this.setState({
       ampm: ampm
     })
-  }
-
-  getInitialChartid = () => {
-    // should always return 0 except when s=1 found in url, because
-    // then the user just saved chart and we will show share section instead
-    const lol = window.location.toString().split('/')
-    return lol[lol.length - 1]
   }
 
   normalizeArray = (arr) => {

@@ -1,4 +1,22 @@
 
+
+
+
+
+
+
+
+// TODO
+
+
+
+
+
+
+
+
+
+
 import React from 'react'
 // import Logo from '../common/Logo.js'
 import c from 'classnames'
@@ -17,9 +35,6 @@ export default class extends React.Component {
     return (
       <header className="Header level is-mobile">
         <div className="level-left">
-          <a href="/app">
-            {/* <Logo className="cornerLogo level-item" white height="45" loading={this.props.loading} whiteBG /> */}
-          </a>
           <div className="meta level-item">
             <div className="chartTitle">
               {this.state.editingTitle &&

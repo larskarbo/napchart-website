@@ -1,4 +1,4 @@
-import helpers from '../../../renderers/two24/helpers'
+import helpers from '../../../renderers/svg24/helpers'
 
 class Element {
     constructor(data) {

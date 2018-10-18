@@ -7,6 +7,16 @@ helpers.duration = function (start, end) {
   return helpers.limit(end - start)
 }
 
+helpers.isNaN = function (input) {
+  // unlinke the isNaN function, this function returns true
+  // if the variable is exactly NaN
+  // 1234 => false
+  // 'asdf' => false
+  // NaN => true
+  // https://stackoverflow.com/questions/2652319/how-do-you-check-that-a-number-is-nan-in-javascript
+  return input !== input
+}
+
 helpers.angleDuration = function (start, end) {
   return helpers.limitAngle(end - start)
 }

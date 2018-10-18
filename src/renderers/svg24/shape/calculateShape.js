@@ -12,7 +12,7 @@
  *
  */
 
-import helpers from './helpers'
+import helpers from '../helpers'
 
 export default function calculateShape(sh, width, height) {
 

@@ -1,4 +1,4 @@
-import helpers from '../../../renderers/two24/helpers'
+import helpers from '../../../renderers/svg24/helpers'
 import Element from './Element'
 
 class Value {
@@ -16,15 +16,23 @@ class Value {
         //      * mutated value object
         //      * operations
 
-        operations.forEach(operation => {
+        operations = operations.map(operation => {
             
             switch (operation.type) {
                 case 'change_element':
                     this.changeElement(operation.data.id, operation.data)
-                    return
+                    return operation
+                case 'add_element':
+                    const newElement = this.addElement(operation.data)
+                    return {
+                        ...operation,
+                        data: {
+                            newElement
+                        }
+                    }
                 case 'select_element':
                     this.selectElement(operation.data.id)
-                    return
+                    return operation
                 default: 
                     throw new Error('Couldn\'t find anything to do with operation ' + operation.type)
             }
@@ -34,9 +42,10 @@ class Value {
     }
 
     addElement(eventData) {
-        this.elements.push(new Element(eventData))
+        const element = new Element(eventData)
+        this.elements.push(element)
 
-        return this
+        return element
     }
 
     changeElement(id, newAttrs) {
