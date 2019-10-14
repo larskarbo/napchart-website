@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/napchart-website/static/css/main.2233064c.chunk.css",
+    "main.js": "/napchart-website/static/js/main.0243715a.chunk.js",
+    "main.js.map": "/napchart-website/static/js/main.0243715a.chunk.js.map",
+    "runtime-main.js": "/napchart-website/static/js/runtime-main.75a02e93.js",
+    "runtime-main.js.map": "/napchart-website/static/js/runtime-main.75a02e93.js.map",
+    "static/js/2.f08e2d99.chunk.js": "/napchart-website/static/js/2.f08e2d99.chunk.js",
+    "static/js/2.f08e2d99.chunk.js.map": "/napchart-website/static/js/2.f08e2d99.chunk.js.map",
+    "index.html": "/napchart-website/index.html",
+    "precache-manifest.1acf6ba7063832b025054fa563aeb379.js": "/napchart-website/precache-manifest.1acf6ba7063832b025054fa563aeb379.js",
+    "service-worker.js": "/napchart-website/service-worker.js",
+    "static/css/main.2233064c.chunk.css.map": "/napchart-website/static/css/main.2233064c.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.75a02e93.js",
+    "static/js/2.f08e2d99.chunk.js",
+    "static/css/main.2233064c.chunk.css",
+    "static/js/main.0243715a.chunk.js"
+  ]
+}
