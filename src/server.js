@@ -69,13 +69,19 @@ export default {
   },
 
   sendFeedback: (feedback, cb) => {
-    axios
-      .post("/api/postFeedback", {
-        data: JSON.stringify(feedback)
-      })
-      .then(response => {
-        console.log(response);
-        cb();
-      });
+    const Feedback = new Parse.Object.extend("Feedback");
+    const fb = new Feedback()
+
+    fb.save({
+      feedback
+    }).then(response => {
+      console.log(response);
+      cb();
+    });
+    // axios
+    //   .post("/api/postFeedback", {
+    //     data: JSON.stringify(feedback)
+    //   })
+      
   }
 };

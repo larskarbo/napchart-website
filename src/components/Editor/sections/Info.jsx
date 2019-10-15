@@ -73,13 +73,13 @@ export default class extends React.Component {
     var value = this.refs.feedback.value
 
 
-    server.sendFeedback(value, function () {
+  server.sendFeedback(value,  () => {
       console.log('feedback sent')
+      this.refs.feedback.style.display = 'none'
+      this.refs.feedbacksend.style.display = 'none'
+      this.refs.afterfeedback.style.display = 'block'
     })
 
-    this.refs.feedback.style.display = 'none'
-    this.refs.feedbacksend.style.display = 'none'
-    this.refs.afterfeedback.style.display = 'block'
 
   }
 }
