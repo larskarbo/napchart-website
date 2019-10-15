@@ -21,3 +21,6 @@ Check for updates:
 ```
 npm run update-favicons
 ```
+
+
++ move favicon to public folder manually
