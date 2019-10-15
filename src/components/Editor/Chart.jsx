@@ -87,6 +87,7 @@ export default class Chart extends React.Component {
       if (Object.keys(data).length) {
         
         this.props.setGlobalNapchart(napchart)
+        console.log('data: ', data);
         this.props.setMetaInfo(data.metaInfo.title,data.metaInfo.description)
       }
     })

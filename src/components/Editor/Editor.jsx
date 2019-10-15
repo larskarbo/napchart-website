@@ -165,6 +165,7 @@ export default class App extends React.Component {
   }
 
   setMetaInfo = (title, description) => {
+    console.log('title, description: ', title, description);
     this.setState({
       title,
       description

@@ -57,11 +57,11 @@ export default {
     console.log();
     const data = {
       id: chartid,
+      ...chart.get("chartData"),
       metaInfo: {
         title: chart.get("title"),
         description: chart.get("description")
       },
-      ...chart.get("chartData")
     };
     loadFinish();
 
