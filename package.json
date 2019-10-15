@@ -12,6 +12,7 @@
     "parse": "^2.7.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-helmet": "^5.2.1",
     "react-notification-system": "^0.2.17",
     "react-scripts": "3.2.0"
   },
@@ -19,9 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,7 +38,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1"
   },
   "homepage": "https://napchart.com"
 }

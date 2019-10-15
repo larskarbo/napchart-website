@@ -64,7 +64,7 @@ export default class Chart extends React.Component {
 
     // first check if we should fetch some data
     server.loadChart(this.props.onLoading, this.props.onLoadingFinish, (data) => {
-      // returns {} if no data was loaded (you are on base napchart.com/)
+      // returns {} if no data was loaded (you are on base napchart.com/app)
       // returns the data if you are on napchart.com/xxxxx
       var napchart = Napchart.init(ctx, data, {
         responsive: true,
@@ -84,8 +84,11 @@ export default class Chart extends React.Component {
         return false
       }
 
-      this.props.setGlobalNapchart(napchart)
-      this.props.setMetaInfo(data.metaInfo.title,data.metaInfo.description)
+      if (Object.keys(data).length) {
+        
+        this.props.setGlobalNapchart(napchart)
+        this.props.setMetaInfo(data.metaInfo.title,data.metaInfo.description)
+      }
     })
   }
 }

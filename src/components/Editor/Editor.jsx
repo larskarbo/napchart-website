@@ -8,6 +8,7 @@ import BadBrowser from './BadBrowser.jsx'
 import ToolBar from './ToolBar.jsx'
 import Chart from './Chart.jsx'
 import Link from '../common/Link.jsx'
+import { Helmet } from "react-helmet";
 
 import Export from './sections/Export.jsx'
 import Info from './sections/Info.jsx'
@@ -74,8 +75,16 @@ export default class App extends React.Component {
 
     return (
       <div className="Editor">
-        <BadBrowser />  
-        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />  
+        <BadBrowser />
+        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />
+        <Helmet>
+          {this.state.description.length && <meta name="description" content={this.state.description} />}
+          <meta name="twitter:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
+          <meta property="og:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
+          <meta property="og:image:width" content="600" />
+          <meta property="og:image:height" content="600" />
+          {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
+        </Helmet>
         <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
           <div className="sidebar">
             <Header
@@ -192,7 +201,7 @@ export default class App extends React.Component {
         } else {
           this.onSave(chartid)
         }
-          
+
       })
   }
 
