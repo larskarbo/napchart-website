@@ -1,3 +1,4 @@
+import PopupVoter from './PopupVoter'
 
 import c from 'classnames'
 
@@ -19,7 +20,14 @@ import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'
 
 import server from '../../server'
-
+import { Grommet, Box, Button, Image, Text, Layer } from "grommet";
+const myTheme = {
+  global: {
+    colors: {
+      brand: '#EA4335'
+    }
+  }
+};
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -36,7 +44,8 @@ export default class App extends React.Component {
       title: '',
       description: '',
       currentSection: this.getInitialSection(),
-      ampm: this.getAmpm()
+      ampm: this.getAmpm(),
+      showPopup: false
     }
   }
 
@@ -74,75 +83,84 @@ export default class App extends React.Component {
 
 
     return (
-      <div className="Editor">
-        <BadBrowser />
-        <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />
-        <Helmet>
-          {this.state.description.length && <meta name="description" content={this.state.description} />}
-          <meta name="twitter:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
-          <meta property="og:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
-          <meta property="og:image:width" content="600" />
-          <meta property="og:image:height" content="600" />
-          {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
-        </Helmet>
-        <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
-          <div className="sidebar">
-            <Header
-              title={this.state.title}
-              changeTitle={this.changeTitle}
-              chartid={this.state.chartid}
-              save={this.save}
-              loading={this.state.loading}
-            />
+      <Grommet theme={myTheme}>
+        <div className="Editor">
+          {this.state.showPopup &&
+            <PopupVoter onClose={() => {
+              this.setState({
+                showPopup: false
+              })
+            }} />
+          }
+          <BadBrowser />
+          <NotificationSystem ref={(notificationSystem) => this._notify = notificationSystem} />
+          <Helmet>
+            {this.state.description.length && <meta name="description" content={this.state.description} />}
+            <meta name="twitter:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
+            <meta property="og:image" content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`} />
+            <meta property="og:image:width" content="600" />
+            <meta property="og:image:height" content="600" />
+            {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
+          </Helmet>
+          <div className={c("grid", { slideSidebarMobile: this.state.slideSidebarMobile })}>
+            <div className="sidebar">
+              <Header
+                title={this.state.title}
+                changeTitle={this.changeTitle}
+                chartid={this.state.chartid}
+                save={this.save}
+                loading={this.state.loading}
+              />
 
 
-            <div className="sidebarContent">
-              <div className="sideLane">
-                <div className="up">
-                  {sections.map((section, i) =>
-                    <button onClick={this.changeSection.bind(null, i)} key={i}
-                      className={c("squareBtn", { 'active': (i == this.state.currentSection) })}>
-                      {section.text}
-                    </button>
-                  )}
+              <div className="sidebarContent">
+                <div className="sideLane">
+                  <div className="up">
+                    {sections.map((section, i) =>
+                      <button onClick={this.changeSection.bind(null, i)} key={i}
+                        className={c("squareBtn", { 'active': (i == this.state.currentSection) })}>
+                        {section.text}
+                      </button>
+                    )}
+                  </div>
+                  <div className="down">
+                  </div>
                 </div>
-                <div className="down">
-                </div>
-              </div>
 
-              <div className="otherLane">
-                <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
-                <div className="currentInfo">
+                <div className="otherLane">
+                  <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
+                  <div className="currentInfo">
 
-                  {sections[this.state.currentSection].element}
+                    {sections[this.state.currentSection].element}
+                  </div>
                 </div>
               </div>
             </div>
+
+            <div className="main">
+              <Chart
+                napchart={this.state.napchart}
+                onUpdate={this.somethingUpdate}
+                setMetaInfo={this.setMetaInfo}
+                setGlobalNapchart={this.setGlobalNapchart}
+                onLoading={this.loading} onLoadingFinish={this.loadingFinish}
+                ampm={this.state.ampm}
+              />
+            </div>
           </div>
 
-          <div className="main">
-            <Chart
-              napchart={this.state.napchart}
-              onUpdate={this.somethingUpdate}
-              setMetaInfo={this.setMetaInfo}
-              setGlobalNapchart={this.setGlobalNapchart}
-              onLoading={this.loading} onLoadingFinish={this.loadingFinish}
-              ampm={this.state.ampm}
-            />
-          </div>
+          {this.state.slideSidebarMobile &&
+            <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
+              →
+          </button>
+          }
+          {!this.state.slideSidebarMobile &&
+            <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
+              ←
+          </button>
+          }
         </div>
-
-        {this.state.slideSidebarMobile &&
-          <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
-            →
-          </button>
-        }
-        {!this.state.slideSidebarMobile &&
-          <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
-            ←
-          </button>
-        }
-      </div>
+      </Grommet>
     )
   }
 
@@ -259,9 +277,23 @@ export default class App extends React.Component {
     // then the user just saved chart and we will show share section instead
 
     if (window.location.toString().includes('s=1')) {
+      this.maybeVote()
       return 1
     }
 
     return 0
+  }
+
+  maybeVote() {
+    setTimeout(() => {
+      if(localStorage.getItem("has_voted")){
+
+      } else {
+        localStorage.setItem("has_voted", true)
+        this.setState({
+          showPopup: true
+        })
+      }
+    })
   }
 }

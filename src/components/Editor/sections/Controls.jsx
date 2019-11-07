@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import server from '../../../server'
-
+import Feedback from './Feedback'
 import Shapes from '../small/Shapes.jsx'
 import SuperLanes from '../small/SuperLanes.jsx'
 import SelectedElement from '../small/SelectedElement.jsx'
@@ -37,15 +37,7 @@ export default class Controls extends Component {
               </div>
               <SelectedElement napchart={napchart} />
             </div>
-            <div className="part">
-              <h2 className="title is-6">Feedback</h2>
-              <p className="field">Issues, ideas, or other feedback appreciated 😏</p>
-              <textarea className="textarea field" ref="feedback"></textarea>
-              <div className="field" style={{ display: 'none' }} ref="afterfeedback">
-                <p>Thank you for your feedback ❤️🤗</p>
-              </div>
-              <button ref="feedbacksend" onClick={this.sendFeedback} className="button block">Send</button>
-            </div>
+            <Feedback />
 
           </div>
 

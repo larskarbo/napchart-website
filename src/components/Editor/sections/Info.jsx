@@ -1,3 +1,4 @@
+import Feedback from './Feedback'
 
 import React from 'react'
 import server from '../../../server'
@@ -26,21 +27,29 @@ export default class extends React.Component {
             <p><strong>Delete element:</strong> Set duration to zero or press <kbd>delete</kbd> or <kbd>⌘-⌫</kbd></p>
           </div>
         </div>
+        <Feedback />
         <div className="part">
-          <h2 className="title is-6">Feedback</h2>
-          <p className="field">Issues, ideas, or other feedback appreciated 😏</p>
-          <textarea className="textarea field" ref="feedback"></textarea>
-          <div className="field" style={{ display: 'none' }} ref="afterfeedback">
-            <p>Thank you for your feedback ❤️🤗</p>
-          </div>
-          <button ref="feedbacksend" onClick={this.sendFeedback} className="button block">Send</button>
-        </div>
-        <div className="part">
-          <h2 className="title is-6">Contribute</h2>
-          <p className="field">Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
-          <p className="field"><a target="_blank" href="https://github.com/larskarbo/napchart-website"><strong>napchart-website</strong></a> on GitHub</p>
-          <p className="field"><a target="_blank" href="https://github.com/larskarbo/napchart"><strong>napchart</strong></a> on GitHub</p>
-        </div>
+        <h2 className="title is-6">Contribute</h2>
+        <p className="field">
+          Napchart is open-source and hackable. Check out the projects on GitHub
+          🌟
+        </p>
+        <p className="field">
+          <a
+            target="_blank"
+            href="https://github.com/larskarbo/napchart-website"
+          >
+            <strong>napchart-website</strong>
+          </a>{" "}
+          on GitHub
+        </p>
+        <p className="field">
+          <a target="_blank" href="https://github.com/larskarbo/napchart">
+            <strong>napchart</strong>
+          </a>{" "}
+          on GitHub
+        </p>
+      </div>
         <div className="part">
           <label className="label">Time format</label>
           <div className="control">
@@ -53,7 +62,7 @@ export default class extends React.Component {
               <span> 24 hours</span>
             </label>
             {this.state.ampmChanged &&
-              <p>Refresh to update</p>  
+              <p>Refresh to update</p>
             }
           </div>
         </div>
@@ -69,17 +78,4 @@ export default class extends React.Component {
     })
   }
 
-  sendFeedback = (tab) => {
-    var value = this.refs.feedback.value
-
-
-  server.sendFeedback(value,  () => {
-      console.log('feedback sent')
-      this.refs.feedback.style.display = 'none'
-      this.refs.feedbacksend.style.display = 'none'
-      this.refs.afterfeedback.style.display = 'block'
-    })
-
-
-  }
 }

@@ -38,10 +38,10 @@
     "name": "Dual Core 2",
     "elements": [{
         "start": 1320,
-        "end": 40
+        "end": 60
       },
       {
-        "start": 340,
+        "start": 350,
         "end": 420
       },
       {
@@ -311,6 +311,31 @@
       {
         "start": 960,
         "end": 980
+      }
+    ]
+  },
+  {
+    "name": "SEVAMAYL",
+    
+    "elements": [{
+        "start": 480,
+        "end": 495
+      },
+      {
+        "start": 345,
+        "end": 360
+      },
+      {
+        "start": 695,
+        "end": 710
+      },
+      {
+        "start": 970,
+        "end": 985
+      },
+      {
+        "start": 1350,
+        "end": 180
       }
     ]
   },
