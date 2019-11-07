@@ -87,6 +87,7 @@ export default class App extends React.Component {
         <div className="Editor">
           {this.state.showPopup &&
             <PopupVoter onClose={() => {
+              console.log('closing')
               this.setState({
                 showPopup: false
               })
@@ -295,6 +296,6 @@ export default class App extends React.Component {
         console.log('setting to false')
         localStorage.setItem("has_voted", true)
       }
-    })
+    }, 300)
   }
 }

@@ -31,6 +31,7 @@ function Example() {
 }
 
 const PopupVoter = ({ onClose }) => {
+  console.log('popup')
   const [provider, setProvider] = React.useState(setOptions[0]);
   const [other, setOther] = React.useState("");
   return (
@@ -83,7 +84,7 @@ const PopupVoter = ({ onClose }) => {
           )}
         </Box>
         <Box width="100%" direction="row" justify="between">
-          <Button label="Cancel" onClick={onClose()} />
+          <Button label="Cancel" onClick={onClose} />
           <Button
             label="Send"
             primary
