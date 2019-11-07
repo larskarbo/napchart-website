@@ -31,7 +31,7 @@ const myTheme = {
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-
+    console.log('7.nov 2019')
     var chartid = false;
     if (window.location.pathname.length == 6) {
       chartid = window.location.pathname.substring(1);
@@ -289,10 +289,11 @@ export default class App extends React.Component {
       if(localStorage.getItem("has_voted")){
 
       } else {
-        localStorage.setItem("has_voted", true)
         this.setState({
           showPopup: true
         })
+        console.log('setting to false')
+        localStorage.setItem("has_voted", true)
       }
     })
   }
