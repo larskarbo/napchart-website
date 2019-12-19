@@ -133,6 +133,22 @@ export default class App extends React.Component {
                   <div className="currentInfo">
 
                     {sections[this.state.currentSection].element}
+                    <div className="dz" style={{
+                      marginTop: 10,
+                      display: "flex",
+
+                    }}>
+                      <div style={{
+                        width: "50%"
+                      }}>
+                        <h2>Neurotechnology for faster sleep onset.</h2>
+                        <p><a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your brain and mind to naturally fall asleep faster and sleep deeper.</p>
+                        <p>Early adopters: <a href="https://drowzee.typeform.com/to/ZTH4LA">typeform</a></p></div>
+                      <div style={{
+                        width: "50%"
+                      }}><img src="/dz.png" /></div>
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -278,24 +294,24 @@ export default class App extends React.Component {
     // then the user just saved chart and we will show share section instead
 
     if (window.location.toString().includes('s=1')) {
-      this.maybeVote()
+      // this.maybeVote()
       return 1
     }
 
     return 0
   }
 
-  maybeVote() {
-    setTimeout(() => {
-      if(localStorage.getItem("has_voted")){
+  // maybeVote() {
+  //   setTimeout(() => {
+  //     if(localStorage.getItem("has_voted")){
 
-      } else {
-        this.setState({
-          showPopup: true
-        })
-        console.log('setting to false')
-        localStorage.setItem("has_voted", true)
-      }
-    }, 300)
-  }
+  //     } else {
+  //       this.setState({
+  //         showPopup: true
+  //       })
+  //       console.log('setting to false')
+  //       localStorage.setItem("has_voted", true)
+  //     }
+  //   }, 300)
+  // }
 }
