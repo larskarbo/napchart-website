@@ -141,9 +141,9 @@ export default class App extends React.Component {
                       <div style={{
                         width: "50%"
                       }}>
-                        <h2>Neurotechnology for faster sleep onset.</h2>
-                        <p><a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your brain and mind to naturally fall asleep faster and sleep deeper.</p>
-                        <p>Early adopters: <a href="https://drowzee.typeform.com/to/ZTH4LA">typeform</a></p></div>
+                        <h2>Neurotechnology for reduced nighttime awakenings.</h2>
+                        <p><a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your brain go deeper into sleep and be less interruptive.</p>
+                        <p><a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/"><strong>Waking up in the middle of the night?</strong></a></p></div>
                       <div style={{
                         width: "50%"
                       }}><img src="/dz.png" /></div>

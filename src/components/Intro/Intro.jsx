@@ -96,6 +96,7 @@ export default class extends React.Component {
             <div className="container has-text-centered">
               <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
               <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
+              <p><a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/"><strong>Waking up in the middle of the night?</strong></a></p>
               <p>🌟 Copyright 2013-2018 Lars Karbo 🌟</p>
 
             </div>
