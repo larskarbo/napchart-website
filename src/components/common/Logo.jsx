@@ -37,7 +37,7 @@ export default class Chart extends React.Component {
 
           {height > 120 &&
             <span className={classNames("slogan", { dark: this.props.whiteBG })}>
-              24 hour time-planner
+              Polyphasic Sleep Planner
             </span>
           }
         </div>
