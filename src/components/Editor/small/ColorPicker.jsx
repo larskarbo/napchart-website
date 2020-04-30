@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 var colors = {
-  red: '#EA4335',
+  red: '#CC0000',
   blue: '#4285F4',
   brown: '#B15911',
   green: '#34A853',
