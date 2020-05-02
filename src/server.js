@@ -3,37 +3,38 @@
 import axios from "axios";
 import Parse from "parse";
 
-Parse.initialize(
-  "osxjLrTMW7cJ6r6IPOpDYXyuBzBRSzQTaNeza7O6",
-  "rijTlVRNfqPPV2X9MLnRAP1UDzQbz7UTRjfCOaQ6"
-);
-Parse.serverURL =
-  "https://pg-app-57gagyy9xq3pta5kvgpzs2dh6gv7w5.scalabl.cloud/1/";
-// Parse.initialize("napchart");
-// Parse.serverURL = "http://localhost:1337/1/";
+// Parse.initialize(
+//   "osxjLrTMW7cJ6r6IPOpDYXyuBzBRSzQTaNeza7O6",
+//   "rijTlVRNfqPPV2X9MLnRAP1UDzQbz7UTRjfCOaQ6"
+// );
+// Parse.serverURL =
+//   "https://pg-app-57gagyy9xq3pta5kvgpzs2dh6gv7w5.scalabl.cloud/1/";
+Parse.initialize("napchart");
+Parse.serverURL = "http://localhost:1337/1/";
 
 const Chart = Parse.Object.extend("Chart");
 
 export default {
   save: (data, title, description, cb) => {
-    var chart = new Chart();
+    axios.post("http://localhost:1771/api/create", 
+      {
+        chartid: "123f5",
+        title: title,
+        description: description,
+        chartData: data
+      }
+    )
+    .then(response => {
+      console.log(response);
+      console.log('response: ', response);
+      // var chartid = response.chartid;
 
-    const results = Parse.Cloud.run("createChart", {
-      chartid: "123f5",
-      title: title,
-      description: description,
-      chartData: data
+      // cb(null, chartid);
     })
-      .then(response => {
-        console.log(response);
-        var chartid = response.chartid;
-
-        cb(null, chartid);
-      })
-      .catch(hm => {
-        console.error("oh no!:", hm);
-        cb("Oh no! There was an error with your request. Please try again");
-      });
+    .catch(hm => {
+      console.error("oh no!:", hm);
+      cb("Oh no! There was an error with your request. Please try again");
+    });
   },
 
   loadChart: async (loading, loadFinish, cb) => {

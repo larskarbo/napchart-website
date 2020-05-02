@@ -4,15 +4,20 @@ import React from 'react';
 
 import Editor from './Editor/Editor.jsx'
 import Intro from './Intro/Intro.jsx'
+import User from './User'
 
 const routes = [
 	{
 		path: '/',
-	component: () => <Intro />
+		component: () => <Intro />
 	},
 	{
 		path: '/app',
 		component: () => <Editor />
+	},
+	{
+		path: '/user',
+		component: () => <User />
 	},
 	{
 		path: '/:chartid',

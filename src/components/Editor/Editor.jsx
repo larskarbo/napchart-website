@@ -19,6 +19,7 @@ import Controls from './sections/Controls.jsx'
 import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'
 
+import Parse from "parse";
 import server from '../../server'
 import { Grommet, Box, Button, Image, Text, Layer } from "grommet";
 const myTheme = {
@@ -45,8 +46,10 @@ export default class App extends React.Component {
       description: '',
       currentSection: this.getInitialSection(),
       ampm: this.getAmpm(),
-      showPopup: false
+      showPopup: false,
+      user: Parse.User.current()
     }
+    console.log('this.state.user: ', this.state.user);
   }
 
   render() {
