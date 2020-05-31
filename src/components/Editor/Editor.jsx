@@ -4,17 +4,17 @@ import c from 'classnames'
 
 import React from 'react'
 
-import Header from './Header.jsx'
-import BadBrowser from './BadBrowser.jsx'
-import ToolBar from './ToolBar.jsx'
-import Chart from './Chart.jsx'
-import Link from '../common/Link.jsx'
+import Header from './Header'
+import BadBrowser from './BadBrowser'
+import ToolBar from './ToolBar'
+import Chart from './Chart'
+import Link from '../common/Link'
 import { Helmet } from "react-helmet";
 
-import Export from './sections/Export.jsx'
-import Info from './sections/Info.jsx'
-import Polyphasic from './sections/Polyphasic.jsx'
-import Controls from './sections/Controls.jsx'
+import Export from './sections/Export'
+import Info from './sections/Info'
+import Polyphasic from './sections/Polyphasic'
+import Controls from './sections/Controls'
 
 import Cookies from 'js-cookie';
 import NotificationSystem from 'react-notification-system'

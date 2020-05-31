@@ -3,8 +3,8 @@ import classNames from 'classnames'
 
 import React from 'react'
 
-import Logo from '../common/Logo.jsx'
-import Link from '../common/Link.jsx'
+import Logo from '../common/Logo'
+import Link from '../common/Link'
 
 export default class extends React.Component {
   constructor(props) {

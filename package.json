@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@bit/primefaces.primereact.radiobutton": "^3.1.8",
+    "@types/node": "^14.0.6",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "add": "^2.0.6",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
@@ -18,9 +21,10 @@
     "react-dom": "^16.10.2",
     "react-helmet": "^5.2.1",
     "react-notification-system": "^0.2.17",
-    "react-scripts": "3.2.0",
+    "react-scripts": "3.4.1",
     "shuffle-array": "^1.0.1",
     "styled-components": "^4.4.1",
+    "typescript": "^3.9.3",
     "yarn": "^1.19.1"
   },
   "scripts": {
