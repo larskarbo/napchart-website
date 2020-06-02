@@ -20,6 +20,8 @@ import Cookies from "js-cookie";
 import NotificationSystem from "react-notification-system";
 
 import server from "../../server";
+import { ServerImpl } from "../../server/server_impl";
+import { Server } from "../../server/server";
 import { Grommet, Box, Button, Image, Text, Layer } from "grommet";
 const myTheme = {
   global: {
@@ -28,11 +30,29 @@ const myTheme = {
     },
   },
 };
-export default class App extends React.Component {
+
+type AppProps = {
+  server: Server;
+  chartid: any;
+};
+
+type AppState = {
+  napchart: any;
+  loading: boolean;
+  url: string;
+  chartid: any;
+  title: string;
+  description: string;
+  currentSection: any;
+  ampm: any;
+  showPopup: boolean;
+  slideSidebarMobile: any;
+};
+export default class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props);
     console.log("7.nov 2019");
-    var chartid = false;
+    let chartid: any = false;
     if (window.location.pathname.length == 6) {
       chartid = window.location.pathname.substring(1);
     }
@@ -46,8 +66,10 @@ export default class App extends React.Component {
       currentSection: this.getInitialSection(),
       ampm: this.getAmpm(),
       showPopup: false,
+      slideSidebarMobile: null,
     };
   }
+  _notify: any = null;
 
   render() {
     var sections = [
@@ -92,7 +114,7 @@ export default class App extends React.Component {
               }}
             />
           )}
-          <BadBrowser />
+          <BadBrowser name={null} />
           <NotificationSystem
             ref={(notificationSystem) => (this._notify = notificationSystem)}
           />
@@ -276,7 +298,7 @@ export default class App extends React.Component {
   save = () => {
     this.loading();
     var firstTimeSave = !this.props.chartid;
-    server.save(
+    this.props.server.save(
       this.state.napchart.data,
       this.state.title,
       this.state.description,
@@ -296,7 +318,7 @@ export default class App extends React.Component {
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
-    window.location = "/" + chartid + "?s=1";
+    window.location.href = "/" + chartid + "?s=1";
   };
 
   changeTitle = (event) => {
