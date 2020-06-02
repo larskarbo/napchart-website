@@ -19,7 +19,6 @@ import Controls from "./sections/Controls";
 import Cookies from "js-cookie";
 import NotificationSystem from "react-notification-system";
 
-import server from "../../server";
 import { ServerImpl } from "../../server/server_impl";
 import { Server } from "../../server/server";
 import { Grommet, Box, Button, Image, Text, Layer } from "grommet";

@@ -13,11 +13,13 @@ const routes = [
   },
   {
     path: "/app",
-    component: () => <Editor server={new ServerImpl()} />,
+    component: () => <Editor server={ServerImpl.getInstance()} />,
   },
   {
     path: "/:chartid",
-    component: (params) => <Editor chartid={"hey"} server={new ServerImpl()} />,
+    component: (params) => (
+      <Editor chartid={"hey"} server={ServerImpl.getInstance()} />
+    ),
   },
 ];
 

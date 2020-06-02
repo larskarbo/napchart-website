@@ -2,8 +2,7 @@ import React from "react";
 import uuid from "uuid";
 import Napchart from "napchart";
 
-import server from "../../server";
-import { Server } from "../../server";
+import { ServerImpl } from "../../server/server_impl";
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -68,7 +67,7 @@ export default class Chart extends React.Component {
     var ctx = canvas.getContext("2d");
 
     // first check if we should fetch some data
-    server.loadChart(
+    ServerImpl.getInstance().loadChart(
       this.props.onLoading,
       this.props.onLoadingFinish,
       (data) => {
