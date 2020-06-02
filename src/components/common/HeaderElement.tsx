@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from "react";
-import classNames from "classnames";
-import Link from "./Link";
+import React, { FunctionComponent } from 'react'
+import classNames from 'classnames'
+import Link from './Link'
 
 type HeaderElementProps = {
-  onClick: () => void;
-  style: any;
-  href: string;
-  className: string;
-  right: any;
-  children: any;
-};
+  onClick: () => void
+  style: any
+  href: string
+  className: string
+  right: any
+  children: any
+}
 export const HeaderElement: FunctionComponent<HeaderElementProps> = ({
   onClick,
   style,
@@ -18,20 +18,20 @@ export const HeaderElement: FunctionComponent<HeaderElementProps> = ({
   right,
   children,
 }) => {
-  let onClickFn: any;
-  if (typeof onClick == "undefined") {
-    onClickFn = () => {};
+  let onClickFn: any
+  if (typeof onClick == 'undefined') {
+    onClickFn = () => {}
   } else {
-    onClickFn = onClick;
+    onClickFn = onClick
   }
   return (
     <Link
       style={style}
       href={href}
-      className={classNames("HeaderElement", className, { right: right })}
+      className={classNames('HeaderElement', className, { right: right })}
       onClick={onClickFn}
     >
       <span>{children}</span>
     </Link>
-  );
-};
+  )
+}

@@ -9,7 +9,7 @@ export default class Chart extends React.Component {
     this.state = {
       napchart: false,
       hasStartedSpinning: false,
-      ref: uuid.v4()
+      ref: uuid.v4(),
     }
   }
 
@@ -24,22 +24,20 @@ export default class Chart extends React.Component {
 
     var height = this.props.height
     return (
-      <div className={"logoContainer " + this.props.className}>
+      <div className={'logoContainer ' + this.props.className}>
         <div className="canvasParent" style={{ width: height + 'px' }}>
           <canvas width={height} height={height} ref={this.state.ref}></canvas>
         </div>
         <div className="text">
-          {this.props.logoText &&
-            <span style={{ fontSize: height / 2 }}
-              className={classNames("logoText", { dark: this.props.whiteBG })}
-            >{this.props.logoText}</span>
-          }
-
-          {height > 120 &&
-            <span className={classNames("slogan", { dark: this.props.whiteBG })}>
-              Polyphasic Sleep Planner
+          {this.props.logoText && (
+            <span style={{ fontSize: height / 2 }} className={classNames('logoText', { dark: this.props.whiteBG })}>
+              {this.props.logoText}
             </span>
-          }
+          )}
+
+          {height > 120 && (
+            <span className={classNames('slogan', { dark: this.props.whiteBG })}>Polyphasic Sleep Planner</span>
+          )}
         </div>
       </div>
     )
@@ -49,34 +47,67 @@ export default class Chart extends React.Component {
     var canvas = this.refs[this.state.ref]
     var ctx = canvas.getContext('2d')
 
-    var elements = [{
-      "end": 320, "start": 30, "lane": 0, "id": 4082, "text": "", "color": "red", "duration": 240
-    }, {
-      "end": 680, "start": 390, "lane": 0, "id": 545, "text": "", "color": "green", "duration": 240
-    }, {
-      "start": 750, "end": 1040, "lane": 0, "id": 8540, "text": "", "color": "brown", "duration": 240
-    }, {
-      "start": 1110, "end": 1400, "lane": 0, "id": 9693, "text": "", "color": "yellow", "duration": 240
-    }]
+    var elements = [
+      {
+        end: 320,
+        start: 30,
+        lane: 0,
+        id: 4082,
+        text: '',
+        color: 'red',
+        duration: 240,
+      },
+      {
+        end: 680,
+        start: 390,
+        lane: 0,
+        id: 545,
+        text: '',
+        color: 'green',
+        duration: 240,
+      },
+      {
+        start: 750,
+        end: 1040,
+        lane: 0,
+        id: 8540,
+        text: '',
+        color: 'brown',
+        duration: 240,
+      },
+      {
+        start: 1110,
+        end: 1400,
+        lane: 0,
+        id: 9693,
+        text: '',
+        color: 'yellow',
+        duration: 240,
+      },
+    ]
 
     if (this.props.white) {
-      elements = elements.map(e => ({
+      elements = elements.map((e) => ({
         ...e,
-        color: 'white'
+        color: 'white',
       }))
     }
 
-    var napchart = Napchart.init(ctx, {
-      elements: elements,
-      shape: 'miniCircle',
-      lanes: 1
-    }, {
+    var napchart = Napchart.init(
+      ctx,
+      {
+        elements: elements,
+        shape: 'miniCircle',
+        lanes: 1,
+      },
+      {
         text: false,
         drawFace: false,
-        interaction: !this.props.noInteraction ? true : false
-      })
+        interaction: !this.props.noInteraction ? true : false,
+      },
+    )
 
-    napchart.data.elements.forEach(element => {
+    napchart.data.elements.forEach((element) => {
       element.initialStart = element.start
       element.initialEnd = element.end
     })
@@ -86,7 +117,7 @@ export default class Chart extends React.Component {
 
   spinLoad = (callback) => {
     this.setState({
-      hasStartedSpinning: true
+      hasStartedSpinning: true,
     })
 
     var shouldIContinue = () => {
@@ -95,7 +126,7 @@ export default class Chart extends React.Component {
       } else {
         this.endSpin(() => {
           this.setState({
-            hasStartedSpinning: false
+            hasStartedSpinning: false,
           })
         })
       }
@@ -131,8 +162,7 @@ export default class Chart extends React.Component {
       }
       var progress = easingEffect(progress)
 
-
-      var newElements = napchart.data.elements.map(element => {
+      var newElements = napchart.data.elements.map((element) => {
         var distance = 1440
 
         var sizeAnimate = 36 * progress
@@ -143,7 +173,7 @@ export default class Chart extends React.Component {
         return {
           ...element,
           start,
-          end// + distance * progress + sizeAnimate
+          end, // + distance * progress + sizeAnimate
         }
       })
       napchart.setElements(newElements)
@@ -155,7 +185,6 @@ export default class Chart extends React.Component {
 
     step()
   }
-
 }
 
 var easingEffects = {
@@ -170,9 +199,9 @@ var easingEffects = {
   },
   easeInOutQuad: function (t) {
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * t * t
+      return (1 / 2) * t * t
     }
-    return -1 / 2 * ((--t) * (t - 2) - 1)
+    return (-1 / 2) * (--t * (t - 2) - 1)
   },
   easeInCubic: function (t) {
     return t * t * t
@@ -182,9 +211,9 @@ var easingEffects = {
   },
   easeInOutCubic: function (t) {
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * t * t * t
+      return (1 / 2) * t * t * t
     }
-    return 1 / 2 * ((t -= 2) * t * t + 2)
+    return (1 / 2) * ((t -= 2) * t * t + 2)
   },
   easeInQuart: function (t) {
     return t * t * t * t
@@ -194,9 +223,9 @@ var easingEffects = {
   },
   easeInOutQuart: function (t) {
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * t * t * t * t
+      return (1 / 2) * t * t * t * t
     }
-    return -1 / 2 * ((t -= 2) * t * t * t - 2)
+    return (-1 / 2) * ((t -= 2) * t * t * t - 2)
   },
   easeInQuint: function (t) {
     return 1 * (t /= 1) * t * t * t * t
@@ -206,24 +235,24 @@ var easingEffects = {
   },
   easeInOutQuint: function (t) {
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * t * t * t * t * t
+      return (1 / 2) * t * t * t * t * t
     }
-    return 1 / 2 * ((t -= 2) * t * t * t * t + 2)
+    return (1 / 2) * ((t -= 2) * t * t * t * t + 2)
   },
   easeInSine: function (t) {
-    return -1 * Math.cos(t / 1 * (Math.PI / 2)) + 1
+    return -1 * Math.cos((t / 1) * (Math.PI / 2)) + 1
   },
   easeOutSine: function (t) {
-    return 1 * Math.sin(t / 1 * (Math.PI / 2))
+    return 1 * Math.sin((t / 1) * (Math.PI / 2))
   },
   easeInOutSine: function (t) {
-    return -1 / 2 * (Math.cos(Math.PI * t / 1) - 1)
+    return (-1 / 2) * (Math.cos((Math.PI * t) / 1) - 1)
   },
   easeInExpo: function (t) {
-    return (t === 0) ? 1 : 1 * Math.pow(2, 10 * (t / 1 - 1))
+    return t === 0 ? 1 : 1 * Math.pow(2, 10 * (t / 1 - 1))
   },
   easeOutExpo: function (t) {
-    return (t === 1) ? 1 : 1 * (-Math.pow(2, -10 * t / 1) + 1)
+    return t === 1 ? 1 : 1 * (-Math.pow(2, (-10 * t) / 1) + 1)
   },
   easeInOutExpo: function (t) {
     if (t === 0) {
@@ -233,9 +262,9 @@ var easingEffects = {
       return 1
     }
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * Math.pow(2, 10 * (t - 1))
+      return (1 / 2) * Math.pow(2, 10 * (t - 1))
     }
-    return 1 / 2 * (-Math.pow(2, -10 * --t) + 2)
+    return (1 / 2) * (-Math.pow(2, -10 * --t) + 2)
   },
   easeInCirc: function (t) {
     if (t >= 1) {
@@ -248,9 +277,9 @@ var easingEffects = {
   },
   easeInOutCirc: function (t) {
     if ((t /= 1 / 2) < 1) {
-      return -1 / 2 * (Math.sqrt(1 - t * t) - 1)
+      return (-1 / 2) * (Math.sqrt(1 - t * t) - 1)
     }
-    return 1 / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1)
+    return (1 / 2) * (Math.sqrt(1 - (t -= 2) * t) + 1)
   },
   easeInElastic: function (t) {
     var s = 1.70158
@@ -269,9 +298,9 @@ var easingEffects = {
       a = 1
       s = p / 4
     } else {
-      s = p / (2 * Math.PI) * Math.asin(1 / a)
+      s = (p / (2 * Math.PI)) * Math.asin(1 / a)
     }
-    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p))
+    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * 1 - s) * (2 * Math.PI)) / p))
   },
   easeOutElastic: function (t) {
     var s = 1.70158
@@ -290,9 +319,9 @@ var easingEffects = {
       a = 1
       s = p / 4
     } else {
-      s = p / (2 * Math.PI) * Math.asin(1 / a)
+      s = (p / (2 * Math.PI)) * Math.asin(1 / a)
     }
-    return a * Math.pow(2, -10 * t) * Math.sin((t * 1 - s) * (2 * Math.PI) / p) + 1
+    return a * Math.pow(2, -10 * t) * Math.sin(((t * 1 - s) * (2 * Math.PI)) / p) + 1
   },
   easeInOutElastic: function (t) {
     var s = 1.70158
@@ -311,12 +340,12 @@ var easingEffects = {
       a = 1
       s = p / 4
     } else {
-      s = p / (2 * Math.PI) * Math.asin(1 / a)
+      s = (p / (2 * Math.PI)) * Math.asin(1 / a)
     }
     if (t < 1) {
-      return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p))
+      return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * 1 - s) * (2 * Math.PI)) / p))
     }
-    return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p) * 0.5 + 1
+    return a * Math.pow(2, -10 * (t -= 1)) * Math.sin(((t * 1 - s) * (2 * Math.PI)) / p) * 0.5 + 1
   },
   easeInBack: function (t) {
     var s = 1.70158
@@ -329,27 +358,27 @@ var easingEffects = {
   easeInOutBack: function (t) {
     var s = 1.70158
     if ((t /= 1 / 2) < 1) {
-      return 1 / 2 * (t * t * (((s *= (1.525)) + 1) * t - s))
+      return (1 / 2) * (t * t * (((s *= 1.525) + 1) * t - s))
     }
-    return 1 / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2)
+    return (1 / 2) * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2)
   },
   easeInBounce: function (t) {
     return 1 - easingEffects.easeOutBounce(1 - t)
   },
   easeOutBounce: function (t) {
-    if ((t /= 1) < (1 / 2.75)) {
+    if ((t /= 1) < 1 / 2.75) {
       return 1 * (7.5625 * t * t)
-    } else if (t < (2 / 2.75)) {
-      return 1 * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)
-    } else if (t < (2.5 / 2.75)) {
-      return 1 * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)
+    } else if (t < 2 / 2.75) {
+      return 1 * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75)
+    } else if (t < 2.5 / 2.75) {
+      return 1 * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375)
     }
-    return 1 * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)
+    return 1 * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375)
   },
   easeInOutBounce: function (t) {
     if (t < 1 / 2) {
       return easingEffects.easeInBounce(t * 2) * 0.5
     }
     return easingEffects.easeOutBounce(t * 2 - 1) * 0.5 + 1 * 0.5
-  }
+  },
 }

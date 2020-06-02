@@ -3,13 +3,12 @@ import sampleSchedules from './polyphasic/sampleSchedules.json'
 import ColorPicker from '../small/ColorPicker'
 import Lanes from '../small/Lanes'
 
-
 export default class Polyphasic extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       sleepLane: 0,
-      color: 'red'
+      color: 'red',
     }
   }
 
@@ -26,15 +25,10 @@ export default class Polyphasic extends React.Component {
           />
         </div>
         <div className="field">
-          <ColorPicker
-            onClick={this.changeColor}
-            activeColor={this.state.color}
-          />
+          <ColorPicker onClick={this.changeColor} activeColor={this.state.color} />
         </div>
         <div className="panel field">
-          <p className="panel-heading">
-            Schedules
-          </p>
+          <p className="panel-heading">Schedules</p>
           {/* <div className="panel-block">
             <p className="control has-icons-left">
               <input className="input is-small" type="text" placeholder="search" />
@@ -51,10 +45,8 @@ export default class Polyphasic extends React.Component {
             <a>forks</a>
           </p> */}
 
-
-          {sampleSchedules.map(schedule => (
-            <a key={schedule.name} className="panel-block"
-              onClick={this.changeSchedule.bind(null, schedule)}>
+          {sampleSchedules.map((schedule) => (
+            <a key={schedule.name} className="panel-block" onClick={this.changeSchedule.bind(null, schedule)}>
               <div className="level is-mobile schedule">
                 <div className="level-left">
                   <div className="level-item">
@@ -84,12 +76,12 @@ export default class Polyphasic extends React.Component {
 
   changeSchedule = (schedule) => {
     var lane = this.state.sleepLane // because napchart counts from 0, 1, 2 ...
-    var elements = schedule.elements.map(element => {
+    var elements = schedule.elements.map((element) => {
       return {
         start: element.start,
         end: element.end,
         lane: lane,
-        color: this.state.color
+        color: this.state.color,
       }
     })
     var napchart = this.props.napchart
@@ -98,20 +90,19 @@ export default class Polyphasic extends React.Component {
     napchart.history.add('Use polyphasic schedule')
 
     // find a element on the lane and select it
-    var eol = napchart.data.elements.find(e => e.lane == lane)
+    var eol = napchart.data.elements.find((e) => e.lane == lane)
     napchart.setSelected(eol.id)
   }
 
   setLane = (lane) => {
     this.setState({
-      sleepLane: lane
+      sleepLane: lane,
     })
   }
 
   changeColor = (color) => {
     this.setState({
-      color: color
+      color: color,
     })
   }
-
 }

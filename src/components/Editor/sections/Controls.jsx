@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import Feedback from "./Feedback";
-import Shapes from "../small/Shapes";
-import SuperLanes from "../small/SuperLanes";
-import SelectedElement from "../small/SelectedElement";
-import { ServerImpl } from "../../../server/server_impl";
+import React, { Component } from 'react'
+import Feedback from './Feedback'
+import Shapes from '../small/Shapes'
+import SuperLanes from '../small/SuperLanes'
+import SelectedElement from '../small/SelectedElement'
+import { ServerImpl } from '../../../server/server_impl'
 export default class Controls extends Component {
   render() {
-    var { napchart } = this.props;
+    var { napchart } = this.props
     if (!napchart) {
-      return null;
+      return null
     }
     return (
       <div>
@@ -40,17 +40,17 @@ export default class Controls extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   sendFeedback = (tab) => {
-    var value = this.refs.feedback.value;
+    var value = this.refs.feedback.value
 
     ServerImpl.getInstance().sendFeedback(value, () => {
-      console.log("feedback sent");
-      this.refs.feedback.style.display = "none";
-      this.refs.feedbacksend.style.display = "none";
-      this.refs.afterfeedback.style.display = "block";
-    });
-  };
+      console.log('feedback sent')
+      this.refs.feedback.style.display = 'none'
+      this.refs.feedbacksend.style.display = 'none'
+      this.refs.afterfeedback.style.display = 'block'
+    })
+  }
 }

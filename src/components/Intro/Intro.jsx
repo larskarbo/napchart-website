@@ -1,4 +1,3 @@
-
 import classNames from 'classnames'
 
 import React from 'react'
@@ -10,8 +9,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-    }
+    this.state = {}
   }
 
   render() {
@@ -29,10 +27,8 @@ export default class extends React.Component {
             <Link href="/app">
               <Logo white noInteraction logoText="GO TO APP" height="45" />
             </Link>
-
           </div>
         </section>
-
 
         <section className="section hero is-light">
           <div className="hero-body">
@@ -41,8 +37,7 @@ export default class extends React.Component {
                 <div className="column has-text-centered">
                   <h1 className="title is-3">Visualize complex time schedules</h1>
 
-                  <video src="/chartvideo.mp4" poster="/chartvideothumb.png" autoPlay loop muted>
-                  </video>
+                  <video src="/chartvideo.mp4" poster="/chartvideothumb.png" autoPlay loop muted></video>
                 </div>
               </div>
             </div>
@@ -71,8 +66,10 @@ export default class extends React.Component {
               <div className="columns rtl">
                 <div className="column has-text-centered vertical-align-center">
                   <h2 className="title is-2">Experiment with polyphasic sleep</h2>
-                  <p>Napchart has over 20 polyphasic sleep presets and is often
-                used by the community to share, discuss and plan schedules</p>
+                  <p>
+                    Napchart has over 20 polyphasic sleep presets and is often used by the community to share, discuss
+                    and plan schedules
+                  </p>
                 </div>
                 <div className="column has-text-centered">
                   <img src="/polyphasic.png" />
@@ -81,7 +78,6 @@ export default class extends React.Component {
             </div>
           </div>
         </section>
-
 
         <section className="section hero is-dark">
           <div className="hero-body">
@@ -94,15 +90,27 @@ export default class extends React.Component {
 
           <div className="hero-foot">
             <div className="container has-text-centered">
-              <p><a target="_blank" href="fjdi"><strong>napchart-website</strong></a> on GitHub</p>
-              <p><a target="_blank" href="fjdi"><strong>napchart</strong></a> on GitHub</p>
-              <p><a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/"><strong>Waking up in the middle of the night?</strong></a></p>
+              <p>
+                <a target="_blank" href="fjdi">
+                  <strong>napchart-website</strong>
+                </a>{' '}
+                on GitHub
+              </p>
+              <p>
+                <a target="_blank" href="fjdi">
+                  <strong>napchart</strong>
+                </a>{' '}
+                on GitHub
+              </p>
+              <p>
+                <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
+                  <strong>Waking up in the middle of the night?</strong>
+                </a>
+              </p>
               <p>🌟 Copyright 2013-2021 Lars Karbo 🌟</p>
-
             </div>
           </div>
         </section>
-
       </div>
     )
   }

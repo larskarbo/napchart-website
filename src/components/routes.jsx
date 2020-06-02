@@ -1,51 +1,49 @@
-import toRegex from "path-to-regexp";
+import toRegex from 'path-to-regexp'
 
-import React from "react";
+import React from 'react'
 
-import Editor from "./Editor/Editor";
-import Intro from "./Intro/Intro";
-import { ServerImpl } from "../server/server_impl";
+import Editor from './Editor/Editor'
+import Intro from './Intro/Intro'
+import { ServerImpl } from '../server/server_impl'
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     component: () => <Intro />,
   },
   {
-    path: "/app",
+    path: '/app',
     component: () => <Editor server={ServerImpl.getInstance()} />,
   },
   {
-    path: "/:chartid",
-    component: (params) => (
-      <Editor chartid={"hey"} server={ServerImpl.getInstance()} />
-    ),
+    path: '/:chartid',
+    component: (params) => <Editor chartid={'hey'} server={ServerImpl.getInstance()} />,
   },
-];
+]
 
 function matchURI(path, uri) {
-  const keys = [];
-  const pattern = toRegex(path, keys); // TODO: Use caching
-  const match = pattern.exec(uri);
-  if (!match) return null;
-  const params = Object.create(null);
+  const keys = []
+  const pattern = toRegex(path, keys) // TODO: Use caching
+  const match = pattern.exec(uri)
+  if (!match) return null
+  const params = Object.create(null)
   for (let i = 1; i < match.length; i++) {
-    params[keys[i - 1].name] = match[i] !== undefined ? match[i] : undefined;
+    params[keys[i - 1].name] = match[i] !== undefined ? match[i] : undefined
   }
-  return params;
+  return params
 }
 
 function resolve(context) {
   for (const route of routes) {
-    const uri = context.error ? "/error" : context.pathname;
-    const params = matchURI(route.path, uri);
-    if (!params) continue;
-    const result = route.component(params);
-    if (result) return result;
+    const uri = context.error ? '/error' : context.pathname
+    const params = matchURI(route.path, uri)
+    if (!params) continue
+    const result = route.component(params)
+    if (result) return result
   }
-  const error = new Error("Not found");
-  error.status = 404;
-  throw error;
+  const error = new Error('Not found')
+  error.status = 404
+  throw error
 }
 
-export default { resolve };
+export default { resolve }

@@ -1,6 +1,8 @@
-[{
+[
+  {
     "name": "Bimaxion",
-    "elements": [{
+    "elements": [
+      {
         "start": 1350,
         "end": 0
       },
@@ -20,7 +22,8 @@
   },
   {
     "name": "Dual Core 1",
-    "elements": [{
+    "elements": [
+      {
         "start": 350,
         "end": 450
       },
@@ -36,7 +39,8 @@
   },
   {
     "name": "Dual Core 2",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 60
       },
@@ -56,7 +60,8 @@
   },
   {
     "name": "Dual Core 3",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 1410
       },
@@ -80,7 +85,8 @@
   },
   {
     "name": "Dual Core 4",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 1410
       },
@@ -108,7 +114,8 @@
   },
   {
     "name": "Dymaxion",
-    "elements": [{
+    "elements": [
+      {
         "start": 1050,
         "end": 1080
       },
@@ -128,7 +135,8 @@
   },
   {
     "name": "Everyman 1",
-    "elements": [{
+    "elements": [
+      {
         "start": 1380,
         "end": 300
       },
@@ -140,7 +148,8 @@
   },
   {
     "name": "Everyman 2",
-    "elements": [{
+    "elements": [
+      {
         "start": 1380,
         "end": 210
       },
@@ -156,7 +165,8 @@
   },
   {
     "name": "Everyman 3",
-    "elements": [{
+    "elements": [
+      {
         "start": 1260,
         "end": 0
       },
@@ -176,7 +186,8 @@
   },
   {
     "name": "Everyman 4",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 1410
       },
@@ -200,7 +211,8 @@
   },
   {
     "name": "Everyman 5",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 1410
       },
@@ -228,7 +240,8 @@
   },
   {
     "name": "Naptation",
-    "elements": [{
+    "elements": [
+      {
         "start": 0,
         "end": 20
       },
@@ -280,7 +293,8 @@
   },
   {
     "name": "SPAMAYL",
-    "elements": [{
+    "elements": [
+      {
         "start": 1260,
         "end": 1280
       },
@@ -316,8 +330,9 @@
   },
   {
     "name": "SEVAMAYL",
-    
-    "elements": [{
+
+    "elements": [
+      {
         "start": 480,
         "end": 495
       },
@@ -341,7 +356,8 @@
   },
   {
     "name": "Segmented",
-    "elements": [{
+    "elements": [
+      {
         "start": 1320,
         "end": 90
       },
@@ -353,7 +369,8 @@
   },
   {
     "name": "Siesta",
-    "elements": [{
+    "elements": [
+      {
         "start": 1380,
         "end": 240
       },
@@ -365,7 +382,8 @@
   },
   {
     "name": "Tesla",
-    "elements": [{
+    "elements": [
+      {
         "start": 1060,
         "end": 1080
       },
@@ -385,7 +403,8 @@
   },
   {
     "name": "Tri Core 1",
-    "elements": [{
+    "elements": [
+      {
         "start": 1290,
         "end": 1380
       },
@@ -405,7 +424,8 @@
   },
   {
     "name": "Tri Core 2",
-    "elements": [{
+    "elements": [
+      {
         "start": 1380,
         "end": 30
       },
@@ -429,7 +449,8 @@
   },
   {
     "name": "Trimaxion",
-    "elements": [{
+    "elements": [
+      {
         "start": 1350,
         "end": 0
       },
@@ -449,7 +470,8 @@
   },
   {
     "name": "Triphasic",
-    "elements": [{
+    "elements": [
+      {
         "start": 1350,
         "end": 0
       },
@@ -465,7 +487,8 @@
   },
   {
     "name": "Uberman",
-    "elements": [{
+    "elements": [
+      {
         "start": 960,
         "end": 980
       },
@@ -493,9 +516,11 @@
   },
   {
     "name": "Monophasic",
-    "elements": [{
-      "start": 0,
-      "end": 480
-    }]
+    "elements": [
+      {
+        "start": 0,
+        "end": 480
+      }
+    ]
   }
 ]

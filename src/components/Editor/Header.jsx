@@ -1,8 +1,6 @@
-
 import React from 'react'
 import Logo from '../common/Logo'
 import c from 'classnames'
-
 
 export default class extends React.Component {
   constructor(props) {
@@ -22,45 +20,45 @@ export default class extends React.Component {
           </a>
           <div className="meta level-item">
             <div className="chartTitle">
-              {this.state.editingTitle &&
-                <input type='text' placeholder='Untitled'
+              {this.state.editingTitle && (
+                <input
+                  type="text"
+                  placeholder="Untitled"
                   ref={this.focusField}
                   onBlur={this.editTitleOff}
                   onChange={this.props.changeTitle}
-                  value={this.props.title} />
-              }
-              {!this.state.editingTitle && this.props.chartid &&
-                <h1 onClick={this.editTitle}>
-                  {this.props.title || 'Untitled'}
-                </h1>
-              }
-              {!this.state.editingTitle && !this.props.chartid &&
-                <h1>
-                  Unsaved chart
-                </h1>
-              }
+                  value={this.props.title}
+                />
+              )}
+              {!this.state.editingTitle && this.props.chartid && (
+                <h1 onClick={this.editTitle}>{this.props.title || 'Untitled'}</h1>
+              )}
+              {!this.state.editingTitle && !this.props.chartid && <h1>Unsaved chart</h1>}
             </div>
           </div>
         </div>
 
         <div className="level-right">
-
-          <a onClick={this.props.save} className={c("button is-light level-item", {'is-loading': this.props.loading})}>Save</a>
+          <a
+            onClick={this.props.save}
+            className={c('button is-light level-item', { 'is-loading': this.props.loading })}
+          >
+            Save
+          </a>
         </div>
-
       </header>
     )
   }
 
   editTitle = () => {
     this.setState({
-      editingTitle: true
+      editingTitle: true,
     })
   }
 
   editTitleOff = () => {
     this.setState({
-      editingTitle: false
+      editingTitle: false,
     })
   }
 
@@ -68,8 +66,8 @@ export default class extends React.Component {
     if (!input) {
       return
     }
-    const length = input.value.length;
-    input.focus();
-    input.setSelectionRange(length, length);
+    const length = input.value.length
+    input.focus()
+    input.setSelectionRange(length, length)
   }
 }

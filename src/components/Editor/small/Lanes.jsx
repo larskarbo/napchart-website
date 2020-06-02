@@ -19,11 +19,12 @@ export default class Lanes extends React.Component {
         'is-active': index == this.props.active,
         'is-dark': index == this.props.active,
         disabled: disabled,
-        napchartDontLoseFocus: true
+        napchartDontLoseFocus: true,
       }
       return (
         <p className="control" key={index}>
-          <button className={c(classes)}
+          <button
+            className={c(classes)}
             onClick={!disabled && this.props.clickLane.bind('', index)}
             disabled={disabled}
           >
@@ -33,20 +34,22 @@ export default class Lanes extends React.Component {
       )
     })
 
-    const activeLaneConfig = napchart.getLaneConfig(this.props.active);
+    const activeLaneConfig = napchart.getLaneConfig(this.props.active)
     return (
-      <div className="field has-addons level is-mobile" >
+      <div className="field has-addons level is-mobile">
         <div className="level-left">
-          <div className="level-item">
-            Lane:
-          </div>
-          <div className="level-item">
-            {laneButtons}
-          </div>
+          <div className="level-item">Lane:</div>
+          <div className="level-item">{laneButtons}</div>
           <div className="level-item">
             <button
               onClick={napchart.toggleLockLane.bind(napchart, this.props.active)}
-              className={c("button is-small", { 'is-active': activeLaneConfig.locked, 'is-dark': activeLaneConfig.locked })}>Lock</button>
+              className={c('button is-small', {
+                'is-active': activeLaneConfig.locked,
+                'is-dark': activeLaneConfig.locked,
+              })}
+            >
+              Lock
+            </button>
           </div>
         </div>
       </div>

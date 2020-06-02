@@ -1,12 +1,10 @@
-
 import React from 'react'
 
 export default class extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-    }
+    this.state = {}
   }
 
   render() {
@@ -18,8 +16,7 @@ export default class extends React.Component {
     return (
       <div className="ToolBar">
         <div className="level is-mobile">
-          <div className="level-left">
-          </div>
+          <div className="level-left"></div>
           <div className="level-center">
             <div className="level-item">
               <h2 className="subtitle is-6 has-text-grey">{this.props.title}</h2>
@@ -31,15 +28,20 @@ export default class extends React.Component {
                 onClick={napchart.history.back.bind(napchart)}
                 className="button is-dark is-outlined is-small"
                 disabled={!napchart.history.canIGoBack()}
-                title={"Undo " + napchart.history.canIGoBack()}
-              >Undo</button>
+                title={'Undo ' + napchart.history.canIGoBack()}
+              >
+                Undo
+              </button>
             </div>
             <div className="level-item">
               <button
                 onClick={napchart.history.forward.bind(napchart)}
                 className="button is-dark is-outlined is-small"
                 disabled={!napchart.history.canIGoForward()}
-                title={"Redo " + napchart.history.canIGoForward()}>Redo</button>
+                title={'Redo ' + napchart.history.canIGoForward()}
+              >
+                Redo
+              </button>
             </div>
           </div>
         </div>
