@@ -48,6 +48,18 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "homepage": "https://napchart.com"
+  "devDependencies": {
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "^2.0.5"
+  },
+  "homepage": "https://napchart.com",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
+  }
 }
