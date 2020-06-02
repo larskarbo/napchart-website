@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import server from '../../../server'
-import Feedback from './Feedback'
-import Shapes from '../small/Shapes'
-import SuperLanes from '../small/SuperLanes'
-import SelectedElement from '../small/SelectedElement'
-
+import React, { Component } from "react";
+import Feedback from "./Feedback";
+import Shapes from "../small/Shapes";
+import SuperLanes from "../small/SuperLanes";
+import SelectedElement from "../small/SelectedElement";
+import { ServerImpl } from "../../../server/server_impl";
 export default class Controls extends Component {
   render() {
-    var { napchart } = this.props
+    var { napchart } = this.props;
     if (!napchart) {
-      return null
+      return null;
     }
     return (
       <div>
@@ -19,45 +18,39 @@ export default class Controls extends Component {
               {/* <div className="field title is-6">
                 Description:
               </div> */}
-              <textarea type='text' className="description" placeholder='Describe this chart'
+              <textarea
+                type="text"
+                className="description"
+                placeholder="Describe this chart"
                 onChange={this.props.changeDescription}
-                value={this.props.description} />
+                value={this.props.description}
+              />
             </div>
             <div className="part">
               <Shapes napchart={napchart} />
             </div>
             <div className="part">
-              <SuperLanes
-                napchart={napchart}
-              />
+              <SuperLanes napchart={napchart} />
             </div>
             <div className="part">
-              <div className="field title is-6">
-                Color:
-              </div>
+              <div className="field title is-6">Color:</div>
               <SelectedElement napchart={napchart} />
             </div>
             <Feedback />
-
           </div>
-
         </div>
       </div>
-    )
+    );
   }
-
 
   sendFeedback = (tab) => {
-    var value = this.refs.feedback.value
+    var value = this.refs.feedback.value;
 
-
-    server.sendFeedback(value, () => {
-      console.log('feedback sent')
-      this.refs.feedback.style.display = 'none'
-      this.refs.feedbacksend.style.display = 'none'
-      this.refs.afterfeedback.style.display = 'block'
-    })
-
-
-  }
-};
+    ServerImpl.getInstance().sendFeedback(value, () => {
+      console.log("feedback sent");
+      this.refs.feedback.style.display = "none";
+      this.refs.feedbacksend.style.display = "none";
+      this.refs.afterfeedback.style.display = "block";
+    });
+  };
+}
