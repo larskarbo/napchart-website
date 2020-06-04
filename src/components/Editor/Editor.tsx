@@ -1,5 +1,3 @@
-import PopupVoter from './PopupVoter'
-
 import c from 'classnames'
 
 import React from 'react'
@@ -103,16 +101,6 @@ export default class App extends React.Component<AppProps, AppState> {
     return (
       <Grommet theme={myTheme}>
         <div className="Editor">
-          {this.state.showPopup && (
-            <PopupVoter
-              onClose={() => {
-                console.log('closing')
-                this.setState({
-                  showPopup: false,
-                })
-              }}
-            />
-          )}
           <BadBrowser name={null} />
           <NotificationSystem ref={(notificationSystem) => (this._notify = notificationSystem)} />
           <Helmet>
@@ -344,18 +332,4 @@ export default class App extends React.Component<AppProps, AppState> {
 
     return 0
   }
-
-  // maybeVote() {
-  //   setTimeout(() => {
-  //     if(localStorage.getItem("has_voted")){
-
-  //     } else {
-  //       this.setState({
-  //         showPopup: true
-  //       })
-  //       console.log('setting to false')
-  //       localStorage.setItem("has_voted", true)
-  //     }
-  //   }, 300)
-  // }
 }
