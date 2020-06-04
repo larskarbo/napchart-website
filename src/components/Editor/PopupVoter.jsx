@@ -43,7 +43,7 @@ const PopupVoter = ({ onClose }) => {
                 setProvider(r)
               }}
             >
-              <RadioButton
+              {/* <RadioButton
                 checked={provider == r}
                 name={r}
                 value={r}
@@ -57,7 +57,7 @@ const PopupVoter = ({ onClose }) => {
                   marginRight: 10,
                   marginBottom: 5,
                 }}
-              />
+              /> */}
               <label htmlFor={r} className="p-radiobutton-label">
                 {r}
               </label>

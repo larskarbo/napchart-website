@@ -80,7 +80,7 @@ export default class App extends React.Component<AppProps, AppState> {
             changeDescription={this.changeDescription}
           />
         ),
-        text: 'Chart',
+        text: 'My Charts',
         title: 'Chart controls',
       },
       {
