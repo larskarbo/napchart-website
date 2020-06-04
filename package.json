@@ -3,16 +3,20 @@
   "version": "2.0.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-env": "^7.10.2",
     "@bit/primefaces.primereact.radiobutton": "^3.1.8",
+    "@types/jest": "^25.2.3",
     "@types/node": "^14.0.6",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "add": "^2.0.6",
     "axios": "^0.19.0",
+    "babel-jest": "^26.0.1",
     "classnames": "^2.2.6",
     "grommet": "^2.7.11",
     "grommet-icons": "^4.4.0",
     "history": "^4.10.1",
+    "jest-dom": "^4.0.0",
     "js-cookie": "^2.2.1",
     "napchart": "^3.0.11",
     "node-sass": "^4.12.0",
@@ -30,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,6 +52,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0"
+  },
   "homepage": "https://napchart.com"
 }
