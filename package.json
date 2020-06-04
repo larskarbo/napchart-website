@@ -56,5 +56,10 @@
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0"
   },
-  "homepage": "https://napchart.com"
+  "homepage": "https://napchart.com",
+  "jest": {
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
+  }
 }
