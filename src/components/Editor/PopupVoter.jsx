@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RadioButton } from "@bit/primefaces.primereact.radiobutton";
 import {
   Grommet,
   Box,
@@ -7,7 +6,7 @@ import {
   Layer,
   RadioButtonGroup,
   TextInput,
-  Button
+  Button,
 } from "grommet";
 
 import Parse from "parse";
@@ -15,7 +14,7 @@ import shuffle from "shuffle-array";
 const setOptions = shuffle([
   "Email & password authentication",
   "Google authentication",
-  "Facebook authentication"
+  "Facebook authentication",
 ]);
 
 function Example() {
@@ -25,13 +24,13 @@ function Example() {
       name="doc"
       options={["one", "two"]}
       value={value}
-      onChange={event => setValue(event.target.value)}
+      onChange={(event) => setValue(event.target.value)}
     />
   );
 }
 
 const PopupVoter = ({ onClose }) => {
-  console.log('popup')
+  console.log("popup");
   const [provider, setProvider] = React.useState(setOptions[0]);
   const [other, setOther] = React.useState("");
   return (
@@ -47,7 +46,7 @@ const PopupVoter = ({ onClose }) => {
           </Text>
         </Box>
         <Box pad="small">
-          {[...setOptions, "Other"].map(r => (
+          {[...setOptions, "Other"].map((r) => (
             <Box
               pad={{ vertical: "small" }}
               direction="row"
@@ -55,21 +54,21 @@ const PopupVoter = ({ onClose }) => {
                 setProvider(r);
               }}
             >
-              <RadioButton
+              {/* <RadioButton
                 checked={provider == r}
                 name={r}
                 value={r}
                 key={r}
                 disabled={false}
-                onChange={event => {
+                onChange={(event) => {
                   console.log("hest");
                   setProvider(r);
                 }}
                 style={{
                   marginRight: 10,
-                  marginBottom: 5
+                  marginBottom: 5,
                 }}
-              />
+              /> */}
               <label htmlFor={r} className="p-radiobutton-label">
                 {r}
               </label>
@@ -79,7 +78,7 @@ const PopupVoter = ({ onClose }) => {
             <TextInput
               placeholder="Please specify"
               value={other}
-              onChange={event => setOther(event.target.value)}
+              onChange={(event) => setOther(event.target.value)}
             />
           )}
         </Box>
@@ -90,31 +89,28 @@ const PopupVoter = ({ onClose }) => {
             primary
             onClick={async () => {
               const Votes = Parse.Object.extend("Votes");
-              
+
               const query = new Parse.Query(Votes);
 
-              onClose()
+              onClose();
 
-              const providerSuggestion = provider == 'Other' ? other : provider
+              const providerSuggestion = provider == "Other" ? other : provider;
 
               query.equalTo("provider", providerSuggestion);
               const results = await query.find();
-              console.log('results: ', results);
+              console.log("results: ", results);
 
-              if(results.length == 0){
+              if (results.length == 0) {
                 const vote = new Votes();
                 vote.save({ provider: providerSuggestion, votes: 0 }).then(
-                  vote => {
+                  (vote) => {
                     console.log(vote);
                   },
-                  error => {
-                  }
+                  (error) => {}
                 );
               } else {
-                results[0].increment('votes').save()
+                results[0].increment("votes").save();
               }
-              
-              
             }}
           />
         </Box>
