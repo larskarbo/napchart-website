@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RadioButton } from "@bit/primefaces.primereact.radiobutton";
 import {
   Grommet,
   Box,
@@ -55,7 +54,7 @@ const PopupVoter = ({ onClose }) => {
                 setProvider(r);
               }}
             >
-              <RadioButton
+              {/* <RadioButton
                 checked={provider == r}
                 name={r}
                 value={r}
@@ -69,7 +68,7 @@ const PopupVoter = ({ onClose }) => {
                   marginRight: 10,
                   marginBottom: 5,
                 }}
-              />
+              /> */}
               <label htmlFor={r} className="p-radiobutton-label">
                 {r}
               </label>

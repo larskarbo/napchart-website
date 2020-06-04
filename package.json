@@ -4,14 +4,13 @@
   "private": true,
   "dependencies": {
     "@babel/preset-env": "^7.10.2",
-    "@bit/primefaces.primereact.radiobutton": "^3.1.8",
+    "@testing-library/react": "^10.1.0",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.6",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "add": "^2.0.6",
     "axios": "^0.19.0",
-    "babel-jest": "^26.0.1",
     "classnames": "^2.2.6",
     "grommet": "^2.7.11",
     "grommet-icons": "^4.4.0",
@@ -27,6 +26,7 @@
     "react-helmet": "^5.2.1",
     "react-notification-system": "^0.2.17",
     "react-scripts": "3.4.1",
+    "react-testing-library": "^8.0.1",
     "shuffle-array": "^1.0.1",
     "styled-components": "^4.4.1",
     "typescript": "^3.9.3",
@@ -35,7 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -54,13 +54,8 @@
     ]
   },
   "devDependencies": {
-    "jest": "^26.0.1",
     "ts-jest": "^26.1.0"
   },
   "homepage": "https://napchart.com",
-  "jest": {
-    "setupFiles": [
-      "jest-canvas-mock"
-    ]
-  }
+  "jest": {}
 }
