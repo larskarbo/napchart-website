@@ -5,6 +5,7 @@ import axiosMock from "axios";
 import App from "../Editor";
 import { Server } from "../../../server/server";
 import { ServerImpl } from "../../../server/server_impl";
+import "jest-canvas-mock";
 
 var server: Server;
 beforeEach(() => {
