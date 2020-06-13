@@ -4,6 +4,9 @@ import Parse from 'parse'
 export class ServerImpl implements Server {
   private static instance: Server
   private constructor() {}
+  loadChartsForUser(userId: number): Promise<any> {
+    return Promise.resolve()
+  }
 
   static getInstance(): Server {
     if (!ServerImpl.instance) {
