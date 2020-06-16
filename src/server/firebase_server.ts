@@ -10,7 +10,7 @@ export class FirebaseServer implements Server {
   private static instance: Server
   private constructor() {}
 
-  getInstance(): any {
+  db(): any {
     return firebase.firestore()
   }
 

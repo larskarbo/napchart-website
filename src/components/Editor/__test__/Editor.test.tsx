@@ -7,13 +7,14 @@ import { Server } from '../../../server/server'
 import { ServerImpl } from '../../../server/server_impl'
 import 'jest-canvas-mock'
 import Napchart from 'napchart'
+import { NapChart } from '../napchart'
 
 var server: Server
 jest.mock('napchart')
 beforeEach(() => {
   server = ServerImpl.getInstance()
   const initMock = jest.spyOn(Napchart, 'init')
-  initMock.mockReturnValue({
+  const nc: NapChart = {
     data: {
       elements: [
         {
@@ -41,6 +42,7 @@ beforeEach(() => {
           lane: 1,
           text: '',
           color: 'pink',
+          duration: 0,
         },
       ],
       colorTags: [],
@@ -61,9 +63,7 @@ beforeEach(() => {
       forward: jest.fn(),
       canIGoForward: jest.fn(),
     },
-    changeShape: {
-      bind: () => jest.fn(),
-    },
+    changeShape: jest.fn(),
     selectedElement: null,
     forceFocusSelected: null,
     isTouchUser: true,
@@ -80,9 +80,11 @@ beforeEach(() => {
       defaultColor: 'green',
     },
     addLane: jest.fn(),
-  })
-})
+    setNumberOfLanes: jest.fn(),
+  }
 
+  initMock.mockReturnValue(nc)
+})
 test('loads without crashing', async () => {
   render(<App server={server} chartid={null} />)
 })

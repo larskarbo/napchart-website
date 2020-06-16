@@ -20,6 +20,7 @@ import NotificationSystem from 'react-notification-system'
 import { ServerImpl } from '../../server/server_impl'
 import { Server } from '../../server/server'
 import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'
+import { NapChart } from './napchart'
 const myTheme = {
   global: {
     colors: {
@@ -34,7 +35,7 @@ type AppProps = {
 }
 
 type AppState = {
-  napchart: any
+  napchart: NapChart | null
   loading: boolean
   url: string
   chartid: any
@@ -54,7 +55,7 @@ export default class App extends React.Component<AppProps, AppState> {
       chartid = window.location.pathname.substring(1)
     }
     this.state = {
-      napchart: false, // until it is initialized
+      napchart: null, // until it is initialized
       loading: false,
       url: window.location.origin + '/',
       chartid: chartid,
@@ -262,7 +263,7 @@ export default class App extends React.Component<AppProps, AppState> {
   save = () => {
     this.loading()
     var firstTimeSave = !this.props.chartid
-    this.props.server.save(this.state.napchart.data, this.state.title, this.state.description, (err, chartid) => {
+    this.props.server.save(this.state.napchart!.data, this.state.title, this.state.description, (err, chartid) => {
       this.loadingFinish()
       if (err) {
         this._notify.addNotification({
@@ -293,7 +294,7 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   setNumberOfLanes = (lanes) => {
-    this.state.napchart.setNumberOfLanes(lanes)
+    this.state.napchart!.setNumberOfLanes(lanes)
   }
 
   getAmpm = () => {
