@@ -8,20 +8,27 @@ require('firebase/firestore')
 If user is not signed in, 
 */
 export class FirebaseServer implements Server {
-  private constructor() {}
-
   db(): any {
     return firebase.firestore()
   }
 
   loadChartsForUser(userId: number) {
-    return Promise.resolve()
+    const promise = this.db()
+      .collection('users')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`)
+        })
+      })
+    return promise
   }
   save(data: NapChart['data'], title: string, description: string) {
-    this.db().collection('charts').add({
+    return this.db().collection('charts').add({
       data,
     })
-    return Promise.resolve(555)
+    // then() returns docRef
+    // error() returns err
   }
   loadChart(loading: any, loadFinish: any, ab: any) {}
   sendFeedback(feedback: any, cb: any) {}

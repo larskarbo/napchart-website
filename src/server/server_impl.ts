@@ -1,14 +1,14 @@
 import { Server } from './server'
 import Parse from 'parse'
 
-export class ServerImpl implements Server {
-  private static instance: Server
+export class ServerImpl /*implements Server*/ {
+  private static instance: ServerImpl
   private constructor() {}
   loadChartsForUser(userId: number): Promise<any> {
     return Promise.resolve()
   }
 
-  static getInstance(): Server {
+  static getInstance(): ServerImpl {
     if (!ServerImpl.instance) {
       ServerImpl.instance = new ServerImpl()
       Parse.initialize('osxjLrTMW7cJ6r6IPOpDYXyuBzBRSzQTaNeza7O6', 'rijTlVRNfqPPV2X9MLnRAP1UDzQbz7UTRjfCOaQ6')
