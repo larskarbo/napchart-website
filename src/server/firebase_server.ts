@@ -85,8 +85,8 @@ export class FirebaseServer implements Server {
         return this.db.collection("charts").doc(userId).set({ data });
       }
     }
-    // save to noauthor-charts
-    return this.db.collection("noauthor-charts").add({
+
+    return this.db.collection("charts").add({
       data,
     });
 

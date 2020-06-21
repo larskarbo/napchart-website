@@ -34,9 +34,9 @@ afterEach(() => {
 test("does not crash.", async () => {});
 
 test("Saves schedule", async () => {
-  await server
-    .save("", "", "")
-    .then((chartid) => {})
+  server
+    .save(napChartMock.data, "testTitle", "testDescription")
+    .then((docRef) => {})
     .catch((err) => {
       // this should cause the test to fail.
       expect(false).toBe(true);
@@ -44,23 +44,4 @@ test("Saves schedule", async () => {
   // read the data we just wrote.
 });
 
-test("If user is not signed in, save schedule to noauthor-charts collection.", async () => {
-  mockAuthProvider.isUserSignedIn = () => false;
-
-  server
-    .save(napChartMock.data, "testTitle", "testDescription")
-    .then((docRef) => {
-      // Assert that this data has been saved to noauthor-charts collection.
-    });
-});
-
-test("If user is signed in, save schedule to directory with their ID", async () => {
-  mockAuthProvider.isUserSignedIn = () => true;
-  mockAuthProvider.getUserId = () => "testID";
-
-  server
-    .save(napChartMock.data, "testTitle", "testDescription")
-    .then((docRef) => {
-      // Assert that this data has been saved to the username's document.
-    });
-});
+test("Load chart given a chart ID.", async () => {});
