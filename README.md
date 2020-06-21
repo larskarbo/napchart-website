@@ -6,5 +6,5 @@ V9!
 
 ## Firestore Emulator
 
-We can use the emulator to test the database locally:
-https://github.com/firebase/quickstart-nodejs/tree/master/firestore-emulator/typescript-quickstart
+1. Install the Firebase CLI: https://firebase.google.com/docs/cli
+2. In the terminal, use `firebase emulators:start --only firestore` to start the local DB.

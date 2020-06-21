@@ -1,19 +1,18 @@
-import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
 // import "@testing-library/jest-dom/extend-expect";
-import axiosMock from 'axios'
-import App from '../Editor'
-import { Server } from '../../../server/server'
-import { ServerImpl } from '../../../server/server_impl'
-import 'jest-canvas-mock'
-import Napchart from 'napchart'
-import { NapChart } from '../napchart'
+import App from "../Editor";
+import { Server } from "../../../server/server";
+import { ServerImpl } from "../../../server/server_impl";
+import "jest-canvas-mock";
+import Napchart from "napchart";
+import { NapChart } from "../napchart";
 
-var server: Server
-jest.mock('napchart')
+var server: Server;
+jest.mock("napchart");
 beforeEach(() => {
-  server = ServerImpl.getInstance()
-  const initMock = jest.spyOn(Napchart, 'init')
+  server = ServerImpl.getInstance();
+  const initMock = jest.spyOn(Napchart, "init");
   const nc: NapChart = {
     data: {
       elements: [
@@ -22,8 +21,8 @@ beforeEach(() => {
           end: 0,
           id: 2973,
           lane: 0,
-          text: '',
-          color: 'red',
+          text: "",
+          color: "red",
           duration: 210,
         },
         {
@@ -31,8 +30,8 @@ beforeEach(() => {
           end: 300,
           id: 9817,
           lane: 0,
-          text: '',
-          color: 'red',
+          text: "",
+          color: "red",
           duration: 210,
         },
         {
@@ -40,19 +39,19 @@ beforeEach(() => {
           end: 300,
           id: 2957,
           lane: 1,
-          text: '',
-          color: 'pink',
+          text: "",
+          color: "pink",
           duration: 0,
         },
       ],
       colorTags: [],
-      shape: 'circle',
+      shape: "circle",
       lanes: 2,
       lanesConfig: {
-        '0': {
+        "0": {
           locked: true,
         },
-        '1': {
+        "1": {
           locked: false,
         },
       },
@@ -72,19 +71,19 @@ beforeEach(() => {
     }),
     helpers: {
       duration: (start, end) => 0,
-      minutesToReadable: (minutes) => 'data',
+      minutesToReadable: (minutes) => "data",
     },
     toggleLockLane: jest.fn(),
     deleteLane: jest.fn(),
     config: {
-      defaultColor: 'green',
+      defaultColor: "green",
     },
     addLane: jest.fn(),
     setNumberOfLanes: jest.fn(),
-  }
+  };
 
-  initMock.mockReturnValue(nc)
-})
-test('loads without crashing', async () => {
-  render(<App server={server} chartid={null} />)
-})
+  initMock.mockReturnValue(nc);
+});
+test("loads without crashing", async () => {
+  render(<App server={server} chartid={null} />);
+});
