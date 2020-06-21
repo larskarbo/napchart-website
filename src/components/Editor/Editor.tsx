@@ -289,10 +289,9 @@ export default class App extends React.Component<AppProps, AppState> {
     var firstTimeSave = !this.props.chartid;
     this.props.server
       .save(this.state.napchart!.data, this.state.title, this.state.description)
-      .then((chartid) => {
-        console.error(chartid);
-        // this.loadingFinish();
-        // this.onSave(chartid);
+      .then((docRef) => {
+        this.loadingFinish();
+        this.onSave(docRef);
       })
       .catch((err) => {
         console.error("things didn't work... " + err);

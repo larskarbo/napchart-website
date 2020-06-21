@@ -6,15 +6,19 @@ import App from "../components/Editor/Editor";
 import { FireObject } from "@testing-library/react";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 import { NapchartData } from "napchart";
+import { AuthProvider } from "../auth/auth_provider";
 require("firebase/firestore");
 
 /*
 If user is not signed in, 
 */
+export interface FirebaseServerProps {
+  testApp?: App | any;
+  authProvider: AuthProvider;
+}
 export class FirebaseServer implements Server {
   private static instance: FirebaseServer;
-  app?: App;
-  db!: FirebaseFirestore;
+  private db!: FirebaseFirestore;
 
   static getInstance(): FirebaseServer {
     if (!FirebaseServer.instance) {
@@ -23,11 +27,16 @@ export class FirebaseServer implements Server {
     return FirebaseServer.instance;
   }
 
-  static init(testApp?: App | any) {
+  static resetState() {
+    console.log("Note: This method should only be called within unit tests.");
+    FirebaseServer.instance = undefined as any;
+  }
+
+  static init(props: FirebaseServerProps) {
     if (!FirebaseServer.instance) {
       // If this is not a unit test, initialize Firebase normally.
       FirebaseServer.instance = new FirebaseServer();
-      if (testApp == undefined || testApp == null) {
+      if (props.testApp == undefined || props.testApp == null) {
         const firebaseConfig = {
           apiKey: "AIzaSyDZIH0Vogv07ZWCUMwPn1gaBaF_6rAP_zg",
           authDomain: "napchart-1abe4.firebaseapp.com",
@@ -48,7 +57,7 @@ export class FirebaseServer implements Server {
           });
         }
       } else {
-        FirebaseServer.instance.db = firebase.firestore(testApp);
+        FirebaseServer.instance.db = firebase.firestore(props.testApp);
       }
     } else {
       console.error(
