@@ -13,6 +13,7 @@ import { napChartMock } from "../../components/Editor/__mocks__/napchart.mock";
 var server: Server;
 const mockAuthProvider: AuthProvider = {
   isUserSignedIn: () => false,
+  getUserId: () => undefined,
 };
 beforeEach(() => {
   const testApp: any = firebase.initializeTestApp({
@@ -55,6 +56,7 @@ test("If user is not signed in, save schedule to noauthor-charts collection.", a
 
 test("If user is signed in, save schedule to directory with their ID", async () => {
   mockAuthProvider.isUserSignedIn = () => true;
+  mockAuthProvider.getUserId = () => "testID";
 
   server
     .save(napChartMock.data, "testTitle", "testDescription")

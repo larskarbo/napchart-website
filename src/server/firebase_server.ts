@@ -7,6 +7,7 @@ import { FireObject } from "@testing-library/react";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 import { NapchartData } from "napchart";
 import { AuthProvider } from "../auth/auth_provider";
+import { firebaseAuthProvider } from "../auth/firebase_auth_provider";
 require("firebase/firestore");
 
 /*
@@ -78,9 +79,17 @@ export class FirebaseServer implements Server {
     return promise;
   }
   save(data: NapchartData, title: string, description: string) {
-    return this.db.collection("charts").add({
+    if (firebaseAuthProvider.isUserSignedIn()) {
+      const userId = firebaseAuthProvider.getUserId();
+      if (userId !== undefined) {
+        return this.db.collection("charts").doc(userId).set({ data });
+      }
+    }
+    // save to noauthor-charts
+    return this.db.collection("noauthor-charts").add({
       data,
     });
+
     // then() returns docRef
     // error() returns err
   }
@@ -114,6 +123,6 @@ export class FirebaseServer implements Server {
     // };
     return Promise.resolve();
   }
-  sendFeedback(feedback: any, cb: any) {}
-  addEmailToFeedback(email: any, feedbackId: any, cb: any) {}
+  sendFeedback(feedback: any) {}
+  addEmailToFeedback(email: any, feedbackId: any) {}
 }

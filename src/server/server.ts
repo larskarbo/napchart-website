@@ -5,9 +5,9 @@ export interface Server {
     data: any,
     title: string,
     description: string
-  ) => Promise<DocumentReference<DocumentData>>;
+  ) => Promise<DocumentReference<DocumentData> | void>;
   loadChart: () => Promise<NapChartData | void>;
-  sendFeedback: (feedback: any, cb: any) => void;
-  addEmailToFeedback: (email: any, feedbackId: any, cb: any) => void;
+  sendFeedback: (feedback: any) => void;
+  addEmailToFeedback: (email: any, feedbackId: any) => void;
   loadChartsForUser: (userId: number) => Promise<any>;
 }

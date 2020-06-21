@@ -1,4 +1,5 @@
 import { AuthProvider } from "./auth_provider";
+import * as firebase from "firebase/app";
 
 /**
  * Helpful documentation on how to implement
@@ -10,6 +11,14 @@ export class FirebaseAuthProvider implements AuthProvider {
 
   isUserSignedIn(): boolean {
     return this.isSignedIn;
+  }
+
+  getCurrentUser(): firebase.User | null {
+    return firebase.auth().currentUser;
+  }
+
+  getUserId(): string | undefined {
+    return firebase.auth().currentUser?.uid;
   }
 }
 
