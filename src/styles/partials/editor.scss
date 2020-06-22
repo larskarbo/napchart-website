@@ -161,11 +161,3 @@ $gap-right-when-mobile: 80px;
     }
   }
 }
-
-.BadBrowser {
-  @supports not (display: grid) {
-    & {
-      display: block !important;
-    }
-  }
-}

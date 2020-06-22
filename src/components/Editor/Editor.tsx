@@ -3,7 +3,6 @@ import c from 'classnames'
 import React from 'react'
 
 import Header from './Header'
-import BadBrowser from './BadBrowser'
 import ToolBar from './ToolBar'
 import Chart from './Chart'
 import Link from '../common/Link'
@@ -20,7 +19,7 @@ import NotificationSystem from 'react-notification-system'
 import { Server } from '../../server/server'
 import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'
 import { NapChart } from './napchart'
-import { worker } from 'cluster'
+
 const myTheme = {
   global: {
     colors: {
@@ -49,7 +48,6 @@ type AppState = {
 export default class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props)
-    console.log('7.nov 2019')
     let chartid: any = false
     if (window.location.pathname.length == 6) {
       chartid = window.location.pathname.substring(1)
@@ -102,7 +100,6 @@ export default class App extends React.Component<AppProps, AppState> {
     return (
       <Grommet theme={myTheme}>
         <div className="Editor">
-          <BadBrowser name={null} />
           <NotificationSystem ref={(notificationSystem) => (this._notify = notificationSystem)} />
           <Helmet>
             {this.state.description.length && <meta name="description" content={this.state.description} />}
