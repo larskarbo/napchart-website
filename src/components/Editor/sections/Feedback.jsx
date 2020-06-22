@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { ServerImpl } from '../../../server/server_impl'
+import { FirebaseServer } from '../../../server/firebase_server'
 const Feedback = () => {
   const [sent, setSent] = useState(false)
   const [value, setValue] = useState('')
@@ -7,7 +7,7 @@ const Feedback = () => {
   const [id, setId] = useState('')
   const [emailSent, setEmailSent] = useState(false)
   const sendFeedback = (tab) => {
-    ServerImpl.getInstance().sendFeedback(value, (idFromServer) => {
+    FirebaseServer.getInstance().sendFeedback(value, (idFromServer) => {
       console.log('idFromServer: ', idFromServer)
       console.log('feedback sent')
       setSent(true)
@@ -18,7 +18,7 @@ const Feedback = () => {
   const sendEmail = (tab) => {
     console.log('id: ', id)
 
-    ServerImpl.getInstance().addEmailToFeedback(email, id, () => {
+    FirebaseServer.getInstance().addEmailToFeedback(email, id, () => {
       console.log('feedback sent')
       setEmailSent(true)
     })

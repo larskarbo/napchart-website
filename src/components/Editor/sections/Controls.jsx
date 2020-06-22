@@ -3,7 +3,7 @@ import Feedback from './Feedback'
 import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import SelectedElement from '../small/SelectedElement'
-import { ServerImpl } from '../../../server/server_impl'
+import { FirebaseServer } from '../../../server/firebase_server'
 export default class Controls extends Component {
   render() {
     var { napchart } = this.props
@@ -46,7 +46,7 @@ export default class Controls extends Component {
   sendFeedback = (tab) => {
     var value = this.refs.feedback.value
 
-    ServerImpl.getInstance().sendFeedback(value, () => {
+    FirebaseServer.getInstance().sendFeedback(value, () => {
       console.log('feedback sent')
       this.refs.feedback.style.display = 'none'
       this.refs.feedbacksend.style.display = 'none'
