@@ -2,8 +2,6 @@ import React from 'react'
 import uuid from 'uuid'
 import Napchart from 'napchart'
 
-import { FirebaseServer } from '../../server/firebase_server'
-
 export default class Chart extends React.Component {
   constructor(props) {
     super(props)
@@ -67,11 +65,10 @@ export default class Chart extends React.Component {
     var ctx = canvas.getContext('2d')
 
     // first check if we should fetch some data
-    const data = {}
-    // FirebaseServer.getInstance().loadChart(this.props.onLoading, this.props.onLoadingFinish, (data) => {
+    //
     // returns {} if no data was loaded (you are on base napchart.com/app)
     // returns the data if you are on napchart.com/xxxxx
-    var napchart = Napchart.init(ctx, data, {
+    var napchart = Napchart.init(ctx, this.props.initialData || {}, {
       responsive: true,
       ampm: this.props.ampm,
     })
@@ -91,10 +88,10 @@ export default class Chart extends React.Component {
 
     this.props.setGlobalNapchart(napchart)
 
-    if (Object.keys(data).length) {
-      console.log('data: ', data)
-      this.props.setMetaInfo(data.metaInfo.title, data.metaInfo.description)
-    }
+    // if (Object.keys(this.props.initialData).length) {
+    //   console.log('this.props.initialData: ', this.props.initialData)
+    //   this.props.setMetaInfo(this.props.initialData.metaInfo.title, this.props.initialData.metaInfo.description)
+    // }
     // })
   }
 }

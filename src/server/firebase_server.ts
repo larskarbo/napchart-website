@@ -90,17 +90,9 @@ export class FirebaseServer implements Server {
     // then() returns docRef
     // error() returns err
   }
-  loadChart() {
-    // first check if fetch is needed
-    let chartid: string | null = null
-    if (window.location.pathname.length == 6) {
-      chartid = window.location.pathname.substring(1)
-    }
 
-    if (!chartid) {
-      console.log('no chartid, nothing to load')
-      return Promise.reject('No chartID')
-    }
+  loadChart(chartid) {
+    // first check if fetch is needed
 
     this.db.collection('charts').get()
 

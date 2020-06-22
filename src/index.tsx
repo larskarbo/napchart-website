@@ -3,11 +3,11 @@
     which is the webpack entry file
 */
 
-import React from "react";
-import { render } from "react-dom";
+import React from 'react'
+import { render } from 'react-dom'
 
-import Router from "./components/App";
-import { FirebaseServer } from "./server/firebase_server";
-import { firebaseAuthProvider } from "./auth/firebase_auth_provider";
-FirebaseServer.init({ authProvider: firebaseAuthProvider });
-render(<Router />, document.getElementById("root"));
+import App from './components/App'
+import { FirebaseServer } from './server/firebase_server'
+import { firebaseAuthProvider } from './auth/firebase_auth_provider'
+FirebaseServer.init({ authProvider: firebaseAuthProvider })
+render(<App />, document.getElementById('root'))

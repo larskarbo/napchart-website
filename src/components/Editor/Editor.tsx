@@ -5,7 +5,6 @@ import React from 'react'
 import Header from './Header'
 import ToolBar from './ToolBar'
 import Chart from './Chart'
-import Link from '../common/Link'
 import { Helmet } from 'react-helmet'
 
 import Export from './sections/Export'
@@ -15,10 +14,11 @@ import Controls from './sections/Controls'
 
 import Cookies from 'js-cookie'
 import NotificationSystem from 'react-notification-system'
+import { FirebaseServer } from '../../server/firebase_server'
 
 import { Server } from '../../server/server'
 import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'
-import { NapChart } from './napchart'
+import { NapChart, NapChartData } from './napchart'
 
 const myTheme = {
   global: {
@@ -30,42 +30,56 @@ const myTheme = {
 
 type AppProps = {
   server: Server
-  chartid: any
+  chartid?: any
 }
 
 type AppState = {
   napchart: NapChart | null
   loading: boolean
   url: string
-  chartid: any
+  chartid?: any
   title: string
   description: string
   currentSection: any
   ampm: any
   showPopup: boolean
   slideSidebarMobile: any
+  initialData: NapChartData | null
 }
+
 export default class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props)
-    let chartid: any = false
-    if (window.location.pathname.length == 6) {
-      chartid = window.location.pathname.substring(1)
-    }
     this.state = {
       napchart: null, // until it is initialized
       loading: false,
       url: window.location.origin + '/',
-      chartid: chartid,
+      chartid: this.props.chartid,
       title: '',
       description: '',
-      currentSection: this.getInitialSection(),
+      currentSection: 0,
       ampm: this.getAmpm(),
       showPopup: false,
       slideSidebarMobile: null,
+      initialData: null,
     }
   }
   _notify: any = null
+
+  componentDidMount() {
+    if (this.state.chartid) {
+      this.loading()
+      FirebaseServer.getInstance()
+        .loadChart(this.state.chartid)
+        .then((data) => {
+          console.log('get data from chartid here!')
+          this.setState({
+            initialData: null, // todo data
+          })
+          this.loadingFinish()
+        })
+    }
+  }
 
   render() {
     var sections = [
@@ -98,122 +112,119 @@ export default class App extends React.Component<AppProps, AppState> {
     ]
 
     return (
-      <Grommet theme={myTheme}>
-        <div className="Editor">
-          <NotificationSystem ref={(notificationSystem) => (this._notify = notificationSystem)} />
-          <Helmet>
-            {this.state.description.length && <meta name="description" content={this.state.description} />}
-            <meta
-              name="twitter:image"
-              content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
+      <div className="Editor">
+        <NotificationSystem ref={(notificationSystem) => (this._notify = notificationSystem)} />
+        <Helmet>
+          {this.state.description.length && <meta name="description" content={this.state.description} />}
+          <meta
+            name="twitter:image"
+            content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
+          />
+          <meta
+            property="og:image"
+            content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
+          />
+          <meta property="og:image:width" content="600" />
+          <meta property="og:image:height" content="600" />
+          {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
+        </Helmet>
+        <div
+          className={c('grid', {
+            slideSidebarMobile: this.state.slideSidebarMobile,
+          })}
+        >
+          <div className="sidebar">
+            <Header
+              title={this.state.title}
+              changeTitle={this.changeTitle}
+              chartid={this.state.chartid}
+              save={this.save}
+              loading={this.state.loading}
             />
-            <meta
-              property="og:image"
-              content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
-            />
-            <meta property="og:image:width" content="600" />
-            <meta property="og:image:height" content="600" />
-            {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
-          </Helmet>
-          <div
-            className={c('grid', {
-              slideSidebarMobile: this.state.slideSidebarMobile,
-            })}
-          >
-            <div className="sidebar">
-              <Header
-                title={this.state.title}
-                changeTitle={this.changeTitle}
-                chartid={this.state.chartid}
-                save={this.save}
-                loading={this.state.loading}
-              />
 
-              <div className="sidebarContent">
-                <div className="sideLane">
-                  <div className="up">
-                    {sections.map((section, i) => (
-                      <button
-                        onClick={this.changeSection.bind(null, i)}
-                        key={i}
-                        className={c('squareBtn', {
-                          active: i == this.state.currentSection,
-                        })}
-                      >
-                        {section.text}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="down"></div>
+            <div className="sidebarContent">
+              <div className="sideLane">
+                <div className="up">
+                  {sections.map((section, i) => (
+                    <button
+                      onClick={this.changeSection.bind(null, i)}
+                      key={i}
+                      className={c('squareBtn', {
+                        active: i == this.state.currentSection,
+                      })}
+                    >
+                      {section.text}
+                    </button>
+                  ))}
                 </div>
+                <div className="down"></div>
+              </div>
 
-                <div className="otherLane">
-                  <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
-                  <div className="currentInfo">
-                    {sections[this.state.currentSection].element}
-                    {this.state.currentSection != 1 && (
+              <div className="otherLane">
+                <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
+                <div className="currentInfo">
+                  {sections[this.state.currentSection].element}
+                  {this.state.currentSection != 1 && (
+                    <div
+                      className="dz"
+                      style={{
+                        marginTop: 10,
+                        display: 'flex',
+                      }}
+                    >
                       <div
-                        className="dz"
                         style={{
-                          marginTop: 10,
-                          display: 'flex',
+                          width: '50%',
                         }}
                       >
-                        <div
-                          style={{
-                            width: '50%',
-                          }}
-                        >
-                          <h2>Neurotechnology for reduced nighttime awakenings.</h2>
-                          <p>
-                            <a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your
-                            brain go deeper into sleep and be less interruptive.
-                          </p>
-                          <p>
-                            <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
-                              <strong>Waking up in the middle of the night?</strong>
-                            </a>
-                          </p>
-                        </div>
-                        <div
-                          style={{
-                            width: '50%',
-                          }}
-                        >
-                          <img src="/dz.png" />
-                        </div>
+                        <h2>Neurotechnology for reduced nighttime awakenings.</h2>
+                        <p>
+                          <a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your
+                          brain go deeper into sleep and be less interruptive.
+                        </p>
+                        <p>
+                          <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
+                            <strong>Waking up in the middle of the night?</strong>
+                          </a>
+                        </p>
                       </div>
-                    )}
-                  </div>
+                      <div
+                        style={{
+                          width: '50%',
+                        }}
+                      >
+                        <img src="/dz.png" />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-
-            <div className="main">
-              <Chart
-                napchart={this.state.napchart}
-                onUpdate={this.somethingUpdate}
-                setMetaInfo={this.setMetaInfo}
-                setGlobalNapchart={this.setGlobalNapchart}
-                onLoading={this.loading}
-                onLoadingFinish={this.loadingFinish}
-                ampm={this.state.ampm}
-              />
-            </div>
           </div>
 
-          {this.state.slideSidebarMobile && (
-            <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
-              →
-            </button>
-          )}
-          {!this.state.slideSidebarMobile && (
-            <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
-              ←
-            </button>
-          )}
+          <div className="main">
+            <Chart
+              napchart={this.state.napchart}
+              initialData={this.state.initialData}
+              setGlobalNapchart={this.setGlobalNapchart}
+              onUpdate={this.somethingUpdate}
+              setMetaInfo={this.setMetaInfo}
+              ampm={this.state.ampm}
+            />
+          </div>
         </div>
-      </Grommet>
+
+        {this.state.slideSidebarMobile && (
+          <button className="button is-light is-large slider left" onClick={this.slideSidebarMobile}>
+            →
+          </button>
+        )}
+        {!this.state.slideSidebarMobile && (
+          <button className="button is-light is-large slider right" onClick={this.slideSidebarMobile}>
+            ←
+          </button>
+        )}
+      </div>
     )
   }
 
@@ -261,7 +272,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
   save = () => {
     this.loading()
-    var firstTimeSave = !this.props.chartid
     this.props.server
       .save(this.state.napchart!.data, this.state.title, this.state.description)
       .then((docRef) => {
@@ -279,7 +289,8 @@ export default class App extends React.Component<AppProps, AppState> {
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
-    window.location.href = '/' + chartid + '?s=1'
+
+    window.location.href = '/myfancychartid'
   }
 
   changeTitle = (event) => {
@@ -321,17 +332,5 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({
       ampm: ampm,
     })
-  }
-
-  getInitialSection = () => {
-    // should always return 0 except when s=1 found in url, because
-    // then the user just saved chart and we will show share section instead
-
-    if (window.location.toString().includes('s=1')) {
-      // this.maybeVote()
-      return 1
-    }
-
-    return 0
   }
 }

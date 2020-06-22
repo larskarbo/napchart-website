@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import classNames from 'classnames'
-import Link from './Link'
+import { Link } from 'react-router-dom'
 
 type HeaderElementProps = {
   onClick: () => void
@@ -27,7 +27,7 @@ export const HeaderElement: FunctionComponent<HeaderElementProps> = ({
   return (
     <Link
       style={style}
-      href={href}
+      to={href}
       className={classNames('HeaderElement', className, { right: right })}
       onClick={onClickFn}
     >

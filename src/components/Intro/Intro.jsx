@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import React from 'react'
 
 import Logo from '../common/Logo'
-import Link from '../common/Link'
+import { Link } from 'react-router-dom'
 
 export default class extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class extends React.Component {
             </div>
           </div>
           <div className="hero-foot">
-            <Link href="/app">
+            <Link to="/app">
               <Logo white noInteraction logoText="GO TO APP" height="45" />
             </Link>
           </div>
