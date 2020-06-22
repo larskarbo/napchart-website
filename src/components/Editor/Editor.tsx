@@ -151,37 +151,39 @@ export default class App extends React.Component<AppProps, AppState> {
                   <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
                   <div className="currentInfo">
                     {sections[this.state.currentSection].element}
-                    <div
-                      className="dz"
-                      style={{
-                        marginTop: 10,
-                        display: 'flex',
-                      }}
-                    >
+                    {this.state.currentSection != 1 && (
                       <div
+                        className="dz"
                         style={{
-                          width: '50%',
+                          marginTop: 10,
+                          display: 'flex',
                         }}
                       >
-                        <h2>Neurotechnology for reduced nighttime awakenings.</h2>
-                        <p>
-                          <a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your
-                          brain go deeper into sleep and be less interruptive.
-                        </p>
-                        <p>
-                          <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
-                            <strong>Waking up in the middle of the night?</strong>
-                          </a>
-                        </p>
+                        <div
+                          style={{
+                            width: '50%',
+                          }}
+                        >
+                          <h2>Neurotechnology for reduced nighttime awakenings.</h2>
+                          <p>
+                            <a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your
+                            brain go deeper into sleep and be less interruptive.
+                          </p>
+                          <p>
+                            <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
+                              <strong>Waking up in the middle of the night?</strong>
+                            </a>
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            width: '50%',
+                          }}
+                        >
+                          <img src="/dz.png" />
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          width: '50%',
-                        }}
-                      >
-                        <img src="/dz.png" />
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
