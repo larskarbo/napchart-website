@@ -97,7 +97,7 @@ export class FirebaseServer implements Server {
         })
         .then(async () => {
           // update our counter now
-          await this.updateCounter(parseInt(chartid, 10));
+          await this.updateCounter(parseInt(chartid, 16));
         });
     });
   }
@@ -113,7 +113,7 @@ export class FirebaseServer implements Server {
         }
         const counterData: any = doc.data();
         const value: number = counterData.value + 1;
-        return Promise.resolve(value.toString());
+        return Promise.resolve(value.toString(16));
       });
   }
 
@@ -124,30 +124,17 @@ export class FirebaseServer implements Server {
   }
 
   loadChart(chartid: string) {
-    // Firestore data converter
-    const chartDataConverter = {
-      toFirestore: function (chartData) {
-        return {
-          chartid: chartData.chartid,
-          title: chartData.title,
-          description: chartData.description,
-          data: chartData.data,
-        };
-      },
-      fromFirestore: function (snapshot, chartid) {
-        const data = snapshot.data();
-        return new ChartData(chartid, data.title, data.description, data.data);
-      },
-    };
-
     return this.db
       .collection("charts")
       .doc(chartid)
       .get()
-      .then((doc) => {
-        const chartData: ChartData = chartDataConverter.fromFirestore(
-          doc,
-          chartid
+      .then((snapshot) => {
+        const result: any = snapshot.data();
+        const chartData: ChartData = new ChartData(
+          chartid,
+          result.title,
+          result.description,
+          result.data
         );
         return Promise.resolve(chartData);
       });

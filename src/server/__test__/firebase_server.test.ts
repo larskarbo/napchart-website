@@ -41,19 +41,6 @@ afterEach(() => {
   FirebaseServer.testOnlyMethods.resetState();
 });
 
-test("does not crash.", async () => {});
-
-test("Saves schedule", async () => {
-  await server
-    .save(napChartMock.data, "testTitle", "testDescription")
-    .catch((err) => {
-      // this should cause the test to fail.
-      console.error(err);
-      expect(false).toBe(true);
-    });
-  // read the data we just wrote.
-});
-
 test("Updates counter after saving new schedule", async () => {
   await server.save(napChartMock.data, "testTitle", "testDescription");
   const newID = await FirebaseServer.getUniqueChartId();
