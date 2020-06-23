@@ -4,14 +4,16 @@ import * as firebase from "firebase/app";
 import { NapChart } from "../components/Editor/napchart";
 import App from "../components/Editor/Editor";
 import { FireObject } from "@testing-library/react";
-import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseFirestore, QuerySnapshot } from "@firebase/firestore-types";
 import { NapchartData } from "napchart";
 import { AuthProvider } from "../auth/auth_provider";
 import { firebaseAuthProvider } from "../auth/firebase_auth_provider";
+import { ChartData } from "../server/chart_data";
 require("firebase/firestore");
 
 /*
-If user is not signed in, 
+This class contains all functionality for interacting
+with Firebase Firestore.
 */
 export interface FirebaseServerProps {
   testApp?: App | any;
@@ -21,16 +23,11 @@ export class FirebaseServer implements Server {
   private static instance: FirebaseServer;
   private db!: FirebaseFirestore;
 
-  static getInstance(): FirebaseServer {
+  static getInstance(): Server {
     if (!FirebaseServer.instance) {
       console.error("Fatal error. Firebase app not initialized.");
     }
     return FirebaseServer.instance;
-  }
-
-  static resetState() {
-    console.log("Note: This method should only be called within unit tests.");
-    FirebaseServer.instance = undefined as any;
   }
 
   static init(props: FirebaseServerProps) {
@@ -67,6 +64,7 @@ export class FirebaseServer implements Server {
     }
   }
 
+  // TODO: Implement this after login works.
   loadChartsForUser(userId: number) {
     const promise = this.db
       .collection("users")
@@ -78,51 +76,95 @@ export class FirebaseServer implements Server {
       });
     return promise;
   }
+
   save(data: NapchartData, title: string, description: string) {
     if (firebaseAuthProvider.isUserSignedIn()) {
       const userId = firebaseAuthProvider.getUserId();
       if (userId !== undefined) {
+        // TODO: Fix this once login is implemented.
         return this.db.collection("charts").doc(userId).set({ data });
       }
     }
 
-    return this.db.collection("charts").add({
-      data,
+    return FirebaseServer.getUniqueChartId().then((chartid) => {
+      return this.db
+        .collection("charts")
+        .doc(chartid)
+        .set({
+          title,
+          description,
+          data,
+        })
+        .then(async () => {
+          // update our counter now
+          await this.updateCounter(parseInt(chartid, 10));
+        });
     });
-
-    // then() returns docRef
-    // error() returns err
   }
-  loadChart() {
-    // first check if fetch is needed
-    let chartid: string | null = null;
-    if (window.location.pathname.length == 6) {
-      chartid = window.location.pathname.substring(1);
-    }
 
-    if (!chartid) {
-      console.log("no chartid, nothing to load");
-      return Promise.reject("No chartID");
-    }
-
-    this.db.collection("charts").get();
-
-    // const query = new Parse.Query(Chart);
-    // query.equalTo("chartid", chartid);
-    // const results = await query.find();
-    // console.log("results: ", results);
-    // const chart = results[0];
-    // console.log();
-    // const data = {
-    //   id: chartid,
-    //   ...chart.get("chartData"),
-    //   metaInfo: {
-    //     title: chart.get("title"),
-    //     description: chart.get("description")
-    //   }
-    // };
-    return Promise.resolve();
+  static getUniqueChartId(): Promise<string> {
+    return FirebaseServer.instance.db
+      .collection("chartcounter")
+      .doc("counter")
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          return Promise.reject("Counter does not exist.");
+        }
+        const counterData: any = doc.data();
+        const value: number = counterData.value + 1;
+        return Promise.resolve(value.toString());
+      });
   }
+
+  private async updateCounter(chartid: number) {
+    this.db.collection("chartcounter").doc("counter").set({
+      value: chartid,
+    });
+  }
+
+  loadChart(chartid: string) {
+    // Firestore data converter
+    const chartDataConverter = {
+      toFirestore: function (chartData) {
+        return {
+          chartid: chartData.chartid,
+          title: chartData.title,
+          description: chartData.description,
+          data: chartData.data,
+        };
+      },
+      fromFirestore: function (snapshot, chartid) {
+        const data = snapshot.data();
+        return new ChartData(chartid, data.title, data.description, data.data);
+      },
+    };
+
+    return this.db
+      .collection("charts")
+      .doc(chartid)
+      .get()
+      .then((doc) => {
+        const chartData: ChartData = chartDataConverter.fromFirestore(
+          doc,
+          chartid
+        );
+        return Promise.resolve(chartData);
+      });
+  }
+
   sendFeedback(feedback: any) {}
+
   addEmailToFeedback(email: any, feedbackId: any) {}
+
+  static testOnlyMethods = {
+    // These methods are for unit tests only.
+    // Not to be used anywhere in the app.s
+    getDb(): FirebaseFirestore {
+      return FirebaseServer.instance.db;
+    },
+    resetState() {
+      FirebaseServer.instance = undefined as any;
+    },
+  };
 }
