@@ -1,4 +1,5 @@
 import { Server } from './server'
+import { DocumentData, DocumentReference } from '@firebase/firestore-types'
 import { ServerImpl } from './server_impl'
 import * as firebase from 'firebase/app'
 import { NapChart } from '../components/Editor/napchart'
@@ -75,16 +76,22 @@ export class FirebaseServer implements Server {
     return promise
   }
 
-  save(data: NapchartData, title: string, description: string) {
+  save(data: NapchartData, title: string, description: string): Promise<string> {
     if (firebaseAuthProvider.isUserSignedIn()) {
       const userId = firebaseAuthProvider.getUserId()
       if (userId !== undefined) {
         // TODO: Fix this once login is implemented.
-        return this.db.collection('charts').doc(userId).set({ data })
+        return this.db
+          .collection('charts')
+          .doc(userId)
+          .set({ data })
+          .then(() => 'chartid')
       }
     }
 
-    return FirebaseServer.getUniqueChartId().then((chartid) => {
+    return this.getUniqueChartId().then((chartid) => {
+      console.error('generated unique id')
+      console.error(chartid)
       return this.db
         .collection('charts')
         .doc(chartid)
@@ -93,41 +100,49 @@ export class FirebaseServer implements Server {
           description,
           data,
         })
-        .then(async () => {
-          // update our counter now
-          await this.updateCounter(parseInt(chartid, 16))
+        .then((docRef) => {
+          return chartid
         })
     })
   }
 
-  static getUniqueChartId(): Promise<string> {
+  private generateRandomId(): string {
+    const alphabet = 'abcdefghijklmnopqrstuwxyz0123456789'
+    let id = ''
+    for (var i = 0; i < 5; i++) {
+      id += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
+    }
+    return id
+  }
+
+  async getUniqueChartId(): Promise<string> {
+    let id = this.generateRandomId()
+    while (await this.isIdAlreadyTaken(id)) {
+      id = this.generateRandomId()
+    }
+    return id
+  }
+
+  private isIdAlreadyTaken(id: string): Promise<boolean> {
     return FirebaseServer.instance.db
-      .collection('chartcounter')
-      .doc('counter')
+      .collection('charts')
+      .doc(id)
       .get()
       .then((doc) => {
-        if (!doc.exists) {
-          return Promise.reject('Counter does not exist.')
-        }
-        const counterData: any = doc.data()
-        const value: number = counterData.value + 1
-        return Promise.resolve(value.toString(16))
+        return doc.exists
       })
   }
 
-  private async updateCounter(chartid: number) {
-    this.db.collection('chartcounter').doc('counter').set({
-      value: chartid,
-    })
-  }
-
-  loadChart(chartid: string) {
+  loadChart(chartid: string): Promise<ChartData> {
     return this.db
       .collection('charts')
       .doc(chartid)
       .get()
       .then((snapshot) => {
         const result: any = snapshot.data()
+        if (result === undefined) {
+          return Promise.reject('Chart with ID ' + chartid + ' not found.')
+        }
         const chartData: ChartData = new ChartData(chartid, result.title, result.description, result.data)
         return Promise.resolve(chartData)
       })
@@ -145,6 +160,7 @@ export class FirebaseServer implements Server {
     },
     resetState() {
       FirebaseServer.instance = undefined as any
+      // firebase.clearFirestoreData({ projectId: "napchart-labe4" });
     },
   }
 }

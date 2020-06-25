@@ -24,29 +24,24 @@ beforeEach(() => {
   FirebaseServer.init({ testApp: testApp, authProvider: mockAuthProvider })
   server = FirebaseServer.getInstance()
   // set up counter
-  FirebaseServer.testOnlyMethods
-    .getDb()
-    .collection('chartcounter')
-    .doc('counter')
-    .set({
-      value: 0,
-    })
-    .catch((err) => console.error(err))
+  FirebaseServer.testOnlyMethods.getDb().collection('chartcounter').doc('counter').set({
+    value: 0,
+  })
 })
 
 afterEach(() => {
+  firebase.clearFirestoreData({ projectId: 'napchart-labe4' })
   FirebaseServer.testOnlyMethods.resetState()
 })
 
-test('Updates counter after saving new schedule', async () => {
-  await server.save(napChartMock.data, 'testTitle', 'testDescription')
-  const newID = await FirebaseServer.getUniqueChartId()
-  expect(newID).toBe('2')
+test('Save should return chart ID. Load chart should load chart successfully.', async () => {
+  const chartid = await server.save(napChartMock.data, 'testTitle', 'testDescription')
+  const chart: ChartData = await server.loadChart(chartid)
+  expect(chart.chartid).toBe(chartid)
+  expect(chart.title).toBe('testTitle')
 })
 
-test('Load chart given a chart ID.', async () => {
-  await server.save(napChartMock.data, 'testTitle', 'testDescription')
-  const chart: ChartData = await server.loadChart('1')
-  expect(chart.chartid).toBe('1')
-  expect(chart.title).toBe('testTitle')
+test('If chart ID is not found, promise should be rejected.', async () => {
+  const error = await server.loadChart('some fake id').catch((err) => err)
+  expect(error).toBe('Chart with ID some fake id not found.')
 })
