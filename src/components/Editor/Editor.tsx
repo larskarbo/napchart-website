@@ -71,10 +71,10 @@ export default class App extends React.Component<AppProps, AppState> {
       this.loading()
       FirebaseServer.getInstance()
         .loadChart(this.state.chartid)
-        .then((data) => {
+        .then((chartData) => {
           console.log('get data from chartid here!')
           this.setState({
-            initialData: null, // todo data
+            initialData: chartData.data, // todo data
           })
           this.loadingFinish()
         })
@@ -274,9 +274,10 @@ export default class App extends React.Component<AppProps, AppState> {
     this.loading()
     this.props.server
       .save(this.state.napchart!.data, this.state.title, this.state.description)
-      .then((docRef) => {
+      .then((chartid) => {
         this.loadingFinish()
-        this.onSave(docRef)
+        this.onSave(chartid)
+        this.setState({ chartid: chartid })
       })
       .catch((err) => {
         console.error("things didn't work... " + err)
@@ -290,7 +291,7 @@ export default class App extends React.Component<AppProps, AppState> {
   onSave = (chartid) => {
     // refresh (feels better for the user)
 
-    window.location.href = '/myfancychartid'
+    window.location.href = '/' + chartid
   }
 
   changeTitle = (event) => {
