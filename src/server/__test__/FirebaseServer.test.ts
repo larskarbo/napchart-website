@@ -1,12 +1,12 @@
 import * as firebase from '@firebase/testing'
-import { FirebaseServer } from '../firebase_server'
+import { FirebaseServer } from '../FirebaseServer'
 import { Server } from '../server'
 import { assert } from 'console'
 import { FirebaseFirestore } from '@firebase/firestore-types'
 import { firebaseAuthProvider, FirebaseAuthProvider } from '../../auth/firebase_auth_provider'
 import { AuthProvider } from '../../auth/auth_provider'
 import { napChartMock } from '../../components/Editor/__mocks__/napchart.mock'
-import { ChartData } from '../chart_data'
+import { ChartData } from '../ChartData'
 
 var server: Server
 const mockAuthProvider: AuthProvider = {

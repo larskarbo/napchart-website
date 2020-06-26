@@ -4,7 +4,7 @@ import '../styles/index.scss'
 
 import Editor from './Editor/Editor'
 import Intro from './Intro/Intro'
-import { FirebaseServer } from '../server/firebase_server'
+import { FirebaseServer } from '../server/FirebaseServer'
 
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 

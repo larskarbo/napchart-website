@@ -1,6 +1,5 @@
 import { Server } from './server'
 import { DocumentData, DocumentReference } from '@firebase/firestore-types'
-import { ServerImpl } from './server_impl'
 import * as firebase from 'firebase/app'
 import { NapChart } from '../components/Editor/napchart'
 import App from '../components/Editor/Editor'
@@ -9,7 +8,7 @@ import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
 import { NapchartData } from 'napchart'
 import { AuthProvider } from '../auth/auth_provider'
 import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
-import { ChartData } from '../server/chart_data'
+import { ChartData } from './ChartData'
 require('firebase/firestore')
 
 /*
@@ -148,9 +147,20 @@ export class FirebaseServer implements Server {
       })
   }
 
-  sendFeedback(feedback: any) {}
+  sendFeedback(feedback: string): Promise<DocumentReference<DocumentData>> {
+    if (feedback.length == 0) {
+      return Promise.reject('Feedback is empty.')
+    }
+    return this.db.collection('feedback').add({
+      feedback,
+    })
+  }
 
-  addEmailToFeedback(email: any, feedbackId: any) {}
+  addEmailToFeedback(email: string, feedbackDocRef: DocumentReference<DocumentData>): Promise<any> {
+    return feedbackDocRef.set({
+      email,
+    })
+  }
 
   static testOnlyMethods = {
     // These methods are for unit tests only.

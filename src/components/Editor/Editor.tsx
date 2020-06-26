@@ -10,11 +10,11 @@ import { Helmet } from 'react-helmet'
 import Export from './sections/Export'
 import { Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
-import Controls from './sections/Controls'
+import { Controls } from './sections/Controls'
 
 import Cookies from 'js-cookie'
 import NotificationSystem from 'react-notification-system'
-import { FirebaseServer } from '../../server/firebase_server'
+import { FirebaseServer } from '../../server/FirebaseServer'
 
 import { Server } from '../../server/server'
 import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'

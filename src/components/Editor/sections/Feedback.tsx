@@ -1,27 +1,33 @@
-import React, { Component, useState } from 'react'
-import { FirebaseServer } from '../../../server/firebase_server'
-const Feedback = () => {
+import React, { Component, useState, FunctionComponent } from 'react'
+import { FirebaseServer } from '../../../server/FirebaseServer'
+type FeedbackProps = {}
+export const Feedback: FunctionComponent<FeedbackProps> = () => {
   const [sent, setSent] = useState(false)
   const [value, setValue] = useState('')
   const [email, setEmail] = useState('')
   const [id, setId] = useState('')
   const [emailSent, setEmailSent] = useState(false)
   const sendFeedback = (tab) => {
-    FirebaseServer.getInstance().sendFeedback(value, (idFromServer) => {
-      console.log('idFromServer: ', idFromServer)
-      console.log('feedback sent')
-      setSent(true)
-      setId(idFromServer)
-    })
+    FirebaseServer.getInstance()
+      .sendFeedback(value)
+      .then((docRef) => {
+        const idFromServer = '12' // TODO: Get this ID
+        console.log('idFromServer: ', idFromServer)
+        console.log('feedback sent')
+        setSent(true)
+        setId(idFromServer)
+      })
   }
 
   const sendEmail = (tab) => {
     console.log('id: ', id)
 
-    FirebaseServer.getInstance().addEmailToFeedback(email, id, () => {
-      console.log('feedback sent')
-      setEmailSent(true)
-    })
+    FirebaseServer.getInstance()
+      .addEmailToFeedback(email, id)
+      .then((docRef) => {
+        console.log('feedback sent')
+        setEmailSent(true)
+      })
   }
   return (
     <>
@@ -54,5 +60,3 @@ const Feedback = () => {
     </>
   )
 }
-
-export default Feedback

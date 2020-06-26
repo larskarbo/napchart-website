@@ -6,7 +6,7 @@ import { Server } from '../../../server/server'
 import 'jest-canvas-mock'
 import Napchart from 'napchart'
 import { NapChart } from '../napchart'
-import { FirebaseServer } from '../../../server/firebase_server'
+import { FirebaseServer } from '../../../server/FirebaseServer'
 import { napChartMock } from '../__mocks__/napchart.mock'
 
 var server: Server

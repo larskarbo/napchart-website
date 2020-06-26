@@ -1,8 +1,8 @@
-import Feedback from './Feedback'
+import { Feedback } from './Feedback'
 
 import React, { FunctionComponent, useState } from 'react'
 import { Server } from '../../../server/server'
-import { FirebaseServer } from '../../../server/firebase_server'
+import { FirebaseServer } from '../../../server/FirebaseServer'
 
 type InfoProps = {
   setAmpm: (any) => void
