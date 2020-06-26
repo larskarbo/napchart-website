@@ -1,4 +1,4 @@
-import { Server } from './server'
+import { Server } from './Server'
 import Parse from 'parse'
 
 export class ServerImpl /*implements Server*/ {

@@ -1,4 +1,4 @@
-import { Server } from './server'
+import { Server } from './Server'
 import { DocumentData, DocumentReference } from '@firebase/firestore-types'
 import * as firebase from 'firebase/app'
 import { NapChart } from '../components/Editor/napchart'
@@ -157,8 +157,13 @@ export class FirebaseServer implements Server {
   }
 
   addEmailToFeedback(email: string, feedbackDocRef: DocumentReference<DocumentData>): Promise<any> {
-    return feedbackDocRef.set({
-      email,
+    return feedbackDocRef.get().then((snapshot) => {
+      const result: any = snapshot.data()
+      if (result === undefined) {
+        return Promise.reject('Feedback document not found.')
+      }
+      result.email = email
+      return feedbackDocRef.set(result)
     })
   }
 
