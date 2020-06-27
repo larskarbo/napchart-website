@@ -68,15 +68,14 @@ export default class App extends React.Component<AppProps, AppState> {
 
   componentDidMount() {
     if (this.state.chartid) {
-      this.loading()
+      this.setState({ loading: true })
       FirebaseServer.getInstance()
         .loadChart(this.state.chartid)
         .then((chartData) => {
-          console.log('get data from chartid here!')
           this.setState({
-            initialData: chartData.data, // todo data
+            initialData: chartData.data,
+            loading: false,
           })
-          this.loadingFinish()
         })
     }
   }
@@ -271,7 +270,9 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   save = () => {
-    this.loading()
+    this.setState({
+      loading: true,
+    })
     this.props.server
       .save(this.state.napchart!.data, this.state.title, this.state.description)
       .then((chartid) => {

@@ -26,6 +26,12 @@ export default class Chart extends React.Component {
     return false
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.initialData != this.props.initialData) {
+      this.initializeChart()
+    }
+  }
+
   render() {
     var blurClass = ''
     if (this.props.loading) {
