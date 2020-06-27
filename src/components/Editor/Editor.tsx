@@ -74,6 +74,7 @@ export default class App extends React.Component<AppProps, AppState> {
         .then((chartData) => {
           this.setState({
             initialData: chartData.data,
+            title: chartData.title,
             loading: false,
           })
         })
