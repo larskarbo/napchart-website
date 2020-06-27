@@ -2,7 +2,7 @@ import * as firebase from '@firebase/testing'
 import { FirebaseServer } from '../FirebaseServer'
 import { Server } from '../Server'
 import { assert } from 'console'
-import { FirebaseFirestore } from '@firebase/firestore-types'
+import { FirebaseFirestore, DocumentData, DocumentReference } from '@firebase/firestore-types'
 import { firebaseAuthProvider, FirebaseAuthProvider } from '../../auth/firebase_auth_provider'
 import { AuthProvider } from '../../auth/auth_provider'
 import { napChartMock } from '../../components/Editor/__mocks__/napchart.mock'
@@ -44,4 +44,18 @@ test('Save should return chart ID. Load chart should load chart successfully.', 
 test('If chart ID is not found, promise should be rejected.', async () => {
   const error = await server.loadChart('some fake id').catch((err) => err)
   expect(error).toBe('Chart with ID some fake id not found.')
+})
+
+test('Send feedback', async () => {
+  const feedbackString = 'This is some feedback.'
+  const docRef: DocumentReference<DocumentData> = await server.sendFeedback(feedbackString)
+  const loadedDoc = await docRef.get().then((snapshot) => snapshot.data())
+  expect({ feedback: feedbackString }).toEqual(loadedDoc)
+})
+
+test('Attach email to feedback', async () => {
+  const feedbackString = 'This is some feedback.'
+  const docRef: DocumentReference<DocumentData> = await server.sendFeedback(feedbackString)
+  const result = await server.addEmailToFeedback('someEmail@gmail.com', docRef)
+  expect(null).toBeFalsy()
 })

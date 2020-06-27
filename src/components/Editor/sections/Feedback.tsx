@@ -5,25 +5,24 @@ export const Feedback: FunctionComponent<FeedbackProps> = () => {
   const [sent, setSent] = useState(false)
   const [value, setValue] = useState('')
   const [email, setEmail] = useState('')
-  const [id, setId] = useState('')
+  const [feedbackDocRef, setFeedbackDocRef] = useState(null)
   const [emailSent, setEmailSent] = useState(false)
   const sendFeedback = (tab) => {
     FirebaseServer.getInstance()
       .sendFeedback(value)
       .then((docRef) => {
-        const idFromServer = '12' // TODO: Get this ID
-        console.log('idFromServer: ', idFromServer)
+        console.log('idFromServer: ', docRef)
         console.log('feedback sent')
         setSent(true)
-        setId(idFromServer)
+        setFeedbackDocRef(docRef)
       })
   }
 
   const sendEmail = (tab) => {
-    console.log('id: ', id)
+    console.log('id: ', feedbackDocRef)
 
     FirebaseServer.getInstance()
-      .addEmailToFeedback(email, id)
+      .addEmailToFeedback(email, feedbackDocRef)
       .then((docRef) => {
         console.log('feedback sent')
         setEmailSent(true)

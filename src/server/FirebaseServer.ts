@@ -151,9 +151,12 @@ export class FirebaseServer implements Server {
     if (feedback.length == 0) {
       return Promise.reject('Feedback is empty.')
     }
-    return this.db.collection('feedback').add({
-      feedback,
-    })
+    return this.db
+      .collection('feedback')
+      .add({
+        feedback,
+      })
+      .then((ref) => ref)
   }
 
   addEmailToFeedback(email: string, feedbackDocRef: DocumentReference<DocumentData>): Promise<any> {
