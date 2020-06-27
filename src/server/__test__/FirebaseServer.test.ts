@@ -55,7 +55,9 @@ test('Send feedback', async () => {
 
 test('Attach email to feedback', async () => {
   const feedbackString = 'This is some feedback.'
+  const email: String = 'someEmail@gmail.com'
   const docRef: DocumentReference<DocumentData> = await server.sendFeedback(feedbackString)
-  const result = await server.addEmailToFeedback('someEmail@gmail.com', docRef)
-  expect(null).toBeFalsy()
+  await server.addEmailToFeedback(email, docRef)
+  const loadedDoc = await docRef.get().then((snapshot) => snapshot.data())
+  expect({ feedback: feedbackString, email }).toEqual(loadedDoc)
 })
