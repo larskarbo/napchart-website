@@ -13,25 +13,15 @@ const mockAuthProvider: AuthProvider = {
   isUserSignedIn: () => false,
   getUserId: () => undefined,
 }
-beforeEach(() => {
-  const testApp: any = firebase.initializeTestApp({
-    projectId: 'napchart-1abe4',
-    auth: { uid: 'juanitotaveras', email: 'alice@example.com' },
-  })
-  if (firebase == null) {
-    assert(false)
-  }
-  FirebaseServer.init({ testApp: testApp, authProvider: mockAuthProvider })
-  server = FirebaseServer.getInstance()
-  // set up counter
-  FirebaseServer.testOnlyMethods.getDb().collection('chartcounter').doc('counter').set({
-    value: 0,
-  })
+const testApp: any = firebase.initializeTestApp({
+  projectId: 'napchart-1abe4',
+  auth: { uid: 'juanitotaveras', email: 'alice@example.com' },
 })
+FirebaseServer.init({ testApp: testApp, authProvider: mockAuthProvider })
+server = FirebaseServer.getInstance()
 
 afterEach(() => {
-  firebase.clearFirestoreData({ projectId: 'napchart-labe4' })
-  FirebaseServer.testOnlyMethods.resetState()
+  firebase.clearFirestoreData({ projectId: 'napchart-1abe4' })
 })
 
 test('Save should return chart ID. Load chart should load chart successfully.', async () => {
