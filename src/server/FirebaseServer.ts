@@ -5,11 +5,34 @@ import { NapChart } from '../components/Editor/napchart'
 import App from '../components/Editor/Editor'
 import { FireObject } from '@testing-library/react'
 import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
-import { NapchartData } from 'napchart'
+import { NapChartData } from '../components/Editor/napchart'
 import { AuthProvider } from '../auth/auth_provider'
 import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
 import { ChartData } from './ChartData'
 require('firebase/firestore')
+
+interface ServerChart {
+  title: string
+  description: string
+  elements: ServerElement[]
+  colorTags: ColorTag[]
+  shape: 'circle' | 'wide' | 'line'
+  lanes: number
+  lanesConfig?: {}
+}
+
+interface ServerElement {
+  start: number
+  end: number
+  lane: number
+  text: string
+  color: string
+}
+
+interface ColorTag {
+  color: string
+  tag: string
+}
 
 /*
 This class contains all functionality for interacting
@@ -75,17 +98,35 @@ export class FirebaseServer implements Server {
     return promise
   }
 
-  save(data: NapchartData, title: string, description: string): Promise<string> {
+  save(data: NapChartData, title: string, description: string): Promise<string> {
     if (firebaseAuthProvider.isUserSignedIn()) {
       const userId = firebaseAuthProvider.getUserId()
       if (userId !== undefined) {
         // TODO: Fix this once login is implemented.
-        return this.db
-          .collection('charts')
-          .doc(userId)
-          .set({ data })
-          .then(() => 'chartid')
+        // return this.db
+        //   .collection('charts')
+        //   .doc(userId)
+        //   .set({ data })
+        //   .then(() => 'chartid')
       }
+    }
+
+    const dataForServer: ServerChart = {
+      title: title,
+      description: description,
+      elements: data.elements.map((element) => {
+        return {
+          start: element.start,
+          end: element.end,
+          lane: element.lane,
+          text: element.text,
+          color: element.color,
+        }
+      }),
+      colorTags: data.colorTags,
+      shape: data.shape,
+      lanes: data.lanes,
+      lanesConfig: data.lanesConfig,
     }
 
     return this.getUniqueChartId().then((chartid) => {
@@ -94,11 +135,7 @@ export class FirebaseServer implements Server {
       return this.db
         .collection('charts')
         .doc(chartid)
-        .set({
-          title,
-          description,
-          data,
-        })
+        .set(dataForServer)
         .then((docRef) => {
           return chartid
         })

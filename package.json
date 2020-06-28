@@ -42,7 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generateschema": "typescript-json-schema --noExtraProps --required ./tsconfig.json ServerChart > ServerChart.json"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -62,7 +63,8 @@
   "devDependencies": {
     "husky": ">=4",
     "lint-staged": ">=10",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "typescript-json-schema": "^0.42.0"
   },
   "homepage": "https://napchart.com",
   "husky": {
