@@ -16,8 +16,7 @@ import Cookies from 'js-cookie'
 import NotificationSystem from 'react-notification-system'
 import { FirebaseServer } from '../../server/FirebaseServer'
 
-import { Server } from '../../server/Server'
-import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'
+import { Server } from '../../server'
 import { NapChart, NapChartData } from './napchart'
 
 const myTheme = {
@@ -74,6 +73,7 @@ export default class App extends React.Component<AppProps, AppState> {
         .then((chartData) => {
           this.setState({
             initialData: chartData.data,
+            title: chartData.title,
             loading: false,
           })
         })

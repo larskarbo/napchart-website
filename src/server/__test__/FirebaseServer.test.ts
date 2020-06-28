@@ -1,6 +1,6 @@
 import * as firebase from '@firebase/testing'
 import { FirebaseServer } from '../FirebaseServer'
-import { Server } from '../Server'
+import { Server } from '..'
 import { assert } from 'console'
 import { FirebaseFirestore, DocumentData, DocumentReference } from '@firebase/firestore-types'
 import { firebaseAuthProvider, FirebaseAuthProvider } from '../../auth/firebase_auth_provider'
