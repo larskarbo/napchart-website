@@ -8,7 +8,6 @@ import { AuthProvider } from '../../auth/auth_provider'
 import { napChartMock } from '../../components/Editor/__mocks__/napchart.mock'
 import { ChartData } from '../ChartData'
 
-var server: Server
 const mockAuthProvider: AuthProvider = {
   isUserSignedIn: () => false,
   getUserId: () => undefined,
@@ -18,7 +17,7 @@ const testApp: any = firebase.initializeTestApp({
   auth: { uid: 'juanitotaveras', email: 'alice@example.com' },
 })
 FirebaseServer.init({ testApp: testApp, authProvider: mockAuthProvider })
-server = FirebaseServer.getInstance()
+const server = FirebaseServer.getInstance()
 
 afterEach(() => {
   firebase.clearFirestoreData({ projectId: 'napchart-1abe4' })
