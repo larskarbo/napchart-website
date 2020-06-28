@@ -1,7 +1,7 @@
 import React from 'react'
 import Napchart from 'napchart'
 import classNames from 'classnames'
-import uuid from 'uuid'
+import * as uuid from 'uuid'
 
 export default class Chart extends React.Component {
   constructor(props) {
