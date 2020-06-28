@@ -1,4 +1,4 @@
-import { Server } from './Server'
+import { Server } from '.'
 import { DocumentData, DocumentReference } from '@firebase/firestore-types'
 import * as firebase from 'firebase/app'
 import { NapChart } from '../components/Editor/napchart'

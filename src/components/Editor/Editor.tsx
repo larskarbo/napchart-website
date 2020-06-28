@@ -16,7 +16,7 @@ import Cookies from 'js-cookie'
 import NotificationSystem from 'react-notification-system'
 import { FirebaseServer } from '../../server/FirebaseServer'
 
-import { Server } from '../../server/Server'
+import { Server } from '../../server'
 import { Grommet, Box, Button, Image, Text, Layer } from 'grommet'
 import { NapChart, NapChartData } from './napchart'
 
