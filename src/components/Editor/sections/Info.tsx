@@ -1,7 +1,7 @@
 import { Feedback } from './Feedback'
 
 import React, { FunctionComponent, useState } from 'react'
-import { Server } from '../../../server'
+import { Server } from '../../../server/Server'
 import { FirebaseServer } from '../../../server/FirebaseServer'
 
 type InfoProps = {

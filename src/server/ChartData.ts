@@ -1,18 +1,22 @@
-import { NapChartData } from '../components/Editor/napchart'
-
-/**
- * This is the object that get stored for a chart
- * in Firebase.
- */
-export class ChartData {
-  chartid: string
+export interface ChartData {
   title: string
   description: string
-  data: NapChartData
-  constructor(chartid: string, title: string, description: string, data: NapChartData) {
-    this.chartid = chartid
-    this.title = title
-    this.description = description
-    this.data = data
-  }
+  elements: ChartElement[]
+  colorTags: ColorTag[]
+  shape: 'circle' | 'wide' | 'line'
+  lanes: number
+  lanesConfig?: {}
+}
+
+interface ChartElement {
+  start: number
+  end: number
+  lane: number
+  text: string
+  color: string
+}
+
+interface ColorTag {
+  color: string
+  tag: string
 }

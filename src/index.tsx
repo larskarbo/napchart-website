@@ -10,4 +10,7 @@ import App from './components/App'
 import { FirebaseServer } from './server/FirebaseServer'
 import { firebaseAuthProvider } from './auth/firebase_auth_provider'
 FirebaseServer.init({ authProvider: firebaseAuthProvider })
+if (!firebaseAuthProvider.isUserSignedIn) {
+  firebaseAuthProvider.signInAnonymously()
+}
 render(<App />, document.getElementById('root'))

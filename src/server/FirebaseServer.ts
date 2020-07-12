@@ -1,4 +1,4 @@
-import { Server } from '.'
+import { Server } from './Server'
 import { DocumentData, DocumentReference } from '@firebase/firestore-types'
 import * as firebase from 'firebase/app'
 import { NapChart } from '../components/Editor/napchart'
@@ -9,30 +9,8 @@ import { NapChartData } from '../components/Editor/napchart'
 import { AuthProvider } from '../auth/auth_provider'
 import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
 import { ChartData } from './ChartData'
+
 require('firebase/firestore')
-
-interface ServerChart {
-  title: string
-  description: string
-  elements: ServerElement[]
-  colorTags: ColorTag[]
-  shape: 'circle' | 'wide' | 'line'
-  lanes: number
-  lanesConfig?: {}
-}
-
-interface ServerElement {
-  start: number
-  end: number
-  lane: number
-  text: string
-  color: string
-}
-
-interface ColorTag {
-  color: string
-  tag: string
-}
 
 /*
 This class contains all functionality for interacting
@@ -111,7 +89,7 @@ export class FirebaseServer implements Server {
       }
     }
 
-    const dataForServer: ServerChart = {
+    const dataForServer: ChartData = {
       title: title,
       description: description,
       elements: data.elements.map((element) => {
@@ -175,12 +153,14 @@ export class FirebaseServer implements Server {
       .doc(chartid)
       .get()
       .then((snapshot) => {
-        const result: any = snapshot.data()
+        const result: ChartData = snapshot.data() as ChartData
         if (result === undefined) {
           return Promise.reject('Chart with ID ' + chartid + ' not found.')
         }
-        const chartData: ChartData = new ChartData(chartid, result.title, result.description, result.data)
-        return Promise.resolve(chartData)
+        console.log('result hur')
+        console.log(result)
+        // const chartData: ChartData = new ChartData(chartid, result.title, result.description, result.data)
+        return Promise.resolve(result)
       })
   }
 

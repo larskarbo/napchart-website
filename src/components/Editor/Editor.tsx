@@ -16,8 +16,9 @@ import Cookies from 'js-cookie'
 import NotificationSystem from 'react-notification-system'
 import { FirebaseServer } from '../../server/FirebaseServer'
 
-import { Server } from '../../server'
-import { NapChart, NapChartData } from './napchart'
+import { Server } from '../../server/Server'
+import { NapChart } from './napchart'
+import { ChartData } from '../../server/ChartData'
 
 const myTheme = {
   global: {
@@ -43,7 +44,7 @@ type AppState = {
   ampm: any
   showPopup: boolean
   slideSidebarMobile: any
-  initialData: NapChartData | null
+  initialData: ChartData | null
 }
 
 export default class App extends React.Component<AppProps, AppState> {
@@ -71,8 +72,10 @@ export default class App extends React.Component<AppProps, AppState> {
       FirebaseServer.getInstance()
         .loadChart(this.state.chartid)
         .then((chartData) => {
+          console.log('setting initial data')
+          console.log(chartData)
           this.setState({
-            initialData: chartData.data,
+            initialData: chartData,
             title: chartData.title,
             loading: false,
           })

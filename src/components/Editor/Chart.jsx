@@ -78,7 +78,8 @@ export default class Chart extends React.Component {
       responsive: true,
       ampm: this.props.ampm,
     })
-
+    console.log(this.props.initialData)
+    console.log(napchart)
     napchart.onUpdate = () => {
       this.props.onUpdate()
     }
