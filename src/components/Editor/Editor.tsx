@@ -41,7 +41,7 @@ type AppState = {
   title: string
   description: string
   currentSection: any
-  ampm: any
+  ampm: boolean
   showPopup: boolean
   slideSidebarMobile: any
   initialData: ChartData | null
@@ -315,7 +315,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.state.napchart!.setNumberOfLanes(lanes)
   }
 
-  getAmpm = () => {
+  getAmpm = (): boolean => {
     const cookiePref = Cookies.get('preferAmpm')
     if (cookiePref) {
       return eval(cookiePref)
