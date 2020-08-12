@@ -37,14 +37,14 @@ export class FirebaseServer implements Server {
       FirebaseServer.instance = new FirebaseServer()
       if (props.testApp == undefined || props.testApp == null) {
         const firebaseConfig = {
-          apiKey: 'AIzaSyDZIH0Vogv07ZWCUMwPn1gaBaF_6rAP_zg',
-          authDomain: 'napchart-1abe4.firebaseapp.com',
-          databaseURL: 'https://napchart-1abe4.firebaseio.com',
-          projectId: 'napchart-1abe4',
-          storageBucket: 'napchart-1abe4.appspot.com',
-          messagingSenderId: '747326670843',
-          appId: '1:747326670843:web:39891acdbdf5df1cd8ed5e',
-          measurementId: 'G-NP62410MLV',
+          apiKey: process.env.REACT_APP_API_KEY,
+          authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+          databaseURL: process.env.REACT_APP_DATABASE_URL,
+          projectId: process.env.REACT_APP_PROJECT_ID,
+          storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+          messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+          appId: process.env.REACT_APP_APP_ID,
+          measurementId: process.env.REACT_APP_MEASUREMENT_ID,
         }
         const firebaseApp = firebase.initializeApp(firebaseConfig)
         FirebaseServer.instance.db = firebase.firestore(firebaseApp)
