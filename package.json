@@ -13,6 +13,7 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "firebase": "^7.15.1",
     "firebase-tools": "^8.4.2",
     "jest-canvas-mock": "^2.2.0",
