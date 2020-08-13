@@ -15,6 +15,8 @@ export interface NapChart {
 }
 
 export interface NapChartData {
+  title: string
+  description: string
   elements: Element[]
   colorTags: any
   shape: 'circle' | 'wide' | 'line'

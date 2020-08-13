@@ -76,7 +76,19 @@ export class FirebaseServer implements Server {
     return promise
   }
 
-  save(data: NapChartData, title: string, description: string): Promise<string> {
+  update(data: NapChartData, chartid: string): Promise<string> {
+    const dataForServer = this.createChartObjectForServer(data)
+
+    return this.db
+      .collection('charts')
+      .doc(chartid)
+      .set(dataForServer)
+      .then((docRef) => {
+        return chartid
+      })
+  }
+
+  saveNew(data: NapChartData): Promise<string> {
     if (firebaseAuthProvider.isUserSignedIn()) {
       const userId = firebaseAuthProvider.getUserId()
       if (userId !== undefined) {
@@ -89,23 +101,7 @@ export class FirebaseServer implements Server {
       }
     }
 
-    const dataForServer: ChartData = {
-      title: title,
-      description: description,
-      elements: data.elements.map((element) => {
-        return {
-          start: element.start,
-          end: element.end,
-          lane: element.lane,
-          text: element.text,
-          color: element.color,
-        }
-      }),
-      colorTags: data.colorTags,
-      shape: data.shape,
-      lanes: data.lanes,
-      lanesConfig: data.lanesConfig,
-    }
+    const dataForServer = this.createChartObjectForServer(data)
 
     return this.getUniqueChartId().then((chartid) => {
       console.error('generated unique id')
@@ -127,6 +123,27 @@ export class FirebaseServer implements Server {
       id += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
     return id
+  }
+
+  private createChartObjectForServer(data): ChartData {
+    const output: ChartData = {
+      title: data.title,
+      description: data.description,
+      elements: data.elements.map((element) => {
+        return {
+          start: element.start,
+          end: element.end,
+          lane: element.lane,
+          text: element.text,
+          color: element.color,
+        }
+      }),
+      colorTags: data.colorTags,
+      shape: data.shape,
+      lanes: data.lanes,
+      lanesConfig: data.lanesConfig,
+    }
+    return output
   }
 
   async getUniqueChartId(): Promise<string> {

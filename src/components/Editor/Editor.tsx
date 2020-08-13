@@ -20,14 +20,6 @@ import { Server } from '../../server/Server'
 import { NapChart } from './napchart'
 import { ChartData } from '../../server/ChartData'
 
-const myTheme = {
-  global: {
-    colors: {
-      brand: '#EA4335',
-    },
-  },
-}
-
 type AppProps = {
   server: Server
   chartid?: any
@@ -141,7 +133,7 @@ export default class App extends React.Component<AppProps, AppState> {
               title={this.state.title}
               changeTitle={this.changeTitle}
               chartid={this.state.chartid}
-              save={this.save}
+              save={this.update}
               loading={this.state.loading}
             />
 
@@ -273,16 +265,45 @@ export default class App extends React.Component<AppProps, AppState> {
     })
   }
 
-  save = () => {
+  saveNew = () => {
     this.setState({
       loading: true,
     })
     this.props.server
-      .save(this.state.napchart!.data, this.state.title, this.state.description)
+      .saveNew({
+        ...this.state.napchart!.data,
+        title: this.state.title,
+        description: this.state.description,
+      })
       .then((chartid) => {
         this.loadingFinish()
         this.onSave(chartid)
         this.setState({ chartid: chartid })
+      })
+      .catch((err) => {
+        console.error("things didn't work... " + err)
+        this._notify.addNotification({
+          message: err,
+          level: 'error',
+        })
+      })
+  }
+
+  update = () => {
+    this.setState({
+      loading: true,
+    })
+    this.props.server
+      .update(
+        {
+          ...this.state.napchart!.data,
+          title: this.state.title,
+          description: this.state.description,
+        },
+        this.state.chartid,
+      )
+      .then((chartid) => {
+        this.loadingFinish()
       })
       .catch((err) => {
         console.error("things didn't work... " + err)
