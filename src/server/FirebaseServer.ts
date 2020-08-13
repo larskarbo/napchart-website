@@ -11,6 +11,7 @@ import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
 import { ChartData } from './ChartData'
 
 require('firebase/firestore')
+require('firebase/functions')
 
 /*
 This class contains all functionality for interacting
@@ -23,6 +24,7 @@ export interface FirebaseServerProps {
 export class FirebaseServer implements Server {
   private static instance: FirebaseServer
   private db!: FirebaseFirestore
+  private functions!: any
 
   static getInstance(): Server {
     if (!FirebaseServer.instance) {
@@ -48,12 +50,14 @@ export class FirebaseServer implements Server {
         }
         const firebaseApp = firebase.initializeApp(firebaseConfig)
         FirebaseServer.instance.db = firebase.firestore(firebaseApp)
+        FirebaseServer.instance.functions = firebase.functions(firebaseApp)
         // If we are testing locally, use the emulator.
         if (window.location.hostname == 'localhost') {
           FirebaseServer.instance.db.settings({
             ssl: false,
             host: 'localhost:8080',
           })
+          FirebaseServer.instance.functions.useFunctionsEmulator('http://localhost:5001')
         }
       } else {
         FirebaseServer.instance.db = firebase.firestore(props.testApp)
@@ -77,91 +81,18 @@ export class FirebaseServer implements Server {
   }
 
   update(data: NapChartData, chartid: string): Promise<string> {
-    const dataForServer = this.createChartObjectForServer(data)
-
-    return this.db
-      .collection('charts')
-      .doc(chartid)
-      .set(dataForServer)
-      .then((docRef) => {
-        return chartid
-      })
-  }
-
-  saveNew(data: NapChartData): Promise<string> {
-    if (firebaseAuthProvider.isUserSignedIn()) {
-      const userId = firebaseAuthProvider.getUserId()
-      if (userId !== undefined) {
-        // TODO: Fix this once login is implemented.
-        // return this.db
-        //   .collection('charts')
-        //   .doc(userId)
-        //   .set({ data })
-        //   .then(() => 'chartid')
-      }
-    }
-
-    const dataForServer = this.createChartObjectForServer(data)
-
-    return this.getUniqueChartId().then((chartid) => {
-      console.error('generated unique id')
-      console.error(chartid)
-      return this.db
-        .collection('charts')
-        .doc(chartid)
-        .set(dataForServer)
-        .then((docRef) => {
-          return chartid
-        })
+    const update = this.functions.httpsCallable('updateChart')
+    return update({ chartid, data }).then(function () {
+      return true
     })
   }
 
-  private generateRandomId(): string {
-    const alphabet = 'abcdefghijklmnopqrstuwxyz0123456789'
-    let id = ''
-    for (var i = 0; i < 5; i++) {
-      id += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
-    }
-    return id
-  }
-
-  private createChartObjectForServer(data): ChartData {
-    const output: ChartData = {
-      title: data.title,
-      description: data.description,
-      elements: data.elements.map((element) => {
-        return {
-          start: element.start,
-          end: element.end,
-          lane: element.lane,
-          text: element.text,
-          color: element.color,
-        }
-      }),
-      colorTags: data.colorTags,
-      shape: data.shape,
-      lanes: data.lanes,
-      lanesConfig: data.lanesConfig,
-    }
-    return output
-  }
-
-  async getUniqueChartId(): Promise<string> {
-    let id = this.generateRandomId()
-    while (await this.isIdAlreadyTaken(id)) {
-      id = this.generateRandomId()
-    }
-    return id
-  }
-
-  private isIdAlreadyTaken(id: string): Promise<boolean> {
-    return FirebaseServer.instance.db
-      .collection('charts')
-      .doc(id)
-      .get()
-      .then((doc) => {
-        return doc.exists
-      })
+  saveNew(data: NapChartData): Promise<string> {
+    const saveNew = this.functions.httpsCallable('saveNewChart')
+    return saveNew({ data }).then(function (result) {
+      console.log('result: ', result)
+      return result.data.chartid
+    })
   }
 
   loadChart(chartid: string): Promise<ChartData> {

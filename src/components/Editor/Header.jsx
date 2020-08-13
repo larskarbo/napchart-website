@@ -40,10 +40,16 @@ export default class extends React.Component {
 
         <div className="level-right">
           <a
-            onClick={this.props.save}
+            onClick={this.props.update}
             className={c('button is-light level-item', { 'is-loading': this.props.loading })}
           >
             Save
+          </a>
+          <a
+            onClick={this.props.saveNew}
+            className={c('button is-light level-item', { 'is-loading': this.props.loading })}
+          >
+            Save new
           </a>
         </div>
       </header>

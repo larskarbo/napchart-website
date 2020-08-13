@@ -133,7 +133,8 @@ export default class App extends React.Component<AppProps, AppState> {
               title={this.state.title}
               changeTitle={this.changeTitle}
               chartid={this.state.chartid}
-              save={this.update}
+              update={this.update}
+              saveNew={this.saveNew}
               loading={this.state.loading}
             />
 
@@ -276,6 +277,7 @@ export default class App extends React.Component<AppProps, AppState> {
         description: this.state.description,
       })
       .then((chartid) => {
+        console.log('chartid: ', chartid)
         this.loadingFinish()
         this.onSave(chartid)
         this.setState({ chartid: chartid })
