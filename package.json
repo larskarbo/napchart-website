@@ -36,6 +36,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "emulator": "firebase emulators:start",
+    "add_data": "node test_data/addData",
     "eject": "react-scripts eject",
     "generateschema": "typescript-json-schema --noExtraProps --required ./tsconfig.json ServerChart > ServerChart.json"
   },

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
+import { ChartData } from '../../server/ChartData'
 
 const charts = ['ze6yr', 'hpqr4', 'g6d8n', 'in2f6', 'go2r9', '1k7qk', 'qfd05', 'd9b2c', 'sgl4w']
 
@@ -69,7 +70,7 @@ const Card = ({ chartid, server }) => {
             </div>
             <div className="media-content">
               <p className="title is-4">{data.title || 'no title'}</p>
-              <p className="subtitle is-6">@johnsmith</p>
+              <p className="subtitle is-6">@{data.user}</p>
             </div>
           </div>
 
