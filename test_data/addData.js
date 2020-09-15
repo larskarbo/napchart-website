@@ -16,7 +16,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 }
 const firebaseApp = firebase.initializeApp(firebaseConfig)
-console.log('firebaseConfig: ', firebaseConfig)
+// console.log('firebaseConfig: ', firebaseConfig)
 
 const db = firebase.firestore(firebaseApp)
 db.settings({
@@ -31,7 +31,7 @@ const yo = async () => {
       .doc(key)
       .set(value)
       .then((docRef) => {
-        console.log('added', key)
+        // console.log('added', key)
       })
   }
 }

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
 import { ChartData } from '../../server/ChartData'
+import Modal from '../common/Modal'
+import Editor from '../EditorV2/Editor'
 
 const charts = ['ze6yr', 'hpqr4', 'g6d8n', 'in2f6', 'go2r9', '1k7qk', 'qfd05', 'd9b2c', 'sgl4w']
 
@@ -37,22 +39,37 @@ export default ({ server }) => {
   )
 }
 
+const Preview = ({ chartid, server, onClose }) => {
+  return (
+    <Modal onClose={onClose}>
+      <Link to={'/' + chartid}>
+        <button>Open as page</button>
+      </Link>
+      <Editor chartid={chartid} server={server} />
+    </Modal>
+  )
+}
+
 const Card = ({ chartid, server }) => {
   const [data, setData] = useState(null)
+
+  const [preview, setPreview] = useState(chartid == 'go2r9' ? 'go2r9' : null)
 
   useEffect(() => {
     server.loadChart(chartid).then((a) => {
       // console.log(a)
       setData(a)
     })
-  }, [])
+  }, [chartid])
 
   if (!data) {
     return null
   }
   return (
-    <Link to={'/' + chartid}>
-      <div className="card">
+    <>
+      {preview && <Preview chartid={chartid} server={server} onClose={() => setPreview(null)} />}
+
+      <div onClick={() => setPreview(chartid)} className="card">
         <div className="card-image">
           <figure className="image is-4by3">
             <img
@@ -81,6 +98,6 @@ const Card = ({ chartid, server }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </>
   )
 }

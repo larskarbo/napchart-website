@@ -3,7 +3,7 @@
     "shape": "circle",
     "user": "testuser",
     "lanesConfig": { "0": { "locked": false }, "1": { "locked": false } },
-    "title": "",
+    "title": "Cool schedule",
     "lanes": 2,
     "elements": [
       { "lane": 0, "color": "red", "start": 1320, "end": 150, "text": "" },
@@ -45,7 +45,7 @@
       { "end": 315, "lane": 1, "text": "", "color": "gray", "start": 300 },
       { "text": "", "color": "green", "end": 345, "start": 315, "lane": 1 }
     ],
-    "description": "",
+    "description": "This is a schedule I am using every day",
     "colorTags": []
   },
   "hpqr4": {
@@ -55,7 +55,7 @@
     "lanesConfig": { "0": { "locked": false }, "1": { "locked": false } },
     "shape": "circle",
     "user": "testuser",
-    "title": "",
+    "title": "Story of my life",
     "elements": [
       { "end": 165, "start": 1335, "color": "red", "text": "", "lane": 0 },
       { "color": "red", "end": 540, "start": 450, "lane": 0, "text": "" },
@@ -100,7 +100,7 @@
     "colorTags": [],
     "description": "",
     "lanesConfig": { "0": { "locked": false }, "1": { "locked": false } },
-    "title": "",
+    "title": "Try 1",
     "shape": "circle",
     "user": "testuser",
     "elements": [
@@ -142,7 +142,8 @@
       { "start": 1095, "lane": 1, "end": 1105, "color": "brown", "text": "" },
       { "lane": 0, "color": "purple", "start": 150, "end": 225, "text": "" }
     ],
-    "lanes": 2
+    "lanes": 2,
+    "description": "My first real schedule"
   },
   "in2f6": {
     "lanes": 2,
@@ -192,8 +193,9 @@
   "go2r9": {
     "shape": "circle",
     "user": "testuser",
-    "description": "",
     "lanesConfig": {},
+    "title": "My monday routine 🏜",
+    "description": "The way I start my week!\n\nGoal: Get some good workout and other stuff",
     "elements": [
       { "start": 1380, "color": "red", "lane": 0, "text": "", "end": 150 },
       { "start": 360, "color": "red", "end": 570, "lane": 0, "text": "" },
@@ -204,8 +206,7 @@
     "colorTags": [
       { "tag": "dark period", "color": "blue" },
       { "tag": "sleep", "color": "red" }
-    ],
-    "title": ""
+    ]
   },
   "1k7qk": {
     "shape": "circle",

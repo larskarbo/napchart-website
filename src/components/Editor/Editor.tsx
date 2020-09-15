@@ -64,8 +64,8 @@ export default class App extends React.Component<AppProps, AppState> {
       FirebaseServer.getInstance()
         .loadChart(this.state.chartid)
         .then((chartData) => {
-          console.log('setting initial data')
-          console.log(chartData)
+          // console.log('setting initial data')
+          // console.log(chartData)
           this.setState({
             initialData: chartData,
             title: chartData.title,
@@ -243,7 +243,7 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   setMetaInfo = (title, description) => {
-    console.log('title, description: ', title, description)
+    // console.log('title, description: ', title, description)
     this.setState({
       title,
       description,
@@ -277,7 +277,7 @@ export default class App extends React.Component<AppProps, AppState> {
         description: this.state.description,
       })
       .then((chartid) => {
-        console.log('chartid: ', chartid)
+        // console.log('chartid: ', chartid)
         this.loadingFinish()
         this.onSave(chartid)
         this.setState({ chartid: chartid })

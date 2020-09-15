@@ -2,7 +2,7 @@ import React from 'react'
 
 import '../styles/index.scss'
 
-import Editor from './Editor/Editor'
+import Editor from './EditorV2/Editor'
 import ChartBrowser from './ChartBrowser/ChartBrowser'
 import Intro from './Intro/Intro'
 import { FirebaseServer } from '../server/FirebaseServer'
@@ -19,7 +19,7 @@ export default class App extends React.Component {
       <Router>
         <Switch>
           <Route path="/app">
-            <Editor server={FirebaseServer.getInstance()} />
+            <Editor server={FirebaseServer.getInstance()} chartid={null} />
           </Route>
           <Route path="/charts">
             <ChartBrowser server={FirebaseServer.getInstance()} />

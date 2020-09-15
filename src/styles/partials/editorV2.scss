@@ -1,0 +1,101 @@
+.editor {
+  display: flex;
+  justify-content: center;
+
+  padding-top: 80px;
+
+  .userText {
+    color: black;
+    // font-family: monospace
+
+    &.title {
+      font-size: 30px;
+      margin-top: 40px;
+      margin-bottom: 0px
+    }
+
+    &.description {
+
+      margin-bottom: 20px;
+    }
+  }
+
+  .colorTag {
+    padding: 5px;
+
+    &:hover {
+      background-color: #D6D6D6
+    }
+  }
+
+  .byline {
+    margin-bottom: 15px;
+    opacity: 0.6;
+  }
+
+  .colorSquare {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: text-bottom;
+  }
+
+  .header {
+    height: 60px;
+    background: gray
+  }
+
+  .editorContainer {
+    max-width: 900px;
+    width: 100%;
+    display: block
+  }
+
+  .editorHeader {
+    background-color: #DEDEDE;
+    margin-top: 100px;
+  }
+
+}
+
+.Chart {
+  min-height: 400px
+}
+
+.ColorPicker {
+  display: flex;
+
+  .color {
+    height: calc(100% / 8);
+    width: calc(100% / 8);
+    opacity: 0.3;
+
+    &.active {
+      opacity: 1;
+      cursor: default;
+    }
+
+    cursor: pointer;
+
+    circle,
+    svg {
+      pointer-events: none;
+    }
+  }
+}
+
+.overlay {
+  border: 1px solid black;
+  background: white;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  top: 50%;
+  margin-top: -50px;
+
+  input{
+    width: 100%
+  }
+}

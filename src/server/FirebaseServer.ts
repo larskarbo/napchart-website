@@ -74,7 +74,7 @@ export class FirebaseServer implements Server {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data()}`)
+          // console.log(`${doc.id} => ${doc.data()}`)
         })
       })
     return promise
@@ -90,7 +90,7 @@ export class FirebaseServer implements Server {
   saveNew(data: NapChartData): Promise<string> {
     const saveNew = this.functions.httpsCallable('saveNewChart')
     return saveNew({ data }).then(function (result) {
-      console.log('result: ', result)
+      // console.log('result: ', result)
       return result.data.chartid
     })
   }
@@ -105,8 +105,8 @@ export class FirebaseServer implements Server {
         if (result === undefined) {
           return Promise.reject('Chart with ID ' + chartid + ' not found.')
         }
-        console.log('result hur')
-        console.log(result)
+        // console.log('result hur')
+        // console.log(result)
         // const chartData: ChartData = new ChartData(chartid, result.title, result.description, result.data)
         return Promise.resolve(result)
       })
