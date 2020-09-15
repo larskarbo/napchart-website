@@ -105,8 +105,7 @@ export class FirebaseServer implements Server {
         if (result === undefined) {
           return Promise.reject('Chart with ID ' + chartid + ' not found.')
         }
-        // console.log('result hur')
-        // console.log(result)
+        console.log('result after loadChart: ' + result)
         // const chartData: ChartData = new ChartData(chartid, result.title, result.description, result.data)
         return Promise.resolve(result)
       })
