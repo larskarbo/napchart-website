@@ -167,7 +167,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
                 <div className="currentInfo">
                   {sections[this.state.currentSection].element}
-                  {this.state.currentSection != 1 && (
+                  {/* {this.state.currentSection != 1 && (
                     <div
                       className="dz"
                       style={{
@@ -199,7 +199,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         <img src="/dz.png" />
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
