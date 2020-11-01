@@ -107,7 +107,9 @@ export default class extends React.Component {
                   <strong>Waking up in the middle of the night?</strong>
                 </a> */}
               </p>
-              <p>🌟 Copyright 2013-2021 Lars Karbo 🌟</p>
+              <p>
+                🌟 Copyright 2013-2021 <a href="https://larskarbo.no/">Lars Karbo</a> 🌟
+              </p>
             </div>
           </div>
         </section>

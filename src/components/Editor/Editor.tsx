@@ -167,7 +167,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 <ToolBar napchart={this.state.napchart} title={sections[this.state.currentSection].title} />
                 <div className="currentInfo">
                   {sections[this.state.currentSection].element}
-                  {/* {this.state.currentSection != 1 && (
+                  {this.state.currentSection != 1 && (
                     <div
                       className="dz"
                       style={{
@@ -180,26 +180,22 @@ export default class App extends React.Component<AppProps, AppState> {
                           width: '50%',
                         }}
                       >
-                        <h2>Neurotechnology for reduced nighttime awakenings.</h2>
+                        <h2>Are you working with music?.</h2>
                         <p>
-                          <a href="https://drowzee.com/">Drowzee</a> is developing a neural interface to train your
-                          brain go deeper into sleep and be less interruptive.
+                          I am building <a href="https://slapper.io/">slapper.io</a> - a site to collect snippets of
+                          music from streaming services and store and organize them.
                         </p>
-                        <p>
-                          <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
-                            <strong>Waking up in the middle of the night?</strong>
-                          </a>
-                        </p>
+                        <p>Napchart users are welcome as beta testers! Just message me.</p>
                       </div>
                       <div
                         style={{
                           width: '50%',
                         }}
                       >
-                        <img src="/dz.png" />
+                        <img src="/slap.png" />
                       </div>
                     </div>
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>

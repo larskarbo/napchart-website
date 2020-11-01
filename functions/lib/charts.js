@@ -8,6 +8,7 @@ admin.initializeApp()
 const cors = require('cors')({
   origin: true,
 })
+
 // FUNCTIONS (endpoints) ↓
 exports.updateChart = functions.https.onRequest((req, res) =>
   cors(req, res, async () => {
@@ -23,6 +24,7 @@ exports.updateChart = functions.https.onRequest((req, res) =>
       })
   }),
 )
+
 exports.saveNewChart = functions.https.onRequest((req, res) =>
   cors(req, res, async () => {
     const { data } = req.body.data
