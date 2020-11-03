@@ -49,12 +49,12 @@ export class FirebaseServer implements Server {
         const firebaseApp = firebase.initializeApp(firebaseConfig)
         FirebaseServer.instance.db = firebase.firestore(firebaseApp)
         // If we are testing locally, use the emulator.
-        if (window.location.hostname == 'localhost') {
-          FirebaseServer.instance.db.settings({
-            ssl: false,
-            host: 'localhost:8080',
-          })
-        }
+        // if (window.location.hostname == 'localhost') {
+        //   FirebaseServer.instance.db.settings({
+        //     ssl: false,
+        //     host: 'localhost:8080',
+        //   })
+        // }
       } else {
         FirebaseServer.instance.db = firebase.firestore(props.testApp)
       }
@@ -172,6 +172,7 @@ export class FirebaseServer implements Server {
       .collection('feedback')
       .add({
         feedback,
+        time: new Date(),
       })
       .then((ref) => ref)
   }

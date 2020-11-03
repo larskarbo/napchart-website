@@ -283,7 +283,7 @@ export default class App extends React.Component<AppProps, AppState> {
       .catch((err) => {
         console.error("things didn't work... " + err)
         this._notify.addNotification({
-          message: err,
+          message: JSON.stringify(err),
           level: 'error',
         })
       })
