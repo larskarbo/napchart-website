@@ -119,6 +119,7 @@ export class FirebaseServer implements Server {
       .collection('feedback')
       .add({
         feedback,
+        time: new Date(),
       })
       .then((ref) => ref)
   }
