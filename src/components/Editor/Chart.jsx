@@ -28,7 +28,7 @@ export default class Chart extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.initialData != this.props.initialData) {
-      this.initializeChart()
+      // this.initializeChart()
     }
   }
 
@@ -77,9 +77,10 @@ export default class Chart extends React.Component {
     var napchart = Napchart.init(ctx, this.props.initialData || {}, {
       responsive: true,
       ampm: this.props.ampm,
+      colorTags: false,
     })
-    console.log(this.props.initialData)
-    console.log(napchart)
+    // console.log(this.props.initialData)
+    // console.log(napchart)
     napchart.onUpdate = () => {
       this.props.onUpdate()
     }

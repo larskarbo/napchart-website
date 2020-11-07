@@ -6,6 +6,7 @@ export interface ChartData {
   shape: 'circle' | 'wide' | 'line'
   lanes: number
   lanesConfig?: {}
+  user?: string
 }
 
 interface ChartElement {
