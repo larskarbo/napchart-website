@@ -1,15 +1,17 @@
-import { NapChart } from "../napchart";
+import { NapChart } from '../napchart'
 
 export let napChartMock: NapChart = {
   data: {
+    title: 'some title',
+    description: 'some description',
     elements: [
       {
         start: 1260,
         end: 0,
         id: 2973,
         lane: 0,
-        text: "",
-        color: "red",
+        text: '',
+        color: 'red',
         duration: 210,
       },
       {
@@ -17,8 +19,8 @@ export let napChartMock: NapChart = {
         end: 300,
         id: 9817,
         lane: 0,
-        text: "",
-        color: "red",
+        text: '',
+        color: 'red',
         duration: 210,
       },
       {
@@ -26,19 +28,19 @@ export let napChartMock: NapChart = {
         end: 300,
         id: 2957,
         lane: 1,
-        text: "",
-        color: "pink",
+        text: '',
+        color: 'pink',
         duration: 0,
       },
     ],
     colorTags: [],
-    shape: "circle",
+    shape: 'circle',
     lanes: 2,
     lanesConfig: {
-      "0": {
+      '0': {
         locked: true,
       },
-      "1": {
+      '1': {
         locked: false,
       },
     },
@@ -58,13 +60,13 @@ export let napChartMock: NapChart = {
   }),
   helpers: {
     duration: (start, end) => 0,
-    minutesToReadable: (minutes) => "data",
+    minutesToReadable: (minutes) => 'data',
   },
   toggleLockLane: jest.fn(),
   deleteLane: jest.fn(),
   config: {
-    defaultColor: "green",
+    defaultColor: 'green',
   },
   addLane: jest.fn(),
   setNumberOfLanes: jest.fn(),
-};
+}

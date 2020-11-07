@@ -20,14 +20,6 @@ import { Server } from '../../server/Server'
 import { NapChart } from './napchart'
 import { ChartData } from '../../server/ChartData'
 
-const myTheme = {
-  global: {
-    colors: {
-      brand: '#EA4335',
-    },
-  },
-}
-
 type AppProps = {
   server: Server
   chartid?: any
@@ -72,8 +64,8 @@ export default class App extends React.Component<AppProps, AppState> {
       FirebaseServer.getInstance()
         .loadChart(this.state.chartid)
         .then((chartData) => {
-          console.log('setting initial data')
-          console.log(chartData)
+          // console.log('setting initial data')
+          // console.log(chartData)
           this.setState({
             initialData: chartData,
             title: chartData.title,
@@ -141,7 +133,8 @@ export default class App extends React.Component<AppProps, AppState> {
               title={this.state.title}
               changeTitle={this.changeTitle}
               chartid={this.state.chartid}
-              save={this.save}
+              update={this.update}
+              saveNew={this.saveNew}
               loading={this.state.loading}
             />
 
@@ -246,7 +239,7 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   setMetaInfo = (title, description) => {
-    console.log('title, description: ', title, description)
+    // console.log('title, description: ', title, description)
     this.setState({
       title,
       description,
@@ -269,13 +262,18 @@ export default class App extends React.Component<AppProps, AppState> {
     })
   }
 
-  save = () => {
+  saveNew = () => {
     this.setState({
       loading: true,
     })
     this.props.server
-      .save(this.state.napchart!.data, this.state.title, this.state.description)
+      .saveNew({
+        ...this.state.napchart!.data,
+        title: this.state.title,
+        description: this.state.description,
+      })
       .then((chartid) => {
+        // console.log('chartid: ', chartid)
         this.loadingFinish()
         this.onSave(chartid)
         this.setState({ chartid: chartid })
@@ -284,6 +282,31 @@ export default class App extends React.Component<AppProps, AppState> {
         console.error("things didn't work... " + err)
         this._notify.addNotification({
           message: JSON.stringify(err),
+          level: 'error',
+        })
+      })
+  }
+
+  update = () => {
+    this.setState({
+      loading: true,
+    })
+    this.props.server
+      .update(
+        {
+          ...this.state.napchart!.data,
+          title: this.state.title,
+          description: this.state.description,
+        },
+        this.state.chartid,
+      )
+      .then((chartid) => {
+        this.loadingFinish()
+      })
+      .catch((err) => {
+        console.error("things didn't work... " + err)
+        this._notify.addNotification({
+          message: err,
           level: 'error',
         })
       })
