@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI= react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generateschema": "typescript-json-schema --noExtraProps --required ./tsconfig.json ServerChart > ServerChart.json"
