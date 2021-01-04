@@ -46,7 +46,7 @@
       },
       {
         "start": 350,
-        "end": 420
+        "end": 440
       },
       {
         "start": 720,
@@ -514,6 +514,40 @@
       }
     ]
   },
+  {
+    "name": "Quad core 0",
+    "elements": [
+      {
+        "lane": 0,
+        "start": 1320,
+        "text": "",
+        "color": "red",
+        "end": 1410
+      },
+      {
+        "start": 150,
+        "end": 240,
+        "text": "",
+        "color": "red",
+        "lane": 0
+      },
+      {
+        "lane": 0,
+        "color": "red",
+        "start": 420,
+        "end": 510,
+        "text": ""
+      },
+      {
+        "color": "red",
+        "end": 910,
+        "lane": 0,
+        "text": "",
+        "start": 820
+      }
+    ]
+  },
+
   {
     "name": "Monophasic",
     "elements": [
