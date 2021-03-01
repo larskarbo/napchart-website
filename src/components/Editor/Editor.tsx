@@ -180,19 +180,20 @@ export default class App extends React.Component<AppProps, AppState> {
                           width: '50%',
                         }}
                       >
-                        <h2>Are you working with music?.</h2>
+                        <h2>I need your opinion</h2>
+                        <p>I am working on a new big upgrade to Napchart and this week I am doing user interviews.</p>
                         <p>
-                          I am building <a href="https://slapper.io/">slapper.io</a> - a site to collect snippets of
-                          music from streaming services and store and organize them.
+                          Schedule a quick call here:{' '}
+                          <a href="https://calendly.com/larskarbo/napchart-call">schedule</a>
                         </p>
-                        <p>Napchart users are welcome as beta testers! Just message me.</p>
                       </div>
                       <div
                         style={{
                           width: '50%',
+                          paddingLeft: 4,
                         }}
                       >
-                        <img src="/slap.png" />
+                        <img src="/nextgen.png" />
                       </div>
                     </div>
                   )}

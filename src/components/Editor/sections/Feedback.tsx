@@ -30,7 +30,7 @@ export const Feedback: FunctionComponent<FeedbackProps> = () => {
   }
   return (
     <>
-      <div className="part">
+      {/* <div className="part">
         <h2 className="title is-6">Feedback</h2>
         {sent ? (
           <div className="field">
@@ -55,7 +55,7 @@ export const Feedback: FunctionComponent<FeedbackProps> = () => {
             </button>
           </>
         )}
-      </div>
+      </div> */}
     </>
   )
 }
