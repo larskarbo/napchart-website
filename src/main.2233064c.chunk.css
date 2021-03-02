@@ -1,48 +1,40 @@
 @-webkit-keyframes fade-from-right {
   0% {
     opacity: 0;
-    -webkit-transform: translateX(20px);
     transform: translateX(20px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 @keyframes fade-from-right {
   0% {
     opacity: 0;
-    -webkit-transform: translateX(20px);
     transform: translateX(20px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 @-webkit-keyframes fade-from-left {
   0% {
     opacity: 0;
-    -webkit-transform: translateX(-20px);
     transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 @keyframes fade-from-left {
   0% {
     opacity: 0;
-    -webkit-transform: translateX(-20px);
     transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
@@ -61,31 +53,23 @@
   to {
     opacity: 1;
   }
-}
-
-/*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
+} /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   0% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
 }
 @keyframes spinAround {
   0% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
-}
-
-/*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
+} /*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
 blockquote,
 body,
 dd,
@@ -167,6 +151,7 @@ html {
   overflow-y: scroll;
   text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -184,8 +169,8 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 code,
 pre {
@@ -2691,9 +2676,7 @@ a.box:active {
   height: 0.5em;
   pointer-events: none;
   position: absolute;
-  -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  -webkit-transform-origin: center;
   transform-origin: center;
   width: 0.5em;
   margin-top: -0.375em;
@@ -2920,7 +2903,6 @@ a.box:active {
   position: absolute;
   right: 0.625em;
   top: 0.625em;
-  -webkit-transform: none;
   transform: none;
 }
 .select.is-loading.is-small:after {
@@ -4245,9 +4227,7 @@ a.box:active {
   left: 50%;
   position: absolute;
   top: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
-  -webkit-transform-origin: center center;
   transform-origin: center center;
 }
 .tag:not(body).is-delete:before {
@@ -4403,9 +4383,7 @@ a.tag:hover {
   left: 50%;
   position: absolute;
   top: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
-  -webkit-transform-origin: center center;
   transform-origin: center center;
 }
 .delete:before {
@@ -5140,9 +5118,7 @@ a.dropdown-item.is-active {
   left: 50%;
   position: absolute;
   top: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
-  -webkit-transform-origin: center center;
   transform-origin: center center;
 }
 .modal-close:before {
@@ -5791,15 +5767,9 @@ html.has-navbar-fixed-bottom {
   height: 1px;
   left: calc(50% - 8px);
   position: absolute;
-  -webkit-transform-origin: center;
   transform-origin: center;
-  -webkit-transition-duration: 86ms;
   transition-duration: 86ms;
-  -webkit-transition-property: background-color, opacity, -webkit-transform;
-  transition-property: background-color, opacity, -webkit-transform;
   transition-property: background-color, opacity, transform;
-  transition-property: background-color, opacity, transform, -webkit-transform;
-  -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
   width: 16px;
 }
@@ -5816,14 +5786,12 @@ html.has-navbar-fixed-bottom {
   background-color: rgba(0, 0, 0, 0.05);
 }
 .navbar-burger.is-active span:first-child {
-  -webkit-transform: translateY(5px) rotate(45deg);
   transform: translateY(5px) rotate(45deg);
 }
 .navbar-burger.is-active span:nth-child(2) {
   opacity: 0;
 }
 .navbar-burger.is-active span:nth-child(3) {
-  -webkit-transform: translateY(-5px) rotate(-45deg);
   transform: translateY(-5px) rotate(-45deg);
 }
 .navbar-menu {
@@ -5981,7 +5949,6 @@ a.navbar-link:hover {
     align-items: stretch;
   }
   .navbar-item.has-dropdown-up .navbar-link:after {
-    -webkit-transform: rotate(135deg) translate(0.25em, -0.25em);
     transform: rotate(135deg) translate(0.25em, -0.25em);
   }
   .navbar-item.has-dropdown-up .navbar-dropdown {
@@ -6000,7 +5967,6 @@ a.navbar-link:hover {
   .navbar-item.is-hoverable:hover .navbar-dropdown.is-boxed {
     opacity: 1;
     pointer-events: auto;
-    -webkit-transform: translateY(0);
     transform: translateY(0);
   }
   .navbar-link:after {
@@ -6012,9 +5978,7 @@ a.navbar-link:hover {
     height: 0.5em;
     pointer-events: none;
     position: absolute;
-    -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
-    -webkit-transform-origin: center;
     transform-origin: center;
     width: 0.5em;
     margin-top: -0.375em;
@@ -6070,14 +6034,9 @@ a.navbar-link:hover {
     opacity: 0;
     pointer-events: none;
     top: calc(100% + -4px);
-    -webkit-transform: translateY(-5px);
     transform: translateY(-5px);
-    -webkit-transition-duration: 86ms;
     transition-duration: 86ms;
-    -webkit-transition-property: opacity, -webkit-transform;
-    transition-property: opacity, -webkit-transform;
     transition-property: opacity, transform;
-    transition-property: opacity, transform, -webkit-transform;
   }
   .navbar-dropdown.is-right {
     left: auto;
@@ -8569,7 +8528,6 @@ label.panel-block:hover {
   min-width: 100%;
   position: absolute;
   top: 50%;
-  -webkit-transform: translate3d(-50%, -50%, 0);
   transform: translate3d(-50%, -50%, 0);
 }
 .hero-video.is-transparent {
@@ -8630,6 +8588,21 @@ html {
 }
 .part:not(:last-child) {
   margin-bottom: 1.75rem;
+}
+.dz {
+  background: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 8px;
+  line-height: 1;
+  padding: 8px;
+}
+.dz h2 {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 0;
+}
+.dz p {
+  padding: 10px 0;
 }
 .vertical-align-center {
   display: flex;
@@ -8715,7 +8688,6 @@ html {
     grid-template-columns: calc(100vw - 80px) 100vw;
     position: relative;
     right: calc(100vw - 80px);
-    -webkit-transition: right 0.3s;
     transition: right 0.3s;
   }
   .grid.slideSidebarMobile {
@@ -8776,7 +8748,7 @@ html {
   box-shadow: 0 0 20px #bababa;
 }
 .Header {
-  background: #ea4335;
+  background: #000;
   margin: 0 !important;
   padding-right: 20px;
   height: 50px;
@@ -8812,9 +8784,4 @@ html {
 .Polyphasic .schedule .duration {
   color: grey;
 }
-@supports not (display: grid) {
-  .BadBrowser {
-    display: block !important;
-  }
-}
-/*# sourceMappingURL=main.2233064c.chunk.css.map */
+/*# sourceMappingURL=main.5269ee31.chunk.css.map */
