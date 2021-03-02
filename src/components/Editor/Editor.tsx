@@ -53,7 +53,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.state = {
       napchart: null, // until it is initialized
       loading: false,
-      url: window.location.origin + '/',
+      url: '/',
       chartid: this.props.chartid,
       title: '',
       description: '',

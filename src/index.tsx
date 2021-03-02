@@ -6,11 +6,5 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import App from './components/App'
-import { FirebaseServer } from './server/FirebaseServer'
-import { firebaseAuthProvider } from './auth/firebase_auth_provider'
-FirebaseServer.init({ authProvider: firebaseAuthProvider })
-if (!firebaseAuthProvider.isUserSignedIn) {
-  firebaseAuthProvider.signInAnonymously()
-}
+import App from './pages/app'
 render(<App />, document.getElementById('root'))

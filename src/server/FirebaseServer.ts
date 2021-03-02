@@ -1,6 +1,12 @@
 import { Server } from './Server'
 import { DocumentData, DocumentReference } from '@firebase/firestore-types'
-import * as firebase from 'firebase/app'
+
+// This import loads the firebase namespace along with all its type information.
+import firebase from 'firebase/app'
+
+// These imports load individual services into the firebase namespace.
+import 'firebase/firestore'
+
 import { NapChart } from '../components/Editor/napchart'
 import App from '../components/Editor/Editor'
 import { FireObject } from '@testing-library/react'
@@ -9,8 +15,6 @@ import { NapChartData } from '../components/Editor/napchart'
 import { AuthProvider } from '../auth/auth_provider'
 import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
 import { ChartData } from './ChartData'
-
-require('firebase/firestore')
 
 /*
 This class contains all functionality for interacting
@@ -37,15 +41,16 @@ export class FirebaseServer implements Server {
       FirebaseServer.instance = new FirebaseServer()
       if (props.testApp == undefined || props.testApp == null) {
         const firebaseConfig = {
-          apiKey: process.env.REACT_APP_API_KEY,
-          authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-          databaseURL: process.env.REACT_APP_DATABASE_URL,
-          projectId: process.env.REACT_APP_PROJECT_ID,
-          storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-          messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-          appId: process.env.REACT_APP_APP_ID,
-          measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+          apiKey: process.env.GATSBY_API_KEY,
+          authDomain: process.env.GATSBY_AUTH_DOMAIN,
+          databaseURL: process.env.GATSBY_DATABASE_URL,
+          projectId: process.env.GATSBY_PROJECT_ID,
+          storageBucket: process.env.GATSBY_STORAGE_BUCKET,
+          messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
+          appId: process.env.GATSBY_APP_ID,
+          measurementId: process.env.GATSBY_MEASUREMENT_ID,
         }
+        console.log('firebaseConfig: ', firebaseConfig)
         const firebaseApp = firebase.initializeApp(firebaseConfig)
         FirebaseServer.instance.db = firebase.firestore(firebaseApp)
         // If we are testing locally, use the emulator.

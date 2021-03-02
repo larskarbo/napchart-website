@@ -1,9 +1,7 @@
-import classNames from 'classnames'
-
 import React from 'react'
 
-import Logo from '../common/Logo'
-import { Link } from 'react-router-dom'
+import Logo from '../components/common/Logo'
+import { Link } from 'gatsby'
 
 export default class extends React.Component {
   constructor(props) {
