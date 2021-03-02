@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node_modules/.bin/ava _tests/**/*.test.js --verbose",
+    "test:watch": "node_modules/.bin/ava --verbose --watch"
+  },
+  "dependencies": {
+    "ava": "^3.14.0",
+    "babel-register": "^6.26.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "lorem-ipsum": "^2.0.3",
+    "lowdb": "^1.0.0",
+    "mkdirp": "^1.0.4",
+    "multer": "^1.4.2",
+    "nanoid": "^3.1.20",
+    "nanoid-dictionary": "^4.2.0",
+    "pg": "^8.5.1",
+    "random-item": "^3.1.0",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.0.1",
+    "uuid": "^8.3.2"
+  }
+}

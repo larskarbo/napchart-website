@@ -15,7 +15,7 @@ export default class extends React.Component {
                   ref={this.userJustSaved}
                   className="input"
                   type="text"
-                  value={this.props.url + this.props.chartid}
+                  value={'https://napchart.com/' + this.props.chartid}
                 />
               </div>
             </div>

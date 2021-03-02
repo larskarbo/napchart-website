@@ -36,7 +36,6 @@ type AppProps = {
 type AppState = {
   napchart: NapChart | null
   loading: boolean
-  url: string
   chartid?: any
   title: string
   description: string
@@ -53,7 +52,6 @@ export default class App extends React.Component<AppProps, AppState> {
     this.state = {
       napchart: null, // until it is initialized
       loading: false,
-      url: window.location.origin + '/',
       chartid: this.props.chartid,
       title: '',
       description: '',
@@ -98,7 +96,7 @@ export default class App extends React.Component<AppProps, AppState> {
         title: 'Chart controls',
       },
       {
-        element: <Export url={this.state.url} chartid={this.state.chartid} />,
+        element: <Export chartid={this.state.chartid} />,
         text: 'Share',
         title: 'Share and export',
       },
@@ -292,7 +290,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
-
     window.location.href = '/' + chartid
   }
 
