@@ -2,6 +2,7 @@ import React from 'react'
 
 import Logo from '../components/common/Logo'
 import { Link } from 'gatsby'
+import { Helmet } from 'react-helmet'
 
 const TITLE = 'Napchart - Polyphasic Sleep Planner Calculator'
 const DESCRIPTION =
