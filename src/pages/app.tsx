@@ -12,6 +12,8 @@ if (!firebaseAuthProvider.isUserSignedIn) {
 }
 
 import { Router } from '@reach/router'
+import LoginPage from '../components/Login/LoginPage'
+import SetPasswordPage from '../components/Login/SetPasswordPage'
 
 export default class App extends React.Component {
   constructor(props: any) {
@@ -21,6 +23,9 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
+        {/* <LogOut path="/logout" />
+        <LoginRoute component={LoginPage} path="/login" />
+        <LoginRoute component={SetPasswordPage} path="/set-password" /> */}
         <Editor server={FirebaseServer.getInstance()} path="/app" />
         <EditorWithChartID path="/:chartid" />
       </Router>
@@ -33,4 +38,24 @@ function EditorWithChartID({ chartid }) {
   // the actual Editor component
 
   return <Editor chartid={chartid} server={FirebaseServer.getInstance()} />
+}
+
+const LoginRoute = ({ component: Component, ...rest }) => {
+  // const { isAuthenticated } = useUser()
+  // if (isAuthenticated) {
+  //   navigate("/app", { replace: true })
+  //   return null
+  // }
+  return <Component {...rest} />
+}
+
+const NotFound = () => <div>not found</div>
+
+const LogOut = () => {
+  // const { logoutUser } = useUser();
+
+  // useEffect(() => {
+  //   logoutUser();
+  // });
+  return <div>Logged out</div>
 }
