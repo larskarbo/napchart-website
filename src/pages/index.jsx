@@ -3,6 +3,11 @@ import React from 'react'
 import Logo from '../components/common/Logo'
 import { Link } from 'gatsby'
 
+const TITLE = 'Napchart - Polyphasic Sleep Planner Calculator'
+const DESCRIPTION =
+  'Plan your sleep and visualize complex time schedules with this sleep planner. All-in-one suite for sleep hacking and bio-optimization.'
+const URL = 'https://napchart.com/'
+
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -13,6 +18,24 @@ export default class extends React.Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <meta property="og:url" content={URL} />
+          <link rel="canonical" href={URL} />
+          <title>{TITLE}</title>
+          <meta property="og:title" content={TITLE} />
+          <meta name="twitter:title" content={TITLE} />
+          <meta name="title" content={TITLE} />
+
+          <meta name="description" content={DESCRIPTION} />
+          <meta property="og:description" content={DESCRIPTION} />
+          <meta name="twitter:description" content={DESCRIPTION} />
+
+          <meta property="og:site_name" content="Napchart" />
+          <meta name="twitter:card" content="summary_large_image" />
+
+          <meta name="twitter:creator" content={'larskarbo'} />
+        </Helmet>
+
         <section className="section hero is-dark is-bold is-fullheight">
           <div className="hero-body">
             <div className="column has-text-centered">
