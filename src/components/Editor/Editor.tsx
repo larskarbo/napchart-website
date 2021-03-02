@@ -292,7 +292,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
-
     window.location.href = '/' + chartid
   }
 
