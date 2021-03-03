@@ -14,6 +14,7 @@ if (!firebaseAuthProvider.isUserSignedIn) {
 import { Router } from '@reach/router'
 import LoginPage from '../components/Login/LoginPage'
 import SetPasswordPage from '../components/Login/SetPasswordPage'
+import RegisterPage from '../components/Login/RegisterPage'
 
 export default class App extends React.Component {
   constructor(props: any) {
@@ -23,9 +24,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        {/* <LogOut path="/logout" />
+        <LogOut path="/logout" />
         <LoginRoute component={LoginPage} path="/login" />
-        <LoginRoute component={SetPasswordPage} path="/set-password" /> */}
+        <LoginRoute component={RegisterPage} path="/register" />
+        <LoginRoute component={SetPasswordPage} path="/set-password" />
         <Editor server={FirebaseServer.getInstance()} path="/app" />
         <EditorWithChartID path="/:chartid" />
       </Router>

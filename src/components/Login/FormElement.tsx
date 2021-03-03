@@ -1,12 +1,12 @@
 import React from 'react'
 
-export const FormElement = ({ name, type = 'text', title, value = null, disabled = false, placeholder }) => {
+export const FormElement = ({ name, type = 'text', title, value = null, disabled = false, placeholder = '' }) => {
   return (
     <div className="pb-4">
-      <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
+      <label htmlFor="email" className=" text-sm font-medium leading-5 text-gray-700">
         {title}
       </label>
-      <div className="mt-1 rounded-md shadow-sm">
+      <div className="mt- rounded-md shadow-sm">
         <input
           id={name}
           type={type}

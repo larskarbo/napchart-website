@@ -2,50 +2,61 @@ const jwt = require('jsonwebtoken')
 const db = require('../database')
 const { encrypt } = require('./encrypt')
 
+const Joi = require('joi')
+
+const schema = Joi.object({
+  username: Joi.string().alphanum().min(5).max(30).required(),
+  password: Joi.string().min(6).required(),
+  email: Joi.string().email().required(),
+})
+
 const register = async (req, res) => {
-  var name = req.body.name
-  var email = req.body.email
-  var password = req.body.password
+  const validate = schema.validate({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  })
 
-  if (!email) {
-    return res.status(400).send({ message: 'email is missing' })
+  if (validate.error) {
+    const { details } = validate.error
+    const message = details.map((i) => i.message).join(',')
+
+    return res.status(422).json({ error: message })
   }
-  if (!password) {
-    return res.status(400).send({ message: 'password is missing' })
-  }
 
-  const userExists = false
-  if (userExists) {
-    res.status(409).send({ success: false, message: 'email already in use' })
-  } else {
-    const passwordHash = await encrypt(password)
+  const { username, email, password } = validate.value
 
-    db.pool
-      .query(`INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3)`, [name, email, passwordHash])
-      .then((hey) => {
-        console.log('hey: ', hey.rows)
-        //use the payload to store information about the user such as email, user role, etc.
-        let payload = { email: email }
+  const passwordHash = await encrypt(password)
 
-        //create the access token with the shorter lifespan
-        let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'no secret', {
-          algorithm: 'HS256',
-          expiresIn: '30d',
-        })
+  db.pool
+    .query(`INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)`, [username, email, passwordHash])
+    .then((hey) => {
+      console.log('hey: ', hey.rows)
+      //use the payload to store information about the user such as email, user role, etc.
+      let payload = { email: email }
 
-        //send the access token to the client inside a cookie
-        res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
-        res.send({
-          email,
-        })
+      //create the access token with the shorter lifespan
+      let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'no secret', {
+        algorithm: 'HS256',
+        expiresIn: '30d',
       })
-      .catch((err) => {
-        if (err?.constraint == 'users_email_key') {
-          res.status(400).send({ message: 'Email already exists' })
-          return
-        }
-        res.status(400).send({ err: err })
+
+      //send the access token to the client inside a cookie
+      res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
+      res.send({
+        email,
       })
-  }
+    })
+    .catch((err) => {
+      if (err?.constraint == 'users_email_key') {
+        res.status(400).send({ error: 'Email already exists' })
+        return
+      }
+      if (err?.constraint == 'users_username_key') {
+        res.status(400).send({ error: 'Username already exists' })
+        return
+      }
+      res.status(400).send({ error: err })
+    })
 }
 exports.register = register

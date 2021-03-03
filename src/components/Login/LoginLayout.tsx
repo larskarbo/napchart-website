@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function LoginLayout({ children, msg }) {
+export default function LoginLayout({ children, msg = '' }) {
   return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center justify-center bg-red-600">
+    <div className="w-full min-h-screen h-full flex flex-col items-center justify-center bg-yellow-50">
       <h1 className="text-2xl font pb-12">
         <span className="font-bold">Napchart</span> is waiting for you
       </h1>
