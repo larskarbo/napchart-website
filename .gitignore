@@ -21,6 +21,8 @@ fpb-buyers-all.*
 
 public
 
+serviceAccountKey.json
+
 *.mp4
 *.mov
 

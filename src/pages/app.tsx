@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import '../main.2233064c.chunk.css'
 
@@ -15,6 +15,7 @@ import { Router } from '@reach/router'
 import LoginPage from '../components/Login/LoginPage'
 import SetPasswordPage from '../components/Login/SetPasswordPage'
 import RegisterPage from '../components/Login/RegisterPage'
+import { useUser } from '../auth/user-context'
 
 export default class App extends React.Component {
   constructor(props: any) {
@@ -54,10 +55,10 @@ const LoginRoute = ({ component: Component, ...rest }) => {
 const NotFound = () => <div>not found</div>
 
 const LogOut = () => {
-  // const { logoutUser } = useUser();
+  const { logoutUser } = useUser()
 
-  // useEffect(() => {
-  //   logoutUser();
-  // });
+  useEffect(() => {
+    logoutUser()
+  })
   return <div>Logged out</div>
 }

@@ -24,7 +24,7 @@ export default function LoginPage() {
     })
       .then((res) => {
         tryAgainUser()
-        navigate('/french/pronunciation-course')
+        navigate('/app')
       })
       .catch((error) => {
         if (error.message == 'Unauthorized') {

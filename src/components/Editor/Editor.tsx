@@ -19,6 +19,7 @@ import { FirebaseServer } from '../../server/FirebaseServer'
 import { Server } from '../../server/Server'
 import { NapChart } from './napchart'
 import { ChartData } from '../../server/ChartData'
+import { request } from '../../utils/request'
 
 const myTheme = {
   global: {
@@ -67,16 +68,23 @@ export default class App extends React.Component<AppProps, AppState> {
   componentDidMount() {
     if (this.state.chartid) {
       this.setState({ loading: true })
-      FirebaseServer.getInstance()
-        .loadChart(this.state.chartid)
-        .then((chartData) => {
-          console.log('setting initial data')
-          console.log(chartData)
+
+      request('GET', '/getChart/' + this.state.chartid)
+        .then((res) => {
+          console.log('res: ', res)
           this.setState({
-            initialData: chartData,
-            title: chartData.title,
-            description: chartData.description,
-            loading: false,
+            initialData: res.chartData,
+            title: res.title || '',
+            description: res.description || '',
+          })
+          this.loadingFinish()
+        })
+        .catch((err) => {
+          console.error("things didn't work... " + err)
+          this.loadingFinish()
+          this._notify.addNotification({
+            message: JSON.stringify(err),
+            level: 'error',
           })
         })
     }
@@ -272,15 +280,38 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({
       loading: true,
     })
-    this.props.server
-      .save(this.state.napchart!.data, this.state.title, this.state.description)
-      .then((chartid) => {
-        this.loadingFinish()
+
+    const dataForServer: ChartData = {
+      elements: this.state.napchart!.data.elements.map((element) => {
+        return {
+          start: element.start,
+          end: element.end,
+          lane: element.lane,
+          text: element.text,
+          color: element.color,
+        }
+      }),
+      colorTags: this.state.napchart!.data.colorTags,
+      shape: this.state.napchart!.data.shape,
+      lanes: this.state.napchart!.data.lanes,
+      lanesConfig: this.state.napchart!.data.lanesConfig,
+    }
+
+    request('POST', '/createChart', {
+      chartData: dataForServer,
+      title: this.state.title,
+      description: this.state.description,
+    })
+      .then((res) => {
+        console.log('res: ', res)
+        const { chartid } = res
         this.onSave(chartid)
         this.setState({ chartid: chartid })
+        this.loadingFinish()
       })
       .catch((err) => {
         console.error("things didn't work... " + err)
+        this.loadingFinish()
         this._notify.addNotification({
           message: JSON.stringify(err),
           level: 'error',

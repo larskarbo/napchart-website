@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firestore-export-import": "^0.12.1",
     "joi": "^17.4.0",
     "json-web-token": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
