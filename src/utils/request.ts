@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const isLocal = typeof location != 'undefined' && location?.host?.includes('localhost')
-export const BASE = isLocal ? `http://localhost:3200` : `https://server.napchart.com`
+export const BASE = isLocal ? `http://localhost:3200` : `https://api.napchart.com`
 
 let headers = {}
 
