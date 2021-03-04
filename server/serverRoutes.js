@@ -1,7 +1,12 @@
 const express = require('express')
 const app = express()
 var cors = require('cors')
-app.use(cors({ credentials: true, origin: ['http://localhost:8000', 'http://localhost:8888', 'https://napchart.com'] }))
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:8000', 'http://localhost:8888', 'https://napchart.com', '*.netlify.app'],
+  }),
+)
 var multer = require('multer')
 var path = require('path')
 const mkdirp = require('mkdirp')
