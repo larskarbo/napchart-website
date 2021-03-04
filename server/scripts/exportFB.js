@@ -26,6 +26,7 @@ const lalalla = async () => {
 
   for (const asdf of hey.docs) {
     const val = await asdf.data()
+    console.log(asdf.id, 'val: ', val)
 
     const chartData = {
       elements: val.elements,
