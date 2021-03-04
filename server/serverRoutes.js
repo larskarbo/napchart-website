@@ -4,7 +4,7 @@ var cors = require('cors')
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:8000', 'http://localhost:8888', 'https://napchart.com', '*.netlify.app'],
+    origin: ['http://localhost:8000', 'http://localhost:8888', 'https://napchart.com', /napchart.netlify.app$/],
   }),
 )
 var multer = require('multer')
