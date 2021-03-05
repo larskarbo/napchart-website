@@ -30,6 +30,7 @@ const lalalla = async () => {
 
     if (asdf.id.length != 5) {
       fs.appendFileSync('skipped.txt', `\n${asdf.id}`)
+      fs.appendFileSync('taken.txt', `\n${asdf.id}`)
       setTimeout(lalalla, 2000)
       return
     }
