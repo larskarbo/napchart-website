@@ -28,6 +28,12 @@ const lalalla = async () => {
     const val = await asdf.data()
     console.log(asdf.id, 'val: ', val)
 
+    if (asdf.id.length != 5) {
+      fs.appendFileSync('skipped.txt', `\n${asdf.id}`)
+      setTimeout(lalalla, 2000)
+      return
+    }
+
     const chartData = {
       elements: val.elements,
       colorTags: val.colorTags,
@@ -55,8 +61,6 @@ const lalalla = async () => {
         if (err?.constraint == 'users_chartid_key') {
           throw new Error(`Chartid ${asdf.id} already exists`)
         }
-        console.log('err: ', err.includes('value too long for type character varying(8)'))
-        console.log('constr: ', err?.message)
         throw new Error(err)
       })
   }
