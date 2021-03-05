@@ -55,6 +55,8 @@ const lalalla = async () => {
         if (err?.constraint == 'users_chartid_key') {
           throw new Error(`Chartid ${asdf.id} already exists`)
         }
+        console.log('err: ', err)
+        console.log('constr: ', err?.constraint)
         throw new Error(err)
       })
   }
