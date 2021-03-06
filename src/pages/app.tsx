@@ -1,29 +1,32 @@
-import React, { useEffect } from 'react'
-
-import Editor from '../components/Editor/Editor'
-
-import { FirebaseServer } from '../server/FirebaseServer'
+import { Router } from '@reach/router'
+import React, { useEffect, useState } from 'react'
 import { firebaseAuthProvider } from '../auth/firebase_auth_provider'
+import { useUser } from '../auth/user-context'
+import Editor from '../components/Editor/Editor'
+import LoginPage from '../components/Login/LoginPage'
+import RegisterPage from '../components/Login/RegisterPage'
+import SetPasswordPage from '../components/Login/SetPasswordPage'
+import Profile from '../components/Profile/Profile'
+import { FirebaseServer } from '../server/FirebaseServer'
+
 FirebaseServer.init({ authProvider: firebaseAuthProvider })
 if (!firebaseAuthProvider.isUserSignedIn) {
   firebaseAuthProvider.signInAnonymously()
 }
 
-import { Router } from '@reach/router'
-import LoginPage from '../components/Login/LoginPage'
-import SetPasswordPage from '../components/Login/SetPasswordPage'
-import RegisterPage from '../components/Login/RegisterPage'
-import { useUser } from '../auth/user-context'
-import Profile from '../components/Profile/Profile'
-import { ChartProvider } from '../components/Editor/chart-context'
+export default function App() {
+  const [hasMounted, setHasMounted] = useState(false)
 
-export default class App extends React.Component {
-  constructor(props: any) {
-    super(props)
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  if (!hasMounted) {
+    return null
   }
 
-  render() {
-    return (
+  return (
+    <>
       <Router>
         <LogOut path="/logout" />
         <LoginRoute component={LoginPage} path="/login" />
@@ -32,8 +35,8 @@ export default class App extends React.Component {
         <Editor server={FirebaseServer.getInstance()} path="/app" />
         <EditorOrProfile path="/:param" />
       </Router>
-    )
-  }
+    </>
+  )
 }
 
 function EditorOrProfile({ param }: { param: string }) {

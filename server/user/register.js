@@ -2,14 +2,6 @@ const jwt = require('jsonwebtoken')
 const db = require('../database')
 const { encrypt } = require('./encrypt')
 
-const Joi = require('joi')
-
-const schema = Joi.object({
-  username: Joi.string().alphanum().min(5).max(30).required(),
-  password: Joi.string().min(6).required(),
-  email: Joi.string().email().required(),
-})
-
 const register = async (req, res) => {
   const validate = schema.validate({
     username: req.body.username,
