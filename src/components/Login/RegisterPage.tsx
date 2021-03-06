@@ -17,6 +17,11 @@ export default function RegisterPage({}) {
   const onSubmit = (e) => {
     e.preventDefault()
 
+    const code = formRef.current.code.value
+
+    if (code != 'NAPCHART_V11') {
+      return alert('Wrong code')
+    }
     const email = formRef.current.email.value
     const password = formRef.current.password.value
     const passwordTwo = formRef.current.passwordTwo.value
@@ -60,6 +65,13 @@ export default function RegisterPage({}) {
     <LoginLayout msg={msg}>
       <>
         <form ref={formRef} onSubmit={onSubmit}>
+          <FormElement
+            title={'Secret Code'}
+            type="text"
+            name="code"
+            // value={searchParams.email}
+          />
+
           <FormElement
             title={'Username'}
             type="text"
