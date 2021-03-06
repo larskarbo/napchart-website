@@ -8,11 +8,11 @@ const getChartsFromUser = async function (req, res) {
     if (error) {
       throw error
     }
-    if (results.rows.length == 0) {
-      return res.status(404).send({
-        status: 'not found',
-      })
-    }
+    // if (results.rows.length == 0) {
+    //   return res.status(404).send({
+    //     status: 'not found',
+    //   })
+    // }
 
     return res.send(
       results.rows.map((chart) => ({

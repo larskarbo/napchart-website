@@ -25,6 +25,19 @@ export default function Profile({ children, username }) {
       </h1>
 
       <div className="w-full px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
+        <div className="flex">
+          <Link to={`/app`}>
+            <div
+              className="mt-4 mr-4 flex items-center border border-gray-200 rounded p-2 px-4
+                hover:border-gray-400 transition-colors duration-150 hover:shadow-sm
+                "
+            >
+              <>
+                <div className="font-bold flex items-center">Go to app</div>
+              </>
+            </div>
+          </Link>
+        </div>
         <h2 className="py-8 text-xl">Charts:</h2>
         <div className="flex flex-wrap">
           {charts.map((chart) => (
@@ -39,6 +52,8 @@ export default function Profile({ children, username }) {
               <div className="mt-2">{truncate(chart.description, 30) || 'No description'}</div>
             </div>
           ))}
+
+          {charts.length == 0 && 'Your charts will show up here.'}
         </div>
       </div>
 

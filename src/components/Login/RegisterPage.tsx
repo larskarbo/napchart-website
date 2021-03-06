@@ -7,10 +7,12 @@ import { request } from '../../utils/request'
 import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
+import { useUser } from '../../auth/user-context'
 
 export default function RegisterPage({}) {
   const formRef = useRef()
   const [loading, setLoading] = useState(true)
+  const { setUser } = useUser()
 
   const [msg, setMsg] = useState('')
 
@@ -39,8 +41,9 @@ export default function RegisterPage({}) {
     })
       .then((user) => {
         console.log('user: ', user)
-        // tryAgainUser()
-        // navigate('/french/pronunciation-course')
+        setUser(user)
+        navigate('/@' + user.username)
+        // window.location.href =
       })
       .catch(async (asdf) => {
         // console.log('asdf: ', );
