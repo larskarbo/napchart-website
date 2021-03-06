@@ -111,11 +111,11 @@ class App extends React.Component {
           {this.props.description?.length && <meta name="description" content={this.props.description} />}
           <meta
             name="twitter:image"
-            content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
+            content={`https://thumb.napchart.com/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
           />
           <meta
             property="og:image"
-            content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
+            content={`https://thumb.napchart.com/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
           />
           <meta property="og:image:width" content="600" />
           <meta property="og:image:height" content="600" />

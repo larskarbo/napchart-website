@@ -22,11 +22,7 @@ export default class extends React.Component {
             <div className="field">
               <label className="label">IMAGE</label>
               <div className="control">
-                <a
-                  href={
-                    'http://thumb.napchart.com:1771/api/getImage?width=600&height=600&chartid=' + this.props.chartid
-                  }
-                >
+                <a href={'https://thumb.napchart.com/api/getImage?width=600&height=600&chartid=' + this.props.chartid}>
                   Image link (600x600)
                 </a>
               </div>
