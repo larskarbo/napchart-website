@@ -78,7 +78,7 @@
   "devDependencies": {
     "husky": ">=4",
     "lint-staged": ">=10",
-    "prettier": "^2.0.5",
+    "prettier": "^2.2.1",
     "typescript-json-schema": "^0.42.0"
   },
   "homepage": "https://napchart.com",

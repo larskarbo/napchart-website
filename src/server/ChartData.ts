@@ -1,6 +1,4 @@
 export interface ChartData {
-  title: string
-  description: string
   elements: ChartElement[]
   colorTags: ColorTag[]
   shape: 'circle' | 'wide' | 'line'

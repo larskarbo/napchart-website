@@ -22,7 +22,6 @@ const getChart = async function (req, res) {
   const { chartid } = req.params
 
   db.pool.query('SELECT * FROM charts WHERE chartid = $1', [chartid], (error, results) => {
-    console.log('results: ', results.rows)
     if (error) {
       throw error
     }
@@ -40,6 +39,7 @@ const getChart = async function (req, res) {
       chartid: chart.chartid,
       title: chart.title,
       description: chart.description,
+      username: chart.username,
     })
   })
 }

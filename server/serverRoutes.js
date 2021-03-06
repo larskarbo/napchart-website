@@ -4,7 +4,14 @@ var cors = require('cors')
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:8000', 'http://localhost:8888', 'https://napchart.com', /napchart.netlify.app$/],
+    origin: [
+      'http://localhost:8000',
+      'http://localhost:8888',
+      'http://horse.loc:8000',
+      'http://horse.loc:8888',
+      'https://napchart.com',
+      /napchart.netlify.app$/,
+    ],
   }),
 )
 var multer = require('multer')
@@ -49,7 +56,9 @@ const { registerWithToken } = require('./user/registerWithToken')
 const { setPassword } = require('./user/setPassword')
 const { verifyToken } = require('./user/verifyToken')
 const { createChart } = require('./charts/createChart')
+const { updateChart } = require('./charts/updateChart')
 const { getChart } = require('./charts/getChart')
+const { getChartsFromUser } = require('./charts/getChartsFromUser')
 
 app.get('/', async (req, res) => {
   res.send({ status: 'Ok' })
@@ -67,10 +76,9 @@ app.get('/testAuth', verify, async (req, res) => {
 
 // user
 app.get('/getUser', verify, async (req, res) => {
-  console.log('req: ', req.user)
   res.send({
-    name: req.user.name,
     email: req.user.email,
+    username: req.user.username,
     email_verified: req.user.email_verified,
   })
 })
@@ -83,7 +91,9 @@ app.post('/setPassword', setPassword)
 app.post('/verifyToken', verifyToken)
 
 app.post('/createChart', optionalVerify, createChart)
+app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
+app.get('/getChartsFromUser/:username', getChartsFromUser)
 
 app.all('/*', (req, res) => {
   return res.status(404).send({

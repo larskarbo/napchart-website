@@ -184,17 +184,17 @@ body {
   font-weight: 400;
   line-height: 1.5;
 }
-a {
+/* a {
   color: #3273dc;
   cursor: pointer;
   text-decoration: none;
 }
 a strong {
   color: currentColor;
-}
-a:hover {
+} */
+/* a:hover {
   color: #363636;
-}
+} */
 code {
   background-color: #f5f5f5;
   color: #ea4335;

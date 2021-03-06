@@ -4,12 +4,8 @@ import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import SelectedElement from '../small/SelectedElement'
 import { NapChart } from '../napchart'
-type ControlsProps = {
-  napchart: NapChart
-  description: string
-  changeDescription: (event: any) => void
-}
-export const Controls: FunctionComponent<ControlsProps> = ({ napchart, description, changeDescription }) => {
+
+export const Controls = ({ napchart, description, changeDescription, title, changeTitle }) => {
   if (!napchart) {
     return null
   }
@@ -18,13 +14,21 @@ export const Controls: FunctionComponent<ControlsProps> = ({ napchart, descripti
       <div>
         <div>
           <div className="part fullWidth">
-            {/* <div className="field title is-6">
-                Description:
-              </div> */}
+            <div className="font-bold pb-2">Title:</div>
+            <input
+              className="bg-transparent"
+              placeholder="Title"
+              onChange={(event) => changeTitle(event.target.value)}
+              value={title}
+              type="text"
+            />
+          </div>
+          <div className="part fullWidth">
+            <div className="font-bold pb-2">Description:</div>
             <textarea
               className="description"
+              onChange={(event) => changeDescription(event.target.value)}
               placeholder="Describe this chart"
-              onChange={changeDescription}
               value={description}
             />
           </div>

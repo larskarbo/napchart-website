@@ -16,6 +16,8 @@ import LoginPage from '../components/Login/LoginPage'
 import SetPasswordPage from '../components/Login/SetPasswordPage'
 import RegisterPage from '../components/Login/RegisterPage'
 import { useUser } from '../auth/user-context'
+import Profile from '../components/Profile/Profile'
+import { ChartProvider } from '../components/Editor/chart-context'
 
 export default class App extends React.Component {
   constructor(props: any) {
@@ -30,10 +32,18 @@ export default class App extends React.Component {
         <LoginRoute component={RegisterPage} path="/register" />
         <LoginRoute component={SetPasswordPage} path="/set-password" />
         <Editor server={FirebaseServer.getInstance()} path="/app" />
-        <EditorWithChartID path="/:chartid" />
+        <EditorOrProfile path="/:param" />
       </Router>
     )
   }
+}
+
+function EditorOrProfile({ param }: { param: string }) {
+  if (param.slice(0, 1) == '@') {
+    return <Profile username={param.slice(1)} />
+  }
+
+  return <EditorWithChartID chartid={param} />
 }
 
 function EditorWithChartID({ chartid }) {

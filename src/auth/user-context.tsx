@@ -1,15 +1,19 @@
 // src/playingNow-context.js
-import * as React from 'react'
-import { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
+import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { request } from '../utils/request'
 
 const UserContext = React.createContext({})
 
 // const spotifyOriginal = new Spotify()
 
+type User = {
+  username: string
+}
+
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
   const [updater, setUpdater] = useState(0)
 
@@ -37,10 +41,8 @@ export function UserProvider({ children }) {
     setUpdater(Math.random())
   }
 
-  const isAuthenticated = false
-
   return (
-    <UserContext.Provider value={{ user, isAuthenticated, isLoading: loadingUser, logoutUser, tryAgainUser }}>
+    <UserContext.Provider value={{ user, isLoading: loadingUser, logoutUser, tryAgainUser }}>
       {children}
     </UserContext.Provider>
   )

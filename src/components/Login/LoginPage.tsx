@@ -27,7 +27,7 @@ export default function LoginPage() {
         navigate('/app')
       })
       .catch((error) => {
-        if (error.message == 'Unauthorized') {
+        if (error?.response?.data?.message == 'wrong password') {
           setMsg('Wrong username or password, please try again.')
         } else {
           setMsg(error.message)
@@ -37,7 +37,9 @@ export default function LoginPage() {
 
   return (
     <LoginLayout msg={msg}>
-      <div className="pb-4 text-xs text-gray-700 font-light">You need to buy the course to get an account.</div>
+      <div className="pb-4 text-xs text-gray-700 font-light">
+        Napchart accounts are currently only available for a limited amount of users.
+      </div>
       <form ref={formRef} onSubmit={onLogin}>
         <FormElement title={'Email address'} type="email" name="email" placeholder="you@email.com" />
 

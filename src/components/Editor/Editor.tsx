@@ -2,7 +2,6 @@ import c from 'classnames'
 
 import React from 'react'
 
-import Header from './Header'
 import ToolBar from './ToolBar'
 import Chart from './Chart'
 import { Helmet } from 'react-helmet'
@@ -20,42 +19,44 @@ import { Server } from '../../server/Server'
 import { NapChart } from './napchart'
 import { ChartData } from '../../server/ChartData'
 import { request } from '../../utils/request'
+import { AccountBar } from './AccountBar'
+import { ChartProvider, useChart } from './chart-context'
+import { Header } from './Header'
 
-const myTheme = {
-  global: {
-    colors: {
-      brand: '#EA4335',
-    },
-  },
+export default function Editor({ chartid }) {
+  return (
+    <ChartProvider chartid={chartid}>
+      <Int chartid={chartid} />
+    </ChartProvider>
+  )
 }
 
-type AppProps = {
-  server: Server
-  chartid?: any
+function Int() {
+  const { chartid, loading, title, description, chartData, setTitle, setDescription } = useChart()
+
+  if (chartid && loading) {
+    return 'Loading...'
+  }
+  return (
+    <App
+      setTitle={setTitle}
+      setDescription={setDescription}
+      chartid={chartid}
+      loading={loading}
+      title={title}
+      description={description}
+      chartData={chartData}
+    />
+  )
 }
 
-type AppState = {
-  napchart: NapChart | null
-  loading: boolean
-  chartid?: any
-  title: string
-  description: string
-  currentSection: any
-  ampm: boolean
-  showPopup: boolean
-  slideSidebarMobile: any
-  initialData: ChartData | null
-}
-
-export default class App extends React.Component<AppProps, AppState> {
+class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       napchart: null, // until it is initialized
       loading: false,
       chartid: this.props.chartid,
-      title: '',
-      description: '',
       currentSection: 0,
       ampm: this.getAmpm(),
       showPopup: false,
@@ -66,28 +67,9 @@ export default class App extends React.Component<AppProps, AppState> {
   _notify: any = null
 
   componentDidMount() {
-    if (this.state.chartid) {
-      this.setState({ loading: true })
-
-      request('GET', '/getChart/' + this.state.chartid)
-        .then((res) => {
-          console.log('res: ', res)
-          this.setState({
-            initialData: res.chartData,
-            title: res.title || '',
-            description: res.description || '',
-          })
-          this.loadingFinish()
-        })
-        .catch((err) => {
-          console.error("things didn't work... " + err)
-          this.loadingFinish()
-          this._notify.addNotification({
-            message: JSON.stringify(err),
-            level: 'error',
-          })
-        })
-    }
+    this.setState({
+      initialData: this.props.chartData,
+    })
   }
 
   render() {
@@ -96,12 +78,14 @@ export default class App extends React.Component<AppProps, AppState> {
         element: (
           <Controls
             napchart={this.state.napchart}
-            description={this.state.description}
-            changeDescription={this.changeDescription}
+            description={this.props.description}
+            changeDescription={this.props.setDescription}
+            changeTitle={this.props.setTitle}
+            title={this.props.title}
           />
         ),
         text: 'My Charts',
-        title: 'Chart controls',
+        title: '',
       },
       {
         element: <Export chartid={this.state.chartid} />,
@@ -124,7 +108,7 @@ export default class App extends React.Component<AppProps, AppState> {
       <div className="Editor">
         <NotificationSystem ref={(notificationSystem) => (this._notify = notificationSystem)} />
         <Helmet>
-          {this.state.description.length && <meta name="description" content={this.state.description} />}
+          {this.props.description?.length && <meta name="description" content={this.props.description} />}
           <meta
             name="twitter:image"
             content={`http://thumb.napchart.com:1771/api/getImage?chartid=${this.state.chartid}&width=600&height=600&shape=circle`}
@@ -135,7 +119,7 @@ export default class App extends React.Component<AppProps, AppState> {
           />
           <meta property="og:image:width" content="600" />
           <meta property="og:image:height" content="600" />
-          {this.state.title.length && <title>{`${this.state.title} - Napchart`}</title>}
+          {this.props.title?.length && <title>{`${this.props.title} - Napchart`}</title>}
         </Helmet>
         <div
           className={c('grid', {
@@ -143,13 +127,7 @@ export default class App extends React.Component<AppProps, AppState> {
           })}
         >
           <div className="sidebar">
-            <Header
-              title={this.state.title}
-              changeTitle={this.changeTitle}
-              chartid={this.state.chartid}
-              save={this.save}
-              loading={this.state.loading}
-            />
+            <Header napchart={this.state.napchart} loading={this.state.loading} />
 
             <div className="sidebarContent">
               <div className="sideLane">
@@ -209,6 +187,9 @@ export default class App extends React.Component<AppProps, AppState> {
           </div>
 
           <div className="main">
+            <div className="absolute right-0 top-0">
+              <AccountBar />
+            </div>
             <Chart
               napchart={this.state.napchart}
               initialData={this.state.initialData}
@@ -253,7 +234,6 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   setMetaInfo = (title, description) => {
-    console.log('title, description: ', title, description)
     this.setState({
       title,
       description,
@@ -280,60 +260,11 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({
       loading: true,
     })
-
-    const dataForServer: ChartData = {
-      elements: this.state.napchart!.data.elements.map((element) => {
-        return {
-          start: element.start,
-          end: element.end,
-          lane: element.lane,
-          text: element.text,
-          color: element.color,
-        }
-      }),
-      colorTags: this.state.napchart!.data.colorTags,
-      shape: this.state.napchart!.data.shape,
-      lanes: this.state.napchart!.data.lanes,
-      lanesConfig: this.state.napchart!.data.lanesConfig,
-    }
-
-    request('POST', '/createChart', {
-      chartData: dataForServer,
-      title: this.state.title,
-      description: this.state.description,
-    })
-      .then((res) => {
-        console.log('res: ', res)
-        const { chartid } = res
-        this.onSave(chartid)
-        this.setState({ chartid: chartid })
-        this.loadingFinish()
-      })
-      .catch((err) => {
-        console.error("things didn't work... " + err)
-        this.loadingFinish()
-        this._notify.addNotification({
-          message: JSON.stringify(err),
-          level: 'error',
-        })
-      })
   }
 
   onSave = (chartid) => {
     // refresh (feels better for the user)
     window.location.href = '/' + chartid
-  }
-
-  changeTitle = (event) => {
-    this.setState({
-      title: event.target.value,
-    })
-  }
-
-  changeDescription = (event) => {
-    this.setState({
-      description: event.target.value,
-    })
   }
 
   setNumberOfLanes = (lanes) => {

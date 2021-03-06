@@ -14,7 +14,9 @@ export default class Chart extends React.Component {
     var resizer = this.refs.resizer
 
     this.updateDimensions(() => this.initializeChart())
-
+    setTimeout(() => {
+      this.handleResize()
+    }, 500)
     window.addEventListener('resize', this.handleResize)
   }
 
@@ -78,8 +80,7 @@ export default class Chart extends React.Component {
       responsive: true,
       ampm: this.props.ampm,
     })
-    console.log(this.props.initialData)
-    console.log(napchart)
+
     napchart.onUpdate = () => {
       this.props.onUpdate()
     }
@@ -96,7 +97,7 @@ export default class Chart extends React.Component {
     this.props.setGlobalNapchart(napchart)
 
     // if (Object.keys(this.props.initialData).length) {
-    //   console.log('this.props.initialData: ', this.props.initialData)
+    //
     //   this.props.setMetaInfo(this.props.initialData.metaInfo.title, this.props.initialData.metaInfo.description)
     // }
     // })
