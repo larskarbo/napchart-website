@@ -15,12 +15,14 @@ export const AccountBar = () => {
       >
         {user ? (
           <>
-            <img
+            {/* <img
               alt="Lars"
               className="rounded-full mr-2 w-8"
               src="https://s.gravatar.com/avatar/4579b299730ddc53e3d523ec1cd5482a?s=72"
-            />
-            <div className="font-bold">My profile</div>
+            /> */}
+            <div className="font-bold flex items-center">
+              <CgProfile className="mr-2" /> My profile
+            </div>
           </>
         ) : (
           <>

@@ -1,6 +1,8 @@
+import './src/main.2233064c.chunk.css'
 import './src/tailwind.css'
 import './src/styles.css'
 import { UserProvider } from './src/auth/user-context'
+
 import React from 'react'
 
 // Wraps every page in a component

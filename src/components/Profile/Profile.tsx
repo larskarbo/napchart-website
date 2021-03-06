@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { request } from '../../utils/request'
 import { Link } from 'gatsby'
 
+function truncate(str, n) {
+  if (str) {
+    return str.length > n ? str.substr(0, n - 1) + '...' : str
+  }
+}
+
 export default function Profile({ children, username }) {
   const [charts, setCharts] = useState([])
 
@@ -18,9 +24,9 @@ export default function Profile({ children, username }) {
         <strong>{username}</strong>
       </h1>
 
-      <div className="w-full px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-2xl">
+      <div className="w-full px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
         <h2 className="py-8 text-xl">Charts:</h2>
-        <div className="flex">
+        <div className="flex flex-wrap">
           {charts.map((chart) => (
             <div className="w-48 p-2 mr-4">
               <Link key={chart.chartid} to={`/${chart.chartid}`}>
@@ -29,8 +35,8 @@ export default function Profile({ children, username }) {
                   className="w-44 h-44  bg-gray-400 rounded shadow-lg"
                 ></img>
               </Link>
-              <div className="mt-4">{chart.title}</div>
-              <div className="mt-4">{chart.description}</div>
+              <div className="mt-4">{chart.title || 'Untitled'}</div>
+              <div className="mt-2">{truncate(chart.description, 30) || 'No description'}</div>
             </div>
           ))}
         </div>

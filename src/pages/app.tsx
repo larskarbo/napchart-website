@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 
-import '../main.2233064c.chunk.css'
-
 import Editor from '../components/Editor/Editor'
 
 import { FirebaseServer } from '../server/FirebaseServer'
