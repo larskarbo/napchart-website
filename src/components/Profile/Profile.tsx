@@ -44,7 +44,7 @@ export default function Profile({ children, username }) {
             <div className="w-48 p-2 mr-4">
               <Link key={chart.chartid} to={`/${chart.chartid}`}>
                 <img
-                  src={`http://thumb.napchart.com:1771/api/getImage?width=250&height=250&chartid=${chart.chartid}`}
+                  src={`https://thumb.napchart.com/api/getImage?width=250&height=250&chartid=${chart.chartid}`}
                   className="w-44 h-44  bg-gray-400 rounded shadow-lg"
                 ></img>
               </Link>
