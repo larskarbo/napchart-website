@@ -1,8 +1,5 @@
-import { Feedback } from './Feedback'
-
 import React, { FunctionComponent, useState } from 'react'
-import { Server } from '../../../server/Server'
-import { FirebaseServer } from '../../../server/FirebaseServer'
+import { Feedback } from './Feedback'
 
 type InfoProps = {
   setAmpm: (any) => void
@@ -11,7 +8,6 @@ type InfoProps = {
 
 export const Info: FunctionComponent<InfoProps> = ({ setAmpm, ampm }) => {
   const [ampmChanged, setAmpmChanged] = useState(false)
-  const server: Server = FirebaseServer.getInstance()
   const changeAmpm = (ampm) => {
     console.log(ampm)
     setAmpm(ampm)

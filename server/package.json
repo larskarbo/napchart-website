@@ -9,7 +9,6 @@
     "test:watch": "node_modules/.bin/ava --verbose --watch"
   },
   "dependencies": {
-    "@firebase/firestore-types": "^2.1.0",
     "ava": "^3.14.0",
     "babel-register": "^6.26.0",
     "bcrypt": "^5.0.0",
@@ -18,7 +17,6 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "firebase": "^8.2.9",
     "firestore-export-import": "^0.12.1",
     "fs-extra": "^9.1.0",
     "joi": "^17.4.0",

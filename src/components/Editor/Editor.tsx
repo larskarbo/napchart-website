@@ -1,27 +1,17 @@
 import c from 'classnames'
-
+import Cookies from 'js-cookie'
 import React from 'react'
-
-import ToolBar from './ToolBar'
-import Chart from './Chart'
 import { Helmet } from 'react-helmet'
-
+import NotificationSystem from 'react-notification-system'
+import { AccountBar } from './AccountBar'
+import Chart from './Chart'
+import { ChartProvider, useChart } from './chart-context'
+import { Header } from './Header'
+import { Controls } from './sections/Controls'
 import Export from './sections/Export'
 import { Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
-import { Controls } from './sections/Controls'
-
-import Cookies from 'js-cookie'
-import NotificationSystem from 'react-notification-system'
-import { FirebaseServer } from '../../server/FirebaseServer'
-
-import { Server } from '../../server/Server'
-import { NapChart } from './napchart'
-import { ChartData } from '../../server/ChartData'
-import { request } from '../../utils/request'
-import { AccountBar } from './AccountBar'
-import { ChartProvider, useChart } from './chart-context'
-import { Header } from './Header'
+import ToolBar from './ToolBar'
 
 export default function Editor({ chartid }) {
   return (

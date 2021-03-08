@@ -1,5 +1,4 @@
 import React, { Component, useState, FunctionComponent } from 'react'
-import { FirebaseServer } from '../../../server/FirebaseServer'
 type FeedbackProps = {}
 export const Feedback: FunctionComponent<FeedbackProps> = () => {
   const [sent, setSent] = useState(false)
@@ -7,26 +6,10 @@ export const Feedback: FunctionComponent<FeedbackProps> = () => {
   const [email, setEmail] = useState('')
   const [feedbackDocRef, setFeedbackDocRef] = useState(null)
   const [emailSent, setEmailSent] = useState(false)
-  const sendFeedback = (tab) => {
-    FirebaseServer.getInstance()
-      .sendFeedback(value)
-      .then((docRef) => {
-        console.log('idFromServer: ', docRef)
-        console.log('feedback sent')
-        setSent(true)
-        setFeedbackDocRef(docRef)
-      })
-  }
+  const sendFeedback = (tab) => {}
 
   const sendEmail = (tab) => {
     console.log('id: ', feedbackDocRef)
-
-    FirebaseServer.getInstance()
-      .addEmailToFeedback(email, feedbackDocRef)
-      .then((docRef) => {
-        console.log('feedback sent')
-        setEmailSent(true)
-      })
   }
   return (
     <>
