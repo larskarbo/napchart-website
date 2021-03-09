@@ -155,10 +155,12 @@ class App extends React.Component {
                         }}
                       >
                         <h2>I need your opinion</h2>
-                        <p>I am working on a new big upgrade to Napchart and this week I am doing user interviews.</p>
+                        <p>I am working on a new big upgrade to Napchart!</p>
                         <p>
-                          Schedule a quick call here:{' '}
-                          <a href="https://calendly.com/larskarbo/napchart-call">schedule</a>
+                          Reach out to me{' '}
+                          <a className="underline blue" href="https://www.reddit.com/user/gaptrast">
+                            on reddit
+                          </a>
                         </p>
                       </div>
                       <div
