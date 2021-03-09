@@ -7,3 +7,7 @@ button,
 textarea {
   @apply focus:outline-none;
 }
+
+.center {
+  @apply justify-center items-center;
+}

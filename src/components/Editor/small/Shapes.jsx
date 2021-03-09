@@ -13,27 +13,23 @@ export default class Chart extends React.Component {
     }
     var shapes = ['circle', 'wide', 'line']
 
-    var shapeButtons = shapes.map((shape) => {
-      var classes = {
-        'is-active': napchart.data.shape == shape,
-        'is-primary': napchart.data.shape == shape,
-      }
-      return (
-        <p className="control" key={shape}>
-          <button
-            className={c('button', 'is-small', 'napchartDontLoseFocus', classes)}
-            onClick={napchart.changeShape.bind(napchart, shape)}
-          >
-            {shape}
-          </button>
-        </p>
-      )
-    })
     return (
-      <div className="field has-addons level is-mobile">
-        <div className="level-left">
-          <div className="level-item title is-6">Shape:</div>
-          <div className="level-item">{shapeButtons}</div>
+      <div className="flex">
+        <div className="flex items-center font-bold mr-2">Shape:</div>
+        <div className="flex">
+          {shapes.map((shape) => {
+            return (
+              <button
+                key={shape}
+                className={`
+            px-2 py-1 bg-gray-50 rounded-md border text-xs
+            ${napchart.data.shape == shape && 'bg-red-600 text-white'}`}
+                onClick={() => napchart.changeShape(shape)}
+              >
+                {shape}
+              </button>
+            )
+          })}
         </div>
       </div>
     )

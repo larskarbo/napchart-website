@@ -2,10 +2,12 @@ import c from 'classnames'
 import Cookies from 'js-cookie'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { isLocal } from '../common/isLocal'
 import { AccountBar } from './AccountBar'
 import Chart from './Chart'
 import { ChartProvider, useChart } from './chart-context'
 import { Header } from './Header'
+import { PremiumModal } from './PremiumModal'
 import { Controls } from './sections/Controls'
 import Export from './sections/Export'
 import { Info } from './sections/Info'
@@ -15,7 +17,7 @@ import ToolBar from './ToolBar'
 export default function Editor({ chartid }) {
   return (
     <ChartProvider chartid={chartid}>
-      <Int chartid={chartid} />
+      <App />
     </ChartProvider>
   )
 }
@@ -37,14 +39,16 @@ const getAmpm = (): boolean => {
   }
 }
 
-function Int() {
+function App() {
   const { chartid, loading, title, description, chartData, setTitle, setDescription } = useChart()
+  const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
+  const [showPremiumPopup, setShowPremiumPopup] = useState(false)
   const [currentSection, setCurrentSection] = useState(0)
   const [napchartObject, setNapchartObject] = useState(null)
   const [amPm, setAmPm] = useState(getAmpm())
   if (chartid && loading) {
-    return 'Loading...'
+    return <div>'Loading...'</div>
   }
 
   const setAmPmAndCookie = (newAmPm) => {
@@ -85,7 +89,7 @@ function Int() {
   ]
 
   return (
-    <div className="Editor">
+    <div className="Editor relative">
       <Helmet>
         {description?.length && <meta name="description" content={description} />}
         <meta
@@ -100,6 +104,9 @@ function Int() {
         <meta property="og:image:height" content="600" />
         {title?.length ? <title>{`${title} - Napchart`}</title> : <title>{`Unnamed Napchart`}</title>}
       </Helmet>
+
+      {showPremiumPopup && <PremiumModal exit={() => setShowPremiumPopup(false)} />}
+
       <div
         className={c('grid', {
           slideSidebarMobile: slideSidebarMobile,
@@ -109,29 +116,28 @@ function Int() {
           <Header napchart={napchartObject} />
 
           <div className="sidebarContent">
-            <div className="sideLane">
-              <div className="up">
-                {sections.map((section, i) => (
-                  <button
-                    onClick={() => setCurrentSection(i)}
-                    key={i}
-                    className={c('squareBtn', {
-                      active: i == currentSection,
-                    })}
-                  >
-                    {section.text}
-                  </button>
-                ))}
+            <div className="bg-gray-700 pt-24">
+              {sections.map((section, i) => (
+                <button
+                  onClick={() => setCurrentSection(i)}
+                  key={i}
+                  className={`text-white w-full h-16
+                    ${i == currentSection && 'bg-red-600'}
+                    `}
+                >
+                  {section.text}
+                </button>
+              ))}
+              {isLocal() && (
                 <button
                   onClick={() => {
-                    console.log('Premium')
+                    setShowPremiumPopup(true)
                   }}
-                  className={c('squareBtn')}
+                  className={'text-white w-full h-16'}
                 >
                   Premium
                 </button>
-              </div>
-              <div className="down"></div>
+              )}
             </div>
 
             <div className="otherLane">
@@ -184,6 +190,7 @@ function Int() {
             chartData={chartData}
             setGlobalNapchart={setNapchartObject}
             amPm={amPm}
+            onUpdate={() => setRandom(Math.random())}
           />
         </div>
       </div>

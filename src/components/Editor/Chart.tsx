@@ -1,7 +1,7 @@
 import Napchart from 'napchart'
 import React, { useEffect, useRef, useState } from 'react'
 
-export default function Chart({ napchartObject, chartData, setGlobalNapchart, amPm }) {
+export default function Chart({ napchartObject, onUpdate, chartData, setGlobalNapchart, amPm }) {
   const [dimensions, setDimensions] = useState({
     width: 500,
     height: 500,
@@ -11,14 +11,11 @@ export default function Chart({ napchartObject, chartData, setGlobalNapchart, am
 
   useEffect(() => {
     if (canvasRef.current) {
-      setTimeout(() => {
-        initializeChart()
-      }, 500)
+      initializeChart(canvasRef.current)
     }
-  }, [chartData, canvasRef.current])
+  }, [canvasRef.current])
 
-  const initializeChart = () => {
-    var canvas = canvasRef.current
+  const initializeChart = (canvas) => {
     var ctx = canvas.getContext('2d')
 
     var napchart = Napchart.init(ctx, chartData || {}, {
@@ -34,6 +31,11 @@ export default function Chart({ napchartObject, chartData, setGlobalNapchart, am
     //   event.stopPropagation()
     //   return false
     // }
+
+    napchart.onUpdate = () => {
+      // TODO refactor
+      onUpdate()
+    }
 
     setGlobalNapchart(napchart)
   }

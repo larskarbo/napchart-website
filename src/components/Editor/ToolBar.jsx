@@ -26,7 +26,9 @@ export default class extends React.Component {
             <div className="level-item">
               <button
                 onClick={napchart.history.back.bind(napchart)}
-                className="button is-dark is-outlined is-small"
+                className={`px-2 py-1 bg-gray-50 rounded-md border text-xs ${
+                  !napchart.history.canIGoBack() && 'text-gray-300'
+                }`}
                 disabled={!napchart.history.canIGoBack()}
                 title={'Undo ' + napchart.history.canIGoBack()}
               >
@@ -36,7 +38,9 @@ export default class extends React.Component {
             <div className="level-item">
               <button
                 onClick={napchart.history.forward.bind(napchart)}
-                className="button is-dark is-outlined is-small"
+                className={`px-2 py-1 bg-gray-50 rounded-md border text-xs ${
+                  !napchart.history.canIGoForward() && 'text-gray-300'
+                }`}
                 disabled={!napchart.history.canIGoForward()}
                 title={'Redo ' + napchart.history.canIGoForward()}
               >
