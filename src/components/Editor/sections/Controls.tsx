@@ -19,7 +19,7 @@ export const Controls = ({ napchart, description, changeDescription, title, chan
               className="bg-transparent"
               placeholder="Title"
               onChange={(event) => changeTitle(event.target.value)}
-              value={title}
+              value={title || ''}
               type="text"
             />
           </div>
@@ -29,7 +29,7 @@ export const Controls = ({ napchart, description, changeDescription, title, chan
               className="description"
               onChange={(event) => changeDescription(event.target.value)}
               placeholder="Describe this chart"
-              value={description}
+              value={description || ''}
             />
           </div>
           <div className="part">
