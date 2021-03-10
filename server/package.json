@@ -28,6 +28,7 @@
     "nanoid": "^3.1.20",
     "nanoid-dictionary": "^4.2.0",
     "pg": "^8.5.1",
+    "query-string": "^6.14.1",
     "random-item": "^3.1.0",
     "sqlite3": "^5.0.2",
     "supertest": "^6.0.1",

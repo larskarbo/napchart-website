@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const db = require('../database')
+const publicUserObject = require('../utils/publicUserObject')
 
 const login = async (req, res) => {
   var email = req.body.email
@@ -12,7 +13,6 @@ const login = async (req, res) => {
   }
 
   const result = await new Promise((resolve) => {
-    console.log('userValue.password_hash: ', userValue.password_hash)
     bcrypt.compare(password, userValue.password_hash, function (err, result) {
       resolve(result)
     })
@@ -26,7 +26,6 @@ const login = async (req, res) => {
   let payload = { email: email }
 
   //create the access token with the shorter lifespan
-  console.log('🚀 ~ payload', payload)
   let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'no secret', {
     algorithm: 'HS256',
     expiresIn: '30d',
@@ -34,9 +33,6 @@ const login = async (req, res) => {
 
   //send the access token to the client inside a cookie
   res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
-  res.send({
-    email,
-    role: userValue.role,
-  })
+  res.send(publicUserObject(userValue))
 }
 exports.login = login

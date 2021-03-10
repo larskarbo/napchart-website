@@ -7,8 +7,8 @@ import LoginLayout from './LoginLayout'
 import { request } from '../../utils/request'
 import { useUser } from '../../auth/user-context'
 
-export default function LoginPage() {
-  const { tryAgainUser } = useUser()
+export default function LoginPage({ location }) {
+  const { user, setUser } = useUser()
   const formRef = useRef()
   const [msg, setMsg] = useState('')
 
@@ -23,8 +23,15 @@ export default function LoginPage() {
       password,
     })
       .then((res) => {
-        tryAgainUser()
-        navigate('/app')
+        console.log('res: ', res)
+        // tryAgainUser()
+        setUser(res)
+        console.log('location.state.redirectTo: ', location.state.redirectTo)
+        if (location?.state?.redirectTo) {
+          navigate(location.state.redirectTo)
+        } else {
+          navigate('/app')
+        }
       })
       .catch((error) => {
         if (error?.response?.data?.message == 'wrong password') {
@@ -37,16 +44,30 @@ export default function LoginPage() {
 
   return (
     <LoginLayout msg={msg}>
-      <div className="pb-4 text-xs text-gray-700 font-light">
-        Napchart accounts are currently only available for a limited amount of users.
-      </div>
-      <form ref={formRef} onSubmit={onLogin}>
-        <FormElement title={'Email address'} type="email" name="email" placeholder="you@email.com" />
+      {user ? (
+        <>
+          <div className="my-4">You are already logged in!</div>
+          <Link to="/app">
+            <SubmitButton>Go to app</SubmitButton>
+          </Link>
+          <Link to="/auth/logout">
+            <SubmitButton>Log out</SubmitButton>
+          </Link>
+        </>
+      ) : (
+        <>
+          <div className="pb-4 text-xs text-gray-700 font-light">
+            Napchart accounts are currently only available for a limited amount of users.
+          </div>
+          <form ref={formRef} onSubmit={onLogin}>
+            <FormElement title={'Email address'} type="email" name="email" placeholder="you@email.com" />
 
-        <FormElement title={'Password'} type="password" name="password" placeholder="*******" />
+            <FormElement title={'Password'} type="password" name="password" placeholder="*******" />
 
-        <SubmitButton>Log in</SubmitButton>
-      </form>
+            <SubmitButton>Log in</SubmitButton>
+          </form>
+        </>
+      )}
     </LoginLayout>
   )
 }

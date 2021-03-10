@@ -29,9 +29,12 @@ const register = async (req, res) => {
   const passwordHash = await encrypt(password)
 
   db.pool
-    .query(`INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)`, [username, email, passwordHash])
+    .query(`INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *`, [
+      username,
+      email,
+      passwordHash,
+    ])
     .then((hey) => {
-      console.log('hey: ', hey.rows)
       //use the payload to store information about the user such as email, user role, etc.
       let payload = { email: email }
 
@@ -43,11 +46,7 @@ const register = async (req, res) => {
 
       //send the access token to the client inside a cookie
       res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
-      res.send({
-        email,
-        username: username,
-        email_verified: false,
-      })
+      res.send(publicUserObject(hey.rows[0]))
     })
     .catch((err) => {
       if (err?.constraint == 'users_email_key') {

@@ -6,6 +6,7 @@ import LoginPage from '../components/Login/LoginPage'
 import RegisterPage from '../components/Login/RegisterPage'
 import SetPasswordPage from '../components/Login/SetPasswordPage'
 import Profile from '../components/Profile/Profile'
+import DiscourseConnect from '../components/Login/DiscourseConnect'
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -21,10 +22,10 @@ export default function App() {
   return (
     <>
       <Router>
-        <LogOut path="/logout" />
-        <LoginRoute component={LoginPage} path="/login" />
-        <LoginRoute component={RegisterPage} path="/register" />
-        <LoginRoute component={SetPasswordPage} path="/set-password" />
+        <LogOut path="/auth/logout" />
+        <LoginRoute component={LoginPage} path="/auth/login" />
+        <LoginRoute component={RegisterPage} path="/auth/register" />
+        <LoginRoute component={DiscourseConnect} path="/auth/discourse-connect" />
         <Editor path="/app" />
         <EditorOrProfile path="/:param" />
       </Router>

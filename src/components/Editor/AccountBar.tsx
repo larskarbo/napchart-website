@@ -7,7 +7,7 @@ export const AccountBar = () => {
   const { user } = useUser()
 
   return (
-    <Link to={user ? `/@${user.username}` : '/login'}>
+    <Link to={user ? `/@${user.username}` : '/auth/login'}>
       <div
         className="mt-4 mr-4 flex items-center border border-gray-200 rounded p-2 px-4
       hover:border-gray-400 transition-colors duration-150 hover:shadow-sm

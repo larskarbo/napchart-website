@@ -24,7 +24,6 @@ export default function SetPasswordPage({ mode }) {
   const searchParams = parse(location.search)
   if (!searchParams.email || !searchParams.token) {
     alert('Link is malformed, double check that you have the right link')
-    navigate('/app/login')
   }
 
   useEffect(() => {

@@ -59,6 +59,7 @@ const { createChart } = require('./charts/createChart')
 const { updateChart } = require('./charts/updateChart')
 const { getChart } = require('./charts/getChart')
 const { getChartsFromUser } = require('./charts/getChartsFromUser')
+const publicUserObject = require('./utils/publicUserObject')
 
 app.get('/', async (req, res) => {
   res.send({ status: 'Ok' })
@@ -76,11 +77,7 @@ app.get('/testAuth', verify, async (req, res) => {
 
 // user
 app.get('/getUser', verify, async (req, res) => {
-  res.send({
-    email: req.user.email,
-    username: req.user.username,
-    email_verified: req.user.email_verified,
-  })
+  res.send(publicUserObject(req.user))
 })
 
 app.post('/login', login)
@@ -94,6 +91,8 @@ app.post('/createChart', optionalVerify, createChart)
 app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
+
+app.get('/discourse-connect', verify, require('./discourse/connect'))
 
 app.all('/*', (req, res) => {
   return res.status(404).send({

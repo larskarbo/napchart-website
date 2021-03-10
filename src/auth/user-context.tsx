@@ -15,7 +15,6 @@ type User = {
 export function UserProvider({ children }) {
   const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
-  const [updater, setUpdater] = useState(0)
 
   useEffect(() => {
     request('GET', '/getUser')
@@ -28,7 +27,7 @@ export function UserProvider({ children }) {
       .finally(() => {
         setLoadingUser(false)
       })
-  }, [updater])
+  }, [])
 
   const logoutUser = () => {
     request('GET', '/logout').then(() => {
@@ -37,15 +36,7 @@ export function UserProvider({ children }) {
     })
   }
 
-  const tryAgainUser = () => {
-    setUpdater(Math.random())
-  }
-
-  return (
-    <UserContext.Provider value={{ setUser, user, isLoading: loadingUser, logoutUser, tryAgainUser }}>
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ setUser, user, loadingUser, logoutUser }}>{children}</UserContext.Provider>
 }
 
 export function useUser() {
