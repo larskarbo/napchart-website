@@ -11,3 +11,9 @@ textarea {
 .center {
   @apply justify-center items-center;
 }
+
+.bbutton {
+  @apply flex center;
+  @apply border border-gray-200 rounded p-2 px-4;
+  @apply hover:border-gray-400 transition-colors duration-150 hover:shadow-sm;
+}
