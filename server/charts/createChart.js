@@ -1,13 +1,38 @@
 const { customAlphabet } = require('nanoid')
-const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyz0123456789', 6)
+const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyz0123456789', 1)
 const db = require('../database')
+const pRetry = require('p-retry');
+
+const findUniqueId = async () => {
+  const chartid = generateRandomId()
+  return await db.pool
+    .query(`select exists(select true from charts where chartid=$1)`, [
+      chartid,
+    ])
+    .then((hey) => {
+      if(hey.rows[0].exists){
+        throw new Error("Not unique")
+      }
+      return chartid
+    })
+}
 
 const createChart = async function (req, res) {
   const { chartData, metaInfo } = req.body
 
   const { title, description } = metaInfo || {}
+  
+  const chartid = await pRetry(findUniqueId, {retries: 3, minTimeout:0})
+  .catch(() => {
+    res.status(500).send({
+      error: "couldn't find unique id"
+    })
+    return
+  })
 
-  const chartid = generateRandomId()
+  if(!chartid){
+    return
+  }
 
   const username = req.user ? req.user.username : 'anonymous'
 
