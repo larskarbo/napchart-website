@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'imitate',
+      name: 'napchart-server',
       script: './server.js',
     },
   ],

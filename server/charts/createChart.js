@@ -1,5 +1,5 @@
 const { customAlphabet } = require('nanoid')
-const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyz0123456789', 1)
+const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyz0123456789', 5)
 const db = require('../database')
 const pRetry = require('p-retry');
 
