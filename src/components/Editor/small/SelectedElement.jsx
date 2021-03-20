@@ -5,7 +5,7 @@ export default class extends React.Component {
   render() {
     var napchart = this.props.napchart
     var selected = napchart.selectedElement
-
+    
     if (napchart) {
       var element = napchart.data.elements.find((e) => e.id == selected)
       var activeColor = typeof element == 'undefined' ? napchart.config.defaultColor : element.color

@@ -1,6 +1,6 @@
 import c from 'classnames'
 import Cookies from 'js-cookie'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { isLocal } from '../common/isLocal'
 import { AccountBar } from './AccountBar'
@@ -13,11 +13,16 @@ import Export from './sections/Export'
 import { Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
+import { navigate } from 'gatsby'
+import slugify from 'slugify'
+import { SnapshotLinkCreator } from './SnapshotLinkCreator'
+import WarnExit from './WarnExit'
 
-export default function Editor({ chartid }) {
+export default function Editor({ titleAndChartid, chartid, username }) {
+  const realChartId = chartid ? chartid : titleAndChartid ? titleAndChartid.slice(-9) : null
   return (
-    <ChartProvider chartid={chartid}>
-      <App />
+    <ChartProvider chartid={realChartId}>
+      <App pathUsername={username} />
     </ChartProvider>
   )
 }
@@ -39,14 +44,24 @@ const getAmpm = (): boolean => {
   }
 }
 
-function App() {
-  const { chartid, loading, title, description, chartData, setTitle, setDescription } = useChart()
+function App({ pathUsername }) {
+  const { chartid, loading, title, description, chartData, chartOwner, setDirty } = useChart()
+
   const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
   const [showPremiumPopup, setShowPremiumPopup] = useState(false)
   const [currentSection, setCurrentSection] = useState(0)
   const [napchartObject, setNapchartObject] = useState(null)
   const [amPm, setAmPm] = useState(getAmpm())
+
+  useEffect(() => {
+    const urlTitle = title ? slugify(title) + '-' : ''
+    if (chartOwner) {
+      history.replaceState({}, '', `/user/${chartOwner}/chart/${urlTitle}${chartid}`)
+      // navigate(`/user/${chartOwner}/chart/${urlTitle}${chartid}`, { replace: true })
+    }
+  }, [chartOwner, title])
+
   if (chartid && loading) {
     return <div>'Loading...'</div>
   }
@@ -59,16 +74,8 @@ function App() {
 
   var sections = [
     {
-      element: (
-        <Controls
-          napchart={napchartObject}
-          description={description}
-          changeDescription={setDescription}
-          changeTitle={setTitle}
-          title={title}
-        />
-      ),
-      text: 'My Charts',
+      element: <Controls napchart={napchartObject} />,
+      text: 'Chart',
       title: '',
     },
     {
@@ -90,6 +97,7 @@ function App() {
 
   return (
     <div className="Editor relative">
+      <WarnExit />
       <Helmet>
         {description?.length && <meta name="description" content={description} />}
         <meta
@@ -112,11 +120,12 @@ function App() {
           slideSidebarMobile: slideSidebarMobile,
         })}
       >
-        <div className="sidebar">
+        <div className="flex flex-col">
           <Header napchart={napchartObject} />
 
-          <div className="sidebarContent">
-            <div className="bg-gray-700 pt-24">
+          <ToolBar napchart={napchartObject} />
+          <div className="flex flex-row flex-grow">
+            <div className="bg-gray-700 pt-24 w-16">
               {sections.map((section, i) => (
                 <button
                   onClick={() => setCurrentSection(i)}
@@ -140,8 +149,7 @@ function App() {
               )}
             </div>
 
-            <div className="otherLane">
-              <ToolBar napchart={napchartObject} title={sections[currentSection].title} />
+            <div className="px-4">
               <div className="currentInfo">
                 {sections[currentSection].element}
                 {currentSection != 1 && (
@@ -181,7 +189,7 @@ function App() {
           </div>
         </div>
 
-        <div className="main">
+        <div className="main relative">
           <div className="absolute right-0 top-0">
             <AccountBar />
           </div>
@@ -190,7 +198,10 @@ function App() {
             chartData={chartData}
             setGlobalNapchart={setNapchartObject}
             amPm={amPm}
-            onUpdate={() => setRandom(Math.random())}
+            onUpdate={() => {
+              setDirty(true)
+              setRandom(Math.random())
+            }}
           />
         </div>
       </div>

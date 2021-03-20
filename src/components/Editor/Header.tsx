@@ -45,20 +45,12 @@ export const Header = ({ napchart }) => {
       <div className="">
         <a href="/app">
           <Logo white height="45" loading={requestLoading} whiteBG />
+          
         </a>
       </div>
 
       <div className="flex">
-        <div className="mr-2">
-          <Button onClick={update} disabled={!isMyChart}>
-            Save
-          </Button>
-        </div>
-        {true && (
-          <div className="mr-2">
-            <Button onClick={save}>Save new</Button>
-          </div>
-        )}
+
       </div>
     </header>
   )

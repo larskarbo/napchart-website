@@ -1,11 +1,21 @@
 const jwt = require('jsonwebtoken')
 const db = require('../database')
 const { encrypt } = require('./encrypt')
+const reserved = require('reserved-usernames')
+
+const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection', 'collections']
 
 const Joi = require('joi')
+const usernameSchema = Joi.string()
+  .alphanum()
+  .min(5)
+  .max(30)
+  .invalid(...reserved)
+  .pattern(new RegExp(alsoReserved.join('|'), 'i'), { invert: true, name: 'Reserved usernames' })
+  .required()
 
 const schema = Joi.object({
-  username: Joi.string().alphanum().min(5).max(30).required(),
+  username: usernameSchema,
   password: Joi.string().min(6).required(),
   email: Joi.string().email().required(),
 })

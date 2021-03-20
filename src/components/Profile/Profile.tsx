@@ -28,8 +28,7 @@ export default function Profile({ children, username }) {
         <div className="flex">
           <Link to={`/app`}>
             <div
-              className="mt-4 mr-4 flex items-center border border-gray-200 rounded p-2 px-4
-                hover:border-gray-400 transition-colors duration-150 hover:shadow-sm
+              className="mt-4 mr-4 button
                 "
             >
               <>

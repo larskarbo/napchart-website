@@ -1,10 +1,10 @@
 const { customAlphabet } = require('nanoid')
-const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyz0123456789', 5)
+const generateRandomId = customAlphabet('abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789', 4)
 const db = require('../database')
 const pRetry = require('p-retry');
 
 const findUniqueId = async () => {
-  const chartid = generateRandomId()
+  const chartid = generateRandomId() + ":" + generateRandomId()
   return await db.pool
     .query(`select exists(select true from charts where chartid=$1)`, [
       chartid,
@@ -18,7 +18,7 @@ const findUniqueId = async () => {
 }
 
 const createChart = async function (req, res) {
-  const { chartData, metaInfo } = req.body
+  const { chartData, metaInfo, api_flag_user } = req.body
 
   const { title, description } = metaInfo || {}
   
@@ -34,7 +34,13 @@ const createChart = async function (req, res) {
     return
   }
 
-  const username = req.user ? req.user.username : 'anonymous'
+  let username = req.user ? req.user.username : 'anonymous'
+
+  if(username == "anonymous"){
+    if(api_flag_user == "thumbbot"){
+      username = "thumbbot"
+    }
+  }
 
   db.pool
     .query(`INSERT INTO charts (chartid, username, chart_data, title, description) VALUES ($1, $2, $3, $4, $5)`, [

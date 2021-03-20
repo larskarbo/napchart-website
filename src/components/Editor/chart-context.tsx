@@ -15,6 +15,7 @@ export function ChartProvider({ children, chartid }) {
 
   const [loading, setLoading] = useState(true)
   const [requestLoading, setRequestLoading] = useState(false)
+  const [dirty, setDirty] = useState(false)
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
   const [chartData, setChartData] = useState<ChartData | null>(null)
@@ -35,7 +36,7 @@ export function ChartProvider({ children, chartid }) {
       .catch((err) => {})
   }, [chartid])
 
-  const updateChart = (chartData: ChartData) => {
+  const updateChart = () => {
     setRequestLoading(true)
     request('POST', `/updateChart/${chartid}`, {
       chartData: chartData,
@@ -44,6 +45,7 @@ export function ChartProvider({ children, chartid }) {
     })
       .then((res) => {
         console.log('res: ', res)
+        setDirty(false)
         // this.onSave(chartid)
         // this.setState({ chartid: chartid })
         // this.loadingFinish()
@@ -105,6 +107,9 @@ export function ChartProvider({ children, chartid }) {
         setDescription,
         requestLoading,
         chartData,
+        chartOwner,
+        dirty,
+        setDirty
       }}
     >
       {children}

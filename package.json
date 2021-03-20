@@ -32,7 +32,6 @@
     "gatsby-transformer-remark": "^3.0.0",
     "gatsby-transformer-sharp": "^3.0.0",
     "js-cookie": "^2.2.1",
-    "napchart": "^3.0.11",
     "postcss": "^8.2.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -40,11 +39,15 @@
     "react-icons": "^4.2.0",
     "react-notification-system": "^0.4.0",
     "react-player": "^2.9.0",
+    "react-query": "^3.13.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-testing-library": "^8.0.1",
+    "react-use-clipboard": "^1.0.7",
+    "slugify": "^1.4.7",
     "tailwindcss": "^2.0.3",
     "typescript": "^4.2.3",
+    "use-before-unload": "^1.0.1",
     "use-onclickoutside": "^0.3.1",
     "uuid": "^8.3.2"
   },
@@ -74,8 +77,7 @@
   },
   "homepage": "https://napchart.com",
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md}": "prettier --write"

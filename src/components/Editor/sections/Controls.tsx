@@ -4,41 +4,124 @@ import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import SelectedElement from '../small/SelectedElement'
 import { NapChart } from '../napchart'
+import { useChart } from '../chart-context'
+import { Link } from 'gatsby'
+import { FaCheck, FaCopy, FaLink } from 'react-icons/fa'
+import { GrNewWindow } from 'react-icons/gr'
+import { WEB_BASE } from '../../../utils/request'
+import useClipboard from 'react-use-clipboard'
 
-export const Controls = ({ napchart, description, changeDescription, title, changeTitle }) => {
+export const Controls = ({ napchart }) => {
   if (!napchart) {
     return null
   }
+  const { chartid, title, description, dirty, setTitle, setDescription, chartOwner, updateChart } = useChart()
+
+  const link = `${WEB_BASE}/${chartid}`
+  const [isCopied, setCopied] = useClipboard(link)
+
   return (
     <div>
       <div>
-        <div>
-          <div className="part fullWidth">
+        <div className="">
+          {/* <div className=" my-4 fullWidth">
             <div className="font-bold pb-2">Title:</div>
             <input
-              className="bg-transparent"
+              className="bg-transparent w-full"
               placeholder="Title"
-              onChange={(event) => changeTitle(event.target.value)}
+              onChange={(event) => setTitle(event.target.value)}
               value={title || ''}
               type="text"
             />
+          </div> */}
+
+
+          <div className="flex justify-between my-4 items-center">
+            <span className="text-gray-500 text-light text-sm">{dirty ? "(Unsaved changes)" : "All changes saved."}</span>
+            <div className="flex">
+              <button className="bbutton-small mr-2" onClick={updateChart}>
+                Save
+              </button>
+              <button className="bbutton-small mr-2">Make copy</button>
+            </div>
           </div>
-          <div className="part fullWidth">
-            <div className="font-bold pb-2">Description:</div>
+
+          <div className="my-4">
+            <div className="text-xl inline font-bold text-black">
+              {title}
+              {dirty && <span className="text-gray-600">*</span>}
+            </div>
+          </div>
+          <div className="flex justify-between my-4">
+            <div className="">
+              by{' '}
+              <Link className="font-bold" to={`/user/${chartOwner}`}>
+                @{chartOwner}
+              </Link>
+            </div>
+            <div className="flex">
+            </div>
+          </div>
+
+          <div className=" my-4 w-full bg-white border border-gray-400">
+            {/* <div className="font-bold pb-2">Description:</div> */}
             <textarea
-              className="description"
-              onChange={(event) => changeDescription(event.target.value)}
+              className="description w-full h-24 p-4 mb-0"
+              onChange={(event) => setDescription(event.target.value)}
               placeholder="Describe this chart"
               value={description || ''}
             />
           </div>
-          <div className="part">
+
+          {chartOwner && chartOwner != 'anonymous' && chartOwner != 'thumbbot' && (
+            <div className="text-center my-4">
+              <div className="flex justify-center my-4">
+                <button className="bbutton-small mx-1">
+                  Link <FaLink className="ml-1 text-gray-600" />{' '}
+                </button>
+                <button className="bbutton-small mx-1">Twitter</button>
+                <button className="bbutton-small mx-1">Reddit</button>
+              </div>
+              {/* <div className="my-4 flex flex-row text-xs">
+                <div
+                  className="bg-gray-100 p-2 flex flex-row text-gray-500
+              border-t border-b border-l rounded-l
+              "
+                >
+                <FaLink className="ml-1 m-auto" />{' '}
+                </div>
+                <input
+                  className="text-xs p-2 border-0 border-t border-b flex flex-grow"
+                  type=""
+                  value={link}
+                  onChange={() => {}}
+                />
+                <button
+                  onClick={setCopied}
+                  className="bg-white p-2 flex flex-row text-gray-500
+              border-t border-b border-r border-l rounded-r text-xs"
+                >
+                  copy {isCopied ? <FaCheck className="ml-1 m-auto" /> : <FaCopy className="ml-1 m-auto" />}
+                </button>
+              </div>
+               */}
+              <div className="text-gray-600 mt-2 text-xs">
+                <div>
+                  Last updated at <span className="italic">14. mar 2021</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="border-b border-gray-300 w-full my-8" />
+
+          <div className="my-8">
             <Shapes napchart={napchart} />
           </div>
-          <div className="part">
+          <div className="my-8">
             <SuperLanes napchart={napchart} />
           </div>
-          <div className="part">
+          <div className="my-8">
             <div className="field title is-6">Color:</div>
             <SelectedElement napchart={napchart} />
           </div>

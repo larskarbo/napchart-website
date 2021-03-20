@@ -27,27 +27,13 @@ export default function App() {
         <LoginRoute component={RegisterPage} path="/auth/register" />
         <LoginRoute component={DiscourseConnect} path="/auth/discourse-connect" />
         <Editor path="/app" />
-        <EditorOrProfile path="/:param" />
+        <Profile path="/user/:username" />
+        <Editor path="/:chartid" />
+        <Editor path="/user/:username/chart/:titleAndChartid" />
       </Router>
     </>
   )
 }
-
-function EditorOrProfile({ param }: { param: string }) {
-  if (param.slice(0, 1) == '@') {
-    return <Profile username={param.slice(1)} />
-  }
-
-  return <EditorWithChartID chartid={param} />
-}
-
-function EditorWithChartID({ chartid }) {
-  // kind of hacky, TODO make it cleaner, get chartid from
-  // the actual Editor component
-
-  return <Editor chartid={chartid} />
-}
-
 const LoginRoute = ({ component: Component, ...rest }) => {
   // const { isAuthenticated } = useUser()
   // if (isAuthenticated) {
