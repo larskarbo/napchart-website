@@ -2,35 +2,22 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { useUser } from '../../auth/user-context'
 import { CgProfile } from 'react-icons/cg'
+import Button from '../common/Button'
 
 export const AccountBar = () => {
   const { user } = useUser()
 
   return (
     <Link to={user ? `/user/${user.username}` : '/auth/login'}>
-      <div
-        className="mt-4 mr-4 button
-      "
-      >
-        {user ? (
-          <>
-            {/* <img
-              alt="Lars"
-              className="rounded-full mr-2 w-8"
-              src="https://s.gravatar.com/avatar/4579b299730ddc53e3d523ec1cd5482a?s=72"
-            /> */}
-            <div className="font-bold flex items-center">
-              <CgProfile className="mr-2" /> My profile
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="font-bold flex items-center">
-              <CgProfile className="mr-2" /> Log in
-            </div>
-          </>
-        )}
-      </div>
+      {user ? (
+        <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
+          My profile
+        </Button>
+      ) : (
+        <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
+          Log in
+        </Button>
+      )}
     </Link>
   )
 }

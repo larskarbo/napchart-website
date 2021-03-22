@@ -44,7 +44,7 @@ export const Header = ({ napchart }) => {
     >
       <div className="">
         <a href="/app">
-          <Logo white height="45" loading={requestLoading} whiteBG />
+          {/* <Logo white height="45" loading={requestLoading} whiteBG /> */}
           
         </a>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Logo from '../components/common/Logo'
+// import Logo from '../components/common/Logo'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
@@ -41,13 +41,13 @@ export default class extends React.Component {
           <div className="hero-body">
             <div className="column has-text-centered">
               <div className="bigLogo">
-                <Logo noInteraction logoText="Napchart" height="150" />
+                {/* <Logo noInteraction logoText="Napchart" height="150" /> */}
               </div>
             </div>
           </div>
           <div className="hero-foot">
             <Link to="/app">
-              <Logo white noInteraction logoText="GO TO APP" height="45" />
+              {/* <Logo white noInteraction logoText="GO TO APP" height="45" /> */}
             </Link>
           </div>
         </section>
@@ -105,7 +105,7 @@ export default class extends React.Component {
           <div className="hero-body">
             <div className="container has-text-centered">
               <a href="/app" className="button">
-                <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
+                {/* <Logo whiteBG noInteraction logoText="GO TO APP" height="45" /> */}
               </a>
             </div>
           </div>

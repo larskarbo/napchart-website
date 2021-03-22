@@ -189,11 +189,12 @@ function App({ pathUsername }) {
           </div>
         </div>
 
-        <div className="main relative">
+        <div className="main relative min-h-screen">
           <div className="absolute right-0 top-0">
             <AccountBar />
           </div>
           <Chart
+            fullHeight
             napchartObject={napchartObject}
             chartData={chartData}
             setGlobalNapchart={setNapchartObject}
