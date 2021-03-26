@@ -195,6 +195,7 @@ function App({ pathUsername }) {
           </div>
           <Chart
             fullHeight
+            responsive
             napchartObject={napchartObject}
             chartData={chartData}
             setGlobalNapchart={setNapchartObject}

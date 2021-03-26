@@ -96,7 +96,7 @@ app.get('/discourse-connect', verify, require('./discourse/connect'))
 
 app.all('/*', (req, res) => {
   return res.status(404).send({
-    status: 'Not found',
+    message: 'Not found',
   })
 })
 

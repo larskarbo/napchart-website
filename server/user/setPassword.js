@@ -17,7 +17,7 @@ const setPassword = async (req, res) => {
 
   const userValue = (await db.pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
   if (!userValue) {
-    res.status(401).send({ success: false, message: 'email not found' })
+    res.status(401).send({ message: 'email not found' })
     return
   }
 
@@ -27,7 +27,7 @@ const setPassword = async (req, res) => {
     })
   })
   if (!result) {
-    res.status(401).send({ success: false, message: 'wrong token' })
+    res.status(401).send({  message: 'wrong token' })
     return
   }
 
@@ -61,7 +61,7 @@ const setPassword = async (req, res) => {
         res.status(400).send({ message: 'Email already exists' })
         return
       }
-      res.status(400).send({ err: err })
+      res.status(400).send({ error: err })
     })
 }
 exports.setPassword = setPassword

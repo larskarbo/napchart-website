@@ -22,7 +22,7 @@ const registerWithToken = async (req, res) => {
 
   const userExists = false
   if (userExists) {
-    res.status(409).send({ success: false, message: 'email already in use' })
+    res.status(409).send({ message: 'email already in use' })
   } else {
     const token = id(48)
     const tokenHash = await encrypt(token)
@@ -41,7 +41,7 @@ const registerWithToken = async (req, res) => {
           res.status(400).send({ message: 'Email already exists' })
           return
         }
-        res.status(400).send({ err: err })
+        res.status(400).send({ error: err })
       })
   }
 }

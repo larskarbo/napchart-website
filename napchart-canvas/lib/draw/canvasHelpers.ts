@@ -1,4 +1,5 @@
-import {createSegment } from "../shape/shapeHelpers"
+import { createSegment } from '../shape/shapeHelpers'
+import { chart } from '../types'
 
 export const strokeSegment = function (chart, start, end, config) {
   var ctx = chart.ctx
@@ -13,7 +14,7 @@ export const strokeSegment = function (chart, start, end, config) {
   ctx.restore()
 }
 
-export const colorMap = function (chart, color) {
+export const colorMap = function (chart: chart, color: string) {
   if (color.includes('#')) {
     return color
   } else {

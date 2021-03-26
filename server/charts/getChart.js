@@ -9,7 +9,7 @@ const getChart = async function (req, res) {
     }
     if (results.rows.length == 0) {
       return res.status(404).send({
-        status: 'not found',
+        message: 'not found',
       })
     }
 

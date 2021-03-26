@@ -49,7 +49,7 @@ export default class extends React.Component {
       <div className="field SuperLanes">
         <p className="field title is-6">Lanes:</p>
         <div className="field">{lanes}</div>
-        <button onClick={napchart.addLane.bind(napchart)} className="button is-small">
+        <button onClick={() => napchart.addLane(napchart)} className="button is-small">
           Add lane +
         </button>
       </div>

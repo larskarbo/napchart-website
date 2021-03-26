@@ -6,6 +6,7 @@ const reserved = require('reserved-usernames')
 const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection', 'collections']
 
 const Joi = require('joi')
+const publicUserObject = require('../utils/publicUserObject')
 const usernameSchema = Joi.string()
   .alphanum()
   .min(5)
@@ -60,14 +61,14 @@ const register = async (req, res) => {
     })
     .catch((err) => {
       if (err?.constraint == 'users_email_key') {
-        res.status(400).send({ error: 'Email already exists' })
+        res.status(400).send({ message: 'Email already exists' })
         return
       }
       if (err?.constraint == 'users_username_key') {
-        res.status(400).send({ error: 'Username already exists' })
+        res.status(400).send({ message: 'Username already exists' })
         return
       }
-      res.status(400).send({ error: err })
+      res.status(400).send({ message: err.message })
     })
 }
 exports.register = register

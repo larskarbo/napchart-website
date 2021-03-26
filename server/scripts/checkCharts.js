@@ -76,9 +76,4 @@ db.pool.query('SELECT chart_data FROM charts', (error, results) => {
   console.log('errors: ', errors)
 
   console.log('results: ', results.rows.length)
-  // if (results.rows.length == 0) {
-  //   return res.status(404).send({
-  //     status: 'not found',
-  //   })
-  // }
 })

@@ -8,7 +8,7 @@ const updateChart = async function (req, res) {
   const username = req.user.username
 
   if (!username) {
-    return res.status(401).send({ error: 'No username' })
+    return res.status(401).send({ message: 'No username' })
   }
 
   db.pool
@@ -18,7 +18,7 @@ const updateChart = async function (req, res) {
     )
     .then((hey) => {
       if (hey.rows.length == 0) {
-        res.status(401).send({ error: 'No permission for this' })
+        res.status(401).send({ message: 'No permission for this' })
         return
       }
       res.send({
@@ -28,7 +28,7 @@ const updateChart = async function (req, res) {
     .catch((err) => {
       console.log('err: ', err)
       if (err?.constraint == 'users_chartid_key') {
-        res.status(400).send({ error: 'Chartid already exists' })
+        res.status(400).send({ message: 'Chartid already exists' })
         return
       }
       res.status(400).send({ error: err })

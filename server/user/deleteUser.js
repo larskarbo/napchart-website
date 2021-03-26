@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 const deleteUser = async (req, res) => {
   if (req.user.role != 'admin') {
-    res.status(401).send({ success: false, message: 'you need to be an admin to see this page' })
+    res.status(401).send({ message: 'you need to be an admin to see this page' })
     return
   }
 

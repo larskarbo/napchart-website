@@ -1,6 +1,6 @@
-var calculateShape = require('./calculateShape')
+import { calculateShape } from "./calculateShape"
 
-module.exports = function animateShape (chart, shape, newShape, globalProgress, callback) {
+export function animateShape (chart, shape, newShape, globalProgress, callback) {
   var helpers = chart.helpers
 
   // here is how it works:
@@ -85,7 +85,14 @@ module.exports = function animateShape (chart, shape, newShape, globalProgress, 
       newShape[anim.prop] = anim.start + anim.duration * progress
     })
 
-    chart.shape = calculateShape(chart, newShape)
+    chart.shape = calculateShape({
+      baseShapeObject: newShape,
+      config: chart.config,
+      ratio: chart.ratio,
+      width: chart.width,
+      height: chart.height,
+      numLanes: chart.data.lanes,
+    })
     chart.needFullRedraw = true
     chart.draw()
 

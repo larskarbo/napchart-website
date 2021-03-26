@@ -22,12 +22,9 @@ export const minutesToHoursMinutes = function (min) {
   }
 }
 
-export const minutesToReadable = function (min, breakpoint) {
+export const minutesToReadable = function (min, breakpoint=60) {
   // extends minutesToHoursMinutes and adds h and m
   var hm
-  if (typeof breakpoint === 'undefined') {
-    breakpoint = 60
-  }
 
   if (min > breakpoint) {
     hm = minutesToHoursMinutes(min)
@@ -252,15 +249,6 @@ export const clone = function (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-export const extend = function (base) {
-  var setFn = function (value, key) {
-    base[key] = value
-  }
-  for (var i = 1, ilen = arguments.length; i < ilen; i++) {
-    each(arguments[i], setFn)
-  }
-  return base
-}
 
 export const uid = (function () {
   var id = 0

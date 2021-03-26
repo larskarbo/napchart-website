@@ -1,10 +1,11 @@
 /*
+import { fullDraw } from './draw/draw';
  *  Core module of Napchart
  *
  */
 
-const { initShape, changeShape } = require("./shape/shape")
-console.log('initShape, changeShape: ', initShape, changeShape);
+const { initShape, changeShape } = require("./shape/shape.ts")
+const { fullDraw, drawFrame, benchmark } = require("./draw/draw.ts")
 
 module.exports = function (Napchart) {
   var helpers = Napchart.helpers
@@ -291,7 +292,7 @@ module.exports = function (Napchart) {
       },
 
       benchmark: function () {
-        Napchart.draw.benchmark(this)
+        benchmark(this)
       },
 
       // setConfig: function(config) {
@@ -388,11 +389,11 @@ module.exports = function (Napchart) {
   function draw(chart) {
     // here we need to determine how much we should redraw
     if (chart.needFullRedraw) {
-      Napchart.draw.fullDraw(chart)
+      fullDraw(chart)
       chart.needFullRedraw = false
       chart.onUpdate() // notify listeners
     } else {
-      Napchart.draw.drawFrame(chart)
+      drawFrame(chart)
     }
   }
 

@@ -1,6 +1,7 @@
 // var textHelper = require('../textHelper')
 
-module.exports = function (chart, ctx) {
+module.exports = function (chart) {
+  const { ctx } = chart
   var helpers = chart.helpers
   var config = chart.config
 

@@ -3,17 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import { drawOnly } from '../../../napchart-canvas/lib/drawOnly';
 
 let lastData = ''
-export default function Chart({ napchartObject, interactive=true, fullHeight=false, onUpdate, chartData, setGlobalNapchart, amPm }) {
-  const [dimensions, setDimensions] = useState({
-    width: 500,
-    height: 500,
-  })
-  const resizerRef = useRef(null)
+export default function Chart({ napchartObject, interactive=true, responsive=false, fullHeight=false, onUpdate, chartData, setGlobalNapchart, amPm }) {
   const canvasRef = useRef(null)
   
   useEffect(() => {
     if (canvasRef.current) {
-      initializeChart(canvasRef.current)
+      const destroyers = initializeChart(canvasRef.current)
+
+      return () => {
+        destroyers.forEach(fn => fn())
+      }
     }
   }, [])
 
@@ -21,14 +20,15 @@ export default function Chart({ napchartObject, interactive=true, fullHeight=fal
     var ctx = canvas.getContext('2d')
 
     var napchart = Napchart.init(ctx, chartData || {}, {
-      responsive: true,
+      responsive,
       ampm: amPm,
-      interactive: interactive,
+      interaction: interactive,
     })
 
     // drawOnly(ctx, chartData, {
 
     // })
+    // return
 
 
     lastData = JSON.stringify(napchart.data)
@@ -45,10 +45,12 @@ export default function Chart({ napchartObject, interactive=true, fullHeight=fal
     }
 
     setGlobalNapchart?.(napchart)
+
+    return napchart.destroyers
   }
 
   return (
-    <div className={`${fullHeight ? "h-screen" : ""}`} ref={resizerRef}>
+    <div className={`${fullHeight ? "h-screen" : ""}`}>
       <canvas id="asdf" className={`canvas`} ref={canvasRef}>
         A chart
       </canvas>

@@ -8,6 +8,7 @@ import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
 import { useUser } from '../../auth/user-context'
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 export default function RegisterPage({}) {
   const formRef = useRef()
@@ -42,25 +43,13 @@ export default function RegisterPage({}) {
       .then((user) => {
         console.log('user: ', user)
         setUser(user)
-        navigate('/@' + user.username)
+        navigate('/user/' + user.username)
         // window.location.href =
       })
       .catch(async (asdf) => {
         // console.log('asdf: ', );
-        if (asdf?.response?.data?.error) {
-          setMsg(asdf?.response?.data?.error)
-          return
-        }
-        // if (response?.message == 'email not found') {
-        //   alert('Email not found in database...')
-        //   return
-        // }
-        // if (response?.message == 'wrong token') {
-        //   alert('The token is wrong or outdated...')
-        //   return
-        // }
-
-        alert('Some error...')
+        setMsg(getErrorMessage(asdf))
+        console.log('asdf: ', asdf.response);
       })
   }
 

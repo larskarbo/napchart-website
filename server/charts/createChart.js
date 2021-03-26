@@ -25,7 +25,7 @@ const createChart = async function (req, res) {
   const chartid = await pRetry(findUniqueId, {retries: 3, minTimeout:0})
   .catch(() => {
     res.status(500).send({
-      error: "couldn't find unique id"
+      message: "couldn't find unique id"
     })
     return
   })
@@ -58,7 +58,7 @@ const createChart = async function (req, res) {
     .catch((err) => {
       console.log('err: ', err)
       if (err?.constraint == 'users_chartid_key') {
-        res.status(400).send({ error: 'Chartid already exists' })
+        res.status(400).send({ message: 'Chartid already exists' })
         return
       }
       res.status(400).send({ error: err })

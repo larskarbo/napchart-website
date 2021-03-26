@@ -8,7 +8,7 @@ const login = async (req, res) => {
   var password = req.body.password
   const userValue = (await db.pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
   if (!userValue) {
-    res.status(401).send({ success: false, message: 'email not found' })
+    res.status(401).send({ message: 'email not found' })
     return
   }
 
@@ -18,7 +18,7 @@ const login = async (req, res) => {
     })
   })
   if (!result) {
-    res.status(401).send({ success: false, message: 'wrong password' })
+    res.status(401).send({ message: 'wrong password' })
     return
   }
 

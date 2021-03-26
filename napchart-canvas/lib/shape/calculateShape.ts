@@ -10,9 +10,11 @@
  *
  */
 
-module.exports = function calculateShape(chart, shape) {
+import { limit } from "../helperFunctions"
+
+export function calculateShape({config, height, width, baseShapeObject, ratio, numLanes}) {
   // apply defaults
-  var shape = Object.assign({}, shape)
+  var shape = {...baseShapeObject}
 
   /**
    * Find out totalRadians
@@ -31,9 +33,9 @@ module.exports = function calculateShape(chart, shape) {
    * TODO:Maybe we should keep this config in the shape object somehow
    */
   if (totalRadians == 2 * Math.PI) {
-    chart.shapeIsContinous = true
+    // chart.shapeIsContinous = true
   } else {
-    chart.shapeIsContinous = false
+    // chart.shapeIsContinous = false
   }
 
   /**
@@ -58,14 +60,14 @@ module.exports = function calculateShape(chart, shape) {
    */
 
   // how much space do we have for lines?
-  var space = chart.w
+  var space = width
   // paddings
   space -= 120
 
   // arcs
   shape.elements.forEach(function (element, i) {
     if (element.type === 'arc') {
-      space -= (chart.config.edgeRadius * (element.radians / Math.PI))
+      space -= (config.edgeRadius * (element.radians / Math.PI))
     }
   })
 
@@ -76,7 +78,7 @@ module.exports = function calculateShape(chart, shape) {
   var totalLength = 0
   shape.elements.forEach(function (element, i) {
     if (element.type === 'arc') {
-      element.length = element.radians * chart.config.baseRadius
+      element.length = element.radians * config.baseRadius
     } else if (element.type === 'line') {
       element.length = space * (element.percent / 100)
     }
@@ -101,7 +103,7 @@ module.exports = function calculateShape(chart, shape) {
   })
 
   if (totalMinutes != 1440) {
-    console.warn('bad things might happen')
+    
   }
 
   /**
@@ -119,7 +121,7 @@ module.exports = function calculateShape(chart, shape) {
   shape.elements.forEach(function (element, i) {
     if (i === 0) element.start = shape.shift
     else if (i > 0) element.start = shape.elements[i - 1].end
-    element.end = chart.helpers.limit(element.start + element.minutes)
+    element.end = limit(element.start + element.minutes)
   })
 
   /**
@@ -129,8 +131,8 @@ module.exports = function calculateShape(chart, shape) {
    */
 
   var center = {
-    x: chart.w / 2,
-    y: chart.h / 2
+    x: width / 2,
+    y: height / 2
   }
   shape.elements.forEach(function (element, i) {
     if (i === 0) {
@@ -177,8 +179,8 @@ module.exports = function calculateShape(chart, shape) {
   })
 
   // we need to know the distances to the edge of the canvas
-  limits.down = chart.h - limits.down
-  limits.right = chart.w - limits.right
+  limits.down = height - limits.down
+  limits.right = width - limits.right
 
   // the distances should be equal, therefore, shift the points
   // if it is not
@@ -186,7 +188,7 @@ module.exports = function calculateShape(chart, shape) {
   var shiftUp = (limits.up - limits.down) / 2
 
   // apply shiftDown setting from shape (useful for line shape)
-  shiftUp = shiftUp - shape.shiftDown * chart.ratio
+  shiftUp = shiftUp - shape.shiftDown * ratio
 
   shape.elements.forEach(function (element, i) {
     element.startPoint = {
@@ -201,18 +203,17 @@ module.exports = function calculateShape(chart, shape) {
 
   // create lanes based on how many
   shape.lanes = []
-  var lanes = chart.data.lanes
-  console.log(lanes)
-  if (typeof lanes == 'undefined' || lanes == 0) {
-    console.error(`chart.data.lanes is undefined, not an array OR HAS 0 ELEMENTS:`, chart.data.lanes)
+  
+  if (typeof numLanes == 'undefined' || numLanes == 0) {
+    
   }
-  var maxLaneSize = shape.maxLaneSize * chart.ratio
-  var laneMaxRadius = shape.laneMaxRadius * chart.ratio
-  var laneMinRadius = shape.laneMinRadius * chart.ratio
+  var maxLaneSize = shape.maxLaneSize * ratio
+  var laneMaxRadius = shape.laneMaxRadius * ratio
+  var laneMinRadius = shape.laneMinRadius * ratio
   var spaceForLanes = laneMaxRadius - laneMinRadius
-  var sizeEachLane = Math.min(maxLaneSize, spaceForLanes / lanes)
-  var marginRadius = ((spaceForLanes - sizeEachLane * lanes)) + laneMinRadius
-  for (var i = 0; i < lanes; i++) {
+  var sizeEachLane = Math.min(maxLaneSize, spaceForLanes / numLanes)
+  var marginRadius = ((spaceForLanes - sizeEachLane * numLanes)) + laneMinRadius
+  for (var i = 0; i < numLanes; i++) {
     shape.lanes.push({
       start: marginRadius + sizeEachLane * i,
       end: marginRadius + sizeEachLane * (i + 1)
@@ -220,14 +221,4 @@ module.exports = function calculateShape(chart, shape) {
   }
 
   return shape
-}
-
-function scaleConfig(config, ratio) {
-  function scaleFn(base, value, key) {
-    if (value > 1 || value < 1 || value === 1) { // if value is a number
-      base[key] = value * ratio
-    }
-  }
-  helpers.deepEach(config, scaleFn)
-  return config
 }
