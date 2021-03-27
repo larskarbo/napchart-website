@@ -10,12 +10,24 @@ import { FaCheck, FaCopy, FaLink } from 'react-icons/fa'
 import { GrNewWindow } from 'react-icons/gr'
 import { WEB_BASE } from '../../../utils/request'
 import useClipboard from 'react-use-clipboard'
+import Button from '../../common/Button'
 
 export const Controls = ({ napchart }) => {
   if (!napchart) {
     return null
   }
-  const { chartid, title, description, dirty, setTitle, setDescription, chartOwner, updateChart } = useChart()
+  const {
+    chartid,
+    title,
+    description,
+    dirty,
+    setTitle,
+    setDescription,
+    chartOwner,
+    updateChart,
+    newChart,
+    isMyChart,
+  } = useChart()
 
   const link = `${WEB_BASE}/${chartid}`
   const [isCopied, setCopied] = useClipboard(link)
@@ -35,20 +47,35 @@ export const Controls = ({ napchart }) => {
             />
           </div> */}
 
-
           <div className="flex justify-between my-4 items-center">
-            <span className="text-gray-500 text-light text-sm">{dirty ? "(Unsaved changes)" : "All changes saved."}</span>
-            <div className="flex">
-              <button className="bbutton-small mr-2" onClick={updateChart}>
-                Save
-              </button>
-              <button className="bbutton-small mr-2">Make copy</button>
-            </div>
+            <span className="text-gray-500 text-light text-sm">
+              {isMyChart ? (
+                <>{dirty ? '(Unsaved changes)' : 'All changes saved.'}</>
+              ) : (
+                <>{dirty ? '' : ''}</>
+              )}
+            </span>
+            {chartid ? (
+              <div className="flex">
+                <Button disabled small className="mr-2" onClick={() => updateChart(napchart.data)}>
+                  Save
+                </Button>
+                <Button small className="mr-2">
+                  Make copy
+                </Button>
+              </div>
+            ) : (
+              <div className="flex">
+                <Button small className="mr-2" onClick={() => newChart(napchart.data)}>
+                  Save to profile
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="my-4">
             <div className="text-xl inline font-bold text-black">
-              {title}
+              {title || "Untitled"}
               {dirty && <span className="text-gray-600">*</span>}
             </div>
           </div>
@@ -59,8 +86,7 @@ export const Controls = ({ napchart }) => {
                 @{chartOwner}
               </Link>
             </div>
-            <div className="flex">
-            </div>
+            <div className="flex"></div>
           </div>
 
           <div className=" my-4 w-full bg-white border border-gray-400">

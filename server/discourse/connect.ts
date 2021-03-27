@@ -7,7 +7,7 @@ const schema = Joi.object({
   sig: Joi.string().min(30).required(),
 })
 
-module.exports = async (req, res) => {
+export const discourseHandler = async (req, res) => {
   const { sso, sig } = req.query
 
   const validate = schema.validate({ sso, sig })

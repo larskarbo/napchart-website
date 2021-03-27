@@ -1,10 +1,14 @@
 // src/playingNow-context.js
-import * as React from 'react'
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { navigate } from 'gatsby'
 import { request } from '../../utils/request'
 import { ChartData } from '../../server/ChartData'
 import { useUser } from '../../auth/user-context'
+import { getErrorMessage } from '../../utils/getErrorMessage';
+import { useMutation } from 'react-query';
+import { getDataForServer } from '../../utils/getDataForServer';
+import NotyfContext from '../common/NotyfContext'
 
 const ChartContext = React.createContext({})
 
@@ -20,6 +24,10 @@ export function ChartProvider({ children, chartid }) {
   const [description, setDescription] = useState(null)
   const [chartData, setChartData] = useState<ChartData | null>(null)
   const [chartOwner, setChartOwner] = useState<string | null>(null)
+
+
+  const notyf = useContext(NotyfContext);
+  
 
   const isMyChart = user && chartOwner == user?.username
 
@@ -51,7 +59,8 @@ export function ChartProvider({ children, chartid }) {
         // this.loadingFinish()
       })
       .catch((err) => {
-        console.log('err: ', err)
+        notyf.error(getErrorMessage(err))
+        console.log('err: ', getErrorMessage(err))
         // this.loadingFinish()
         // this._notify.addNotification({
         //   message: JSON.stringify(err),
@@ -66,8 +75,9 @@ export function ChartProvider({ children, chartid }) {
   const newChart = (chartData: ChartData) => {
     setRequestLoading(true)
     // return
+    console.log('chartData: ', chartData);
     request('POST', `/createChart`, {
-      chartData: chartData,
+      chartData: getDataForServer(chartData),
       metaInfo: {
         title: title,
         description: description,
@@ -75,18 +85,13 @@ export function ChartProvider({ children, chartid }) {
     })
       .then((res) => {
         console.log('res: ', res)
-        // this.onSave(chartid)
-        window.location.href = '/' + res.chartid
-        // this.setState({ chartid: chartid })
-        // this.loadingFinish()
+        setDirty(false)
+        navigate("/" + res.chartid)
       })
       .catch((err) => {
-        console.log('err: ', err)
-        // this.loadingFinish()
-        // this._notify.addNotification({
-        //   message: JSON.stringify(err),
-        //   level: 'error',
-        // })
+
+        notyf.error(getErrorMessage(err))
+        console.log('err: ', getErrorMessage(err))
       })
       .finally(() => {
         setRequestLoading(false)
@@ -106,7 +111,7 @@ export function ChartProvider({ children, chartid }) {
         setTitle,
         setDescription,
         requestLoading,
-        chartData,
+        chartDataSlow: chartData,
         chartOwner,
         dirty,
         setDirty

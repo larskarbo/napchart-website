@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const db = require('../database')
 const { encrypt } = require('./encrypt')
 
-const setPassword = async (req, res) => {
+export const setPassword = async (req, res) => {
   var email = req.body.email
   var token = req.body.token
   var password = req.body.password
@@ -64,4 +64,3 @@ const setPassword = async (req, res) => {
       res.status(400).send({ error: err })
     })
 }
-exports.setPassword = setPassword

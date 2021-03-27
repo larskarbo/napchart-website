@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 var cors = require('cors')
 app.use(
   cors({
@@ -45,7 +46,8 @@ app.use(cookieParser())
 // middleware imports
 const { verify } = require('./verify')
 const { optionalVerify } = require('./optionalVerify')
-
+import { discourseHandler } from './discourse/connect';
+import { createSnapshot } from './charts/createSnapshot';
 // routes imports
 const { login } = require('./user/login')
 const { logout } = require('./user/logout')
@@ -87,12 +89,13 @@ app.post('/registerWithToken', registerWithToken)
 app.post('/setPassword', setPassword)
 app.post('/verifyToken', verifyToken)
 
-app.post('/createChart', optionalVerify, createChart)
+app.post('/createChart', verify, createChart)
+app.post('/createSnapshot', optionalVerify, createSnapshot)
 app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
 
-app.get('/discourse-connect', verify, require('./discourse/connect'))
+app.get('/discourse-connect', verify, discourseHandler)
 
 app.all('/*', (req, res) => {
   return res.status(404).send({
@@ -100,4 +103,4 @@ app.all('/*', (req, res) => {
   })
 })
 
-module.exports = app
+export default app

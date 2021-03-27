@@ -1,9 +1,11 @@
-const db = require('../database')
 
-const getChart = async function (req, res) {
+import { pool } from '../database';
+import { asyncIncrementVisit } from './utils/asyncIncrementVisit';
+
+export const getChart = async function (req, res) {
   const { chartid } = req.params
 
-  db.pool.query('SELECT * FROM charts WHERE chartid = $1', [chartid], (error, results) => {
+  pool.query('SELECT * FROM charts WHERE chartid = $1', [chartid], (error, results) => {
     if (error) {
       throw error
     }
@@ -14,6 +16,9 @@ const getChart = async function (req, res) {
     }
 
     const chart = results.rows[0]
+
+    asyncIncrementVisit(chartid)
+
     return res.send({
       chartData: chart.chart_data,
       chartid: chart.chartid,
@@ -23,5 +28,3 @@ const getChart = async function (req, res) {
     })
   })
 }
-
-exports.getChart = getChart

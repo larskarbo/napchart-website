@@ -1,4 +1,4 @@
-import c from 'classnames'
+import c from 'clsx'
 import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -45,7 +45,7 @@ const getAmpm = (): boolean => {
 }
 
 function App({ pathUsername }) {
-  const { chartid, loading, title, description, chartData, chartOwner, setDirty } = useChart()
+  const { chartid, loading, title, description, chartDataSlow, chartOwner, setDirty } = useChart()
 
   const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
@@ -197,7 +197,7 @@ function App({ pathUsername }) {
             fullHeight
             responsive
             napchartObject={napchartObject}
-            chartData={chartData}
+            chartData={chartDataSlow}
             setGlobalNapchart={setNapchartObject}
             amPm={amPm}
             onUpdate={() => {

@@ -1,40 +1,15 @@
 import React from 'react'
 import Logo from '../common/Logo'
-import c from 'classnames'
+import c from 'clsx'
 import { ChartData } from '../../server/ChartData'
 import { request } from '../../utils/request'
 import { useUser } from '../../auth/user-context'
 import { useChart } from './chart-context'
+import { getDataForServer } from '../../utils/getDataForServer';
 
 export const Header = ({ napchart }) => {
   const { isMyChart, updateChart, requestLoading, newChart } = useChart()
 
-  const getDataForServer = () => {
-    const dataForServer: ChartData = {
-      elements: napchart!.data.elements.map((element) => {
-        return {
-          start: element.start,
-          end: element.end,
-          lane: element.lane,
-          text: element.text,
-          color: element.color,
-        }
-      }),
-      colorTags: napchart!.data.colorTags,
-      shape: napchart!.data.shape,
-      lanes: napchart!.data.lanes,
-      lanesConfig: napchart!.data.lanesConfig,
-    }
-    return dataForServer
-  }
-
-  const update = () => {
-    updateChart(getDataForServer())
-  }
-
-  const save = () => {
-    newChart(getDataForServer())
-  }
 
   return (
     <header

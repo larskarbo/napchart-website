@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const db = require('../database')
 const publicUserObject = require('../utils/publicUserObject')
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
   var email = req.body.email
   var password = req.body.password
   const userValue = (await db.pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
@@ -35,4 +35,3 @@ const login = async (req, res) => {
   res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
   res.send(publicUserObject(userValue))
 }
-exports.login = login

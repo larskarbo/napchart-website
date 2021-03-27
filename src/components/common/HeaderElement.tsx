@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { Link } from 'react-router-dom'
 
 type HeaderElementProps = {

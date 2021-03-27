@@ -1,6 +1,6 @@
 import React from 'react'
 import Napchart from '../../../napchart-canvas/lib/index'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import * as uuid from 'uuid'
 
 export default class Chart extends React.Component {

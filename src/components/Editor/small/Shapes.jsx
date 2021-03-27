@@ -1,5 +1,5 @@
 import React from 'react'
-import c from 'classnames'
+import c from 'clsx'
 
 export default class Chart extends React.Component {
   constructor(props) {

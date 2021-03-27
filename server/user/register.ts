@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken')
+import { requestIp } from 'request-ip'
 const db = require('../database')
 const { encrypt } = require('./encrypt')
 const reserved = require('reserved-usernames')
 
-const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection', 'collections']
+const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection', 'collections', 'snapshot']
 
 const Joi = require('joi')
 const publicUserObject = require('../utils/publicUserObject')
@@ -21,7 +22,7 @@ const schema = Joi.object({
   email: Joi.string().email().required(),
 })
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   const validate = schema.validate({
     username: req.body.username,
     email: req.body.email,
@@ -40,10 +41,11 @@ const register = async (req, res) => {
   const passwordHash = await encrypt(password)
 
   db.pool
-    .query(`INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *`, [
+    .query(`INSERT INTO users (username, email, password_hash, ip) VALUES ($1, $2, $3, $4) RETURNING *`, [
       username,
       email,
       passwordHash,
+      requestIp.getClientIp(req),
     ])
     .then((hey) => {
       //use the payload to store information about the user such as email, user role, etc.
@@ -71,4 +73,3 @@ const register = async (req, res) => {
       res.status(400).send({ message: err.message })
     })
 }
-exports.register = register

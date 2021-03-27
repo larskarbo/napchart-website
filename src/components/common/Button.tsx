@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 
 export default function Button(
   {
@@ -6,11 +7,12 @@ export default function Button(
     disabled=false,
     icon=null,
     children="",
-    className=""
+    className="",
+    small=false
   }
 ) {
   return (
-    <button className={`${className} button`} onClick={disabled ? null : onClick} disabled={disabled}>
+    <button className={clsx(className, "bbutton", small ? "bbutton-small" : "")} onClick={disabled ? null : onClick} disabled={disabled}>
       <div className=" flex items-center">
         {icon && <div className="mr-1">{icon}</div>}
         {children}

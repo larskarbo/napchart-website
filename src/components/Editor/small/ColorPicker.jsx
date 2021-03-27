@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 var colors = {
   red: '#D02516',
   blue: '#4285F4',

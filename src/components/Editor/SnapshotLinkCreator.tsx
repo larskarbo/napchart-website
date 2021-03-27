@@ -1,19 +1,24 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { CgLink } from 'react-icons/cg'
 import { FaCheck, FaCopy, FaLink, FaSpinner } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import useClipboard from 'react-use-clipboard'
 import { WEB_BASE, request } from '../../utils/request'
 import { useChart } from './chart-context'
+import Button from '../common/Button';
+import NotyfContext from '../common/NotyfContext'
+import { getErrorMessage } from '../../utils/getErrorMessage';
+import { getDataForServer } from '../../utils/getDataForServer';
 
-export const SnapshotLinkCreator = () => {
-  const { title, description, chartData } = useChart()
+export const SnapshotLinkCreator = ({napchart}) => {
+  const { title, description } = useChart()
   const [loading, setLoading] = useState(false)
+  const notyf = useContext(NotyfContext);
 
   const mutation = useMutation(
     () => {
-      return request('POST', `/createChart`, {
-        chartData: chartData,
+      return request('POST', `/createSnapshot`, {
+        chartData: getDataForServer(napchart.data),
         metaInfo: {
           title: title,
           description: description,
@@ -23,10 +28,15 @@ export const SnapshotLinkCreator = () => {
     {
       onSuccess: (res) => {
         console.log('res: ', res)
+
         setTimeout(() => {
           mutation.reset()
         }, 10000)
       },
+      onError: (err) => {
+        console.log('errorrrrr: ', err);
+        notyf.error(getErrorMessage(err))
+      }
     },
   )
 
@@ -61,9 +71,8 @@ export const SnapshotLinkCreator = () => {
   }
 
   return (
-    <button onClick={() => mutation.mutate()} className="bbutton-small text-sm">
-      {mutation.isLoading ? <FaSpinner className="ml-1 m-auto" />: <CgLink className="mr-2" /> }
+    <Button icon={mutation.isLoading ? <FaSpinner className="ml-1 m-auto" />: <CgLink className="mr-2" />} onClick={() => mutation.mutate()} small >
       Generate snapshot link
-    </button>
+    </Button>
   )
 }

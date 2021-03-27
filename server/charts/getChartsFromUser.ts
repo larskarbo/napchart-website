@@ -1,6 +1,6 @@
 const db = require('../database')
 
-const getChartsFromUser = async function (req, res) {
+export const getChartsFromUser = async function (req, res) {
   const { username } = req.params
 
   db.pool.query('SELECT * FROM charts WHERE username = $1', [username], (error, results) => {
@@ -24,5 +24,3 @@ const getChartsFromUser = async function (req, res) {
     )
   })
 }
-
-exports.getChartsFromUser = getChartsFromUser

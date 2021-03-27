@@ -1,10 +1,10 @@
 require('dotenv').config()
+import app from './serverRoutes';
+import { pool } from './database';
 
-const app = require('./serverRoutes.js')
 const http = require('http')
 const server = http.createServer(app)
 const PORT = 3200
-const { pool } = require('./database')
 
 server.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`)

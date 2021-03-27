@@ -1,6 +1,6 @@
 const db = require('../database')
 
-const updateChart = async function (req, res) {
+export const updateChart = async function (req, res) {
   const { chartData, title, description } = req.body
   console.log('chartData, title, description: ', chartData, title, description)
   const { chartid } = req.params
@@ -34,5 +34,3 @@ const updateChart = async function (req, res) {
       res.status(400).send({ error: err })
     })
 }
-
-exports.updateChart = updateChart

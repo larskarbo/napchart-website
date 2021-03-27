@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const db = require('../database')
 
-const verifyToken = async (req, res) => {
+export const verifyToken = async (req, res) => {
   var email = req.body.email
   var token = req.body.token
 
@@ -29,4 +29,3 @@ const verifyToken = async (req, res) => {
     success: true,
   })
 }
-exports.verifyToken = verifyToken

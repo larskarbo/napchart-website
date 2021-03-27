@@ -7,20 +7,3 @@ button,
 textarea {
   @apply focus:outline-none;
 }
-
-.center {
-  @apply justify-center items-center;
-}
-
-.bbutton {
-  @apply flex center;
-  @apply border border-gray-200 rounded p-2 px-4;
-  @apply hover:border-gray-400 transition-colors duration-150 hover:shadow-sm;
-}
-
-.bbutton-small {
-  @apply flex center;
-  @apply border border-gray-200 rounded p-1 px-2;
-  @apply hover:border-gray-400 transition-colors duration-150 hover:shadow-sm;
-  @apply text-xs
-}
