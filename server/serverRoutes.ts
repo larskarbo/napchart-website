@@ -1,5 +1,30 @@
-const express = require('express')
+// middleware imports
+import { discourseHandler } from './discourse/connect'
+import { createSnapshot } from './charts/createSnapshot'
+import { publicUserObject } from './utils/publicUserObject'
+import { verify } from './verify'
+import { login } from './user/login'
+import { logout } from './user/logout'
+import { register } from './user/register'
+import { setPassword } from './user/setPassword'
+import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
+import { createChart } from './charts/createChart'
+import { optionalVerify } from './optionalVerify'
+import { updateChart } from './charts/updateChart'
+import { getChart } from './charts/getChart'
+import { getChartsFromUser } from './charts/getChartsFromUser'
+import { pool } from './database'
+
+import express from 'express'
+
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+
+import rateLimit from "express-rate-limit"
+import { forgotPassword } from './user/forgotPassword';
+
 const app = express()
+
 
 var cors = require('cors')
 app.use(
@@ -15,25 +40,7 @@ app.use(
     ],
   }),
 )
-var multer = require('multer')
-var path = require('path')
-const mkdirp = require('mkdirp')
-mkdirp(path.join(__dirname, 'uploads'))
-var fs = require('fs')
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
-  },
-})
-
-var upload = multer({ storage: storage })
-
-var bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 
 app.use(bodyParser.json())
 app.use(
@@ -43,32 +50,12 @@ app.use(
 )
 app.use(cookieParser())
 
-// middleware imports
-const { verify } = require('./verify')
-const { optionalVerify } = require('./optionalVerify')
-import { discourseHandler } from './discourse/connect';
-import { createSnapshot } from './charts/createSnapshot';
-// routes imports
-const { login } = require('./user/login')
-const { logout } = require('./user/logout')
-const { register } = require('./user/register')
-
-const db = require('./database')
-const { registerWithToken } = require('./user/registerWithToken')
-const { setPassword } = require('./user/setPassword')
-const { verifyToken } = require('./user/verifyToken')
-const { createChart } = require('./charts/createChart')
-const { updateChart } = require('./charts/updateChart')
-const { getChart } = require('./charts/getChart')
-const { getChartsFromUser } = require('./charts/getChartsFromUser')
-const publicUserObject = require('./utils/publicUserObject')
-
 app.get('/', async (req, res) => {
   res.send({ status: 'Ok' })
 })
 
 app.get('/users', verify, async (req, res) => {
-  db.pool.query('SELECT * FROM users').then((hey) => {
+  pool.query('SELECT * FROM users').then((hey) => {
     res.send({ users: hey.rows })
   })
 })
@@ -82,15 +69,31 @@ app.get('/getUser', verify, async (req, res) => {
   res.send(publicUserObject(req.user))
 })
 
-app.post('/login', login)
-app.get('/logout', logout)
-app.post('/register', register)
-app.post('/registerWithToken', registerWithToken)
-app.post('/setPassword', setPassword)
-app.post('/verifyToken', verifyToken)
+const mailRateLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 2 // limit each IP to 100 requests per windowMs
+});
 
-app.post('/createChart', verify, createChart)
-app.post('/createSnapshot', optionalVerify, createSnapshot)
+const loginRateLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5 // limit each IP to 100 requests per windowMs
+});
+
+const createRateLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5 // limit each IP to 100 requests per windowMs
+});
+
+app.post('/login', loginRateLimiter, login)
+app.get('/logout', logout)
+app.post('/register', mailRateLimiter, register)
+app.post('/setPassword', setPassword)
+
+app.post('/forgotPassword', mailRateLimiter, forgotPassword)
+app.post('/verifyPasswordResetToken', verifyPasswordResetToken)
+
+app.post('/createChart', createRateLimiter, verify, createChart)
+app.post('/createSnapshot', createRateLimiter, optionalVerify, createSnapshot)
 app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
@@ -99,7 +102,7 @@ app.get('/discourse-connect', verify, discourseHandler)
 
 app.all('/*', (req, res) => {
   return res.status(404).send({
-    message: 'Not found',
+    message: 'Route not found',
   })
 })
 

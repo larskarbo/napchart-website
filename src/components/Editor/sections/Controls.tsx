@@ -11,6 +11,7 @@ import { GrNewWindow } from 'react-icons/gr'
 import { WEB_BASE } from '../../../utils/request'
 import useClipboard from 'react-use-clipboard'
 import Button from '../../common/Button'
+import format from 'date-fns/format'
 
 export const Controls = ({ napchart }) => {
   if (!napchart) {
@@ -27,6 +28,8 @@ export const Controls = ({ napchart }) => {
     updateChart,
     newChart,
     isMyChart,
+    isSnapshot,
+    lastUpdated,
   } = useChart()
 
   const link = `${WEB_BASE}/${chartid}`
@@ -49,17 +52,24 @@ export const Controls = ({ napchart }) => {
 
           <div className="flex justify-between my-4 items-center">
             <span className="text-gray-500 text-light text-sm">
-              {isMyChart ? (
+              {isMyChart && !isSnapshot ? (
                 <>{dirty ? '(Unsaved changes)' : 'All changes saved.'}</>
               ) : (
-                <>{dirty ? '' : ''}</>
+                <>{chartid ? '' : 'Unsaved draft.'}</>
               )}
             </span>
             {chartid ? (
               <div className="flex">
-                <Button disabled small className="mr-2" onClick={() => updateChart(napchart.data)}>
-                  Save
-                </Button>
+                {!isSnapshot && (
+                  <Button
+                    disabled={!dirty || !isMyChart}
+                    small
+                    className="mr-2"
+                    onClick={() => updateChart(napchart.data)}
+                  >
+                    Save
+                  </Button>
+                )}
                 <Button small className="mr-2">
                   Make copy
                 </Button>
@@ -74,20 +84,20 @@ export const Controls = ({ napchart }) => {
           </div>
 
           <div className="my-4">
-            <div className="text-xl inline font-bold text-black">
-              {title || "Untitled"}
-              {dirty && <span className="text-gray-600">*</span>}
-            </div>
+            <input 
+              onChange={(event) => setTitle(event.target.value)} value={title} placeholder="Untitled chart" className="text-xl inline font-bold text-black" />
           </div>
-          <div className="flex justify-between my-4">
-            <div className="">
-              by{' '}
-              <Link className="font-bold" to={`/user/${chartOwner}`}>
-                @{chartOwner}
-              </Link>
+          {chartid && (
+            <div className="flex justify-between my-4">
+              <div className="">
+                {isSnapshot ? 'Snapshot ' : ''}by{' '}
+                <Link className="font-bold" to={`/user/${chartOwner}`}>
+                  @{chartOwner}
+                </Link>
+              </div>
+              <div className="flex"></div>
             </div>
-            <div className="flex"></div>
-          </div>
+          )}
 
           <div className=" my-4 w-full bg-white border border-gray-400">
             {/* <div className="font-bold pb-2">Description:</div> */}
@@ -102,11 +112,15 @@ export const Controls = ({ napchart }) => {
           {chartOwner && chartOwner != 'anonymous' && chartOwner != 'thumbbot' && (
             <div className="text-center my-4">
               <div className="flex justify-center my-4">
-                <button className="bbutton-small mx-1">
+                <Button small className=" mx-1">
                   Link <FaLink className="ml-1 text-gray-600" />{' '}
-                </button>
-                <button className="bbutton-small mx-1">Twitter</button>
-                <button className="bbutton-small mx-1">Reddit</button>
+                </Button>
+                <Button small className=" mx-1">
+                  Twitter
+                </Button>
+                <Button small className=" mx-1">
+                  Reddit
+                </Button>
               </div>
               {/* <div className="my-4 flex flex-row text-xs">
                 <div
@@ -132,9 +146,11 @@ export const Controls = ({ napchart }) => {
               </div>
                */}
               <div className="text-gray-600 mt-2 text-xs">
-                <div>
-                  Last updated at <span className="italic">14. mar 2021</span>
-                </div>
+                {lastUpdated && (
+                  <div>
+                    Last updated <span className="italic">{format(lastUpdated, 'd. MMM yyyy')}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}

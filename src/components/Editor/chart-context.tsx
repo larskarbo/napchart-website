@@ -21,9 +21,11 @@ export function ChartProvider({ children, chartid }) {
   const [requestLoading, setRequestLoading] = useState(false)
   const [dirty, setDirty] = useState(false)
   const [title, setTitle] = useState(null)
+  const [isSnapshot, setIsSnapshot] = useState(null)
   const [description, setDescription] = useState(null)
   const [chartData, setChartData] = useState<ChartData | null>(null)
   const [chartOwner, setChartOwner] = useState<string | null>(null)
+  const [lastUpdated, setLastUpdated] = useState(null)
 
 
   const notyf = useContext(NotyfContext);
@@ -36,10 +38,12 @@ export function ChartProvider({ children, chartid }) {
     request('GET', `/getChart/${chartid}`)
       .then((res) => {
         setTitle(res.title)
+        setLastUpdated(new Date(res.lastUpdated))
         setDescription(res.description)
         setChartData(res.chartData)
         setChartOwner(res.username)
         setLoading(false)
+        setIsSnapshot(res.isSnapshot)
       })
       .catch((err) => {})
   }, [chartid])
@@ -54,6 +58,7 @@ export function ChartProvider({ children, chartid }) {
       .then((res) => {
         console.log('res: ', res)
         setDirty(false)
+        setLastUpdated(new Date())
         // this.onSave(chartid)
         // this.setState({ chartid: chartid })
         // this.loadingFinish()
@@ -107,9 +112,17 @@ export function ChartProvider({ children, chartid }) {
         isMyChart,
         loading,
         title,
+        lastUpdated,
+        isSnapshot,
         description,
-        setTitle,
-        setDescription,
+        setTitle: (title) => {
+          setDirty(true)
+          setTitle(title)
+        },
+        setDescription: (description) => {
+          setDirty(true)
+          setDescription(description)
+        },
         requestLoading,
         chartDataSlow: chartData,
         chartOwner,

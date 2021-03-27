@@ -3,7 +3,7 @@ const db = require('../database')
 export const getChartsFromUser = async function (req, res) {
   const { username } = req.params
 
-  db.pool.query('SELECT * FROM charts WHERE username = $1', [username], (error, results) => {
+  db.pool.query('SELECT * FROM charts WHERE username = $1 AND is_snapshot = false', [username], (error, results) => {
     console.log('results: ', results.rows)
     if (error) {
       throw error

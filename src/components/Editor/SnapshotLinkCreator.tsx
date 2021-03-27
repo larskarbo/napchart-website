@@ -40,7 +40,7 @@ export const SnapshotLinkCreator = ({napchart}) => {
     },
   )
 
-  const link = `${WEB_BASE}/${mutation?.data?.chartid}`
+  const link = `${WEB_BASE}/snapshot/${mutation?.data?.chartid}`
   const [isCopied, setCopied] = useClipboard(mutation.isSuccess ? link : null)
 
   if (mutation.isSuccess) {

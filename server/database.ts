@@ -7,7 +7,3 @@ export const pool = new Pool({
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
 })
-
-export const query = (text, params, callback) => {
-  return pool.query(text, params, callback)
-}

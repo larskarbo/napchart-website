@@ -65,6 +65,10 @@ export default function LoginPage({ location }) {
             <FormElement title={'Password'} type="password" name="password" placeholder="*******" />
 
             <SubmitButton>Log in</SubmitButton>
+
+            <Link to="/auth/forgot-password" className="text-sm ">
+              Forgot password?
+            </Link>
           </form>
         </>
       )}

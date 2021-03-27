@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "node_modules/.bin/ava _tests/**/*.test.js --verbose",
-    "test:watch": "node_modules/.bin/ava --verbose --watch"
+    "test:watch": "node_modules/.bin/ava --verbose --watch",
+    "unused-exports": "ts-unused-exports tsconfig.json --exitWithCount"
   },
   "dependencies": {
     "ava": "^3.14.0",
@@ -17,16 +18,19 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
     "fs-extra": "^9.1.0",
     "joi": "^17.4.0",
     "json-web-token": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "lorem-ipsum": "^2.0.3",
     "lowdb": "^1.0.0",
+    "marked": "^2.0.1",
     "mkdirp": "^1.0.4",
     "multer": "^1.4.2",
     "nanoid": "^3.1.20",
     "nanoid-dictionary": "^4.2.0",
+    "nodemailer": "^6.5.0",
     "p-retry": "^4.4.0",
     "pg": "^8.5.1",
     "query-string": "^6.14.1",
@@ -41,6 +45,7 @@
     "@types/node": "^14.14.36",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
+    "ts-unused-exports": "^7.0.3",
     "typescript": "^4.2.3"
   }
 }

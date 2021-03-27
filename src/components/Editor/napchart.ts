@@ -5,7 +5,7 @@ export interface ChartDocument {
   description?: string
 }
 
-export interface ChartData {
+interface ChartData {
   elements: Element[]
   colorTags: any
   shape: 'circle' | 'wide' | 'line'

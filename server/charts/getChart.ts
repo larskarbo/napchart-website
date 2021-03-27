@@ -25,6 +25,8 @@ export const getChart = async function (req, res) {
       title: chart.title,
       description: chart.description,
       username: chart.username,
+      lastUpdated: chart.updated_at,
+      isSnapshot: chart.is_snapshot
     })
   })
 }

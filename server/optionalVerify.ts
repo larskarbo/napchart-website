@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken')
-const db = require('./database')
 
-exports.optionalVerify = function (req, res, next) {
+import { pool } from './database';
+import jwt from "jsonwebtoken"
+
+export const optionalVerify = function (req, res, next) {
   let accessToken = req.cookies.jwt
 
   //if there is no token stored in cookies, the request is unauthorized
@@ -14,7 +15,7 @@ exports.optionalVerify = function (req, res, next) {
     //use the jwt.verify method to verify the access token
     //throws an error if the token has expired or has a invalid signature
     payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET || 'no secret')
-    db.pool.query('SELECT * FROM users WHERE email = $1', [payload.email], (error, results) => {
+    pool.query('SELECT * FROM users WHERE email = $1', [payload.email], (error, results) => {
       if (error) {
         throw error
       }

@@ -6,7 +6,7 @@ export default function Button(
     onClick=() => {},
     disabled=false,
     icon=null,
-    children="",
+    children=null,
     className="",
     small=false
   }

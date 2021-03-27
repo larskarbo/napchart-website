@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
+import { publicUserObject } from '../utils/publicUserObject';
 const bcrypt = require('bcrypt')
 const db = require('../database')
-const publicUserObject = require('../utils/publicUserObject')
 
 export const login = async (req, res) => {
   var email = req.body.email

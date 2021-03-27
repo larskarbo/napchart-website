@@ -45,7 +45,7 @@ const getAmpm = (): boolean => {
 }
 
 function App({ pathUsername }) {
-  const { chartid, loading, title, description, chartDataSlow, chartOwner, setDirty } = useChart()
+  const { chartid, loading, isSnapshot, title, description, chartDataSlow, chartOwner, setDirty } = useChart()
 
   const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
@@ -56,8 +56,12 @@ function App({ pathUsername }) {
 
   useEffect(() => {
     const urlTitle = title ? slugify(title) + '-' : ''
-    if (chartOwner) {
-      history.replaceState({}, '', `/user/${chartOwner}/chart/${urlTitle}${chartid}`)
+    if(isSnapshot){
+      history.replaceState({}, '', `/snapshot/${chartid}`)
+
+    } else if (chartOwner) {
+      history.replaceState({}, '', `/${chartOwner}/${urlTitle}${chartid}`)
+      // history.replaceState({}, '', `/user/${chartOwner}/chart/${urlTitle}${chartid}`)
       // navigate(`/user/${chartOwner}/chart/${urlTitle}${chartid}`, { replace: true })
     }
   }, [chartOwner, title])

@@ -2,5 +2,8 @@
   "watch": ["."],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "ts-node ./server.ts"
+  "exec": "ts-node ./server.ts",
+  "env": {
+    "NODE_ENV": "development"
+  }
 }

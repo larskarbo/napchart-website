@@ -360,6 +360,8 @@ export default function init(ctx, data: data, config) {
 
   // initialize:
   chart.helpers = helpers
+  
+  chart.shapeIsContinous = true
 
   initShape(chart)
 

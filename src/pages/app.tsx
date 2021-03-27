@@ -7,6 +7,7 @@ import RegisterPage from '../components/Login/RegisterPage'
 import SetPasswordPage from '../components/Login/SetPasswordPage'
 import Profile from '../components/Profile/Profile'
 import DiscourseConnect from '../components/Login/DiscourseConnect'
+import ForgotPasswordPage from '../components/Login/ForgotPasswordPage'
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -26,10 +27,14 @@ export default function App() {
         <LoginRoute component={LoginPage} path="/auth/login" />
         <LoginRoute component={RegisterPage} path="/auth/register" />
         <LoginRoute component={DiscourseConnect} path="/auth/discourse-connect" />
+        <LoginRoute component={SetPasswordPage} path="/auth/set-password" />
+        <LoginRoute component={ForgotPasswordPage} path="/auth/forgot-password" />
         <Editor path="/app" />
         <Profile path="/user/:username" />
         <Editor path="/:chartid" />
-        <Editor path="/user/:username/chart/:titleAndChartid" />
+        <Editor path="/snapshot/:chartid" />
+        <Editor path="/:username/:titleAndChartid" />
+        {/* <Editor path="/user/:username/chart/:titleAndChartid" /> */}
       </Router>
     </>
   )

@@ -1,4 +1,4 @@
-module.exports = (user) => {
+export const publicUserObject = (user) => {
   return {
     email: user.email,
     username: user.username,

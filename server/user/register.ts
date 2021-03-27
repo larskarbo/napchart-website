@@ -1,24 +1,14 @@
-const jwt = require('jsonwebtoken')
 import { requestIp } from 'request-ip'
-const db = require('../database')
-const { encrypt } = require('./encrypt')
-const reserved = require('reserved-usernames')
-
-const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection', 'collections', 'snapshot']
+import { pwSchema, usernameSchema } from './authUtils/userSchema'
+import { publicUserObject } from '../utils/publicUserObject'
+import { pool } from '../database'
+import { encrypt } from './authUtils/encrypt';
+const jwt = require('jsonwebtoken')
 
 const Joi = require('joi')
-const publicUserObject = require('../utils/publicUserObject')
-const usernameSchema = Joi.string()
-  .alphanum()
-  .min(5)
-  .max(30)
-  .invalid(...reserved)
-  .pattern(new RegExp(alsoReserved.join('|'), 'i'), { invert: true, name: 'Reserved usernames' })
-  .required()
-
 const schema = Joi.object({
   username: usernameSchema,
-  password: Joi.string().min(6).required(),
+  password: pwSchema,
   email: Joi.string().email().required(),
 })
 
@@ -40,7 +30,7 @@ export const register = async (req, res) => {
 
   const passwordHash = await encrypt(password)
 
-  db.pool
+  pool
     .query(`INSERT INTO users (username, email, password_hash, ip) VALUES ($1, $2, $3, $4) RETURNING *`, [
       username,
       email,
