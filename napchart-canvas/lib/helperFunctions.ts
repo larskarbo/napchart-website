@@ -22,7 +22,7 @@ export const minutesToHoursMinutes = function (min) {
   }
 }
 
-export const minutesToReadable = function (min, breakpoint=60) {
+export const minutesToReadable = function (min, breakpoint = 60) {
   // extends minutesToHoursMinutes and adds h and m
   var hm
 
@@ -248,7 +248,6 @@ export const deepEach = function (loopable, callback) {
 export const clone = function (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
-
 
 export const uid = (function () {
   var id = 0

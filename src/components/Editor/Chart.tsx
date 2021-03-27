@@ -1,17 +1,26 @@
 import Napchart from '../../../napchart-canvas/lib/index'
 import React, { useEffect, useRef, useState } from 'react'
-import { drawOnly } from '../../../napchart-canvas/lib/drawOnly';
+import { drawOnly } from '../../../napchart-canvas/lib/drawOnly'
 
 let lastData = ''
-export default function Chart({ napchartObject, interactive=true, responsive=false, fullHeight=false, onUpdate, chartData, setGlobalNapchart, amPm }) {
+export default function Chart({
+  napchartObject,
+  interactive = true,
+  responsive = false,
+  fullHeight = false,
+  onUpdate,
+  chartData,
+  setGlobalNapchart,
+  amPm,
+}) {
   const canvasRef = useRef(null)
-  
+
   useEffect(() => {
     if (canvasRef.current) {
       const destroyers = initializeChart(canvasRef.current)
 
       return () => {
-        destroyers.forEach(fn => fn())
+        destroyers.forEach((fn) => fn())
       }
     }
   }, [])
@@ -29,7 +38,6 @@ export default function Chart({ napchartObject, interactive=true, responsive=fal
 
     // })
     // return
-
 
     lastData = JSON.stringify(napchart.data)
 
@@ -50,7 +58,7 @@ export default function Chart({ napchartObject, interactive=true, responsive=fal
   }
 
   return (
-    <div className={`${fullHeight ? "h-screen" : ""}`}>
+    <div className={`${fullHeight ? 'h-screen' : ''}`}>
       <canvas id="asdf" className={`canvas`} ref={canvasRef}>
         A chart
       </canvas>

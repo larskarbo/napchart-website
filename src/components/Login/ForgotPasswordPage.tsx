@@ -1,18 +1,18 @@
-import React, { useContext, useRef, useState } from "react";
-import { request } from "../../utils/request";
-import { FormElement } from "./FormElement";
-import LoginLayout from "./LoginLayout";
-import { SubmitButton } from "./SubmitButton";
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { useMutation } from 'react-query';
-import NotyfContext from "../common/NotyfContext";
+import React, { useContext, useRef, useState } from 'react'
+import { request } from '../../utils/request'
+import { FormElement } from './FormElement'
+import LoginLayout from './LoginLayout'
+import { SubmitButton } from './SubmitButton'
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { useMutation } from 'react-query'
+import NotyfContext from '../common/NotyfContext'
 
 export default function ForgotPasswordPage() {
   const formRef = useRef()
 
   const [submitted, setSubmitted] = useState(false)
   const [msg, setMsg] = useState('')
-  const notyf = useContext(NotyfContext);
+  const notyf = useContext(NotyfContext)
 
   const mutation = useMutation(
     (email) => {
@@ -30,11 +30,11 @@ export default function ForgotPasswordPage() {
         }, 10000)
       },
       onError: (err) => {
-        console.log('errorrrrr: ', err);
+        console.log('errorrrrr: ', err)
         notyf.error(getErrorMessage(err))
         const errorMessage = getErrorMessage(err)
         setMsg(errorMessage)
-      }
+      },
     },
   )
 

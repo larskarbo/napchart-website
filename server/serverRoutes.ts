@@ -20,11 +20,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 
-import rateLimit from "express-rate-limit"
-import { forgotPassword } from './user/forgotPassword';
+import rateLimit from 'express-rate-limit'
+import { forgotPassword } from './user/forgotPassword'
 
 const app = express()
-
 
 var cors = require('cors')
 app.use(
@@ -40,7 +39,6 @@ app.use(
     ],
   }),
 )
-
 
 app.use(bodyParser.json())
 app.use(
@@ -71,18 +69,18 @@ app.get('/getUser', verify, async (req, res) => {
 
 const mailRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 2 // limit each IP to 100 requests per windowMs
-});
+  max: 2, // limit each IP to 100 requests per windowMs
+})
 
 const loginRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5 // limit each IP to 100 requests per windowMs
-});
+  max: 5, // limit each IP to 100 requests per windowMs
+})
 
 const createRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5 // limit each IP to 100 requests per windowMs
-});
+  max: 5, // limit each IP to 100 requests per windowMs
+})
 
 app.post('/login', loginRateLimiter, login)
 app.get('/logout', logout)

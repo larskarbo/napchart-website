@@ -7,7 +7,7 @@ module.exports = function (chart) {
   // should draw distances
 
   chart.shape.lanes.forEach(function (lane, i) {
-    var elementsWithThisLane = chart.data.elements.filter(e => e.lane == i)
+    var elementsWithThisLane = chart.data.elements.filter((e) => e.lane == i)
     if (chart.getLaneConfig(i).locked && elementsWithThisLane.length > 0) {
       drawDistanceToElements(elementsWithThisLane, true)
     } else {
@@ -47,12 +47,12 @@ module.exports = function (chart) {
 
       drawArr.push({
         start: el.end,
-        end: next.start
+        end: next.start,
       })
     })
 
     var radius = lane.start + (lane.end - lane.start) / 3
-    var textRadius = lane.start + (lane.end - lane.start) * 2 / 3
+    var textRadius = lane.start + ((lane.end - lane.start) * 2) / 3
 
     drawArr.forEach(function (element) {
       var distance = helpers.duration(element.start, element.end)
@@ -61,7 +61,7 @@ module.exports = function (chart) {
       if (distance >= 60) {
         var start = helpers.limit(element.start + 15)
         var end = helpers.limit(element.end - 15)
-        var middle = helpers.limit(start + (distance / 2))
+        var middle = helpers.limit(start + distance / 2)
 
         ctx.beginPath()
         // stroke

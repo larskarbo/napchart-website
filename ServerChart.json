@@ -1,96 +1,74 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "ColorTag": {
-            "additionalProperties": false,
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "color",
-                "tag"
-            ],
-            "type": "object"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "ColorTag": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string"
         },
-        "ServerElement": {
-            "additionalProperties": false,
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "end": {
-                    "type": "number"
-                },
-                "lane": {
-                    "type": "number"
-                },
-                "start": {
-                    "type": "number"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "color",
-                "end",
-                "lane",
-                "start",
-                "text"
-            ],
-            "type": "object"
+        "tag": {
+          "type": "string"
         }
+      },
+      "required": ["color", "tag"],
+      "type": "object"
     },
-    "properties": {
-        "colorTags": {
-            "items": {
-                "$ref": "#/definitions/ColorTag"
-            },
-            "type": "array"
+    "ServerElement": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string"
         },
-        "description": {
-            "type": "string"
+        "end": {
+          "type": "number"
         },
-        "elements": {
-            "items": {
-                "$ref": "#/definitions/ServerElement"
-            },
-            "type": "array"
+        "lane": {
+          "type": "number"
         },
-        "lanes": {
-            "type": "number"
+        "start": {
+          "type": "number"
         },
-        "lanesConfig": {
-            "properties": {
-            },
-            "type": "object"
-        },
-        "shape": {
-            "enum": [
-                "circle",
-                "line",
-                "wide"
-            ],
-            "type": "string"
-        },
-        "title": {
-            "type": "string"
+        "text": {
+          "type": "string"
         }
+      },
+      "required": ["color", "end", "lane", "start", "text"],
+      "type": "object"
+    }
+  },
+  "properties": {
+    "colorTags": {
+      "items": {
+        "$ref": "#/definitions/ColorTag"
+      },
+      "type": "array"
     },
-    "required": [
-        "colorTags",
-        "description",
-        "elements",
-        "lanes",
-        "shape",
-        "title"
-    ],
-    "type": "object"
+    "description": {
+      "type": "string"
+    },
+    "elements": {
+      "items": {
+        "$ref": "#/definitions/ServerElement"
+      },
+      "type": "array"
+    },
+    "lanes": {
+      "type": "number"
+    },
+    "lanesConfig": {
+      "properties": {},
+      "type": "object"
+    },
+    "shape": {
+      "enum": ["circle", "line", "wide"],
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    }
+  },
+  "required": ["colorTags", "description", "elements", "lanes", "shape", "title"],
+  "type": "object"
 }
-

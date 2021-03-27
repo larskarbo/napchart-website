@@ -5,15 +5,15 @@ import { useMutation } from 'react-query'
 import useClipboard from 'react-use-clipboard'
 import { WEB_BASE, request } from '../../utils/request'
 import { useChart } from './chart-context'
-import Button from '../common/Button';
+import Button from '../common/Button'
 import NotyfContext from '../common/NotyfContext'
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { getDataForServer } from '../../utils/getDataForServer';
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { getDataForServer } from '../../utils/getDataForServer'
 
-export const SnapshotLinkCreator = ({napchart}) => {
+export const SnapshotLinkCreator = ({ napchart }) => {
   const { title, description } = useChart()
   const [loading, setLoading] = useState(false)
-  const notyf = useContext(NotyfContext);
+  const notyf = useContext(NotyfContext)
 
   const mutation = useMutation(
     () => {
@@ -34,9 +34,9 @@ export const SnapshotLinkCreator = ({napchart}) => {
         }, 10000)
       },
       onError: (err) => {
-        console.log('errorrrrr: ', err);
+        console.log('errorrrrr: ', err)
         notyf.error(getErrorMessage(err))
-      }
+      },
     },
   )
 
@@ -71,7 +71,11 @@ export const SnapshotLinkCreator = ({napchart}) => {
   }
 
   return (
-    <Button icon={mutation.isLoading ? <FaSpinner className="ml-1 m-auto" />: <CgLink className="mr-2" />} onClick={() => mutation.mutate()} small >
+    <Button
+      icon={mutation.isLoading ? <FaSpinner className="ml-1 m-auto" /> : <CgLink className="mr-2" />}
+      onClick={() => mutation.mutate()}
+      small
+    >
       Generate snapshot link
     </Button>
   )

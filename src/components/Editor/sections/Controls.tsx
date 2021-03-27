@@ -84,8 +84,12 @@ export const Controls = ({ napchart }) => {
           </div>
 
           <div className="my-4">
-            <input 
-              onChange={(event) => setTitle(event.target.value)} value={title} placeholder="Untitled chart" className="text-xl inline font-bold text-black" />
+            <input
+              onChange={(event) => setTitle(event.target.value)}
+              value={title}
+              placeholder="Untitled chart"
+              className="text-xl inline font-bold text-black"
+            />
           </div>
           {chartid && (
             <div className="flex justify-between my-4">

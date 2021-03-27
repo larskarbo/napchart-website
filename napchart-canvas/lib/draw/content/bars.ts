@@ -1,9 +1,9 @@
-import { createSegment } from "../../shape/shapeHelpers"
-import { colorMap } from "../canvasHelpers"
-import { chart, InteractionState } from '../../types';
+import { createSegment } from '../../shape/shapeHelpers'
+import { colorMap } from '../canvasHelpers'
+import { chart, InteractionState } from '../../types'
 
 export default function (chart: chart, interactionState?: InteractionState) {
-  const {ctx, config, data, shape} = chart
+  const { ctx, config, data, shape } = chart
 
   // fill
   data.elements.forEach(function (element) {
@@ -14,9 +14,16 @@ export default function (chart: chart, interactionState?: InteractionState) {
     //   ctx.globalAlpha = 0.9
     // }
 
-    createSegment(chart, lane.end - config.paddingLanes, lane.start + config.paddingLanes, element.start, element.end, function () {
-      ctx.fill()
-    })
+    createSegment(
+      chart,
+      lane.end - config.paddingLanes,
+      lane.start + config.paddingLanes,
+      element.start,
+      element.end,
+      function () {
+        ctx.fill()
+      },
+    )
 
     ctx.restore()
   })

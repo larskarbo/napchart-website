@@ -1,48 +1,52 @@
 module.exports = {
   miniCircle: {
-    elements: [{
+    elements: [
+      {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 0 // percent
+        percent: 0, // percent
       },
       {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 0 // percent
-      }
+        percent: 0, // percent
+      },
     ],
-    laneMinRadius: 16
+    laneMinRadius: 16,
   },
   circle: {
-    elements: [{
+    elements: [
+      {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 0 // percent
+        percent: 0, // percent
       },
       {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 0 // percent
-      }
-    ]
+        percent: 0, // percent
+      },
+    ],
   },
   line: {
-    elements: [{
-      type: 'line',
-      percent: 100
-    }],
+    elements: [
+      {
+        type: 'line',
+        percent: 100,
+      },
+    ],
     laneMaxRadius: 60,
     laneMinRadius: 0,
     maxLaneSize: 20,
@@ -50,32 +54,35 @@ module.exports = {
     centerMinutes: 720,
   },
   wide: {
-    elements: [{
+    elements: [
+      {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 100 // percent
+        percent: 100, // percent
       },
       {
         type: 'arc',
-        radians: Math.PI
+        radians: Math.PI,
       },
       {
         type: 'line',
-        percent: 100 // percent
-      }
+        percent: 100, // percent
+      },
     ],
     shift: 0,
     centerMinutes: 1350,
   },
   transitionShape: {
-    elements: [{
-      type: 'arc',
-      radians: Math.PI / 6
-    }]
-  }
+    elements: [
+      {
+        type: 'arc',
+        radians: Math.PI / 6,
+      },
+    ],
+  },
   // smile: {
   //   elements: [
   //     {

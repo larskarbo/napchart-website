@@ -4,7 +4,7 @@ module.exports = function (chart) {
   var config = chart.config
   var lanes = chart.shape.lanes
 
-  if(!config.drawFace){
+  if (!config.drawFace) {
     return
   }
 

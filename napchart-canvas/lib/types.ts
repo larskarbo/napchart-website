@@ -28,12 +28,12 @@ export interface Element {
 export interface InteractionState {
   hoverElement: {
     id: number
-    type: "start" | "end" | "middle"
-  },
+    type: 'start' | 'end' | 'middle'
+  }
   activeElement: {
     id: number
-    type: "start" | "end" | "middle"
+    type: 'start' | 'end' | 'middle'
     positionInElement: number
-  },
+  }
   selectedElement: number
 }

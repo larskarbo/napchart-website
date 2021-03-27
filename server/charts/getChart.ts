@@ -1,6 +1,5 @@
-
-import { pool } from '../database';
-import { asyncIncrementVisit } from './utils/asyncIncrementVisit';
+import { pool } from '../database'
+import { asyncIncrementVisit } from './utils/asyncIncrementVisit'
 
 export const getChart = async function (req, res) {
   const { chartid } = req.params
@@ -26,7 +25,7 @@ export const getChart = async function (req, res) {
       description: chart.description,
       username: chart.username,
       lastUpdated: chart.updated_at,
-      isSnapshot: chart.is_snapshot
+      isSnapshot: chart.is_snapshot,
     })
   })
 }

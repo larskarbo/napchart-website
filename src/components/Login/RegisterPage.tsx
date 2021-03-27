@@ -8,7 +8,7 @@ import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
 import { useUser } from '../../auth/user-context'
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import { getErrorMessage } from '../../utils/getErrorMessage'
 
 export default function RegisterPage({}) {
   const formRef = useRef()
@@ -49,7 +49,7 @@ export default function RegisterPage({}) {
       .catch(async (asdf) => {
         // console.log('asdf: ', );
         setMsg(getErrorMessage(asdf))
-        console.log('asdf: ', asdf.response);
+        console.log('asdf: ', asdf.response)
       })
   }
 

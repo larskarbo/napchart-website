@@ -1,7 +1,6 @@
-import { XYtoInfo } from '../shape/shapeHelpers';
-import { duration, limit, minutesDistance, range } from '../helperFunctions';
-import { isInside } from '../helperFunctions';
-
+import { XYtoInfo } from '../shape/shapeHelpers'
+import { duration, limit, minutesDistance, range } from '../helperFunctions'
+import { isInside } from '../helperFunctions'
 
 /*
  *  interactCanvas

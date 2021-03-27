@@ -5,11 +5,10 @@ import { ChartData } from '../../server/ChartData'
 import { request } from '../../utils/request'
 import { useUser } from '../../auth/user-context'
 import { useChart } from './chart-context'
-import { getDataForServer } from '../../utils/getDataForServer';
+import { getDataForServer } from '../../utils/getDataForServer'
 
 export const Header = ({ napchart }) => {
   const { isMyChart, updateChart, requestLoading, newChart } = useChart()
-
 
   return (
     <header
@@ -18,15 +17,10 @@ export const Header = ({ napchart }) => {
       } transition-colors pl-2 pr-4 flex justify-between items-center`}
     >
       <div className="">
-        <a href="/app">
-          {/* <Logo white height="45" loading={requestLoading} whiteBG /> */}
-          
-        </a>
+        <a href="/app">{/* <Logo white height="45" loading={requestLoading} whiteBG /> */}</a>
       </div>
 
-      <div className="flex">
-
-      </div>
+      <div className="flex"></div>
     </header>
   )
 }

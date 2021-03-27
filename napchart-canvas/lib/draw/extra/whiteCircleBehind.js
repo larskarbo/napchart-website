@@ -5,8 +5,8 @@ module.exports = function (chart, ctx) {
   var lanes = chart.shape.lanes
   var helpers = chart.helpers
 
-  ctx.fillStyle='white'
+  ctx.fillStyle = 'white'
   helpers.createSegment(chart, 0, chart.config.edgeRadius, 0, 1440, function () {
-	  ctx.fill()
-	})
+    ctx.fill()
+  })
 }

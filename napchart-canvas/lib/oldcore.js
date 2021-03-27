@@ -4,8 +4,8 @@ import { fullDraw } from './draw/draw';
  *
  */
 
-const { initShape, changeShape } = require("./shape/shape.ts")
-const { fullDraw, drawFrame, benchmark } = require("./draw/draw.ts")
+const { initShape, changeShape } = require('./shape/shape.ts')
+const { fullDraw, drawFrame, benchmark } = require('./draw/draw.ts')
 
 module.exports = function (Napchart) {
   var helpers = Napchart.helpers
@@ -17,18 +17,18 @@ module.exports = function (Napchart) {
       setHover: function (id, type) {
         this.hoverElement = {
           id,
-          type
+          type,
         }
 
         draw(this)
       },
 
       isHover: function (id, type) {
-        return (this.hoverElement.id == id) && (this.hoverElement.type == type)
+        return this.hoverElement.id == id && this.hoverElement.type == type
       },
 
       isActive: function (id, type) {
-        return (this.activeElement.elementId == id) && (this.activeElement.type == type)
+        return this.activeElement.elementId == id && this.activeElement.type == type
       },
 
       setActive: function (hit) {
@@ -77,7 +77,8 @@ module.exports = function (Napchart) {
           chart.config.penMode &&
           Object.keys(this.hoverElement).length == 0 &&
           Object.keys(this.activeElement).length == 0 &&
-          this.mousePenLocation)
+          this.mousePenLocation
+        )
       },
 
       setShape: function (shape) {},
@@ -87,10 +88,7 @@ module.exports = function (Napchart) {
       initAndAddElements: function (newElements) {
         newElements = verifyAndInitElements(newElements, chart)
 
-        this.data.elements = [
-          ...this.data.elements,
-          ...newElements
-        ]
+        this.data.elements = [...this.data.elements, ...newElements]
 
         this.draw()
       },
@@ -101,7 +99,7 @@ module.exports = function (Napchart) {
           return {
             ...element,
             start: helpers.limit(element.start),
-            end: helpers.limit(element.end)
+            end: helpers.limit(element.end),
           }
         })
         this.data.elements = elements
@@ -111,7 +109,7 @@ module.exports = function (Napchart) {
 
       updateElement: function (changes) {
         // needs id and properties to change
-        this.data.elements = this.data.elements.map(element => {
+        this.data.elements = this.data.elements.map((element) => {
           if (element.id == changes.id) {
             return Object.assign(element, changes)
           }
@@ -123,12 +121,12 @@ module.exports = function (Napchart) {
 
       updateManyElements: function (relativeChanges, ids) {
         // needs id and properties to change
-        this.data.elements = this.data.elements.map(element => {
+        this.data.elements = this.data.elements.map((element) => {
           if (ids.indexOf(element.id) > -1) {
             return {
               ...element,
               start: helpers.limit(element.start + relativeChanges.start),
-              end: helpers.limit(element.end + relativeChanges.end)
+              end: helpers.limit(element.end + relativeChanges.end),
             }
           }
           return element
@@ -138,7 +136,7 @@ module.exports = function (Napchart) {
       },
 
       deleteElement: function (id) {
-        this.data.elements = this.data.elements.filter(e => e.id != id)
+        this.data.elements = this.data.elements.filter((e) => e.id != id)
 
         if (this.isSelected(id)) {
           this.deselect()
@@ -150,7 +148,7 @@ module.exports = function (Napchart) {
       },
 
       emptyLane: function (laneIndex) {
-        this.data.elements = this.data.elements.filter(e => e.lane != laneIndex)
+        this.data.elements = this.data.elements.filter((e) => e.lane != laneIndex)
       },
 
       deleteLane: function (laneIndex) {
@@ -161,13 +159,13 @@ module.exports = function (Napchart) {
         this.emptyLane(laneIndex)
 
         // we need to change all elements in lanes > laneIndex to get the correct lane
-        this.data.elements = this.data.elements.map(el => {
+        this.data.elements = this.data.elements.map((el) => {
           if (el.lane < laneIndex) {
             return el
           }
           return {
             ...el,
-            lane: el.lane - 1
+            lane: el.lane - 1,
           }
         })
 
@@ -180,12 +178,12 @@ module.exports = function (Napchart) {
             return
           }
           if (key == laneIndex) {
-            return console.error("WHAT?? this key should have been deleted")
+            return console.error('WHAT?? this key should have been deleted')
           }
           if (key > laneIndex) {
             // shift one down
             this.data.lanesConfig[laneIndex - 1] = {
-              ...this.data.lanesConfig[laneIndex]
+              ...this.data.lanesConfig[laneIndex],
             }
             delete this.data.lanesConfig[laneIndex]
           }
@@ -195,7 +193,7 @@ module.exports = function (Napchart) {
 
         chart.history.add('Delete lane')
         chart.needFullRedraw = true
-        console.log('initShape: ', initShape);
+        console.log('initShape: ', initShape)
         initShape(chart)
         draw(this)
       },
@@ -213,9 +211,9 @@ module.exports = function (Napchart) {
         const current = this.getLaneConfig(laneIndex)
         this.data.lanesConfig[laneIndex] = {
           // ...this.data.lanesConfig[laneIndex], future when adding more laneconfig options
-          locked: !current.locked
+          locked: !current.locked,
         }
-        
+
         console.log(this.data.lanesConfig[laneIndex])
         chart.needFullRedraw = true
 
@@ -224,7 +222,7 @@ module.exports = function (Napchart) {
 
       getLaneConfig: function (laneIndex) {
         const defaultLaneConfig = {
-          locked: false
+          locked: false,
         }
 
         return {
@@ -243,11 +241,11 @@ module.exports = function (Napchart) {
       },
 
       changeColor: function (id, color) {
-        this.data.elements = this.data.elements.map(e => {
+        this.data.elements = this.data.elements.map((e) => {
           if (e.id == id) {
             return {
               ...e,
-              color: color
+              color: color,
             }
           } else {
             return e
@@ -262,24 +260,23 @@ module.exports = function (Napchart) {
       colorTag: function (color, tag) {
         // 1 delete if tag empty
         if (tag == '') {
-          return this.data.colorTags = this.data.colorTags.filter(t => t.color != color)
+          return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
         }
 
-
         // 2 create if not exist
-        var tagObj = this.data.colorTags.find(t => t.color == color)
+        var tagObj = this.data.colorTags.find((t) => t.color == color)
         if (typeof tagObj == 'undefined') {
           this.data.colorTags.push({
-            color: color
+            color: color,
           })
         }
 
         // 3 change tag value
-        this.data.colorTags = this.data.colorTags.map(t => {
+        this.data.colorTags = this.data.colorTags.map((t) => {
           if (t.color == color) {
             return {
               ...t,
-              tag: tag
+              tag: tag,
             }
           }
           return t
@@ -340,15 +337,15 @@ module.exports = function (Napchart) {
       lanes: 1,
       lanesConfig: {
         1: {
-          locked: false
-        }
-      }
+          locked: false,
+        },
+      },
     }
 
     chart.ctx = ctx
     chart.canvas = ctx.canvas
     chart.unScaledConfig = initConfig(config)
-    
+
     scale(chart)
 
     chart.data = helpers.extend(defaultData, data)
@@ -423,9 +420,8 @@ module.exports = function (Napchart) {
   }
 
   function verifyAndInitElements(elements, chart) {
-    return elements.map(element => {
-      if (typeof element.start === 'undefined' ||
-        typeof element.end === 'undefined') {
+    return elements.map((element) => {
+      if (typeof element.start === 'undefined' || typeof element.end === 'undefined') {
         throw new Err('Start and End properties are required!')
       }
       var element = {
@@ -434,9 +430,9 @@ module.exports = function (Napchart) {
         id: element.id || idGen(),
         lane: element.lane || 0,
         text: element.text || '',
-        color: element.color || chart.config.defaultColor
+        color: element.color || chart.config.defaultColor,
       }
-      if (element.lane > (chart.shape.lanes.length - 1)) {
+      if (element.lane > chart.shape.lanes.length - 1) {
         console.log(`Lane no. ${element.lane} does not exist in this chart.
         Number of lanes: ${chart.shape.lanes.length}`)
       }
@@ -454,7 +450,8 @@ module.exports = function (Napchart) {
     var scaledConfig = helpers.clone(config)
 
     function scaleFn(base, value, key) {
-      if (value > 1 || value < 1 || value === 1) { // if value is a number
+      if (value > 1 || value < 1 || value === 1) {
+        // if value is a number
         base[key] = value * ratio
       }
     }

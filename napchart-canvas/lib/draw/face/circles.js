@@ -3,7 +3,7 @@ module.exports = function (chart) {
   const { ctx } = chart
   var lanes = chart.shape.lanes
 
-  if(!chart.config.drawFace){
+  if (!chart.config.drawFace) {
     return
   }
 

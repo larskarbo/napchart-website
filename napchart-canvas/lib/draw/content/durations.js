@@ -21,7 +21,7 @@ module.exports = function (chart) {
       size: config.fontSize.medium,
       color: 'white',
       background: helpers.colorMap(chart, element.color),
-      roundedCorners: true
+      roundedCorners: true,
     })
 
     ctx.restore()

@@ -7,7 +7,7 @@
 import { clone } from '../helperFunctions'
 import { calculateShape } from './calculateShape'
 import initedShapes from './shapes2'
-import { animateShape } from './animateShape';
+import { animateShape } from './animateShape'
 
 var currentShape
 export const initShape = (chart) => {

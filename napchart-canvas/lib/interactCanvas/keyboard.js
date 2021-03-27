@@ -2,19 +2,18 @@ module.exports = {
   init: function (chart) {
     var parent = chart.canvas.parentElement
 
-    var input = document.createElement("input");
-    input.style.position = 'absolute';
-    input.className = 'hiddenInput';
-    input.style.opacity = 0;
+    var input = document.createElement('input')
+    input.style.position = 'absolute'
+    input.className = 'hiddenInput'
+    input.style.opacity = 0
     input.style.width = '100px'
-    input.style.pointerEvents = 'none';
-    input.style.zIndex = 0;
+    input.style.pointerEvents = 'none'
+    input.style.zIndex = 0
     // hide native blue text cursor on iOS
 
     input.style.top = '0'
 
     input.style.left = '0'
-
 
     input.type = 'text'
 
@@ -26,7 +25,7 @@ module.exports = {
 
     chart.onSetSelected = function (selected) {
       if (!selected) {
-        input.value = ""
+        input.value = ''
         input.blur()
         return 'get out of here'
       }
@@ -37,7 +36,7 @@ module.exports = {
     }
 
     function focusSelected(selected) {
-      var selectedElement = chart.data.elements.find(e => e.id == selected)
+      var selectedElement = chart.data.elements.find((e) => e.id == selected)
       input.value = selectedElement.text
       input.focus()
       positionInput(input, selectedElement)
@@ -46,7 +45,7 @@ module.exports = {
 
         chart.updateElement({
           id: chart.selectedElement,
-          text: value
+          text: value,
         })
       }
     }
@@ -73,10 +72,13 @@ module.exports = {
     // delete key
     document.onkeydown = (evt) => {
       evt = evt || window.event
-      if ((evt.keyCode == 46 || (evt.keyCode == 8 && evt.metaKey)) &&
-        chart.selectedElement && input === document.activeElement) {
+      if (
+        (evt.keyCode == 46 || (evt.keyCode == 8 && evt.metaKey)) &&
+        chart.selectedElement &&
+        input === document.activeElement
+      ) {
         chart.deleteElement(chart.selectedElement)
       }
     }
-  }
+  },
 }

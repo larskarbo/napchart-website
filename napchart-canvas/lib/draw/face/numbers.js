@@ -5,7 +5,7 @@ module.exports = function (chart) {
   var helpers = chart.helpers
   var config = chart.config
 
-  if(!config.drawFace){
+  if (!config.drawFace) {
     return
   }
 
@@ -21,24 +21,23 @@ module.exports = function (chart) {
     if (i == 24 && chart.shapeIsContinous) {
       return
     }
-  	var p = helpers.minutesToXY(chart, i * 60, endLane.end + config.face.numbers.distance)
+    var p = helpers.minutesToXY(chart, i * 60, endLane.end + config.face.numbers.distance)
 
     var text = i
 
-    if(config.ampm){
-      if(text == 0){
+    if (config.ampm) {
+      if (text == 0) {
         text = 'midnight'
       } else if (text < 12) {
         text = text + ' am'
-      } else if(text == 12){
+      } else if (text == 12) {
         text = 'noon'
-      } else if(text > 12){
+      } else if (text > 12) {
         text = text - 12 + ' pm'
       }
     }
 
     ctx.fillText(text, p.x, p.y)
-
   }
 
   ctx.restore()

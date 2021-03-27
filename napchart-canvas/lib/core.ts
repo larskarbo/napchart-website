@@ -343,7 +343,7 @@ export default function init(ctx, data: data, config) {
 
   scale(chart)
 
-  if(chart.config.responsive){
+  if (chart.config.responsive) {
     enableResponsiveness(chart)
   }
 
@@ -360,12 +360,12 @@ export default function init(ctx, data: data, config) {
 
   // initialize:
   chart.helpers = helpers
-  
+
   chart.shapeIsContinous = true
 
   initShape(chart)
 
-  if(chart.config.interaction){
+  if (chart.config.interaction) {
     interactCanvasInit(chart)
   }
 

@@ -2,7 +2,7 @@ import { requestIp } from 'request-ip'
 import { pwSchema, usernameSchema } from './authUtils/userSchema'
 import { publicUserObject } from '../utils/publicUserObject'
 import { pool } from '../database'
-import { encrypt } from './authUtils/encrypt';
+import { encrypt } from './authUtils/encrypt'
 const jwt = require('jsonwebtoken')
 
 const Joi = require('joi')

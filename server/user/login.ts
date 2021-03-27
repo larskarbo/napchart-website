@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-import { publicUserObject } from '../utils/publicUserObject';
+import { publicUserObject } from '../utils/publicUserObject'
 const bcrypt = require('bcrypt')
 const db = require('../database')
 

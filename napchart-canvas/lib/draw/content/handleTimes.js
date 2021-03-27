@@ -27,7 +27,7 @@ module.exports = function (chart) {
       var position = helpers.minutesToXY(chart, element[startOrEnd], radius)
       textHelper.string(helpers.minutesToClock(chart, element[startOrEnd]), position.x, position.y, {
         size: config.fontSize.small,
-        color: config.content.handleTimes.color
+        color: config.content.handleTimes.color,
       })
     })
 

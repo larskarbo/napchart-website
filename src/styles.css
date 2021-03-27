@@ -7,7 +7,6 @@
   @apply border border-gray-200 rounded p-2 px-4;
 }
 
-
 .bbutton-small {
   @apply p-1 px-2;
   @apply text-xs;
@@ -18,5 +17,5 @@
 }
 
 .bbutton:disabled {
-  @apply text-gray-400 cursor-default
+  @apply text-gray-400 cursor-default;
 }

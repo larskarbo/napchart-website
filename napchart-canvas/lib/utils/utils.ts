@@ -47,7 +47,7 @@ export function enableResponsiveness(chart) {
   }, 200)
 
   window.addEventListener('resize', resizeFunction)
-  
+
   chart.destroyers.push(() => {
     window.removeEventListener('resize', resizeFunction)
   })

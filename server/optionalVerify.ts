@@ -1,6 +1,5 @@
-
-import { pool } from './database';
-import jwt from "jsonwebtoken"
+import { pool } from './database'
+import jwt from 'jsonwebtoken'
 
 export const optionalVerify = function (req, res, next) {
   let accessToken = req.cookies.jwt

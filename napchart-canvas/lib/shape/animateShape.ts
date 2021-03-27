@@ -1,6 +1,6 @@
-import { calculateShape } from "./calculateShape"
+import { calculateShape } from './calculateShape'
 
-export function animateShape (chart, shape, newShape, globalProgress, callback) {
+export function animateShape(chart, shape, newShape, globalProgress, callback) {
   var helpers = chart.helpers
 
   // here is how it works:
@@ -24,14 +24,14 @@ export function animateShape (chart, shape, newShape, globalProgress, callback) 
       // we have to make one
       elementFromOldShape = {
         [property]: 0,
-        type: element.type
+        type: element.type,
       }
     }
 
     element.animation = {
       start: elementFromOldShape[property],
       end: element[property],
-      property: property
+      property: property,
     }
   })
 
@@ -49,19 +49,19 @@ export function animateShape (chart, shape, newShape, globalProgress, callback) 
       animation: {
         start: element[property],
         end: 0,
-        property: property
-      }
+        property: property,
+      },
     })
   })
 
   // other animations
   var propsToAnimate = ['shift', 'shiftDown', 'laneMinRadius', 'laneMaxRadius', 'maxLaneSize', 'centerMinutes']
-  newShape.propAnimations = propsToAnimate.map(prop => {
+  newShape.propAnimations = propsToAnimate.map((prop) => {
     return {
       prop,
       start: shape[prop],
       end: newShape[prop],
-      duration: newShape[prop] - shape[prop]
+      duration: newShape[prop] - shape[prop],
     }
   })
 
@@ -69,7 +69,7 @@ export function animateShape (chart, shape, newShape, globalProgress, callback) 
   var startTime = Date.now()
   var endTime = startTime + timeShouldUse
 
-  function every () {
+  function every() {
     var nowTime = Date.now()
     var progress = Math.min(1, (nowTime - startTime) / timeShouldUse)
 
@@ -81,7 +81,7 @@ export function animateShape (chart, shape, newShape, globalProgress, callback) 
     })
 
     // prop animations
-    newShape.propAnimations.forEach(anim => {
+    newShape.propAnimations.forEach((anim) => {
       newShape[anim.prop] = anim.start + anim.duration * progress
     })
 
@@ -105,7 +105,7 @@ export function animateShape (chart, shape, newShape, globalProgress, callback) 
 
   every()
 
-  function applyEasing (progress) {
+  function applyEasing(progress) {
     // return progress
     return helpers.easingEffects.easeInOutQuad(progress)
   }

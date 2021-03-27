@@ -1,10 +1,9 @@
-
 // const bars = require('./content/bars2').default
 
-import bars from "./content/bars"
-import { chart } from '../types';
-import colorTags from './content/colorTags';
-import handles from './content/handles';
+import bars from './content/bars'
+import { chart } from '../types'
+import colorTags from './content/colorTags'
+import handles from './content/handles'
 
 // textHelper
 var textHelper = require('./textHelper')
@@ -12,7 +11,6 @@ var textHelper = require('./textHelper')
 var clear = require('./clear')
 
 var tasks = [
-
   // -- handleTimes
   require('./content/handleTimes'),
   // -- text
@@ -35,11 +33,10 @@ var faceTasks = [
   // -- lines
   require('./face/lines'),
   // -- numbers
-  require('./face/numbers')
+  require('./face/numbers'),
 ]
 
-
-export function fullDraw (chart, noocanvasplease=false) {
+export function fullDraw(chart, noocanvasplease = false) {
   var ctx = chart.ctx
 
   ctx.font = chart.config.fontSize + 'px ' + chart.config.font
@@ -56,8 +53,6 @@ export function fullDraw (chart, noocanvasplease=false) {
     })
 
     drawFrameFunctions(chart)
-
-
   } else {
     chart.ocanvas = document.createElement('canvas')
     chart.ocanvas.width = chart.width
@@ -68,7 +63,7 @@ export function fullDraw (chart, noocanvasplease=false) {
     // please don't get confused by this, you should really
     // just think that there is one chart object to rule
     // them all (each instance)
-    var faceChart = Object.assign({}, chart, {ctx: octx})
+    var faceChart = Object.assign({}, chart, { ctx: octx })
     faceTasks.forEach(function (task) {
       task(faceChart, octx)
     })
@@ -80,13 +75,13 @@ export function fullDraw (chart, noocanvasplease=false) {
 // mini function that draws only the things
 // that usually change
 // (does not update clock-face, settings, shape etc)
-export function drawFrame (chart) {
+export function drawFrame(chart) {
   clear(chart)
 
   drawFrameFunctions(chart)
 }
 
-function drawFrameFunctions (chart: chart) {
+function drawFrameFunctions(chart: chart) {
   if (typeof chart.ocanvas !== 'undefined') {
     chart.ctx.drawImage(chart.ocanvas, 0, 0)
   }
@@ -94,8 +89,6 @@ function drawFrameFunctions (chart: chart) {
   bars(chart)
 
   handles(chart)
-
-
 
   // end
   colorTags(chart)
@@ -105,7 +98,7 @@ function drawFrameFunctions (chart: chart) {
   })
 }
 
-export function benchmark (chart) {
+export function benchmark(chart) {
   var iterations = 1000
   var bigstart = Date.now()
   for (task in tasks) {
@@ -118,5 +111,5 @@ export function benchmark (chart) {
   }
   var bigend = Date.now()
   console.log(`Total: ` + (bigend - bigstart) + ' ms')
-  console.log(`One round: ` + ((bigend - bigstart) / iterations) + ' ms')
+  console.log(`One round: ` + (bigend - bigstart) / iterations + ' ms')
 }

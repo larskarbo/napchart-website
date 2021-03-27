@@ -1,4 +1,4 @@
-import { ChartData } from "../server/ChartData"
+import { ChartData } from '../server/ChartData'
 
 export const getDataForServer = (data) => {
   const dataForServer: ChartData = {

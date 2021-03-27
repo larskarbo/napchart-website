@@ -10,6 +10,6 @@ Napchart.helpers = helpers
 require('./config')(Napchart)
 
 module.exports = {
-    ...Napchart,
-    init: init
+  ...Napchart,
+  init: init,
 }

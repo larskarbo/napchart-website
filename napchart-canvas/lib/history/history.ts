@@ -24,7 +24,7 @@ export default function initHistory() {
         JSON.stringify(history.array[history.currentPointer].snapshot) === JSON.stringify(snapshot)
       ) {
         // return when no change
-        
+
         return
       }
 
@@ -64,7 +64,6 @@ export default function initHistory() {
       return null
     },
     canIGoBack: function (chart, action) {
-      
       const history = chart.history
       if (history.currentPointer > 0) {
         return history.array[history.currentPointer].action

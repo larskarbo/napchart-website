@@ -5,9 +5,9 @@ import { navigate } from 'gatsby'
 import { request } from '../../utils/request'
 import { ChartData } from '../../server/ChartData'
 import { useUser } from '../../auth/user-context'
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { useMutation } from 'react-query';
-import { getDataForServer } from '../../utils/getDataForServer';
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { useMutation } from 'react-query'
+import { getDataForServer } from '../../utils/getDataForServer'
 import NotyfContext from '../common/NotyfContext'
 
 const ChartContext = React.createContext({})
@@ -27,9 +27,7 @@ export function ChartProvider({ children, chartid }) {
   const [chartOwner, setChartOwner] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState(null)
 
-
-  const notyf = useContext(NotyfContext);
-  
+  const notyf = useContext(NotyfContext)
 
   const isMyChart = user && chartOwner == user?.username
 
@@ -80,7 +78,7 @@ export function ChartProvider({ children, chartid }) {
   const newChart = (chartData: ChartData) => {
     setRequestLoading(true)
     // return
-    console.log('chartData: ', chartData);
+    console.log('chartData: ', chartData)
     request('POST', `/createChart`, {
       chartData: getDataForServer(chartData),
       metaInfo: {
@@ -91,10 +89,9 @@ export function ChartProvider({ children, chartid }) {
       .then((res) => {
         console.log('res: ', res)
         setDirty(false)
-        navigate("/" + res.chartid)
+        navigate('/' + res.chartid)
       })
       .catch((err) => {
-
         notyf.error(getErrorMessage(err))
         console.log('err: ', getErrorMessage(err))
       })
@@ -127,7 +124,7 @@ export function ChartProvider({ children, chartid }) {
         chartDataSlow: chartData,
         chartOwner,
         dirty,
-        setDirty
+        setDirty,
       }}
     >
       {children}

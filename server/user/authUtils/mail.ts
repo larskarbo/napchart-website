@@ -1,21 +1,16 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT || "587",
-  secure: false, 
+  port: process.env.SMTP_PORT || '587',
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
-});
+})
 
-export const sendMail = async ({
-    toAddress,
-    subject,
-    body_html,
-    body_text
-}) => {
+export const sendMail = async ({ toAddress, subject, body_html, body_text }) => {
   // Specify the fields in the email.
   let mailOptions = {
     from: process.env.SMTP_FROM,
@@ -23,19 +18,19 @@ export const sendMail = async ({
     subject: subject,
     text: body_text,
     html: body_html,
-  };
+  }
 
   // Send the email.
-  let info = await transporter.sendMail(mailOptions);
+  let info = await transporter.sendMail(mailOptions)
 
-  console.log("Message sent! Message ID: ", info.messageId);
-};
+  console.log('Message sent! Message ID: ', info.messageId)
+}
 
 // verify connection configuration
 transporter.verify(function (error, success) {
   if (error) {
-    console.log(error);
+    console.log(error)
   } else {
-    console.log("Server is ready to take our messages");
+    console.log('Server is ready to take our messages')
   }
-});
+})

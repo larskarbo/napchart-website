@@ -1,4 +1,4 @@
-import Joi from "joi"
+import Joi from 'joi'
 
 const colors = ['red', 'blue', 'brown', 'green', 'gray', 'yellow', 'purple', 'pink']
 export const chartSchema = Joi.object({

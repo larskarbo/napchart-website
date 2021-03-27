@@ -31,7 +31,7 @@ module.exports = function (chart) {
     textHelper.string(element.text, textPosition.x, textPosition.y, {
       size: chart.config.fontSize.small,
       color: 'white',
-      background: helpers.colorMap(chart, element.color)
+      background: helpers.colorMap(chart, element.color),
     })
 
     ctx.restore()

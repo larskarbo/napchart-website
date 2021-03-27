@@ -1,7 +1,8 @@
 # Napchart
+
 [![npm version](https://badge.fury.io/js/napchart.svg)](https://badge.fury.io/js/napchart)
 
-*Drag-and-drop time-planning library using HTML5 and the canvas element. Used by [napchart.com](https://napchart.com/)*
+_Drag-and-drop time-planning library using HTML5 and the canvas element. Used by [napchart.com](https://napchart.com/)_
 
 ![enter image description here](https://larskarbo.no/napchart.PNG)
 
@@ -10,6 +11,7 @@
 You can download the latest version of Napchart from the [GitHub releases](https://github.com/larskarbo/napchart/releases/latest)
 
 To install via npm:
+
 ```bash
 npm install napchart --save
 ```
@@ -20,29 +22,29 @@ It is easy to create a Napchart on your page. All you need is a `canvas` element
 
 ```html
 <div style="width:400px;height:400px">
-	<canvas id="myNapchart"></canvas>
+  <canvas id="myNapchart"></canvas>
 </div>
 <script>
-var ctx = document.getElementById("myNapchart").getContext('2d')
-var myNapchart = Napchart.init(ctx, {
-	// data goes here
-	elements: [{
-		"start":720,
-		"end": 790,
-		"text": "Cool text"
-	},{
-		"start":1420,
-		"end":400
-	}]
-}, {
-	// options go here
-)
+  var ctx = document.getElementById("myNapchart").getContext('2d')
+  var myNapchart = Napchart.init(ctx, {
+  	// data goes here
+  	elements: [{
+  		"start":720,
+  		"end": 790,
+  		"text": "Cool text"
+  	},{
+  		"start":1420,
+  		"end":400
+  	}]
+  }, {
+  	// options go here
+  )
 </script>
 ```
 
 ## Data
 
-The second *data* parameter of `napchart.init` defines what data should initially be drawn to the napchart. The structure is simple like this
+The second _data_ parameter of `napchart.init` defines what data should initially be drawn to the napchart. The structure is simple like this
 
 ```javascript
 var defaultData = {

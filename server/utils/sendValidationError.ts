@@ -5,5 +5,5 @@ const getValidationErrorMessage = (validationError) => {
 }
 
 export const sendValidationError = (res, validationError) => {
-  res.status(422).json({ message: getValidationErrorMessage(validationError) });
-};
+  res.status(422).json({ message: getValidationErrorMessage(validationError) })
+}

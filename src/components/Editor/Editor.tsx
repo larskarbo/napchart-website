@@ -56,9 +56,8 @@ function App({ pathUsername }) {
 
   useEffect(() => {
     const urlTitle = title ? slugify(title) + '-' : ''
-    if(isSnapshot){
+    if (isSnapshot) {
       history.replaceState({}, '', `/snapshot/${chartid}`)
-
     } else if (chartOwner) {
       history.replaceState({}, '', `/${chartOwner}/${urlTitle}${chartid}`)
       // history.replaceState({}, '', `/user/${chartOwner}/chart/${urlTitle}${chartid}`)

@@ -52,10 +52,7 @@ export const forgotPassword = async (req, res) => {
     })
 }
 
-
-
 const makeEmail = (utoken) => {
-  
   const link = `${WEB_BASE}/auth/set-password?utoken=${utoken}`
   const template: string = `
   Hi!

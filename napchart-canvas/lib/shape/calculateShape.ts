@@ -10,11 +10,11 @@
  *
  */
 
-import { limit } from "../helperFunctions"
+import { limit } from '../helperFunctions'
 
-export function calculateShape({config, height, width, baseShapeObject, ratio, numLanes}) {
+export function calculateShape({ config, height, width, baseShapeObject, ratio, numLanes }) {
   // apply defaults
-  var shape = {...baseShapeObject}
+  var shape = { ...baseShapeObject }
 
   /**
    * Find out totalRadians
@@ -67,7 +67,7 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
   // arcs
   shape.elements.forEach(function (element, i) {
     if (element.type === 'arc') {
-      space -= (config.edgeRadius * (element.radians / Math.PI))
+      space -= config.edgeRadius * (element.radians / Math.PI)
     }
   })
 
@@ -103,14 +103,13 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
   })
 
   if (totalMinutes != 1440) {
-    
   }
 
   /**
    * Delete elements that have 0 minutes
    */
 
-  shape.elements = shape.elements.filter(element => element.minutes > 0)
+  shape.elements = shape.elements.filter((element) => element.minutes > 0)
 
   /**
    * Ok, so totalMinutes is now 1440
@@ -132,7 +131,7 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
 
   var center = {
     x: width / 2,
-    y: height / 2
+    y: height / 2,
   }
   shape.elements.forEach(function (element, i) {
     if (i === 0) {
@@ -147,7 +146,7 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
     if (element.type === 'line') {
       element.endPoint = {
         x: element.startPoint.x + Math.cos(element.startAngle) * element.length,
-        y: element.startPoint.y + Math.sin(element.startAngle) * element.length
+        y: element.startPoint.y + Math.sin(element.startAngle) * element.length,
       }
     }
   })
@@ -164,7 +163,7 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
         up: point.y,
         down: point.y,
         left: point.x,
-        right: point.x
+        right: point.x,
       }
     } else {
       if (point.y < limits.up) limits.up = point.y
@@ -193,30 +192,29 @@ export function calculateShape({config, height, width, baseShapeObject, ratio, n
   shape.elements.forEach(function (element, i) {
     element.startPoint = {
       x: element.startPoint.x - shiftLeft,
-      y: element.startPoint.y - shiftUp
+      y: element.startPoint.y - shiftUp,
     }
     element.endPoint = {
       x: element.endPoint.x - shiftLeft,
-      y: element.endPoint.y - shiftUp
+      y: element.endPoint.y - shiftUp,
     }
   })
 
   // create lanes based on how many
   shape.lanes = []
-  
+
   if (typeof numLanes == 'undefined' || numLanes == 0) {
-    
   }
   var maxLaneSize = shape.maxLaneSize * ratio
   var laneMaxRadius = shape.laneMaxRadius * ratio
   var laneMinRadius = shape.laneMinRadius * ratio
   var spaceForLanes = laneMaxRadius - laneMinRadius
   var sizeEachLane = Math.min(maxLaneSize, spaceForLanes / numLanes)
-  var marginRadius = ((spaceForLanes - sizeEachLane * numLanes)) + laneMinRadius
+  var marginRadius = spaceForLanes - sizeEachLane * numLanes + laneMinRadius
   for (var i = 0; i < numLanes; i++) {
     shape.lanes.push({
       start: marginRadius + sizeEachLane * i,
-      end: marginRadius + sizeEachLane * (i + 1)
+      end: marginRadius + sizeEachLane * (i + 1),
     })
   }
 
