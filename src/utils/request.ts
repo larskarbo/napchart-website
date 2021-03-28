@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { isLocal } from '../components/common/isLocal'
 
+export const isNode = typeof window == "undefined"
+
 const BASE = isLocal() ? `http://localhost:3200` : `https://api.napchart.com`
 export const WEB_BASE = isLocal() ? `http://localhost:8000` : `https://napchart.com`
 
