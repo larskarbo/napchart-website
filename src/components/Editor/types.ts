@@ -3,11 +3,14 @@ export interface ChartDocument {
   chartid: string
   title?: string
   description?: string
+  isSnapshot: boolean
+  lastUpdated: Date
+  username: string
 }
 
-interface ChartData {
+export interface ChartData {
   elements: Element[]
-  colorTags: any
+  colorTags: ColorTag[]
   shape: 'circle' | 'wide' | 'line'
   lanes: number
   lanesConfig: {}
@@ -21,4 +24,10 @@ interface Element {
   color: string
   id: number
   duration: number
+}
+
+
+interface ColorTag {
+  color: string
+  tag: string
 }

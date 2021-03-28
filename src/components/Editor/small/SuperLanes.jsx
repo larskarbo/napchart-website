@@ -1,5 +1,6 @@
 import React from 'react'
 import c from 'clsx'
+import Button from '../../common/Button';
 
 export default class extends React.Component {
   render() {
@@ -15,43 +16,39 @@ export default class extends React.Component {
     var lanes = laneIndexes.map((index) => {
       var laneConfig = napchart.getLaneConfig(index)
       return (
-        <div className="field domLane fullWidth" key={index}>
-          <div className="level is-mobile">
-            <div className="level-left">
+        <div className="" key={index}>
+          <div className="flex justify-between">
+            <div className="py-2">
               <p>
                 {index + 1}  {this.duration(index)}
               </p>
             </div>
-            <div className="level-right">
-              <div className="level-item">
-                <button
+            <div className="flex py-2">
+                <Button small
                   onClick={napchart.toggleLockLane.bind(napchart, index)}
-                  className={c('button is-small', { 'is-active': laneConfig.locked, 'is-dark': laneConfig.locked })}
+                  className={c("mr-2", laneConfig.locked && "bg-gray-800 text-white")}
                 >
                   Lock
-                </button>
-              </div>
-              <div className="level-item">
-                <button
+                </Button>
+                <Button small
                   onClick={napchart.deleteLane.bind(napchart, index)}
-                  className="button is-small"
+                  className=""
                   disabled={napchart.data.lanes == 1}
                 >
                   Delete
-                </button>
-              </div>
+                </Button>
             </div>
           </div>
         </div>
       )
     })
     return (
-      <div className="field SuperLanes">
-        <p className="field title is-6">Lanes:</p>
-        <div className="field">{lanes}</div>
-        <button onClick={() => napchart.addLane(napchart)} className="button is-small">
+      <div className="">
+        <p className="text-lg font-medium">Lanes:</p>
+        <div className="">{lanes}</div>
+        <Button small onClick={() => napchart.addLane(napchart)}>
           Add lane +
-        </button>
+        </Button>
       </div>
     )
   }

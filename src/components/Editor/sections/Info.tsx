@@ -15,44 +15,28 @@ export const Info: FunctionComponent<InfoProps> = ({ setAmpm, ampm }) => {
   }
 
   return (
-    <div className="Info">
+    <div className="text-sm pt-16">
       <div className="part">
-        <div className="field">
+        <div className="my-2">
           <p>Napchart is a time planning tool that helps you visualize time around a 24 hour clock.</p>
         </div>
 
-        <div className="field">
+        <div className="my-2">
           <p>
             <strong>Create element:</strong> Click on an empty space on the chart and drag
           </p>
         </div>
-        <div className="field">
+        <div className="my-2">
           <p>
             <strong>Delete element:</strong> Set duration to zero or press <kbd>delete</kbd> or <kbd>⌘-⌫</kbd>
           </p>
         </div>
       </div>
       <Feedback />
-      <div className="part">
-        <h2 className="title is-6">Contribute</h2>
-        <p className="field">Napchart is open-source and hackable. Check out the projects on GitHub 🌟</p>
-        <p className="field">
-          <a target="_blank" href="https://github.com/larskarbo/napchart-website">
-            <strong>napchart-website</strong>
-          </a>{' '}
-          on GitHub
-        </p>
-        <p className="field">
-          <a target="_blank" href="https://github.com/larskarbo/napchart">
-            <strong>napchart</strong>
-          </a>{' '}
-          on GitHub
-        </p>
-      </div>
-      <div className="part">
-        <label className="label">Time format</label>
-        <div className="control">
-          <label className="radio">
+      <div className="part my-8">
+        <label className="label my-2">Time format</label>
+        <div className="control my-2">
+          <label className="radio mr-2">
             <input type="radio" name="answer" onChange={changeAmpm.bind(null, true)} checked={ampm} />
             <span> AM/PM</span>
           </label>

@@ -22,6 +22,7 @@ import cookieParser from 'cookie-parser'
 
 import rateLimit from 'express-rate-limit'
 import { forgotPassword } from './user/forgotPassword'
+import { deleteChart } from './charts/deleteChart';
 
 const app = express()
 
@@ -94,6 +95,7 @@ app.post('/createChart', createRateLimiter, verify, createChart)
 app.post('/createSnapshot', createRateLimiter, optionalVerify, createSnapshot)
 app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
+app.delete('/deleteChart/:chartid', verify, deleteChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
 
 app.get('/discourse-connect', verify, discourseHandler)

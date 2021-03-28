@@ -34,6 +34,7 @@
     "gatsby-transformer-sharp": "^3.0.0",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.21",
+    "mui-modal-provider": "^1.3.8",
     "notyf": "^3.9.0",
     "postcss": "^8.2.8",
     "react": "^17.0.1",
@@ -51,6 +52,7 @@
     "tailwindcss": "^2.0.3",
     "typescript": "^4.2.3",
     "use-before-unload": "^1.0.1",
+    "use-click-outside": "^2.0.0",
     "use-onclickoutside": "^0.3.1",
     "uuid": "^8.3.2"
   },

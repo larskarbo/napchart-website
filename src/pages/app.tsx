@@ -8,6 +8,7 @@ import SetPasswordPage from '../components/Login/SetPasswordPage'
 import Profile from '../components/Profile/Profile'
 import DiscourseConnect from '../components/Login/DiscourseConnect'
 import ForgotPasswordPage from '../components/Login/ForgotPasswordPage'
+import { navigate } from 'gatsby-link';
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -29,9 +30,10 @@ export default function App() {
         <LoginRoute component={DiscourseConnect} path="/auth/discourse-connect" />
         <LoginRoute component={SetPasswordPage} path="/auth/set-password" />
         <LoginRoute component={ForgotPasswordPage} path="/auth/forgot-password" />
-        <Editor path="/app" />
+        <New path="/new" />
+        <Editor path="/app" isApp={true} />
         <Profile path="/user/:username" />
-        <Editor path="/:chartid" />
+        <Editor path="/:oldchartid" />
         <Editor path="/snapshot/:chartid" />
         <Editor path="/:username/:titleAndChartid" />
         {/* <Editor path="/user/:username/chart/:titleAndChartid" /> */}
@@ -39,6 +41,8 @@ export default function App() {
     </>
   )
 }
+
+
 const LoginRoute = ({ component: Component, ...rest }) => {
   // const { isAuthenticated } = useUser()
   // if (isAuthenticated) {
@@ -50,11 +54,19 @@ const LoginRoute = ({ component: Component, ...rest }) => {
 
 const NotFound = () => <div>not found</div>
 
+const New = () => {
+
+  useEffect(() => {
+    navigate("/app", {replace:true})
+  },[])
+  return <div>Making new</div>
+}
+
 const LogOut = () => {
   const { logoutUser } = useUser()
 
   useEffect(() => {
     logoutUser()
-  })
+  },[])
   return <div>Logged out</div>
 }

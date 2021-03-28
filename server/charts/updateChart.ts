@@ -27,10 +27,6 @@ export const updateChart = async function (req, res) {
     })
     .catch((err) => {
       console.log('err: ', err)
-      if (err?.constraint == 'users_chartid_key') {
-        res.status(400).send({ message: 'Chartid already exists' })
-        return
-      }
       res.status(400).send({ error: err })
     })
 }

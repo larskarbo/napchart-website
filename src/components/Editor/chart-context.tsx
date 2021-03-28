@@ -1,52 +1,59 @@
 // src/playingNow-context.js
-import React from 'react'
-import { useState, useEffect, useContext } from 'react'
 import { navigate } from 'gatsby'
-import { request } from '../../utils/request'
-import { ChartData } from '../../server/ChartData'
+import React, { useContext, useEffect, useState } from 'react'
 import { useUser } from '../../auth/user-context'
-import { getErrorMessage } from '../../utils/getErrorMessage'
-import { useMutation } from 'react-query'
 import { getDataForServer } from '../../utils/getDataForServer'
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { request } from '../../utils/request'
 import NotyfContext from '../common/NotyfContext'
+import { getProperLink } from './Editor'
+import { ChartData, ChartDocument } from './types'
 
 const ChartContext = React.createContext({})
 
 // const spotifyOriginal = new Spotify()
 
-export function ChartProvider({ children, chartid }) {
+export function ChartProvider({ children, chartid, initialData }) {
   const { user } = useUser()
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialData)
   const [requestLoading, setRequestLoading] = useState(false)
-  const [dirty, setDirty] = useState(false)
+  const [dirty, setDirty] = useState(initialData && !chartid)
+  const [chartDocument, setChartDocument] = useState<ChartDocument | null>(initialData)
   const [title, setTitle] = useState(null)
-  const [isSnapshot, setIsSnapshot] = useState(null)
   const [description, setDescription] = useState(null)
-  const [chartData, setChartData] = useState<ChartData | null>(null)
-  const [chartOwner, setChartOwner] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState(null)
 
   const notyf = useContext(NotyfContext)
 
-  const isMyChart = user && chartOwner == user?.username
+  const isMyChart = user && chartDocument?.username == user?.username
+  console.log('chartDocument?.username: ', chartDocument?.username)
 
   useEffect(() => {
-    setLoading(true)
-    request('GET', `/getChart/${chartid}`)
-      .then((res) => {
-        setTitle(res.title)
-        setLastUpdated(new Date(res.lastUpdated))
-        setDescription(res.description)
-        setChartData(res.chartData)
-        setChartOwner(res.username)
-        setLoading(false)
-        setIsSnapshot(res.isSnapshot)
-      })
-      .catch((err) => {})
-  }, [chartid])
+    if (chartid && !initialData) {
+      setLoading(true)
+      request('GET', `/getChart/${chartid}`)
+        .then((res) => {
+          console.log('res: ', res)
+          setChartDocument(res)
+          setLoading(false)
+        })
+        .catch((err) => {
+          if(err?.response?.status == 404)(
+            navigate("/404", {replace:true})
+          )
 
-  const updateChart = () => {
+        })
+    }
+  }, [chartid, initialData])
+
+  useEffect(() => {
+    setTitle(chartDocument?.title)
+    setDescription(chartDocument?.description)
+    setLastUpdated(chartDocument?.lastUpdated ? new Date(chartDocument?.lastUpdated) : null)
+  }, [chartDocument])
+
+  const updateChart = (chartData: ChartData) => {
     setRequestLoading(true)
     request('POST', `/updateChart/${chartid}`, {
       chartData: chartData,
@@ -54,7 +61,6 @@ export function ChartProvider({ children, chartid }) {
       description: description,
     })
       .then((res) => {
-        console.log('res: ', res)
         setDirty(false)
         setLastUpdated(new Date())
         // this.onSave(chartid)
@@ -63,7 +69,7 @@ export function ChartProvider({ children, chartid }) {
       })
       .catch((err) => {
         notyf.error(getErrorMessage(err))
-        console.log('err: ', getErrorMessage(err))
+
         // this.loadingFinish()
         // this._notify.addNotification({
         //   message: JSON.stringify(err),
@@ -78,7 +84,7 @@ export function ChartProvider({ children, chartid }) {
   const newChart = (chartData: ChartData) => {
     setRequestLoading(true)
     // return
-    console.log('chartData: ', chartData)
+
     request('POST', `/createChart`, {
       chartData: getDataForServer(chartData),
       metaInfo: {
@@ -86,14 +92,19 @@ export function ChartProvider({ children, chartid }) {
         description: description,
       },
     })
-      .then((res) => {
+      .then((res: ChartDocument) => {
         console.log('res: ', res)
+
         setDirty(false)
-        navigate('/' + res.chartid)
+        navigate(getProperLink(res.username, res.title, res.chartid), {
+          state: {
+            initialChartDocument: res,
+          },
+        })
       })
       .catch((err) => {
+        console.log('err: ', err.response);
         notyf.error(getErrorMessage(err))
-        console.log('err: ', getErrorMessage(err))
       })
       .finally(() => {
         setRequestLoading(false)
@@ -105,12 +116,14 @@ export function ChartProvider({ children, chartid }) {
       value={{
         updateChart,
         newChart,
+        setChartDocument,
         chartid,
         isMyChart,
         loading,
         title,
         lastUpdated,
-        isSnapshot,
+        chartDocument: chartDocument,
+        isSnapshot: chartDocument?.isSnapshot,
         description,
         setTitle: (title) => {
           setDirty(true)
@@ -121,10 +134,12 @@ export function ChartProvider({ children, chartid }) {
           setDescription(description)
         },
         requestLoading,
-        chartDataSlow: chartData,
-        chartOwner,
+        chartDataSlow: chartDocument?.chartData,
+        chartOwner: chartDocument?.username,
         dirty,
         setDirty,
+        clear: () => setChartDocument(null),
+        readOnly: chartid && (!isMyChart || chartDocument?.isSnapshot),
       }}
     >
       {children}
@@ -133,7 +148,7 @@ export function ChartProvider({ children, chartid }) {
 }
 
 export function useChart() {
-  const context = React.useContext(ChartContext)
+  const context: any = React.useContext(ChartContext)
   if (context === undefined) {
     throw new Error('useChart must be used within a ChartProvider')
   }

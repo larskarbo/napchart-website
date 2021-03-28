@@ -34,13 +34,8 @@ export function retinaScale(chart) {
 }
 
 export function enableResponsiveness(chart) {
-  var canvas = chart.canvas
-  console.log('canvas: ', canvas)
-  var parent = chart.canvas.parentNode
-  console.log('parent: ', parent)
-
   const resizeFunction = debounce(() => {
-    console.log('resizing')
+    
     scale(chart)
     initShape(chart)
     fullDraw(chart)

@@ -3,6 +3,7 @@ import React from 'react'
 import Logo from '../components/common/Logo'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
+import Button from '../components/common/Button'
 
 const TITLE = 'Napchart - Polyphasic Sleep Planner Calculator'
 const DESCRIPTION =
@@ -18,7 +19,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="bg-yellow-50">
         <Helmet>
           <meta property="og:url" content={URL} />
           <link rel="canonical" href={URL} />
@@ -37,104 +38,23 @@ export default class extends React.Component {
           <meta name="twitter:creator" content={'larskarbo'} />
         </Helmet>
 
-        <section className="section hero is-dark is-bold is-fullheight">
-          <div className="hero-body">
-            <div className="column has-text-centered">
-              <div className="bigLogo">
-                <Logo noInteraction logoText="Napchart" height="150" />
-              </div>
-            </div>
-          </div>
-          <div className="hero-foot">
+        <section className="min-h-screen w-full flex flex-col justify-center items-center">
+          <Logo logoText="Napchart" height="200" />
+          <div className="text-3xl">Napchart</div>
+          <div className="text-sm my-2">24H Time visualizer</div>
+          <div className="my-32">
             <Link to="/app">
-              <Logo white noInteraction logoText="GO TO APP" height="45" />
+              <Button>Enter</Button>
             </Link>
           </div>
         </section>
 
-        <section className="section hero is-light">
-          <div className="hero-body">
-            <div className="container">
-              <div className="columns">
-                <div className="column has-text-centered">
-                  <h1 className="title is-3">Visualize complex time schedules</h1>
 
-                  <video src="/chartvideo.mp4" poster="/chartvideothumb.png" autoPlay loop muted></video>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section hero is-warning">
-          <div className="hero-body">
-            <div className="container">
-              <div className="columns">
-                <div className="column has-text-centered vertical-align-center">
-                  <h2 className="title is-4">Ultimate sharing experience</h2>
-                  <p>Save a chart with one click, and share the unique link with the world.</p>
-                </div>
-                <div className="column has-text-centered">
-                  <img src="/save.png" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section hero is-light">
-          <div className="hero-body">
-            <div className="container">
-              <div className="columns rtl">
-                <div className="column has-text-centered vertical-align-center">
-                  <h2 className="title is-2">Experiment with polyphasic sleep</h2>
-                  <p>
-                    Napchart has over 20 polyphasic sleep presets and is often used by the community to share, discuss
-                    and plan schedules
-                  </p>
-                </div>
-                <div className="column has-text-centered">
-                  <img src="/polyphasic.png" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section hero is-dark">
-          <div className="hero-body">
-            <div className="container has-text-centered">
-              <a href="/app" className="button">
-                <Logo whiteBG noInteraction logoText="GO TO APP" height="45" />
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-foot">
-            <div className="container has-text-centered">
-              <p>
-                <a target="_blank" href="fjdi">
-                  <strong>napchart-website</strong>
-                </a>{' '}
-                on GitHub
-              </p>
-              <p>
-                <a target="_blank" href="fjdi">
-                  <strong>napchart</strong>
-                </a>{' '}
-                on GitHub
-              </p>
-              <p>
-                {/* <a target="_blank" href="https://drowzee.com/waking-up-middle-of-night/">
-                  <strong>Waking up in the middle of the night?</strong>
-                </a> */}
-              </p>
-              <p>
-                🌟 Copyright 2013-2021 <a href="https://larskarbo.no/">Lars Karbo</a> 🌟
-              </p>
-            </div>
-          </div>
-        </section>
+        <div className="flex justify-center">
+          <p>
+            🌟 Copyright 2013-2023 <a className="underline text-black" href="https://larskarbo.no/">Lars Karbo</a> 🌟
+          </p>
+        </div>
       </div>
     )
   }

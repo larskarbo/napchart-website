@@ -1,5 +1,6 @@
 import React from 'react'
-import classNames from 'clsx'
+import clsx from 'clsx'
+import { FaCheck } from 'react-icons/fa'
 var colors = {
   red: '#D02516',
   blue: '#4285F4',
@@ -23,18 +24,17 @@ export default class ColorPicker extends React.Component {
   render() {
     var colorsArray = Object.keys(colors)
     var dom = colorsArray.map((color) => (
-      <div
-        className={classNames('color', 'napchartDontLoseFocus', {
-          active: color == this.props.activeColor,
-        })}
+      <button
+        className={clsx('napchartDontLoseFocus flex center text-white text-xs flex-1 rounded-full h-8 mx-1 border-2', color == this.props.activeColor ? "border-black border-opacity-20 shadow" : "border-transparent")}
+        style={{
+          backgroundColor: colors[color]
+        }}
         key={color}
-        onClick={this.props.onClick.bind(null, color)}
+        onClick={() => this.props.onClick(color)}
       >
-        <svg viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill={colors[color]} />
-        </svg>
-      </div>
+        {color == this.props.activeColor && <FaCheck />}
+      </button>
     ))
-    return <div className="ColorPicker">{dom}</div>
+    return <div className="flex">{dom}</div>
   }
 }

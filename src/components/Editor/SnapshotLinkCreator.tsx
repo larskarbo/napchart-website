@@ -3,15 +3,51 @@ import { CgLink } from 'react-icons/cg'
 import { FaCheck, FaCopy, FaLink, FaSpinner } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import useClipboard from 'react-use-clipboard'
-import { WEB_BASE, request } from '../../utils/request'
-import { useChart } from './chart-context'
-import Button from '../common/Button'
-import NotyfContext from '../common/NotyfContext'
-import { getErrorMessage } from '../../utils/getErrorMessage'
 import { getDataForServer } from '../../utils/getDataForServer'
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { request, WEB_BASE } from '../../utils/request'
+import Button from '../common/Button'
+import { ModalContext } from '../common/ModalContext'
+import NotyfContext from '../common/NotyfContext'
+import Chart from './Chart'
+import { useChart } from './chart-context'
+
+const SnapshotModal = ({ chartid, data }) => {
+  const link = `${WEB_BASE}/snapshot/${chartid}`
+  const [isCopied, setCopied] = useClipboard(link)
+
+  return (
+    <div className="">
+      <div className="w-32 my-4">
+        <div className="w-full relative" style={{ paddingBottom: '100%' }}>
+          <div className="absolute left-0 right-0 top-0 bottom-0">
+            <Chart interactive={false} chartData={{...data}} />
+          </div>
+        </div>
+      </div>
+      <div className="my-4">This link points to this excact snapshot of the chart:</div>
+      <div className="flex flex-row max-w-md text-xs my-4">
+        <input
+          className="text-xs p-2 border-0 border-t border-b border-l rounded-l flex flex-grow"
+          type=""
+          value={link}
+          onChange={() => {}}
+        />
+        <button
+          onClick={setCopied}
+          className="bg-white p-2 flex flex-row text-gray-500
+  border-t border-b border-r border-l rounded-r text-xs"
+        >
+          copy link {isCopied ? <FaCheck className="ml-1 m-auto" /> : <FaCopy className="ml-1 m-auto" />}
+        </button>
+      </div>
+    </div>
+  )
+}
 
 export const SnapshotLinkCreator = ({ napchart }) => {
-  const { title, description } = useChart()
+  const { title, description, readOnly } = useChart()
+  let { handleModal } = React.useContext(ModalContext)
   const [loading, setLoading] = useState(false)
   const notyf = useContext(NotyfContext)
 
@@ -29,6 +65,11 @@ export const SnapshotLinkCreator = ({ napchart }) => {
       onSuccess: (res) => {
         console.log('res: ', res)
 
+        handleModal({
+          title: 'Snapshot link',
+          content: <SnapshotModal chartid={res.chartid} data={napchart.data} />,
+        })
+
         setTimeout(() => {
           mutation.reset()
         }, 10000)
@@ -40,34 +81,8 @@ export const SnapshotLinkCreator = ({ napchart }) => {
     },
   )
 
-  const link = `${WEB_BASE}/snapshot/${mutation?.data?.chartid}`
-  const [isCopied, setCopied] = useClipboard(mutation.isSuccess ? link : null)
-
-  if (mutation.isSuccess) {
-    return (
-      <div className="flex flex-row max-w-md text-xs">
-        <div
-          className="bg-gray-100 p-2 flex flex-row text-gray-500
-              border-t border-b border-l rounded-l
-              "
-        >
-          Snapshot <FaLink className="ml-1 m-auto" />{' '}
-        </div>
-        <input
-          className="text-xs p-2 border-0 border-t border-b flex flex-grow"
-          type=""
-          value={link}
-          onChange={() => {}}
-        />
-        <button
-          onClick={setCopied}
-          className="bg-white p-2 flex flex-row text-gray-500
-              border-t border-b border-r border-l rounded-r text-xs"
-        >
-          copy {isCopied ? <FaCheck className="ml-1 m-auto" /> : <FaCopy className="ml-1 m-auto" />}
-        </button>
-      </div>
-    )
+  if (readOnly) {
+    return null
   }
 
   return (

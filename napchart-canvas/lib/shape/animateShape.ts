@@ -1,4 +1,5 @@
 import { calculateShape } from './calculateShape'
+import { fullDraw } from '../draw/draw';
 
 export function animateShape(chart, shape, newShape, globalProgress, callback) {
   var helpers = chart.helpers
@@ -93,8 +94,7 @@ export function animateShape(chart, shape, newShape, globalProgress, callback) {
       height: chart.height,
       numLanes: chart.data.lanes,
     })
-    chart.needFullRedraw = true
-    chart.draw()
+    fullDraw(chart)
 
     if (progress < 1) {
       window.requestAnimationFrame(every)

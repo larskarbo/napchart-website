@@ -7,3 +7,7 @@ export const pool = new Pool({
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
 })
+
+export const queryOne = async (...props) => {
+  return (await pool.query(...props))?.rows?.[0]
+}

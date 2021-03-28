@@ -11,13 +11,15 @@ import { draw, initConfig, scale, verifyAndInitElements, enableResponsiveness } 
 import { chart } from './types'
 import initHistory from './history/history'
 
-const { initShape, changeShape } = require('./shape/shape.ts')
-const { fullDraw, drawFrame, benchmark } = require('./draw/draw.ts')
+import { initShape, changeShape } from './shape/shape'
+import { fullDraw, drawFrame, benchmark } from './draw/draw'
 
 export default function init(ctx, data: data, config) {
   // methods of instance:
 
   var chart: chart = {
+    debugId: Math.random(),
+    
     setHover: function (id, type) {
       this.hoverElement = {
         id,
@@ -84,10 +86,6 @@ export default function init(ctx, data: data, config) {
         this.mousePenLocation
       )
     },
-
-    setShape: function (shape) {},
-
-    animateShape: function (shape) {},
 
     initAndAddElements: function (newElements) {
       newElements = verifyAndInitElements(newElements, chart)

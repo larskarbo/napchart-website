@@ -14,7 +14,7 @@ import { limit } from '../helperFunctions'
 
 export function calculateShape({ config, height, width, baseShapeObject, ratio, numLanes }) {
   // apply defaults
-  var shape = { ...baseShapeObject }
+  var shape = baseShapeObject
 
   /**
    * Find out totalRadians

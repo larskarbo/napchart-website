@@ -17,6 +17,8 @@ export function init(chart) {
     return
   }
 
+  console.log("initing", chart.debugId)
+
   // helper function for event listeners
   function addListeners(element, eventNames, listener) {
     eventNames.split(' ').forEach((eventName) => {
@@ -45,6 +47,7 @@ export function init(chart) {
       e.stopPropagation()
       e.preventDefault()
     }
+    
     move(e, chart)
   })
 

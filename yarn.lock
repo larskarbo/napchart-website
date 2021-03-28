@@ -11823,6 +11823,11 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+mui-modal-provider@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/mui-modal-provider/-/mui-modal-provider-1.3.8.tgz#04d47d01c83fe98f18617c4888be41761d4bbdb4"
+  integrity sha512-Kh5aqWQx7f/xoS3vVTt8oiOZbD8fTKfPzMR9Ps7jDa3e9Ty4u8VF6dAOKupzpxuNy/fuWeYH/7uhBIKPu0x84A==
+
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
@@ -17423,6 +17428,11 @@ use-before-unload@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/use-before-unload/-/use-before-unload-1.0.1.tgz#fab39f068081a464b21959da9885341053060298"
   integrity sha512-HfISqBwjmSVLpc7jIhbTwh37jVaGaReiagn8bpyA7A0k6zDLxFkTtPZWcXzeVgs/B5sPZxc6h6fDuelvnHor3A==
+
+use-click-outside@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/use-click-outside/-/use-click-outside-2.0.0.tgz#87a60baab538e91e8ae15c21caad29edf9cd034e"
+  integrity sha512-sUDWeFbpzFrjtSX0NfBk8EsDs+qWbI/fW5RfSnQl1nX6RIiHC48/JZtEdlgCyszBqRUPdkIBBP7zD3K/9sg5PQ==
 
 use-isomorphic-layout-effect@^1.0.0:
   version "1.1.1"

@@ -1,5 +1,6 @@
 import React from 'react'
 import c from 'clsx'
+import Button from '../../common/Button';
 
 export default class Lanes extends React.Component {
   render() {
@@ -15,41 +16,36 @@ export default class Lanes extends React.Component {
     var laneButtons = laneIndexes.map((index) => {
       var disabled = this.props.disabledLane(index)
       var classes = {
-        button: true,
-        'is-active': index == this.props.active,
-        'is-dark': index == this.props.active,
+        'bg-gray-800 text-white': index == this.props.active,
         disabled: disabled,
         napchartDontLoseFocus: true,
       }
       return (
-        <p className="control" key={index}>
-          <button
-            className={c(classes)}
-            onClick={!disabled && this.props.clickLane.bind('', index)}
-            disabled={disabled}
-          >
-            {index + 1}
-          </button>
-        </p>
+        <Button key={index}
+          small
+          className={c(classes, "mx-1")}
+          onClick={!disabled && this.props.clickLane.bind('', index)}
+          disabled={disabled}
+        >
+          {index + 1}
+        </Button>
       )
     })
 
     const activeLaneConfig = napchart.getLaneConfig(this.props.active)
     return (
       <div className="field has-addons level is-mobile">
-        <div className="level-left">
-          <div className="level-item">Lane:</div>
-          <div className="level-item">{laneButtons}</div>
-          <div className="level-item">
-            <button
+        <div className="flex">
+          <div className="">Lane:</div>
+          <div className="mx-1 flex">{laneButtons}</div>
+          <div className="mx-1 flex">
+            <Button
+              small
               onClick={napchart.toggleLockLane.bind(napchart, this.props.active)}
-              className={c('button is-small', {
-                'is-active': activeLaneConfig.locked,
-                'is-dark': activeLaneConfig.locked,
-              })}
+              className={c(activeLaneConfig.locked && 'bg-gray-800 text-white')}
             >
               Lock
-            </button>
+            </Button>
           </div>
         </div>
       </div>

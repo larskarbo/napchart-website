@@ -1,26 +1,36 @@
 const db = require('../database')
+import { ChartDocument } from '../../src/components/Editor/types'
 
 export const getChartsFromUser = async function (req, res) {
   const { username } = req.params
 
-  db.pool.query('SELECT * FROM charts WHERE username = $1 AND is_snapshot = false', [username], (error, results) => {
-    console.log('results: ', results.rows)
-    if (error) {
-      throw error
-    }
-    // if (results.rows.length == 0) {
-    //   return res.status(404).send({
-    //     status: 'not found',
-    //   })
-    // }
+  db.pool.query(
+    'SELECT * FROM charts WHERE username = $1 AND is_snapshot = false AND deleted = false ORDER BY created_at',
+    [username],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      // if (results.rows.length == 0) {
+      //   return res.status(404).send({
+      //     status: 'not found',
+      //   })
+      // }
 
-    return res.send(
-      results.rows.map((chart) => ({
-        chartData: chart.chart_data,
-        chartid: chart.chartid,
-        title: chart.title,
-        description: chart.description,
-      })),
-    )
-  })
+      return res.send(
+        results.rows.map((chart) => {
+          const chartDocument: ChartDocument = {
+            chartData: chart.chart_data,
+            chartid: chart.chartid,
+            title: chart.title,
+            description: chart.description,
+            username: chart.username,
+            lastUpdated: chart.updated_at,
+            isSnapshot: chart.is_snapshot,
+          }
+          return chartDocument
+        }),
+      )
+    },
+  )
 }

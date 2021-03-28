@@ -1,13 +1,10 @@
+import React, { useEffect, useRef } from 'react'
 import Napchart from '../../../napchart-canvas/lib/index'
-import React, { useEffect, useRef, useState } from 'react'
-import { drawOnly } from '../../../napchart-canvas/lib/drawOnly'
 
 let lastData = ''
 export default function Chart({
-  napchartObject,
   interactive = true,
   responsive = false,
-  fullHeight = false,
   onUpdate,
   chartData,
   setGlobalNapchart,
@@ -58,10 +55,8 @@ export default function Chart({
   }
 
   return (
-    <div className={`${fullHeight ? 'h-screen' : ''}`}>
-      <canvas id="asdf" className={`canvas`} ref={canvasRef}>
-        A chart
-      </canvas>
-    </div>
+    <canvas id="asdf" className={`canvas`} ref={canvasRef}>
+      A chart
+    </canvas>
   )
 }

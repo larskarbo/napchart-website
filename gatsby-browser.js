@@ -1,4 +1,3 @@
-import './src/main.2233064c.chunk.css'
 import './src/tailwind.css'
 import './src/styles.css'
 import 'notyf/notyf.min.css'
@@ -6,6 +5,7 @@ import { UserProvider } from './src/auth/user-context'
 
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ModalProvider } from './src/components/common/ModalContext'
 
 const queryClient = new QueryClient()
 
@@ -13,7 +13,9 @@ const queryClient = new QueryClient()
 export const wrapPageElement = ({ element, props }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider {...props}>{element}</UserProvider>
+      <ModalProvider>
+        <UserProvider {...props}>{element}</UserProvider>
+      </ModalProvider>
     </QueryClientProvider>
   )
 }

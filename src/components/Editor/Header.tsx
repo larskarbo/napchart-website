@@ -1,11 +1,5 @@
 import React from 'react'
-import Logo from '../common/Logo'
-import c from 'clsx'
-import { ChartData } from '../../server/ChartData'
-import { request } from '../../utils/request'
-import { useUser } from '../../auth/user-context'
 import { useChart } from './chart-context'
-import { getDataForServer } from '../../utils/getDataForServer'
 
 export const Header = ({ napchart }) => {
   const { isMyChart, updateChart, requestLoading, newChart } = useChart()

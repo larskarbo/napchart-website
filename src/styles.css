@@ -19,3 +19,37 @@
 .bbutton:disabled {
   @apply text-gray-400 cursor-default;
 }
+
+.slider {
+  display: none;
+}
+@media (max-width: 550px) {
+  .slider {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 80px;
+  }
+  .slider.right {
+    left: 0;
+  }
+  .slider.left {
+    right: 0;
+  }
+}
+
+.biggrid {
+  display: grid;
+  grid-template-columns: 340px auto;
+}
+@media (max-width: 550px) {
+  .biggrid {
+    grid-template-columns: calc(100vw - 80px) 100vw;
+    position: relative;
+    right: calc(100vw - 80px);
+    transition: right 0.3s;
+  }
+  .biggrid.slideSidebarMobile {
+    right: 0;
+  }
+}

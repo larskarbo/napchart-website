@@ -9,15 +9,14 @@ import { calculateShape } from './calculateShape'
 import initedShapes from './shapes2'
 import { animateShape } from './animateShape'
 
-var currentShape
 export const initShape = (chart) => {
-  let shape = chart.data.shape
-  if (typeof shape === 'string') {
-    currentShape = shape
-    shape = initedShapes[shape]
-  }
+  const shapeString = chart.data.shape
+
+  // important to clone here
+  const baseShapeObject = clone(initedShapes[shapeString])
+
   chart.shape = calculateShape({
-    baseShapeObject: shape,
+    baseShapeObject: baseShapeObject,
     config: chart.config,
     ratio: chart.ratio,
     width: chart.width,
