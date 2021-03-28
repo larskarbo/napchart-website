@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "test": "node_modules/.bin/ava _tests/**/*.test.js --verbose",
+    "build": "tsc",
+        "test": "node_modules/.bin/ava _tests/**/*.test.js --verbose",
     "test:watch": "node_modules/.bin/ava --verbose --watch",
     "unused-exports": "ts-unused-exports tsconfig.json --exitWithCount"
   },
