@@ -37,7 +37,7 @@ export const discourseHandler = async (req, res) => {
   }
 
   if (!req.user.email_verified) {
-    // return res.status(401).json({ error: "Email not verified" })
+    return res.status(401).json({ error: "Email not verified" })
   }
 
   const newPayload = {

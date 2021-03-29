@@ -1,15 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { CgLink } from 'react-icons/cg'
-import { FaCheck, FaCopy, FaLink, FaSpinner } from 'react-icons/fa'
-import { useMutation } from 'react-query'
+import { FaCheck, FaCopy, FaSpinner } from 'react-icons/fa'
 import useClipboard from 'react-use-clipboard'
 import { ChartCreationReturn } from '../../../server/charts/createChart'
 import { getDataForServer } from '../../utils/getDataForServer'
-import { getErrorMessage } from '../../utils/getErrorMessage'
 import { request, WEB_BASE } from '../../utils/request'
+import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../common/Button'
 import { ModalContext } from '../common/ModalContext'
-import NotyfContext from '../common/NotyfContext'
 import Chart from './Chart'
 import { useChart } from './chart-context'
 
@@ -22,7 +20,7 @@ const SnapshotModal = ({ chartid, data }) => {
       <div className="w-32 my-4">
         <div className="w-full relative" style={{ paddingBottom: '100%' }}>
           <div className="absolute left-0 right-0 top-0 bottom-0">
-            <Chart interactive={false} chartData={{...data}} />
+            <Chart interactive={false} chartData={{ ...data }} />
           </div>
         </div>
       </div>
@@ -49,9 +47,8 @@ const SnapshotModal = ({ chartid, data }) => {
 export const SnapshotLinkCreator = ({ napchart }) => {
   const { title, description, readOnly } = useChart()
   let { handleModal } = React.useContext(ModalContext)
-  const notyf = useContext(NotyfContext)
 
-  const mutation = useMutation(
+  const mutation = useNCMutation(
     () => {
       return request('POST', `/v1/createSnapshot`, {
         chartData: getDataForServer(napchart.data),
@@ -63,8 +60,8 @@ export const SnapshotLinkCreator = ({ napchart }) => {
     },
     {
       onSuccess: (res: ChartCreationReturn) => {
-        const {chartDocument} = res
-        console.log('res: ', res);
+        const { chartDocument } = res
+        console.log('res: ', res)
 
         handleModal({
           title: 'Snapshot link',
@@ -74,10 +71,6 @@ export const SnapshotLinkCreator = ({ napchart }) => {
         setTimeout(() => {
           mutation.reset()
         }, 10000)
-      },
-      onError: (err) => {
-        console.log('errorrrrr: ', err)
-        notyf.error(getErrorMessage(err))
       },
     },
   )

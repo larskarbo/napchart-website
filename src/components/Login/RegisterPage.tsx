@@ -9,11 +9,12 @@ import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
 import { useUser } from '../../auth/user-context'
 import { getErrorMessage } from '../../utils/getErrorMessage'
+import { useQueryClient } from 'react-query';
 
 export default function RegisterPage({}) {
   const formRef = useRef()
   const [loading, setLoading] = useState(true)
-  const { setUser } = useUser()
+  const queryClient = useQueryClient()
 
   const [msg, setMsg] = useState('')
 
@@ -42,7 +43,8 @@ export default function RegisterPage({}) {
     })
       .then((user) => {
         console.log('user: ', user)
-        setUser(user)
+        queryClient.invalidateQueries("user")
+
         navigate('/user/' + user.username)
         // window.location.href =
       })

@@ -4,8 +4,9 @@
     "module": "commonjs",
     "lib": ["esnext"],
     "allowJs": true,
+    
     "outDir": "dist",
-    "strict": true,
+    "strict": false,
     "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,

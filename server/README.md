@@ -7,6 +7,7 @@ Possible chartid formats:
 (deprecated) 6 chars= `napchart.com/xxxxxx`
 9 chars snapshot= `napchart.com/snapshot/xxxxxxxxx`
 9 chars user chart= `napchart.com/:user/xxxxxxxxx`
+9 chars user chart with title= `napchart.com/:user/Some-title-here-xxxxxxxxx`
 
 Chartids are universally unique
 

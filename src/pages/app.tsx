@@ -9,6 +9,7 @@ import Profile from '../components/Profile/Profile'
 import DiscourseConnect from '../components/Login/DiscourseConnect'
 import ForgotPasswordPage from '../components/Login/ForgotPasswordPage'
 import { navigate } from 'gatsby-link';
+import VerifyEmailPage from '../components/Login/VerifyEmailPage';
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -25,11 +26,14 @@ export default function App() {
     <>
       <Router>
         <LogOut path="/auth/logout" />
-        <LoginRoute component={LoginPage} path="/auth/login" />
-        <LoginRoute component={RegisterPage} path="/auth/register" />
-        <LoginRoute component={DiscourseConnect} path="/auth/discourse-connect" />
-        <LoginRoute component={SetPasswordPage} path="/auth/set-password" />
-        <LoginRoute component={ForgotPasswordPage} path="/auth/forgot-password" />
+        <LoginPage path="/auth/login" />
+        <RegisterPage path="/auth/register" />
+        <DiscourseConnect path="/auth/discourse-connect" />
+        <SetPasswordPage path="/auth/set-password" />
+        <ForgotPasswordPage path="/auth/forgot-password" />
+        <VerifyEmailPage path="/auth/verify-email" />
+
+
         <New path="/new" />
         <Editor path="/app" isApp={true} />
         <Profile path="/user/:username" />
@@ -40,16 +44,6 @@ export default function App() {
       </Router>
     </>
   )
-}
-
-
-const LoginRoute = ({ component: Component, ...rest }) => {
-  // const { isAuthenticated } = useUser()
-  // if (isAuthenticated) {
-  //   navigate("/app", { replace: true })
-  //   return null
-  // }
-  return <Component {...rest} />
 }
 
 const NotFound = () => <div>not found</div>

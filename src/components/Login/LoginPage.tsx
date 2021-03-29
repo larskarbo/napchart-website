@@ -6,44 +6,46 @@ import { SubmitButton } from './SubmitButton'
 import LoginLayout from './LoginLayout'
 import { request } from '../../utils/request'
 import { useUser } from '../../auth/user-context'
+import { useQueryClient } from 'react-query'
+import { useNCMutation, useNotyf } from '../../utils/requestHooks'
 
 export default function LoginPage({ location }) {
-  const { user, setUser } = useUser()
+  const { user } = useUser()
   const formRef = useRef()
   const [msg, setMsg] = useState('')
+  const queryClient = useQueryClient()
+  const notyf = useNotyf()
 
-  const onLogin = (e) => {
-    e.preventDefault()
+  const email = formRef?.current?.email.value
+  const password = formRef?.current?.password.value
 
-    const email = formRef.current.email.value
-    const password = formRef.current.password.value
+  const login = useNCMutation(
+    () =>
+      request('POST', '/login', {
+        email,
+        password,
+      }),
+    {
+      onSuccess: async (res) => {
+        await queryClient.fetchQuery('user')
 
-    request('POST', '/login', {
-      email,
-      password,
-    })
-      .then((res) => {
-        console.log('res: ', res)
-        // tryAgainUser()
-        setUser(res)
-        console.log('location.state.redirectTo: ', location.state.redirectTo)
         if (location?.state?.redirectTo) {
           navigate(location.state.redirectTo)
         } else {
           navigate('/app')
         }
-      })
-      .catch((error) => {
-        if (error?.response?.data?.message == 'wrong password') {
-          setMsg('Wrong username or password, please try again.')
-        } else {
-          setMsg(error.message)
-        }
-      })
+        notyf.success('Logged in!')
+      },
+    },
+  )
+
+  const onLogin = (e) => {
+    e.preventDefault()
+    login.mutate()
   }
 
   return (
-    <LoginLayout msg={msg}>
+    <LoginLayout msg={login.errorMessage}>
       {user ? (
         <>
           <div className="my-4">You are already logged in!</div>

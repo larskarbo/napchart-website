@@ -1,23 +1,37 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { useUser } from '../../auth/user-context'
-import { CgProfile } from 'react-icons/cg'
+import { CgMail, CgProfile } from 'react-icons/cg'
 import Button from '../common/Button'
 
 export const AccountBar = () => {
   const { user } = useUser()
+  
 
   return (
-    <Link to={user ? `/user/${user.username}` : '/auth/login'}>
+    <div className="flex">
       {user ? (
-        <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
-          My profile
-        </Button>
+        <>
+          {!user.email_verified && (
+            <Link to={`/auth/verify-email`}>
+              <Button className="mt-4 mr-4 text-yellow-600" icon={<CgMail className="mr-2" />}>
+                Verify email
+              </Button>
+            </Link>
+          )}
+          <Link to={`/user/${user.username}`}>
+            <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
+              My profile
+            </Button>
+          </Link>
+        </>
       ) : (
-        <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
-          Log in
-        </Button>
+        <Link to={'/auth/login'}>
+          <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
+            Log in
+          </Button>
+        </Link>
       )}
-    </Link>
+    </div>
   )
 }

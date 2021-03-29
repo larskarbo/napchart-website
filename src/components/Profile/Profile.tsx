@@ -1,19 +1,17 @@
 import { Link } from 'gatsby'
-import React, { useContext, useState } from 'react'
-import { FaTrash } from 'react-icons/fa'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import React, { useContext, useRef, useState } from 'react'
+import { HiDotsVertical } from 'react-icons/hi'
+import { useQuery, useQueryClient } from 'react-query'
+import useOnClickOutside from 'use-onclickoutside'
+import { useUser } from '../../auth/user-context'
+import { getDataForServer } from '../../utils/getDataForServer'
+import { getProperLink } from '../../utils/getProperLink'
 import { request } from '../../utils/request'
+import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../common/Button'
+import NotyfContext from '../common/NotyfContext'
 import Chart from '../Editor/Chart'
 import { ChartData, ChartDocument } from '../Editor/types'
-import { useRef } from 'react'
-import useOnClickOutside from 'use-onclickoutside'
-import { HiDotsVertical } from 'react-icons/hi'
-import NotyfContext from '../common/NotyfContext'
-import { getErrorMessage } from '../../utils/getErrorMessage'
-import { getDataForServer } from '../../utils/getDataForServer'
-import { getProperLink } from "../../utils/getProperLink"
-import { useUser } from '../../auth/user-context'
 
 function truncate(str, n) {
   if (str) {
@@ -31,21 +29,18 @@ export default function Profile({ children, username }) {
   )
   const notyf = useContext(NotyfContext)
 
-  const {user} = useUser()
+  const { user } = useUser()
   const isMe = username == user?.username
 
   const queryClient = useQueryClient()
 
-  const { mutate: deleteChart } = useMutation((chartid: string) => request('DELETE', `/deleteChart/${chartid}`), {
+  const { mutate: deleteChart } = useNCMutation((chartid: string) => request('DELETE', `/deleteChart/${chartid}`), {
     onSuccess: () => {
       queryClient.invalidateQueries(query_key)
     },
-    onError: (err) => {
-      notyf.error(getErrorMessage(err))
-    },
   })
 
-  const { mutate: duplicateChart } = useMutation(
+  const { mutate: duplicateChart } = useNCMutation(
     ({ chartData, title, description }: { chartData: ChartData; title: string; description: string }) =>
       request('POST', `/createChart`, {
         chartData: getDataForServer(chartData),
@@ -58,9 +53,6 @@ export default function Profile({ children, username }) {
       onSuccess: () => {
         queryClient.invalidateQueries(query_key)
       },
-      onError: (err) => {
-        notyf.error(getErrorMessage(err))
-      },
     },
   )
 
@@ -69,6 +61,9 @@ export default function Profile({ children, username }) {
       <h1 className="text-2xl font pb-12">
         <strong>{username}</strong>
       </h1>
+      {isMe && (
+        <Button linkTo="/auth/logout" small>Log out</Button>
+      )}
 
       <div className="w-full px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
         <div className="flex">
@@ -96,30 +91,32 @@ export default function Profile({ children, username }) {
                     src={`https://thumb.napchart.com/api/getImage?width=250&height=250&chartid=${chart.chartid}`}
                     className="w-44 h-44  bg-gray-400 rounded shadow-lg"
                   ></img> */}
-                {isMe && <div className="relative">
-                  <DropdownMenu
-                    options={[
-                      {
-                        name: 'Delete',
-                        onClick: () => {
-                          if (window.confirm("Do you really want to delete this chart?")) {
-                            deleteChart(chart.chartid)
-                          }
+                {isMe && (
+                  <div className="relative">
+                    <DropdownMenu
+                      options={[
+                        {
+                          name: 'Delete',
+                          onClick: () => {
+                            if (window.confirm('Do you really want to delete this chart?')) {
+                              deleteChart(chart.chartid)
+                            }
+                          },
                         },
-                      },
-                      {
-                        name: 'Duplicate',
-                        onClick: () => {
-                          duplicateChart({
-                            chartData: chart.chartData,
-                            title: chart.title,
-                            description: chart.description,
-                          })
+                        {
+                          name: 'Duplicate',
+                          onClick: () => {
+                            duplicateChart({
+                              chartData: chart.chartData,
+                              title: chart.title,
+                              description: chart.description,
+                            })
+                          },
                         },
-                      },
-                    ]}
-                  />
-                </div>}
+                      ]}
+                    />
+                  </div>
+                )}
                 <div className="my-2 font-bold">{chart.title || 'Untitled'}</div>
                 <div className="my-2">{truncate(chart.description, 30) || 'No description'}</div>
               </div>

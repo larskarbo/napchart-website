@@ -9,42 +9,20 @@ import requestIp from 'request-ip'
 import { WEB_BASE } from '../utils/webBase'
 const genToken = customAlphabet(alphanumeric, 48)
 
-const schema = Joi.object({
-  email: Joi.string().email().required(),
-})
-
-export const forgotPassword = async (req, res) => {
-  const validate = schema.validate(req.body)
-
-  if (validate.error) {
-    return sendValidationError(res, validate.error)
-  }
-
-  const { email } = validate.value
-
-  const userValue = (await pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
+export const sendEmailVerifyTokenEndpoint = async (req, res) => {
+  const userValue = req.user
   if (!userValue) {
     res.status(401).send({ message: 'email not found' })
     return
   }
 
-  pool
-    .query(
-      `INSERT INTO user_tokens (token, password_reset, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
-      [genToken(), true, userValue.id, requestIp.getClientIp(req)],
-    )
-    .then((hey) => {
-      const { text, html } = makeEmail(hey.rows[0].token)
-      console.log('text: ', text)
-      // // transporter
-      sendMail({
-        subject: 'Imitate Password Reset',
-        toAddress: userValue.email,
-        body_html: html,
-        body_text: text,
-      }).then(() => {
-        res.send({ status: 'done' })
-      })
+  if (userValue.email_verified) {
+    res.status(400).send({ message: 'Email already verified.' })
+  }
+
+  sendEmailVerificationOnly(userValue, req)
+    .then(() => {
+      res.send({ status: 'done' })
     })
     .catch((err) => {
       console.log('err: ', err)
@@ -52,14 +30,33 @@ export const forgotPassword = async (req, res) => {
     })
 }
 
+const sendEmailVerificationOnly = async (userValue, req) => {
+  return pool
+    .query(
+      `INSERT INTO user_tokens (token, password_reset, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
+      [genToken(), false, userValue.id, requestIp.getClientIp(req)],
+    )
+    .then((hey) => {
+      const { text, html } = makeEmail(hey.rows[0].token)
+      console.log('text: ', text)
+      // // transporter
+      sendMail({
+        subject: 'Napchart Verify Email',
+        toAddress: userValue.email,
+        body_html: html,
+        body_text: text,
+      })
+    })
+}
+
 const makeEmail = (utoken) => {
-  const link = `${WEB_BASE}/auth/set-password?utoken=${utoken}`
+  const link = `${WEB_BASE}/auth/verify-email?utoken=${utoken}`
   const template: string = `
   Hi!
   
-  Here is the link for setting the password for Imitate: LINK
+  Here is the link for verifying your email at Napchart: LINK
 
-  Let me know if you have problems setting the password!
+  If you never registered on Napchart, please ignore this email.
 
   Best,
 

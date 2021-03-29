@@ -2,8 +2,8 @@ import { useLocation } from '@reach/router'
 import { Link, navigate } from 'gatsby'
 import { parse } from 'query-string'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useMutation } from 'react-query'
 import { request } from '../../utils/request'
+import { useNCMutation } from '../../utils/requestHooks'
 import NotyfContext from '../common/NotyfContext'
 import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
@@ -44,7 +44,7 @@ export default function SetPasswordPage({ mode }) {
 
   const notyf = useContext(NotyfContext)
 
-  const mutation = useMutation(
+  const mutation = useNCMutation(
     () => {
       const email = formRef.current.email.value
       const password = formRef.current.password.value
@@ -60,12 +60,6 @@ export default function SetPasswordPage({ mode }) {
       onSuccess: (res) => {
         navigate('/auth/login')
       },
-      onError: (err) => {
-        console.log('errorrrrr: ', err)
-        notyf.error(getErrorMessage(err))
-        const errorMessage = getErrorMessage(err)
-        setMsg(errorMessage)
-      },
     },
   )
 
@@ -76,7 +70,7 @@ export default function SetPasswordPage({ mode }) {
   }
 
   return (
-    <LoginLayout>
+    <LoginLayout msg={mutation.errorMessage}>
       {loading ? (
         <>Loading...</>
       ) : verifyError ? (

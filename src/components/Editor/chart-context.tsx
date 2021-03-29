@@ -28,15 +28,15 @@ export function ChartProvider({ children, chartid, initialData }) {
   const notyf = useContext(NotyfContext)
 
   const isMyChart = user && chartDocument?.username == user?.username
-  console.log('chartDocument?.username: ', chartDocument?.username)
+  
 
   useEffect(() => {
     if (chartid && !initialData) {
       setLoading(true)
       request('GET', `/v1/getChart/${chartid}`)
-        .then((res) => {
-          console.log('res: ', res)
-          setChartDocument(res)
+        .then((res: ChartCreationReturn) => {
+          
+          setChartDocument(res.chartDocument)
           setLoading(false)
         })
         .catch((err) => {
@@ -94,7 +94,7 @@ export function ChartProvider({ children, chartid, initialData }) {
       },
     })
       .then((res: ChartCreationReturn) => {
-        console.log('res: ', res)
+        
         const {chartDocument} = res
 
         setDirty(false)
@@ -105,7 +105,7 @@ export function ChartProvider({ children, chartid, initialData }) {
         })
       })
       .catch((err) => {
-        console.log('err: ', err.response);
+        
         notyf.error(getErrorMessage(err))
       })
       .finally(() => {

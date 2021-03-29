@@ -15,6 +15,9 @@ export function getErrorMessage(err) {
       if (response.data.error?.message) {
         return response.data.error.message
       }
+      if(typeof response.data == "string"){
+        return response.data
+      }
     }
   }
 

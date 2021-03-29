@@ -33,6 +33,7 @@
     "nanoid-dictionary": "^4.2.0",
     "nodemailer": "^6.5.0",
     "p-retry": "^4.4.0",
+    "parse-url": "^5.0.2",
     "pg": "^8.5.1",
     "query-string": "^6.14.1",
     "random-item": "^3.1.0",
@@ -40,6 +41,7 @@
     "reserved-usernames": "^1.1.6",
     "sqlite3": "^5.0.2",
     "supertest": "^6.0.1",
+    "url": "^0.11.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
