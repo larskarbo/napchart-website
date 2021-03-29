@@ -3,7 +3,7 @@ import { asyncIncrementVisit } from './utils/asyncIncrementVisit'
 import { ChartDocument } from '../../src/components/Editor/types';
 import { ChartCreationReturn } from './createChart';
 import { WEB_BASE } from '../utils/webBase';
-import { getProperLink } from '../../src/utils/getProperLink';
+import { getProperLink } from '../utils/getProperLink';
 
 //FIKK IKKJE TIL:
 // const chartidSchema = 

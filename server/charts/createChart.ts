@@ -5,7 +5,7 @@ import { chartSchema } from './utils/schema'
 import { ChartDocument } from '../../src/components/Editor/types'
 import Joi from 'joi'
 import { WEB_BASE } from '../utils/webBase'
-import { getProperLink } from '../../src/utils/getProperLink'
+import { getProperLink } from '../utils/getProperLink'
 const db = require('../database')
 const pRetry = require('p-retry')
 
