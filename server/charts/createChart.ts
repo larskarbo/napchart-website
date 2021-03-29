@@ -4,20 +4,27 @@ import { findUniqueId } from './utils/findUniqueId'
 import { chartSchema } from './utils/schema'
 import { ChartDocument } from '../../src/components/Editor/types'
 import Joi from 'joi'
+import { WEB_BASE } from '../utils/webBase'
+import { getProperLink } from '../../src/utils/getProperLink'
 const db = require('../database')
 const pRetry = require('p-retry')
 
-const schema = Joi.object({
+export const createChartSchema = Joi.object({
   chartData: chartSchema,
   metaInfo: Joi.object({
-    title: Joi.string().max(100).allow(null, ""),
-    description: Joi.string().allow(null, ""),
+    title: Joi.string().max(100).allow(null, ''),
+    description: Joi.string().allow(null, ''),
   }),
 })
 
+export type ChartCreationReturn = {
+  chartDocument: ChartDocument
+  publicLink: string
+}
+
 export const createChart = async function (req, res) {
   const isSnapshot = req.isSnapshot || false
-  const validate = schema.validate(req.body)
+  const validate = createChartSchema.validate(req.body)
 
   if (validate.error) {
     return sendValidationError(res, validate.error)
@@ -62,7 +69,15 @@ export const createChart = async function (req, res) {
         isSnapshot: chart.is_snapshot,
       }
 
-      res.send(chartDocument)
+      const sendThis: ChartCreationReturn = {
+        chartDocument,
+        publicLink:
+          WEB_BASE + (isSnapshot
+            ? `/snapshot/${chartDocument.chartid}`
+            : getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid)),
+      }
+
+      res.send(sendThis)
     })
     .catch((err) => {
       if (err?.constraint == 'users_chartid_key') {

@@ -91,12 +91,17 @@ app.post('/setPassword', setPassword)
 app.post('/forgotPassword', mailRateLimiter, forgotPassword)
 app.post('/verifyPasswordResetToken', verifyPasswordResetToken)
 
-app.post('/createChart', createRateLimiter, verify, createChart)
 app.post('/createSnapshot', createRateLimiter, optionalVerify, createSnapshot)
-app.post('/updateChart/:chartid', verify, updateChart)
 app.get('/getChart/:chartid', getChart)
+app.post('/createChart', createRateLimiter, verify, createChart)
+app.post('/updateChart/:chartid', verify, updateChart)
 app.delete('/deleteChart/:chartid', verify, deleteChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
+
+// public API
+app.post('/v1/createSnapshot', createRateLimiter, optionalVerify, createSnapshot)
+app.get('/v1/getChart/:chartid', getChart)
+
 
 app.get('/discourse-connect', verify, discourseHandler)
 

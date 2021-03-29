@@ -14,7 +14,7 @@ import { Feedback } from './Feedback'
 import { ModalBase, ModalContext } from '../../common/ModalContext'
 import { getDataForServer } from '../../../utils/getDataForServer'
 import Chart from '../Chart'
-import { getProperLink } from '../Editor'
+import { getProperLink } from "../../../utils/getProperLink"
 import { useUser } from '../../../auth/user-context'
 
 export const Controls = ({ napchart }) => {

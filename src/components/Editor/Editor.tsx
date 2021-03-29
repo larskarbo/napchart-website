@@ -3,12 +3,12 @@ import { navigate } from 'gatsby-link'
 import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import slugify from 'slugify'
 import Button from '../common/Button'
 import { isLocal } from '../common/isLocal'
 import { AccountBar } from './AccountBar'
 import Chart from './Chart'
 import { ChartProvider, useChart } from './chart-context'
+import { getProperLink } from '../../utils/getProperLink'
 import { Header } from './Header'
 import { PremiumModal } from './PremiumModal'
 import { Controls } from './sections/Controls'
@@ -17,12 +17,6 @@ import { Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
-
-export const getProperLink = (chartOwner, title, chartid) => {
-  const urlTitle = title ? slugify(title) + '-' : ''
-
-  return `/${chartOwner}/${urlTitle}${chartid}`
-}
 
 export default function Editor({ titleAndChartid, chartid, oldchartid, username, location, isApp }) {
   let realChartId

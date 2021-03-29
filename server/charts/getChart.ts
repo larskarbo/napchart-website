@@ -1,10 +1,9 @@
 import { pool } from '../database'
 import { asyncIncrementVisit } from './utils/asyncIncrementVisit'
 import { ChartDocument } from '../../src/components/Editor/types';
-import Joi from 'joi';
-
-import { sendValidationError } from '../utils/sendValidationError';
-
+import { ChartCreationReturn } from './createChart';
+import { WEB_BASE } from '../utils/webBase';
+import { getProperLink } from '../../src/utils/getProperLink';
 
 //FIKK IKKJE TIL:
 // const chartidSchema = 
@@ -47,6 +46,15 @@ export const getChart = async function (req, res) {
       isSnapshot: chart.is_snapshot,
     }
 
-    return res.send(chartDocument)
+    const sendThis: ChartCreationReturn = {
+      chartDocument,
+      publicLink:
+        WEB_BASE + (chartDocument.isSnapshot
+          ? `/snapshot/${chartDocument.chartid}`
+          : getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid)),
+    }
+
+    res.send(sendThis)
+
   })
 }

@@ -12,7 +12,7 @@ import { HiDotsVertical } from 'react-icons/hi'
 import NotyfContext from '../common/NotyfContext'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { getDataForServer } from '../../utils/getDataForServer'
-import { getProperLink } from '../Editor/Editor'
+import { getProperLink } from "../../utils/getProperLink"
 import { useUser } from '../../auth/user-context'
 
 function truncate(str, n) {

@@ -6,8 +6,9 @@ import { getDataForServer } from '../../utils/getDataForServer'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { request } from '../../utils/request'
 import NotyfContext from '../common/NotyfContext'
-import { getProperLink } from './Editor'
+import { getProperLink } from "../../utils/getProperLink"
 import { ChartData, ChartDocument } from './types'
+import { ChartCreationReturn } from '../../../server/charts/createChart'
 
 const ChartContext = React.createContext({})
 
@@ -32,7 +33,7 @@ export function ChartProvider({ children, chartid, initialData }) {
   useEffect(() => {
     if (chartid && !initialData) {
       setLoading(true)
-      request('GET', `/getChart/${chartid}`)
+      request('GET', `/v1/getChart/${chartid}`)
         .then((res) => {
           console.log('res: ', res)
           setChartDocument(res)
@@ -92,13 +93,14 @@ export function ChartProvider({ children, chartid, initialData }) {
         description: description,
       },
     })
-      .then((res: ChartDocument) => {
+      .then((res: ChartCreationReturn) => {
         console.log('res: ', res)
+        const {chartDocument} = res
 
         setDirty(false)
-        navigate(getProperLink(res.username, res.title, res.chartid), {
+        navigate(getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid), {
           state: {
-            initialChartDocument: res,
+            initialChartDocument: chartDocument,
           },
         })
       })

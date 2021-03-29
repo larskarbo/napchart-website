@@ -3,6 +3,7 @@ import { CgLink } from 'react-icons/cg'
 import { FaCheck, FaCopy, FaLink, FaSpinner } from 'react-icons/fa'
 import { useMutation } from 'react-query'
 import useClipboard from 'react-use-clipboard'
+import { ChartCreationReturn } from '../../../server/charts/createChart'
 import { getDataForServer } from '../../utils/getDataForServer'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { request, WEB_BASE } from '../../utils/request'
@@ -48,12 +49,11 @@ const SnapshotModal = ({ chartid, data }) => {
 export const SnapshotLinkCreator = ({ napchart }) => {
   const { title, description, readOnly } = useChart()
   let { handleModal } = React.useContext(ModalContext)
-  const [loading, setLoading] = useState(false)
   const notyf = useContext(NotyfContext)
 
   const mutation = useMutation(
     () => {
-      return request('POST', `/createSnapshot`, {
+      return request('POST', `/v1/createSnapshot`, {
         chartData: getDataForServer(napchart.data),
         metaInfo: {
           title: title,
@@ -62,12 +62,13 @@ export const SnapshotLinkCreator = ({ napchart }) => {
       })
     },
     {
-      onSuccess: (res) => {
-        console.log('res: ', res)
+      onSuccess: (res: ChartCreationReturn) => {
+        const {chartDocument} = res
+        console.log('res: ', res);
 
         handleModal({
           title: 'Snapshot link',
-          content: <SnapshotModal chartid={res.chartid} data={napchart.data} />,
+          content: <SnapshotModal chartid={chartDocument.chartid} data={napchart.data} />,
         })
 
         setTimeout(() => {

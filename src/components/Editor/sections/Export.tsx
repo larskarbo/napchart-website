@@ -1,6 +1,6 @@
 import React from 'react'
 import { useChart } from '../chart-context'
-import { getProperLink } from '../Editor';
+import { getProperLink } from "../../../utils/getProperLink";
 
 export default function Export (){
   const {chartid, chartDocument} = useChart()
