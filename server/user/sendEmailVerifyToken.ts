@@ -26,7 +26,7 @@ export const sendEmailVerifyTokenEndpoint = async (req, res) => {
     })
     .catch((err) => {
       console.log('err: ', err)
-      res.status(400).send({ error: err })
+      res.status(400).send({ message: "Mail error" })
     })
 }
 
@@ -40,7 +40,7 @@ const sendEmailVerificationOnly = async (userValue, req) => {
       const { text, html } = makeEmail(hey.rows[0].token)
       console.log('text: ', text)
       // // transporter
-      sendMail({
+      return sendMail({
         subject: 'Napchart Verify Email',
         toAddress: userValue.email,
         body_html: html,

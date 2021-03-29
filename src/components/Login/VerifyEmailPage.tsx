@@ -75,7 +75,13 @@ export default function VerifyEmailPage({}) {
         ) : (
           <>
             <div className="my-4">Your email is not verified.</div>
-            <Button onClick={requestLink.mutate}>Request new verification link.</Button>
+            {requestLink.isSuccess ? (
+              <div className="my-4">Email verification link sent.</div>
+            ) : (
+              <Button loading={requestLink.isLoading} onClick={requestLink.mutate}>
+                Request new verification link.
+              </Button>
+            )}
           </>
         )
       ) : (
