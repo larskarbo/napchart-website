@@ -65,11 +65,12 @@ export const checkout = async function (req, res) {
         mode: 'subscription',
       }
     }
-    let discounts = null
+    let discounts = []
     console.log('req.user: ', req.user);
     console.log('billingSchedule: ', billingSchedule);
     if (discountsObj[req.user?.username] && billingSchedule == 'lifetime') {
       discounts = [{ promotion_code: discountsObj[req.user.username] }]
+      console.log('discounts: ', discounts);
     }
     const session = await stripe.checkout.sessions.create({
       ...config,
