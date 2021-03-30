@@ -24,7 +24,7 @@ const SnapshotModal = ({ chartid, data }) => {
           </div>
         </div>
       </div>
-      <div className="my-4">This link points to this excact snapshot of the chart:</div>
+      <div className="my-4">This link points to this exact snapshot of the chart:</div>
       <div className="flex flex-row max-w-md text-xs my-4">
         <input
           className="text-xs p-2 border-0 border-t border-b border-l rounded-l flex flex-grow"

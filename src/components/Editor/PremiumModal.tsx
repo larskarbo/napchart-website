@@ -7,6 +7,8 @@ import { CgProfile } from 'react-icons/cg'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { Link } from 'gatsby'
+import { request } from '../../utils/request'
+import Button from '../common/Button'
 
 enum Plan {
   Monthly = 'monthly',
@@ -92,7 +94,7 @@ const PremiumModalReal = ({ exit }) => {
             </button>
           </div>
 
-          <h2 className="my-8 font-medium text-gray-800 text-lg text-center uppercase">User</h2>
+          {/* <h2 className="my-8 font-medium text-gray-800 text-lg text-center uppercase">User</h2>
 
           {user ? (
             <>
@@ -114,55 +116,47 @@ const PremiumModalReal = ({ exit }) => {
                 </div>
               </button>
             </Link>
-          )}
+          )} */}
 
-          <h2 className="my-8 font-medium text-gray-800 text-lg text-center uppercase">Payment</h2>
 
-          <CheckoutForm />
+          <CheckoutForm plan={plan} />
         </div>
       </div>
     </div>
   )
 }
 
-const CheckoutForm = () => {
+const CheckoutForm = ({plan}) => {
+  console.log('plan: ', plan);
   const stripe = useStripe()
-  const elements = useElements()
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (event) => {
-    // Block native form submission.
     event.preventDefault()
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return
-    }
-
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
-    const cardElement = elements.getElement(CardElement)
-
-    // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
+    setLoading(true)
+    return request('POST', '/money/checkout', {
+      type: plan,
     })
-
-    if (error) {
-      console.log('[error]', error)
-    } else {
-      console.log('[PaymentMethod]', paymentMethod)
-    }
+      .then(async function (result: any) {
+        console.log('result: ', result)
+        await stripe
+          .redirectToCheckout({
+            sessionId: result.sessionId,
+          })
+          .then((res) => {})
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" className="bbutton mt-8 mr-4 w-full bg-green-50" disabled={!stripe}>
+      {/* <CardElement /> */}
+      <Button loading={loading} type="submit" className="bbutton mt-8 mr-4 w-full bg-green-50" disabled={!stripe}>
         Become a Premium member!
-      </button>
+      </Button>
     </form>
   )
 }

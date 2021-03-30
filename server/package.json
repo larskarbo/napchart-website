@@ -41,12 +41,14 @@
     "reserved-usernames": "^1.1.6",
     "slugify": "^1.5.0",
     "sqlite3": "^5.0.2",
+    "stripe": "^8.140.0",
     "supertest": "^6.0.1",
     "url": "^0.11.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.36",
+    "@types/stripe": "^8.0.417",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
     "ts-unused-exports": "^7.0.3",

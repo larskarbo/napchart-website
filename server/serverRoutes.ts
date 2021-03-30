@@ -24,6 +24,8 @@ import { sendPasswordResetTokenEndpoint } from './user/sendPasswordResetToken'
 import { deleteChart } from './charts/deleteChart';
 import { verifyEmail } from './user/verifyEmail';
 import { sendEmailVerifyTokenEndpoint } from './user/sendEmailVerifyToken';
+import { stripeWebhook } from './money/stripe-webhook';
+import { checkout } from './money/checkout';
 
 const app = express()
 
@@ -102,6 +104,10 @@ app.post('/createChart', createRateLimiter, verify("normal"), createChart)
 app.post('/updateChart/:chartid', verify("normal"), updateChart)
 app.delete('/deleteChart/:chartid', verify("normal"), deleteChart)
 app.get('/getChartsFromUser/:username', getChartsFromUser)
+
+// money
+app.post('/money/checkout', checkout)
+stripeWebhook(app)
 
 // public API
 app.post('/v1/createSnapshot', createRateLimiter, verify("optional"), createSnapshot)

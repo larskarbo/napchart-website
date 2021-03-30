@@ -10,7 +10,11 @@ const UserContext = React.createContext({})
 
 export function UserProvider({ children }) {
   const queryClient = useQueryClient()
-  const { isLoading: loadingUser, data: user } = useQuery('user', () => request('GET', '/getUser'))
+  const { isLoading: loadingUser, data: user } = useQuery('user', () => request('GET', '/getUser'),{
+    onError: (err) => {
+    },
+    retry:false
+  })
 
   const logoutUser = () => {
     request('GET', '/logout').then(() => {
