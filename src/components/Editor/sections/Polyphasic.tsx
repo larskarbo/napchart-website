@@ -27,7 +27,7 @@ export default function Polyphasic({ napchart }) {
     })
     napchart.emptyLane(lane)
     napchart.initAndAddElements(elements)
-    napchart.history.add('Use polyphasic schedule')
+    napchart.history.add(napchart, 'Use polyphasic schedule')
 
     // find a element on the lane and select it
     var eol = napchart.data.elements.find((e) => e.lane == lane)

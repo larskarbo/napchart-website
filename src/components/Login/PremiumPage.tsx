@@ -143,9 +143,9 @@ const CheckoutForm = ({ plan }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const email = formRef?.current?.email.value
-    const password = formRef?.current?.password.value
-    const username = formRef?.current?.username.value
+    const email = formRef?.current?.email?.value
+    const password = formRef?.current?.password?.value
+    const username = formRef?.current?.username?.value
 
     if (!user) {
     }

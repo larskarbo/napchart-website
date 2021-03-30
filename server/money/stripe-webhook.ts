@@ -28,9 +28,28 @@ export const stripeWebhook = async (req, res) => {
   switch (event.type) {
     case 'checkout.session.completed':
       const { userId, billingSchedule, username, password, email } = event.data.object.metadata
+      console.log('event.data.object.metadata: ', event.data.object.metadata);
 
-      if(!userId){
+      if(userId){
+        console.log('we need to update an account: ');
+        pool
+        .query(`UPDATE users SET plan=$1, billing_schedule=$2, stripe_customer_id=$3 WHERE id=$4`, [
+          "premium",
+          billingSchedule,
+          event.data.object.customer,
+          userId
+        ])
+        .then(() => {
+          return res.send({})
+        })
+        .catch((err) => {
+          console.log('err: ', err);
+          return res.status(500).send({ error: err })
+        })
+
+      } else {
         // we need to create an account
+        console.log('we need to create an account: ');
         const passwordHash = await encrypt(password)
 
         const userValue = await pool
@@ -47,21 +66,7 @@ export const stripeWebhook = async (req, res) => {
       }
       // console.log('event.data.object.metadata: ', event.data.object.metadata)
 
-      pool
-        .query(`UPDATE users SET plan=$1, billing_schedule=$2, stripe_customer_id=$3 WHERE id=$4`, [
-          "premium",
-          billingSchedule,
-          event.data.object.customer,
-          userId
-        ])
-        .then(() => {
-          return res.send({})
-        })
-        .catch((err) => {
-          console.log('err: ', err);
-          return res.status(500).send({ error: err })
-        })
-
+     
       // Payment is successful and the subscription is created.
       // You should provision the subscription.
       break

@@ -12,7 +12,7 @@ import { getProperLink } from '../../utils/getProperLink'
 import { Header } from './Header'
 import { Controls } from './sections/Controls'
 import Export from './sections/Export'
-import { Info } from './sections/Info'
+import { Contact, Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
@@ -88,7 +88,7 @@ function App({ pathUsername }) {
   useEffect(() => {
     window.napchart = napchartObject
   }, [napchartObject])
-  
+
   const [amPm, setAmPm] = useState(getAmpm())
 
   useEffect(() => {
@@ -145,11 +145,11 @@ function App({ pathUsername }) {
         {description?.length && <meta name="description" content={description} />}
         <meta
           name="twitter:image"
-          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}&width=600&height=600&shape=circle`}
+          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}`}
         />
         <meta
           property="og:image"
-          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}&width=600&height=600&shape=circle`}
+          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}`}
         />
         <meta property="og:image:width" content="600" />
         <meta property="og:image:height" content="600" />
@@ -178,44 +178,13 @@ function App({ pathUsername }) {
                   {section.text}
                 </button>
               ))}
-              {isLocal() && (
-                <button
-                  onClick={() => {
-                    navigate('/auth/register-premium')
-                  }}
-                  className={'text-white w-full h-16'}
-                >
-                  Premium
-                </button>
-              )}
             </div>
 
             <div className="flex flex-col justify-between px-4 bg-gray-50 w-full">
               {sections[currentSection].element}
               {currentSection != 1 && (
                 <div className="flex my-4 text-xs border border-gray-300 p-2">
-                  <div
-                    style={{
-                      width: '50%',
-                    }}
-                  >
-                    <h2 className="font-bold mb-2">I need your opinion</h2>
-                    <p>I am working on a new big upgrade to Napchart!</p>
-                    <p>
-                      Reach out to me{' '}
-                      <a className="underline blue" href="https://www.reddit.com/user/gaptrast">
-                        on reddit
-                      </a>
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      width: '50%',
-                      paddingLeft: 4,
-                    }}
-                  >
-                    <img src="/nextgen.png" />
-                  </div>
+                  <Contact />
                 </div>
               )}
             </div>

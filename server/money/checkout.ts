@@ -27,7 +27,7 @@ export const checkout = async function (req, res) {
 
   const { username, password, email } = validate?.value || {}
 
-  if (!req.user) {
+  if (!req.userId) {
     if (validate.error) {
       sendValidationError(res, validate.error)
       return
@@ -60,7 +60,7 @@ export const checkout = async function (req, res) {
       ...config,
       payment_method_types: ['card'],
       metadata: {
-        userId: req.user?.id,
+        userId: req.userId,
         billingSchedule: billingSchedule,
         username,
         password,

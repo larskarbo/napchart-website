@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import format from 'date-fns/format'
 import { Link, navigate } from 'gatsby'
 import React, { useState } from 'react'
-import { FaCheck, FaLink } from 'react-icons/fa'
+import { FaCheck, FaLink, FaLock } from 'react-icons/fa'
 import useClipboard from 'react-use-clipboard'
 import { WEB_BASE } from '../../../utils/request'
 import Button from '../../common/Button'
@@ -101,7 +101,18 @@ export const Controls = ({ napchart }) => {
             </div>
           ) : (
             <div className="flex">
-              <Button disabled={!user} small className="mr-2" onClick={() => setSaveModal(true)}>
+              <Button
+                icon={!user && <FaLock />}
+                small
+                className="mr-2"
+                onClick={() => {
+                  if (user) {
+                    setSaveModal(true)
+                  } else {
+                    navigate("/auth/register-premium")
+                  }
+                }}
+              >
                 Save to profile
               </Button>
             </div>
@@ -156,9 +167,13 @@ export const Controls = ({ napchart }) => {
               {isCopied ? 'Copied' : 'Link'}
             </Button>
             {isPrivate ? (
-              <Button small onClick={() => setIsPrivate(false)}>🔒 Chart is private{dirty && "*"}</Button>
+              <Button small onClick={() => setIsPrivate(false)}>
+                🔒 Chart is private{dirty && '*'}
+              </Button>
             ) : (
-              <Button small onClick={() => setIsPrivate(true)}>Chart is public{dirty && "*"}</Button>
+              <Button small onClick={() => setIsPrivate(true)}>
+                Chart is public{dirty && '*'}
+              </Button>
             )}
             {/* <Button small className=" mx-1">
               Twitter

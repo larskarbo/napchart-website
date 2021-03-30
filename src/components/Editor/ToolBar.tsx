@@ -6,7 +6,7 @@ import Button from '../common/Button'
 import { navigate } from 'gatsby-link'
 
 export default function ({ napchart }) {
-  const { updateChart, title, clear } = useChart()
+  const { updateChart, title, clear, dirty } = useChart()
 
   const canGoBack = napchart?.history?.canIGoBack(napchart)
 
@@ -16,7 +16,10 @@ export default function ({ napchart }) {
     <div className="py-2 px-4 border-b border-gray-600">
       <Button
         onClick={() => {
-          navigate("/new")
+          const sure = confirm("Are you sure? You have unsaved changes.")
+          if(sure){
+            navigate("/new")
+          }
         }}
         small
         className={``}
