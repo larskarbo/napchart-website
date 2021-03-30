@@ -7,7 +7,7 @@ module.exports = function (chart) {
     var lane = chart.shape.lanes[chart.mousePenLocation.lane]
 
     ctx.save()
-    ctx.fillStyle = chart.config.defaultColor
+    ctx.fillStyle = helpers.colorMap(chart.config.defaultColor || "red")
     ctx.globalAlpha = 0.5
     var start = helpers.limit(minutes - 1)
     var end = helpers.limit(minutes + 1)

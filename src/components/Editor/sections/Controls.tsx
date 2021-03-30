@@ -14,7 +14,7 @@ import { Feedback } from './Feedback'
 import { ModalBase, ModalContext } from '../../common/ModalContext'
 import { getDataForServer } from '../../../utils/getDataForServer'
 import Chart from '../Chart'
-import { getProperLink } from "../../../utils/getProperLink"
+import { getProperLink } from '../../../utils/getProperLink'
 import { useUser } from '../../../auth/user-context'
 
 export const Controls = ({ napchart }) => {
@@ -37,10 +37,12 @@ export const Controls = ({ napchart }) => {
     lastUpdated,
     chartDocument,
     setChartDocument,
+    isPrivate,
+    setIsPrivate,
     readOnly,
   } = useChart()
 
-  const {user} = useUser()
+  const { user } = useUser()
 
   const [saveModal, setSaveModal] = useState(false)
 
@@ -153,6 +155,11 @@ export const Controls = ({ napchart }) => {
             >
               {isCopied ? 'Copied' : 'Link'}
             </Button>
+            {isPrivate ? (
+              <Button small onClick={() => setIsPrivate(false)}>🔒 Chart is private{dirty && "*"}</Button>
+            ) : (
+              <Button small onClick={() => setIsPrivate(true)}>Chart is public{dirty && "*"}</Button>
+            )}
             {/* <Button small className=" mx-1">
               Twitter
             </Button>

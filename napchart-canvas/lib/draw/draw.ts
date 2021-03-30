@@ -4,6 +4,7 @@ import bars from './content/bars'
 import { chart } from '../types'
 import colorTags from './content/colorTags'
 import handles from './content/handles'
+import { isNode } from '../../../src/utils/request';
 
 // textHelper
 var textHelper = require('./textHelper')
@@ -45,7 +46,7 @@ export function fullDraw(chart, noocanvasplease = false) {
 
   clear(chart)
 
-  if (typeof document === 'undefined' || noocanvasplease) {
+  if (isNode || noocanvasplease) {
     // we are in a node environment
     // dont do the offscreen thing
     faceTasks.forEach(function (task) {

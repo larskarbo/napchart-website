@@ -1,4 +1,5 @@
 import React from 'react'
+import { Contact } from '../Editor/sections/Info'
 
 export default function LoginLayout({ children, msg = '' }) {
   return (
@@ -20,6 +21,19 @@ export default function LoginLayout({ children, msg = '' }) {
       </span> */}
 
       <div className="pb-16"></div>
+      <div className="my-4 text-sm text-gray-800">
+        <p>
+          <strong>✉️ Need help?</strong> Reach out to me on{' '}
+          <a className="underline text-blue-500" href="https://twitter.com/larskarbo">
+            twitter
+          </a>{' '}
+          or{' '}
+          <a className="underline text-blue-500" href="mailto:lars@napchart.com">
+            mail
+          </a>
+          .
+        </p>
+      </div>
     </div>
   )
 }

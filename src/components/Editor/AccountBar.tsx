@@ -3,6 +3,7 @@ import { Link } from 'gatsby'
 import { useUser } from '../../auth/user-context'
 import { CgMail, CgProfile } from 'react-icons/cg'
 import Button from '../common/Button'
+import {PublicUserObject} from "../../../server/utils/publicUserObject"
 
 export const AccountBar = () => {
   const { user } = useUser()
@@ -12,7 +13,7 @@ export const AccountBar = () => {
     <div className="flex">
       {user ? (
         <>
-          {!user.email_verified && (
+          {!user.emailVerified && (
             <Link to={`/auth/verify-email`}>
               <Button className="mt-4 mr-4 text-yellow-600" icon={<CgMail className="mr-2" />}>
                 Verify email

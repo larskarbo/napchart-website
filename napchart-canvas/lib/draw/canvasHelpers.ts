@@ -15,8 +15,13 @@ export const strokeSegment = function (chart, start, end, config) {
 }
 
 export const colorMap = function (chart: chart, color: string) {
+  if(!color){
+    return "red"
+  }
   if (color.includes('#')) {
     return color
+  } else if (color.includes('custom_')) {
+    return chart.custom_colors[color]
   } else {
     return chart.config.colorMap[color]
   }

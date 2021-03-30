@@ -1,12 +1,12 @@
 import { Link } from 'gatsby'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { HiDotsVertical } from 'react-icons/hi'
 import { useQuery, useQueryClient } from 'react-query'
 import useOnClickOutside from 'use-onclickoutside'
 import { useUser } from '../../auth/user-context'
 import { getDataForServer } from '../../utils/getDataForServer'
 import { getProperLink } from '../../utils/getProperLink'
-import { request } from '../../utils/request'
+import { request, BASE } from '../../utils/request'
 import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../common/Button'
 import NotyfContext from '../common/NotyfContext'
@@ -34,6 +34,9 @@ export default function Profile({ children, username }) {
 
   const queryClient = useQueryClient()
 
+  // const { data: billingInfo, isLoading } = useQuery('billingInfo', () => request('GET', `/getBillingInfo`), { enabled: isMe })
+  // console.log('billingInfo: ', billingInfo);
+
   const { mutate: deleteChart } = useNCMutation((chartid: string) => request('DELETE', `/deleteChart/${chartid}`), {
     onSuccess: () => {
       queryClient.invalidateQueries(query_key)
@@ -58,14 +61,33 @@ export default function Profile({ children, username }) {
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center pt-36 bg-yellow-50">
-      <h1 className="text-2xl font pb-12">
+      <h1 className="text-2xl font pb-6">
         <strong>{username}</strong>
       </h1>
       {isMe && (
-        <Button linkTo="/auth/logout" small>Log out</Button>
+        <div className="flex flex-col center">
+          {user.isPremium && (
+            <span className="my-2 px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-yellow-700 rounded bg-yellow-200 ">
+              premium 🏅 ({user.billingSchedule})
+            </span>
+          )}
+          <div className="flex">
+            <Button className="mr-2" linkTo="/auth/logout" small>
+              Log out
+            </Button>
+            {user.billingSchedule == 'monthly' ||
+              (user.billingSchedule == 'yearly' && (
+                <form method="POST" action={`${BASE}/money/customer-portal/` + user.stripeCustomerId}>
+                  <Button className="mr-2" small>
+                    Billing management
+                  </Button>
+                </form>
+              ))}
+          </div>
+        </div>
       )}
 
-      <div className="w-full px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
+      <div className="w-full mt-4 px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
         <div className="flex">
           <Link to={`/app`}>
             <Button className="mt-4 mr-4">New chart +</Button>
@@ -115,6 +137,13 @@ export default function Profile({ children, username }) {
                         },
                       ]}
                     />
+                  </div>
+                )}
+                {chart.isPrivate && (
+                  <div>
+                    <span className="px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-blue-700 rounded bg-blue-200 ">
+                      🔒 private
+                    </span>
                   </div>
                 )}
                 <div className="my-2 font-bold">{chart.title || 'Untitled'}</div>

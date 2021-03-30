@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import sampleSchedules from './polyphasic/sampleSchedules.json'
-import ColorPicker from '../small/ColorPicker'
+import ColorPicker from '../small/ColorPicker.tsx'
 import Lanes from '../small/Lanes'
 
 export default function Polyphasic({ napchart }) {

@@ -10,7 +10,6 @@ import Chart from './Chart'
 import { ChartProvider, useChart } from './chart-context'
 import { getProperLink } from '../../utils/getProperLink'
 import { Header } from './Header'
-import { PremiumModal } from './PremiumModal'
 import { Controls } from './sections/Controls'
 import Export from './sections/Export'
 import { Info } from './sections/Info'
@@ -37,10 +36,10 @@ export default function Editor({ titleAndChartid, chartid, oldchartid, username,
     }
   }
 
-  if(!realChartId && !isApp){
-    navigate("/404", {replace:true})
+  if (!realChartId && !isApp) {
+    navigate('/404', { replace: true })
   }
-  
+
   console.log('realChartId: ', realChartId)
   return (
     <ChartProvider chartid={realChartId} initialData={location?.state?.initialChartDocument}>
@@ -82,10 +81,14 @@ function App({ pathUsername }) {
 
   const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
-  const [showPremiumPopup, setShowPremiumPopup] = useState(false)
   const [showLinkModal, setShowLinkModal] = useState(false)
   const [currentSection, setCurrentSection] = useState(0)
   const [napchartObject, setNapchartObject] = useState(null)
+
+  useEffect(() => {
+    window.napchart = napchartObject
+  }, [napchartObject])
+  
   const [amPm, setAmPm] = useState(getAmpm())
 
   useEffect(() => {
@@ -153,8 +156,6 @@ function App({ pathUsername }) {
         {title?.length ? <title>{`${title} - Napchart`}</title> : <title>{`Unnamed Napchart`}</title>}
       </Helmet>
 
-      {showPremiumPopup && <PremiumModal exit={() => setShowPremiumPopup(false)} />}
-
       <div
         className={c('biggrid', {
           slideSidebarMobile: slideSidebarMobile,
@@ -180,7 +181,7 @@ function App({ pathUsername }) {
               {isLocal() && (
                 <button
                   onClick={() => {
-                    setShowPremiumPopup(true)
+                    navigate('/auth/register-premium')
                   }}
                   className={'text-white w-full h-16'}
                 >

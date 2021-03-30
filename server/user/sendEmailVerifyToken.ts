@@ -7,20 +7,21 @@ import { sendValidationError } from '../utils/sendValidationError'
 import { sendMail } from './authUtils/mail'
 import requestIp from 'request-ip'
 import { WEB_BASE } from '../utils/webBase'
+import { PublicUserObject } from '../utils/publicUserObject'
 const genToken = customAlphabet(alphanumeric, 48)
 
 export const sendEmailVerifyTokenEndpoint = async (req, res) => {
-  const userValue = req.user
+  const userValue:PublicUserObject = req.user
   if (!userValue) {
     res.status(401).send({ message: 'email not found' })
     return
   }
 
-  if (userValue.email_verified) {
+  if (userValue.emailVerified) {
     res.status(400).send({ message: 'Email already verified.' })
   }
 
-  sendEmailVerificationOnly(userValue, req)
+  sendEmailVerificationOnly(userValue, req.userId, req)
     .then(() => {
       res.send({ status: 'done' })
     })
@@ -30,11 +31,11 @@ export const sendEmailVerifyTokenEndpoint = async (req, res) => {
     })
 }
 
-const sendEmailVerificationOnly = async (userValue, req) => {
+const sendEmailVerificationOnly = async (userValue: PublicUserObject, userId, req) => {
   return pool
     .query(
       `INSERT INTO user_tokens (token, password_reset, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
-      [genToken(), false, userValue.id, requestIp.getClientIp(req)],
+      [genToken(), false, userId, requestIp.getClientIp(req)],
     )
     .then((hey) => {
       const { text, html } = makeEmail(hey.rows[0].token)

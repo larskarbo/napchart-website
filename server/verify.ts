@@ -1,3 +1,5 @@
+import { publicUserObject } from "./utils/publicUserObject"
+
 const jwt = require('jsonwebtoken')
 const db = require('./database')
 
@@ -19,7 +21,7 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
       //use the jwt.verify method to verify the access token
       //throws an error if the token has expired or has a invalid signature
       payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET || 'no secret')
-      db.pool.query('SELECT * FROM users WHERE email = $1', [payload.email], (error, results) => {
+      db.pool.query('SELECT * FROM users WHERE email = $1;', [payload.email], (error, results) => {
         if (error) {
           throw error
         }
@@ -27,7 +29,8 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
 
         if (user) {
           if (user.email_verified || type == 'no-email-check') {
-            req.user = user
+            req.user = publicUserObject(user)
+            req.userId = user.id
             next()
             return
           } else {
@@ -35,7 +38,7 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
               return next()
             }
             return res.status(401).send({
-              message: "Email is not verified"
+              message: "Oops, looks like you need to verify your email."
             })
             
           }

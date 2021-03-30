@@ -1,8 +1,29 @@
-const db = require('../database')
+import Joi from 'joi';
+import { chartDataSchema, chartDataSchemaPremium, metaInfoSchema } from './utils/schema';
+import { pool } from '../database';
+import { getValidatedDataIfGood } from '../utils/sendValidationError';
+
+const updateChartSchema = Joi.object({
+  chartData: chartDataSchema,
+  metaInfo: metaInfoSchema,
+  isPrivate: Joi.bool()
+})
+
+const updateChartSchemaPremium = updateChartSchema.keys({
+  chartData: chartDataSchemaPremium
+})
 
 export const updateChart = async function (req, res) {
-  const { chartData, title, description } = req.body
-  console.log('chartData, title, description: ', chartData, title, description)
+  let schema = updateChartSchema
+  if(req.user.isPremium){
+    schema = updateChartSchemaPremium
+  }
+
+  const [success, { chartData, title, description, isPrivate }] = getValidatedDataIfGood(res, schema, req.body)
+  if(!success){
+    return
+  }
+
   const { chartid } = req.params
 
   const username = req.user.username
@@ -11,10 +32,10 @@ export const updateChart = async function (req, res) {
     return res.status(401).send({ message: 'No username' })
   }
 
-  db.pool
+  pool
     .query(
-      `UPDATE charts SET chartid=$1, chart_data=$2, title=$3, description=$4 WHERE chartid = $5 AND username = $6 RETURNING chartid`,
-      [chartid, chartData, title, description, chartid, username],
+      `UPDATE charts SET chartid=$1, chart_data=$2, title=$3, description=$4, is_private=$5 WHERE chartid = $6 AND username = $7 RETURNING chartid`,
+      [chartid, chartData, title, description, isPrivate, chartid, username],
     )
     .then((hey) => {
       if (hey.rows.length == 0) {

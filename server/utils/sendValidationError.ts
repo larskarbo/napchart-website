@@ -7,3 +7,14 @@ const getValidationErrorMessage = (validationError) => {
 export const sendValidationError = (res, validationError) => {
   res.status(422).json({ message: getValidationErrorMessage(validationError) })
 }
+
+export const getValidatedDataIfGood = (res, schema, data) => {
+  const validate = schema.validate(data)
+
+  if (validate.error) {
+    sendValidationError(res, validate.error)
+    return [false, {}]
+  }
+
+  return [true, validate.value]
+}

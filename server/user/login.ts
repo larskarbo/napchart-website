@@ -8,6 +8,7 @@ export const login = async (req, res) => {
   var password = req.body.password
   const userValue = (await db.pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
   if (!userValue) {
+    console.log('email: ', email);
     res.status(401).send({ message: 'email not found' })
     return
   }
@@ -33,5 +34,5 @@ export const login = async (req, res) => {
 
   //send the access token to the client inside a cookie
   res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
-  res.send(publicUserObject(userValue))
+  res.send(userValue)
 }

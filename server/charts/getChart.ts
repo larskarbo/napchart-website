@@ -1,12 +1,12 @@
 import { pool } from '../database'
 import { asyncIncrementVisit } from './utils/asyncIncrementVisit'
-import { ChartDocument } from '../../src/components/Editor/types';
-import { ChartCreationReturn } from './createChart';
-import { WEB_BASE } from '../utils/webBase';
-import { getProperLink } from '../utils/getProperLink';
+import { ChartDocument } from '../../src/components/Editor/types'
+import { ChartCreationReturn } from './createChart'
+import { WEB_BASE } from '../utils/webBase'
+import { getProperLink } from '../utils/getProperLink'
 
 //FIKK IKKJE TIL:
-// const chartidSchema = 
+// const chartidSchema =
 //   Joi.string().pattern(new RegExp(/([a-z]|\d){5,6}/), { name: '5-char chartid' }).required()
 //   // Joi.string().pattern(new RegExp(/([a-z]|\d){6}/), { name: '6-char chartid' }),
 //   // Joi.string().pattern(new RegExp(/(\w|\d){9}/), { name: '9-char modern chartid' })
@@ -14,13 +14,13 @@ import { getProperLink } from '../utils/getProperLink';
 
 export const getChart = async function (req, res) {
   // const validate = chartidSchema.validate(req.params.chartid)
-  
+
   // if (validate.error) {
   //   return sendValidationError(res, validate.error)
   // }
 
   const chartid = req.params.chartid
-  console.log('chartid: ', chartid);
+  console.log('chartid: ', chartid)
 
   pool.query('SELECT * FROM charts WHERE chartid = $1 AND deleted = false', [chartid], (error, results) => {
     if (error) {
@@ -44,17 +44,24 @@ export const getChart = async function (req, res) {
       username: chart.username,
       lastUpdated: chart.updated_at,
       isSnapshot: chart.is_snapshot,
+      isPrivate: chart.is_private,
+    }
+
+    if (chartDocument.isPrivate && chartDocument.username != req.user?.username) {
+      return res.status(401).send({
+        message: "The chart is private",
+      })
     }
 
     const sendThis: ChartCreationReturn = {
       chartDocument,
       publicLink:
-        WEB_BASE + (chartDocument.isSnapshot
+        WEB_BASE +
+        (chartDocument.isSnapshot
           ? `/snapshot/${chartDocument.chartid}`
           : getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid)),
     }
 
     res.send(sendThis)
-
   })
 }

@@ -2,6 +2,7 @@
 import { navigate } from 'gatsby'
 import * as React from 'react'
 import { useQuery, useQueryClient } from 'react-query'
+import { PublicUserObject } from '../../server/utils/publicUserObject'
 import { request } from '../utils/request'
 
 const UserContext = React.createContext({})
@@ -26,8 +27,8 @@ export function UserProvider({ children }) {
   return <UserContext.Provider value={{ user, loadingUser, logoutUser }}>{children}</UserContext.Provider>
 }
 
-export function useUser() {
-  const context = React.useContext(UserContext)
+export function useUser():{user?: PublicUserObject} {
+  const context: any = React.useContext(UserContext)
   if (context === undefined) {
     throw new Error('useUser must be used within a UserProvider')
   }

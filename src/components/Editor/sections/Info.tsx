@@ -47,6 +47,23 @@ export const Info: FunctionComponent<InfoProps> = ({ setAmpm, ampm }) => {
           {ampmChanged && <p>Refresh to update</p>}
         </div>
       </div>
+      <Contact />
     </div>
   )
 }
+
+export const Contact = () => (
+  <div className="my-4">
+    <p>
+      <strong>✉️ Contact:</strong> Reach out to me on{' '}
+      <a className="underline text-blue-500" href="https://twitter.com/larskarbo">
+        twitter
+      </a>{' '}
+      or{' '}
+      <a className="underline text-blue-500" href="mailto:lars@napchart.com">
+        mail
+      </a>
+      .
+    </p>
+  </div>
+)

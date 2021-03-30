@@ -1,5 +1,7 @@
+import { ChartData } from "../../src/components/Editor/types";
+
 export interface chart {
-  data: data
+  data: ChartData
   shape: any
   config: any
   ctx: CanvasRenderingContext2D
@@ -7,23 +9,6 @@ export interface chart {
   history: any
 }
 
-export interface data {
-  elements: Element[]
-  colorTags: any
-  shape: 'circle' | 'wide' | 'line'
-  lanes: number
-  lanesConfig: {}
-}
-
-export interface Element {
-  start: number
-  end: number
-  lane: number
-  id: number
-  duration: number
-  text: string
-  color: string
-}
 
 export interface InteractionState {
   hoverElement: {

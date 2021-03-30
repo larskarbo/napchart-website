@@ -4,6 +4,7 @@ export interface ChartDocument {
   title?: string
   description?: string
   isSnapshot: boolean
+  isPrivate: boolean
   lastUpdated: Date
   username: string
 }
@@ -25,7 +26,6 @@ interface Element {
   id: number
   duration: number
 }
-
 
 interface ColorTag {
   color: string

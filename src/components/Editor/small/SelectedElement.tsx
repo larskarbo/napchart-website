@@ -1,5 +1,5 @@
 import React from 'react'
-import ColorPicker from './ColorPicker'
+import ColorPicker from './ColorPicker.tsx'
 
 export default class extends React.Component {
   render() {
@@ -13,7 +13,7 @@ export default class extends React.Component {
       return (
         <div className="SelectedElement">
           <div className="field">
-            <ColorPicker onClick={this.changeColor} activeColor={activeColor} />
+            <ColorPicker napchart={napchart} onClick={this.changeColor} activeColor={activeColor} />
           </div>
           <div className="field">
             <input

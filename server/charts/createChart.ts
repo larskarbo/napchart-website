@@ -1,7 +1,7 @@
 import requestIp from 'request-ip'
 import { sendValidationError } from '../utils/sendValidationError'
 import { findUniqueId } from './utils/findUniqueId'
-import { chartSchema } from './utils/schema'
+import { chartDataSchema, chartDataSchemaPremium, metaInfoSchema } from './utils/schema'
 import { ChartDocument } from '../../src/components/Editor/types'
 import Joi from 'joi'
 import { WEB_BASE } from '../utils/webBase'
@@ -9,12 +9,15 @@ import { getProperLink } from '../utils/getProperLink'
 const db = require('../database')
 const pRetry = require('p-retry')
 
-export const createChartSchema = Joi.object({
-  chartData: chartSchema,
-  metaInfo: Joi.object({
-    title: Joi.string().max(100).allow(null, ''),
-    description: Joi.string().allow(null, ''),
-  }),
+
+
+const createChartSchema = Joi.object({
+  chartData: chartDataSchema,
+  metaInfo: metaInfoSchema,
+})
+
+const createChartSchemaPremium = createChartSchema.keys({
+  chartData: chartDataSchemaPremium
 })
 
 export type ChartCreationReturn = {
@@ -22,9 +25,17 @@ export type ChartCreationReturn = {
   publicLink: string
 }
 
+
+
 export const createChart = async function (req, res) {
   const isSnapshot = req.isSnapshot || false
-  const validate = createChartSchema.validate(req.body)
+
+  let schema = createChartSchema
+  if(req.user?.isPremium){
+    schema = createChartSchemaPremium
+  }
+
+  const validate = schema.validate(req.body)
 
   if (validate.error) {
     return sendValidationError(res, validate.error)
@@ -53,8 +64,8 @@ export const createChart = async function (req, res) {
   const clientIp = requestIp.getClientIp(req)
   db.pool
     .query(
-      `INSERT INTO charts (chartid, username, chart_data, title, description, is_snapshot, ip) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [chartid, username, chartData, title, description, isSnapshot, clientIp],
+      `INSERT INTO charts (chartid, username, chart_data, title, description, is_snapshot, ip, is_private) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [chartid, username, chartData, title, description, isSnapshot, clientIp, false],
     )
     .then((hey) => {
       const chart = hey.rows[0]
@@ -67,6 +78,7 @@ export const createChart = async function (req, res) {
         username: chart.username,
         lastUpdated: chart.updated_at,
         isSnapshot: chart.is_snapshot,
+        isPrivate: chart.is_private,
       }
 
       const sendThis: ChartCreationReturn = {

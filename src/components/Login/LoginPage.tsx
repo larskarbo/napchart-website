@@ -8,6 +8,7 @@ import { request } from '../../utils/request'
 import { useUser } from '../../auth/user-context'
 import { useQueryClient } from 'react-query'
 import { useNCMutation, useNotyf } from '../../utils/requestHooks'
+import { parse } from 'query-string'
 
 export default function LoginPage({ location }) {
   const { user } = useUser()
@@ -16,15 +17,21 @@ export default function LoginPage({ location }) {
   const queryClient = useQueryClient()
   const notyf = useNotyf()
 
-  const email = formRef?.current?.email.value
-  const password = formRef?.current?.password.value
+  let justPaid = false
+  const searchParams = parse(location.search)
+  if (searchParams.session_id) {
+    justPaid = true
+  }
 
   const login = useNCMutation(
-    () =>
-      request('POST', '/login', {
+    () => {
+      const email = formRef?.current?.email.value
+      const password = formRef?.current?.password.value
+      return request('POST', '/login', {
         email,
         password,
-      }),
+      })
+    },
     {
       onSuccess: async (res) => {
         await queryClient.fetchQuery('user')
@@ -58,9 +65,19 @@ export default function LoginPage({ location }) {
         </>
       ) : (
         <>
-          <div className="pb-4 text-xs text-gray-700 font-light">
-            Napchart accounts are currently only available for a limited amount of users.
-          </div>
+          {justPaid ? (
+            <div className="pb-4 text-gray-700 font-light">
+              <div className="my-2 font-bold text-green-500">Payment successful!</div>
+              <div className="my-2 text-sm ">
+                Now you'll need to login with your credentials and verify your email. Let me know if anything is not
+                working as expected.
+              </div>
+            </div>
+          ) : (
+            <div className="pb-4 text-xs text-gray-700 font-light">
+              Napchart accounts are currently only available for a limited amount of users.
+            </div>
+          )}
           <form ref={formRef} onSubmit={onLogin}>
             <FormElement title={'Email address'} type="email" name="email" placeholder="you@email.com" />
 

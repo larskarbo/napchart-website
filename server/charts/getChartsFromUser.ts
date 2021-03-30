@@ -4,12 +4,14 @@ import { ChartDocument } from '../../src/components/Editor/types'
 export const getChartsFromUser = async function (req, res) {
   const { username } = req.params
 
-  if(username == "anonymous" || username == "thumbbot"){
-    return res.status(404).send({message: "Can't get charts from this user"})
+  if (username == 'anonymous' || username == 'thumbbot') {
+    return res.status(404).send({ message: "Can't get charts from this user" })
   }
 
+  const isMe = req.user && username == req.user?.username
+
   db.pool.query(
-    'SELECT * FROM charts WHERE username = $1 AND is_snapshot = false AND deleted = false ORDER BY created_at LIMIT 100',
+    `SELECT * FROM charts WHERE username = $1 AND is_snapshot = false AND deleted = false ${isMe ? "" : "AND is_private = false"} ORDER BY created_at LIMIT 100`,
     [username],
     (error, results) => {
       if (error) {
@@ -31,6 +33,7 @@ export const getChartsFromUser = async function (req, res) {
             username: chart.username,
             lastUpdated: chart.updated_at,
             isSnapshot: chart.is_snapshot,
+            isPrivate: chart.is_private,
           }
           return chartDocument
         }),

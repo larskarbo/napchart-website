@@ -7,6 +7,7 @@ export const FormElement = ({
   title,
   value = null,
   disabled = false,
+  required = true,
   placeholder = '',
 }) => {
   return (
@@ -16,6 +17,7 @@ export const FormElement = ({
       </label>
       <div className="mt- rounded-md shadow-sm">
         <input
+
           id={name}
           type={type}
           disabled={disabled}
@@ -24,7 +26,7 @@ export const FormElement = ({
           autoComplete={autoComplete}
           value={value ? value : undefined}
           placeholder={placeholder}
-          required
+          required={required}
           className={`block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out
                 border border-gray-300 rounded-md appearance-none focus:outline-none
                 focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5

@@ -62,7 +62,7 @@ export default function VerifyEmailPage({}) {
   return (
     <LoginLayout msg={msg}>
       {user ? (
-        user.email_verified ? (
+        user.emailVerified ? (
           <>
             <div>Awesome! Your email is verified!</div>
             <Link to="/app">

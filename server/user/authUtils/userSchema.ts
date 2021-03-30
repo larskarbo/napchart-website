@@ -5,7 +5,7 @@ const alsoReserved = ['napchart', 'larskarbo', 'calendar', 'time', 'collection',
 
 export const usernameSchema = Joi.string()
   .alphanum()
-  .min(5)
+  .min(6)
   .max(30)
   .invalid(...reserved)
   .pattern(new RegExp(alsoReserved.join('|'), 'i'), { invert: true, name: 'Reserved usernames' })

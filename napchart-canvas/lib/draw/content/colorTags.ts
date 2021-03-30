@@ -18,6 +18,7 @@ export default function colorTags(chart: chart, interactionState?: InteractionSt
 
   var colorTags = chart.data.colorTags
   colorTags.forEach(function (tagObj) {
+    if(tagObj.tag.length == 0) return
     textPosition.y += config.colorTagsSize * 1.5
     var minutes = chart.data.elements.reduce((minutes, element) => {
       if (element.color == tagObj.color) {

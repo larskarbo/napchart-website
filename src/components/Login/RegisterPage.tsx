@@ -42,7 +42,6 @@ export default function RegisterPage({}) {
       username,
     })
       .then((user) => {
-        console.log('user: ', user)
         queryClient.invalidateQueries("user")
 
         navigate('/user/' + user.username)

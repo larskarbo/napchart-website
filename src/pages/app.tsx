@@ -10,6 +10,7 @@ import DiscourseConnect from '../components/Login/DiscourseConnect'
 import ForgotPasswordPage from '../components/Login/ForgotPasswordPage'
 import { navigate } from 'gatsby-link';
 import VerifyEmailPage from '../components/Login/VerifyEmailPage';
+import { PremiumPage } from '../components/Login/PremiumPage';
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -27,7 +28,8 @@ export default function App() {
       <Router>
         <LogOut path="/auth/logout" />
         <LoginPage path="/auth/login" />
-        <RegisterPage path="/auth/register" />
+        {/* <RegisterPage path="/auth/register" /> */}
+        <PremiumPage path="/auth/register-premium" />
         <DiscourseConnect path="/auth/discourse-connect" />
         <SetPasswordPage path="/auth/set-password" />
         <ForgotPasswordPage path="/auth/forgot-password" />

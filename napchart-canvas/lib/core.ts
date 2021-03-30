@@ -259,7 +259,7 @@ export default function init(ctx, data: data, config) {
 
     colorTag: function (color, tag) {
       // 1 delete if tag empty
-      if (tag == '') {
+      if (!color.includes("custom_") && tag == '') {
         return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
       }
 
@@ -285,6 +285,13 @@ export default function init(ctx, data: data, config) {
     },
 
     draw: function () {
+      draw(chart)
+    },
+
+    setDataCalcShapeAndDraw: function (data) {
+      // used for thumb.napchart.com
+      chart.data = data
+      initShape(chart)
       draw(chart)
     },
 
@@ -349,6 +356,17 @@ export default function init(ctx, data: data, config) {
     ...defaultData,
     ...data,
   }
+
+  chart.custom_colors = {}
+
+  console.log('chart.data.colorTags: ', chart.data.colorTags);
+  chart.data.colorTags.forEach(ct => {
+    if(ct.color.includes("custom_")){
+      chart.custom_colors[ct.color] = ct.colorValue
+    }
+  })
+  console.log('chart.custom_colors: ', chart.custom_colors);
+
   chart.hoverElement = {}
   chart.activeElement = {}
   chart.selectedElement = false
@@ -360,6 +378,7 @@ export default function init(ctx, data: data, config) {
   chart.helpers = helpers
 
   chart.shapeIsContinous = true
+
 
   initShape(chart)
 
