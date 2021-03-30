@@ -9,7 +9,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2020-08-
 const prices = {
   monthly: isDev ? 'price_1IaPMXLugp7Sf5UQVU7KZNvA' : 'price_1IaeHPLugp7Sf5UQrTAHxuK7',
   yearly: isDev ? 'price_1IaPMXLugp7Sf5UQCFHZuDNU' : 'price_1IaeHPLugp7Sf5UQiy04tydB',
-  lifetime: isDev ? 'price_1IaPMXLugp7Sf5UQpLHOFXai' : 'price_1IaeHPLugp7Sf5UQA2ZIElr5',
+  lifetime: isDev ? 'price_1IaPMXLugp7Sf5UQpLHOFXai' : 'price_1IanNQLugp7Sf5UQKOtT2oQJ',
+}
+
+const discountsObj = {
+  NapchartUser: 'promo_1IanRfLugp7Sf5UQzw7SIMJ1',
+  poisonsamurai: 'promo_1IanRfLugp7Sf5UQXFurjojB',
+  mammoth: 'promo_1IanRfLugp7Sf5UQrU1kHwlg',
+  barrow: 'promo_1IanRfLugp7Sf5UQEbFJjBAI',
+  enteleform: 'promo_1IanRfLugp7Sf5UQ1B98eWJ2',
+  larskarbo: 'promo_1IanVQLugp7Sf5UQeyIuV1Ba', // <- test
 }
 
 const schema = Joi.object({
@@ -56,9 +65,16 @@ export const checkout = async function (req, res) {
         mode: 'subscription',
       }
     }
+    let discounts = null
+    console.log('req.user: ', req.user);
+    console.log('billingSchedule: ', billingSchedule);
+    if (discountsObj[req.user?.username] && billingSchedule == 'lifetime') {
+      discounts = [{ promotion_code: discountsObj[req.user.username] }]
+    }
     const session = await stripe.checkout.sessions.create({
       ...config,
       payment_method_types: ['card'],
+      discounts: discounts,
       metadata: {
         userId: req.userId,
         billingSchedule: billingSchedule,
