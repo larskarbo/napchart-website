@@ -1,26 +1,27 @@
-import Joi from 'joi';
-import { chartDataSchema, chartDataSchemaPremium, metaInfoSchema } from './utils/schema';
-import { pool } from '../database';
-import { getValidatedDataIfGood } from '../utils/sendValidationError';
+import Joi from 'joi'
+import { chartDataSchema, chartDataSchemaPremium, titleSchema, descriptionSchema } from './utils/schema'
+import { pool } from '../database'
+import { getValidatedDataIfGood } from '../utils/sendValidationError'
 
 const updateChartSchema = Joi.object({
   chartData: chartDataSchema,
-  metaInfo: metaInfoSchema,
-  isPrivate: Joi.bool()
+  title: titleSchema,
+  description: descriptionSchema,
+  isPrivate: Joi.bool(),
 })
 
 const updateChartSchemaPremium = updateChartSchema.keys({
-  chartData: chartDataSchemaPremium
+  chartData: chartDataSchemaPremium,
 })
 
 export const updateChart = async function (req, res) {
   let schema = updateChartSchema
-  if(req.user.isPremium){
+  if (req.user.isPremium) {
     schema = updateChartSchemaPremium
   }
 
   const [success, { chartData, title, description, isPrivate }] = getValidatedDataIfGood(res, schema, req.body)
-  if(!success){
+  if (!success) {
     return
   }
 

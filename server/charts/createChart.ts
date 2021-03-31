@@ -1,7 +1,7 @@
 import requestIp from 'request-ip'
 import { sendValidationError } from '../utils/sendValidationError'
 import { findUniqueId } from './utils/findUniqueId'
-import { chartDataSchema, chartDataSchemaPremium, metaInfoSchema } from './utils/schema'
+import { chartDataSchema, chartDataSchemaPremium, descriptionSchema, titleSchema } from './utils/schema'
 import { ChartDocument } from '../../src/components/Editor/types'
 import Joi from 'joi'
 import { WEB_BASE } from '../utils/webBase'
@@ -13,7 +13,8 @@ const pRetry = require('p-retry')
 
 const createChartSchema = Joi.object({
   chartData: chartDataSchema,
-  metaInfo: metaInfoSchema,
+  title: titleSchema,
+  description: descriptionSchema,
 })
 
 const createChartSchemaPremium = createChartSchema.keys({
@@ -41,9 +42,8 @@ export const createChart = async function (req, res) {
     return sendValidationError(res, validate.error)
   }
 
-  const { metaInfo, api_flag_user, chartData } = validate.value
+  const { title, description, api_flag_user, chartData } = validate.value
 
-  const { title, description } = metaInfo || {}
 
   const chartid = await pRetry(findUniqueId, { retries: 3, minTimeout: 0 })
 

@@ -1,7 +1,19 @@
 import Joi from 'joi'
 
-const colors = ['red', 'blue', 'brown', 'green', 'gray', 'yellow', 'purple', 'pink', 'custom_0', 'custom_1', 'custom_2', 'custom_3']
-
+const colors = [
+  'red',
+  'blue',
+  'brown',
+  'green',
+  'gray',
+  'yellow',
+  'purple',
+  'pink',
+  'custom_0',
+  'custom_1',
+  'custom_2',
+  'custom_3',
+]
 
 const elementSchema = Joi.object({
   start: Joi.number().integer().min(0).max(1440).required(),
@@ -14,14 +26,11 @@ const elementSchema = Joi.object({
 })
 
 const elementSchemaPremium = elementSchema.keys({
-  color: Joi.string().min(3).required()
+  color: Joi.string().min(3).required(),
 })
 
-
 export const chartDataSchema = Joi.object({
-  elements: Joi.array().items(
-    elementSchema
-  ),
+  elements: Joi.array().items(elementSchema),
   lanes: Joi.number().min(0).required(),
   lanesConfig: Joi.any(),
   shape: Joi.string().valid('circle', 'line', 'wide').required(),
@@ -29,13 +38,8 @@ export const chartDataSchema = Joi.object({
 })
 
 export const chartDataSchemaPremium = chartDataSchema.keys({
-  elements: Joi.array().items(
-    elementSchema
-  ),
+  elements: Joi.array().items(elementSchema),
 })
 
-
-export const metaInfoSchema = Joi.object({
-  title: Joi.string().max(100).allow(null, ''),
-  description: Joi.string().allow(null, ''),
-})
+export const titleSchema = Joi.string().max(100).allow(null, '')
+export const descriptionSchema = Joi.string().allow(null, '')

@@ -84,10 +84,8 @@ export function ChartProvider({ children, chartid, initialData }) {
     setRequestLoading(true)
     request('POST', `/updateChart/${chartid}`, {
       chartData: getDataForServer(chartData),
-      metaInfo: {
-        title: title,
-        description: description,
-      },
+      title: title,
+      description: description,
       isPrivate: isPrivate
     })
       .then((res) => {
@@ -117,10 +115,8 @@ export function ChartProvider({ children, chartid, initialData }) {
 
     request('POST', `/createChart`, {
       chartData: getDataForServer(chartData),
-      metaInfo: {
-        title: title,
-        description: description,
-      },
+      title: title,
+      description: description,
     })
       .then((res: ChartCreationReturn) => {
         

@@ -52,10 +52,8 @@ export const SnapshotLinkCreator = ({ napchart }) => {
     () => {
       return request('POST', `/v1/createSnapshot`, {
         chartData: getDataForServer(napchart.data),
-        metaInfo: {
-          title: title,
-          description: description,
-        },
+        title: title,
+        description: description,
       })
     },
     {

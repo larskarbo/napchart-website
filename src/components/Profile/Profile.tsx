@@ -47,10 +47,8 @@ export default function Profile({ children, username }) {
     ({ chartData, title, description }: { chartData: ChartData; title: string; description: string }) =>
       request('POST', `/createChart`, {
         chartData: getDataForServer(chartData),
-        metaInfo: {
-          title: title,
-          description: description,
-        },
+        title: title,
+        description: description,
       }),
     {
       onSuccess: () => {

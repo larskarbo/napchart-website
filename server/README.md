@@ -20,10 +20,8 @@ Body should be:
 ```ts
 Joi.object({
   chartData: chartSchema,
-  metaInfo: Joi.object({
-    title: Joi.string().max(100).allow(null, ''),
-    description: Joi.string().allow(null, ''),
-  }),
+  title: Joi.string().max(100).allow(null, ''),
+  description: Joi.string().allow(null, ''),
 })
 ```
 
