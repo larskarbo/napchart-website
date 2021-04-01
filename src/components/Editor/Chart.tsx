@@ -22,6 +22,14 @@ export default function Chart({
     }
   }, [])
 
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.oncontextmenu = (e) => {
+        e.preventDefault()
+      }
+    }
+  }, [])
+
   const initializeChart = (canvas) => {
     var ctx = canvas.getContext('2d')
 
