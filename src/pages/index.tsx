@@ -19,7 +19,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div className="bg-yellow-50">
+      <div className="bg-yellow-50 min-h-screen">
         <Helmet>
           <meta property="og:url" content={URL} />
           <link rel="canonical" href={URL} />
@@ -38,21 +38,58 @@ export default class extends React.Component {
           <meta name="twitter:creator" content={'larskarbo'} />
         </Helmet>
 
-        <section className="min-h-screen w-full flex flex-col justify-center items-center">
+        <section className="pt-36 w-full flex flex-col justify-center items-center">
           <Logo logoText="Napchart" height="200" />
           <div className="text-3xl">Napchart</div>
           <div className="text-sm my-2">24H Time visualizer</div>
-          <div className="my-32">
+          <div className="my-16">
             <Link to="/app">
               <Button>Enter</Button>
             </Link>
           </div>
         </section>
 
+        <div className="flex center">
+          <div className="mt-16">
+            <a href="https://larskarbo.no" target="_blank">
+              <div
+                className=" flex items-center border border-gray-200 rounded p-2 px-4
+                hover:border-gray-400 transition-colors duration-150 hover:shadow-sm
+                "
+              >
+                <img
+                  alt="Lars"
+                  className="rounded-full mr-2 w-8"
+                  src="https://s.gravatar.com/avatar/4579b299730ddc53e3d523ec1cd5482a?s=72"
+                />
+                <div className="font-light">
+                  made by <strong className="font-bold">@larskarbo</strong>
+                </div>
+              </div>
+            </a>
+            <a
+              href="https://www.producthunt.com/posts/napchart?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-napchart"
+              target="_blank"
+            >
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290488&theme=light"
+                alt="Napchart - 24-hour time visualizer | Product Hunt"
+                width="250"
+                height="54"
+                className="mt-6"
+              />
+            </a>
+          </div>
+        </div>
+        <div className="pb-24"></div>
 
         <div className="flex justify-center">
           <p>
-            🌟 Copyright 2013-2023 <a className="underline text-black" href="https://larskarbo.no/">Lars Karbo</a> 🌟
+            🌟 Copyright 2013-2023{' '}
+            <a className="underline text-black" href="https://larskarbo.no/">
+              Lars Karbo
+            </a>{' '}
+            🌟
           </p>
         </div>
       </div>
