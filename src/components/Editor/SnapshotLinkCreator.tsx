@@ -63,8 +63,15 @@ export const SnapshotLinkCreator = ({ napchart }) => {
 
         handleModal({
           title: 'Snapshot link',
-          content: <SnapshotModal chartid={chartDocument.chartid} data={napchart.data} />,
+          content: <div/>,
         })
+        setTimeout(() => {
+          handleModal({
+            title: 'Snapshot link',
+            content: <SnapshotModal chartid={chartDocument.chartid} data={napchart.data} />,
+          })
+
+        }, 200)
 
         setTimeout(() => {
           mutation.reset()
