@@ -67,18 +67,6 @@ export default class extends React.Component {
                 </div>
               </div>
             </a>
-            <a
-              href="https://www.producthunt.com/posts/napchart?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-napchart"
-              target="_blank"
-            >
-              <img
-                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290488&theme=light"
-                alt="Napchart - 24-hour time visualizer | Product Hunt"
-                width="250"
-                height="54"
-                className="mt-6"
-              />
-            </a>
           </div>
         </div>
         <div className="pb-24"></div>
