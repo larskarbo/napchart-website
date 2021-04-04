@@ -1,3 +1,5 @@
+import { PublicUserObject } from '../utils/publicUserObject'
+
 const queryString = require('query-string')
 
 const Joi = require('joi')
@@ -9,6 +11,8 @@ const schema = Joi.object({
 
 export const discourseHandler = async (req, res) => {
   const { sso, sig } = req.query
+
+  const user: PublicUserObject = req.user
 
   const validate = schema.validate({ sso, sig })
 
@@ -36,15 +40,15 @@ export const discourseHandler = async (req, res) => {
     return res.status(401).json({ error: 'Error when decoding payload' })
   }
 
-  if (!req.user.emailVerified) {
-    return res.status(401).json({ error: "Email not verified" })
+  if (!user.emailVerified) {
+    return res.status(401).json({ error: 'Email not verified' })
   }
 
   const newPayload = {
     nonce: parsed.nonce,
-    email: req.user.email,
-    username: req.user.username,
-    external_id: req.user.id,
+    email: user.email,
+    username: user.username,
+    external_id: req.userId,
   }
 
   const newPayloadEncoded = Buffer.from(queryString.stringify(newPayload)).toString('base64')
