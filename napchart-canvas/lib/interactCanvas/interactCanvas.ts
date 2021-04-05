@@ -539,6 +539,9 @@ function getCoordinates(position, chart) {
 }
 
 function snap(input) {
+  if(window.metaDown){
+    return Math.round(input / 1) * 1
+  }
   return Math.round(input / 5) * 5
 }
 
