@@ -72,10 +72,8 @@ module.exports = {
     // delete key
     document.onkeydown = (evt) => {
       evt = evt || window.event
-      console.log('evt: ', evt);
       if(evt.key == "Meta"){
         window.metaDown = true
-        console.log('window.metaDown: ', window.metaDown);
       }
       if (
         (evt.keyCode == 46 || (evt.keyCode == 8 && evt.metaKey)) &&

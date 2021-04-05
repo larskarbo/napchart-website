@@ -1,28 +1,43 @@
 import React, { useState } from 'react'
-import sampleSchedules from './polyphasic/sampleSchedules.json'
-import ColorPicker from '../small/ColorPicker.tsx'
+import { useQuery } from 'react-query'
+import { request } from '../../../utils/request'
+import ColorPicker from '../small/ColorPicker'
 import Lanes from '../small/Lanes'
+import { ChartDocument } from '../types'
+import Chart from '../Chart';
+import { Link } from 'gatsby'
 
 export default function Polyphasic({ napchart }) {
   const [sleepLane, setSleepLane] = useState(0)
-  const [color, setColor] = useState('red')
 
-  const calculateDuration = (schedule) => {
+  const { data: schedules } = useQuery(
+    'SLEEP_SCHEDULES',
+    (): Promise<ChartDocument[]> => {
+      return request('GET', `/getChartsFromUser/GeneralNguyen`)
+    },
+    {
+      staleTime: Infinity,
+    },
+  )
+
+  const calculateDuration = (schedule: ChartDocument) => {
     var helpers = napchart.helpers
-    const minutes = schedule.elements.reduce((minutes, element) => {
-      return minutes + helpers.duration(element.start, element.end)
-    }, 0)
+    const minutes = schedule.chartData.elements
+      .filter((element) => element.color == 'red')
+      .reduce((minutes, element) => {
+        return minutes + helpers.duration(element.start, element.end)
+      }, 0)
     return helpers.minutesToReadable(minutes)
   }
 
-  const changeSchedule = (schedule) => {
+  const changeSchedule = (schedule: ChartDocument) => {
     var lane = sleepLane // because napchart counts from 0, 1, 2 ...
-    var elements = schedule.elements.map((element) => {
+    var elements = schedule.chartData.elements.map((element) => {
       return {
         start: element.start,
         end: element.end,
         lane: lane,
-        color: color,
+        color: element.color,
       }
     })
     napchart.emptyLane(lane)
@@ -47,18 +62,24 @@ export default function Polyphasic({ napchart }) {
           disabledLane={(lane) => lane > napchart.data.lanes}
         />
       </div>
-      <div className="my-8">
-        <ColorPicker onClick={setColor} activeColor={color} />
-      </div>
       <div className="border my-8 rounded">
-        <p className="bg-gray-100 px-4 py-2 font-light text-lg">Schedules</p>
+        <div className="bg-gray-100 px-4 py-2 font-light text-sm"><div>Sleep Schedules</div>
+        <div className="text-xs">(by <Link className="underline text-blue-500" to="/user/GeneralNguyen">@GeneralNguyen</Link>)</div></div>
 
-        {sampleSchedules.map((schedule) => (
-          <button key={schedule.name} className="flex justify-between w-full px-4 font-light border-t py-2 hover:bg-gray-100" onClick={() => changeSchedule(schedule)}>
-            <span>{schedule.name}</span>
-            <span className="duration">{calculateDuration(schedule)}</span>
-          </button>
-        ))}
+        {schedules &&
+          schedules.map((schedule) => (
+            <button
+              key={schedule.chartid}
+              className="flex justify-between w-full pl-2 pr-4 font-light border-t py-2 hover:bg-gray-100"
+              onClick={() => changeSchedule(schedule)}
+            >
+              <div className="w-8 h-8 overflow-hidden">
+                <Chart interactive={false} chartData={schedule.chartData} />
+              </div>
+              <span>{schedule.title}</span>
+              <span className="duration">{calculateDuration(schedule)}</span>
+            </button>
+          ))}
       </div>
     </div>
   )

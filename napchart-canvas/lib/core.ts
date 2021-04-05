@@ -359,13 +359,11 @@ export default function init(ctx, data: data, config) {
 
   chart.custom_colors = {}
 
-  console.log('chart.data.colorTags: ', chart.data.colorTags);
   chart.data.colorTags.forEach(ct => {
     if(ct.color.includes("custom_")){
       chart.custom_colors[ct.color] = ct.colorValue
     }
   })
-  console.log('chart.custom_colors: ', chart.custom_colors);
 
   chart.hoverElement = {}
   chart.activeElement = {}
