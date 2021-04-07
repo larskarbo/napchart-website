@@ -72,7 +72,7 @@ module.exports = {
     // delete key
     document.onkeydown = (evt) => {
       evt = evt || window.event
-      if(evt.key == "Meta"){
+      if(evt.key == "Meta" || evt.key == "Control"){
         window.metaDown = true
       }
       if (
@@ -87,7 +87,7 @@ module.exports = {
 
     document.onkeyup = (evt) => {
       evt = evt || window.event
-      if(evt.key == "Meta"){
+      if(evt.key == "Meta" || evt.key == "Control"){
         window.metaDown = false
       }
     }
