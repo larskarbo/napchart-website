@@ -112,6 +112,7 @@ export const Controls = ({ napchart }) => {
                     navigate("/auth/register-premium")
                   }
                 }}
+                disabled
               >
                 Save to profile
               </Button>

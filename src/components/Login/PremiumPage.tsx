@@ -63,17 +63,24 @@ const PremiumPageReal = ({ exit }) => {
               <li className="my-1">Save charts to your profile.</li>
               <li className="my-1">Update your charts without changing the link.</li>
               <li className="my-1">Delete your charts.</li>
-              <li className="my-1">🔒 Make charts <strong>private</strong>.</li>
+              <li className="my-1">
+                🔒 Make charts <strong>private</strong>.
+              </li>
             </ul>
             <li className="my-4 font-medium">Napchart editor</li>
             <ul className="list-disc ml-8 font-light text-sm">
               <li className="my-1">Custom colors.</li>
               <li className="my-1">High-res image export.</li>
-              <li className="my-1">Fully featured dark-mode. <i>(coming soon)</i></li>
+              <li className="my-1">
+                Fully featured dark-mode. <i>(coming soon)</i>
+              </li>
             </ul>
             <li className="my-4 font-medium">Community</li>
             <ul className="list-disc ml-8 font-light text-sm">
-              <li className="my-1"><strong>Napchart Forum</strong>. Be able to post and participate in discussions. Voice your suggestions and bugs. Your needs will be prioritized and your voice will be heard.</li>
+              <li className="my-1">
+                <strong>Napchart Forum</strong>. Be able to post and participate in discussions. Voice your suggestions
+                and bugs. Your needs will be prioritized and your voice will be heard.
+              </li>
             </ul>
           </ul>
         </div>
@@ -143,6 +150,13 @@ const CheckoutForm = ({ plan }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
+    if(!stripe){
+      notyf.error("Stripe is still loading, wait a few seconds and try again.")
+      request("POST", "/reportError", {
+        text: "Client error: Stripe is still loading, wait a few seconds and try again."
+      })
+    }
+
     const email = formRef?.current?.email?.value
     const password = formRef?.current?.password?.value
     const username = formRef?.current?.username?.value
@@ -167,6 +181,9 @@ const CheckoutForm = ({ plan }) => {
       })
       .catch((err) => {
         notyf.error(getErrorMessage(err))
+        request("POST", "/reportError", {
+          text: `Client payment error: ${getErrorMessage(err)}`
+        })
       })
       .finally(() => {
         setLoading(false)
@@ -208,7 +225,7 @@ const CheckoutForm = ({ plan }) => {
       )}
 
       {/* <CardElement /> */}
-      <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-50" disabled={!stripe}>
+      <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-50">
         Become a Premium member!
       </Button>
     </form>

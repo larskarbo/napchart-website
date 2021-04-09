@@ -9,6 +9,7 @@ import { deleteChart } from './charts/deleteChart'
 import { getChart } from './charts/getChart'
 import { getChartsFromUser } from './charts/getChartsFromUser'
 import { updateChart } from './charts/updateChart'
+import { slackNotify } from './charts/utils/slackNotify'
 import { pool } from './database'
 import { discourseHandler } from './discourse/connect'
 import { checkout } from './money/checkout'
@@ -117,6 +118,11 @@ app.post('/v1/createSnapshot', createRateLimiter, verify('optional'), createSnap
 app.get('/v1/getChart/:chartid', verify('optional'), getChart)
 
 app.get('/discourse-connect', verify('normal'), discourseHandler)
+
+app.post("/reportError", (req, res) => {
+  slackNotify(req.body.text, req.body.obj)
+  res.send({ok: "ok"})
+})
 
 app.all('/*', (req, res) => {
   return res.status(404).send({

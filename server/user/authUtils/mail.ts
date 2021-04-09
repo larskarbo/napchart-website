@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { slackNotify } from '../../charts/utils/slackNotify'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -21,7 +22,9 @@ export const sendMail = async ({ toAddress, subject, body_html, body_text }) => 
   }
 
   // Send the email.
-  let info = await transporter.sendMail(mailOptions)
+  let info = await transporter.sendMail(mailOptions).catch(() => {
+    slackNotify(`Error when sending email!`, mailOptions)
+  })
 
   console.log('Message sent! Message ID: ', info.messageId)
 }

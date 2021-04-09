@@ -3,6 +3,7 @@ import { pool, queryOne } from '../database'
 import { encrypt } from '../user/authUtils/encrypt'
 import { sendMail } from '../user/authUtils/mail'
 import marked from "marked"
+import { slackNotify } from '../charts/utils/slackNotify'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2020-08-27' })
 
 export const stripeWebhook = async (req, res) => {
@@ -30,7 +31,7 @@ export const stripeWebhook = async (req, res) => {
       console.log('event.data.object.metadata: ', event.data.object.metadata)
 
       if (userId) {
-        console.log('we need to update an account: ')
+        slackNotify(`New purchase from known ID: ${userId}. Purchased ${billingSchedule}`)
         pool
           .query(`UPDATE users SET plan=$1, billing_schedule=$2, stripe_customer_id=$3 WHERE id=$4`, [
             'premium',
@@ -47,6 +48,7 @@ export const stripeWebhook = async (req, res) => {
           })
       } else {
         // we need to create an account
+        slackNotify(`New purchase from new user: ${username}. Purchased ${billingSchedule}`)
         console.log('we need to create an account: ')
         const passwordHash = await encrypt(password)
 
@@ -73,6 +75,7 @@ export const stripeWebhook = async (req, res) => {
       // You should provision the subscription.
       break
     case 'customer.subscription.deleted':
+      slackNotify(`Subscription canceled by user! Need to handle`)
       if (event.request != null) {
         // handle a subscription cancelled by your request
         // from above.
@@ -82,6 +85,7 @@ export const stripeWebhook = async (req, res) => {
       }
       break
     default:
+      slackNotify(`Unhandled webhook!`)
       return res.send({ unhandled: 'OK' })
     // Unexpected event type
   }
