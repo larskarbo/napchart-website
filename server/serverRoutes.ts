@@ -24,6 +24,7 @@ import { setPassword } from './user/setPassword'
 import { verifyEmail } from './user/verifyEmail'
 import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
 import { verify } from './verify'
+import { newsletterAdd } from './charts/utils/newsletterAdd';
 
 const app = express()
 

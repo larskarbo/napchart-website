@@ -4,6 +4,7 @@ import { encrypt } from '../user/authUtils/encrypt'
 import { sendMail } from '../user/authUtils/mail'
 import marked from "marked"
 import { slackNotify } from '../charts/utils/slackNotify'
+import { newsletterAdd } from '../charts/utils/newsletterAdd';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2020-08-27' })
 
 export const stripeWebhook = async (req, res) => {
@@ -49,6 +50,8 @@ export const stripeWebhook = async (req, res) => {
       } else {
         // we need to create an account
         slackNotify(`New purchase from new user: ${username}. Purchased ${billingSchedule}`)
+        newsletterAdd(email, process.env.SENDY_PREMIUM_LIST)
+
         console.log('we need to create an account: ')
         const passwordHash = await encrypt(password)
 
