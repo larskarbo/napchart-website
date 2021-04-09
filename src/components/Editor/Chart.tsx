@@ -9,6 +9,7 @@ export default function Chart({
   chartData,
   setGlobalNapchart,
   amPm,
+  config={},
 }) {
   const canvasRef = useRef(null)
 
@@ -37,6 +38,7 @@ export default function Chart({
       responsive,
       ampm: amPm,
       interaction: interactive,
+      ...config
     })
 
     // drawOnly(ctx, chartData, {

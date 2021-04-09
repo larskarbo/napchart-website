@@ -11,6 +11,7 @@ import ForgotPasswordPage from '../components/Login/ForgotPasswordPage'
 import { navigate } from 'gatsby-link';
 import VerifyEmailPage from '../components/Login/VerifyEmailPage';
 import { PremiumPage } from '../components/Login/PremiumPage';
+import OnlyChart from '../components/Editor/OnlyChart';
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -42,6 +43,7 @@ export default function App() {
         <Editor path="/:oldchartid" />
         <Editor path="/snapshot/:chartid" />
         <Editor path="/:username/:titleAndChartid" />
+        <OnlyChart path="/only-the-chart/:chartid" />
         {/* <Editor path="/user/:username/chart/:titleAndChartid" /> */}
       </Router>
     </>

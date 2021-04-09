@@ -28,16 +28,16 @@ export default function colorTags(chart: chart, interactionState?: InteractionSt
       }
     }, 0)
     var text = tagObj.tag + ': ' + minutesToReadable(minutes)
-    ctx.font = fontSize(chart, config.fontSize.medium)
+    ctx.font = fontSize(chart, config.tagsTextSize)
 
     ctx.fillText(text, textPosition.x, textPosition.y)
 
-    var squareSize = config.fontSize.medium
+    var squareSize = config.tagsTextSize
 
     var width = ctx.measureText(text).width
     var squarePosition = {
-      x: textPosition.x - width / 2 - squareSize - config.fontSize.medium / 2,
-      y: textPosition.y - config.fontSize.medium / 2,
+      x: textPosition.x - width / 2 - squareSize - config.tagsTextSize / 2,
+      y: textPosition.y - config.tagsTextSize / 2,
     }
     ctx.save()
 

@@ -85,10 +85,6 @@ function App({ pathUsername }) {
   const [currentSection, setCurrentSection] = useState(0)
   const [napchartObject, setNapchartObject] = useState(null)
 
-  useEffect(() => {
-    window.napchart = napchartObject
-  }, [napchartObject])
-
   const [amPm, setAmPm] = useState(getAmpm())
 
   useEffect(() => {

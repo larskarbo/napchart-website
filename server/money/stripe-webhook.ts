@@ -113,6 +113,8 @@ const makeEmail = ({ username, email }) => {
 
   Let me know any feedback you have!
 
+  Feel free to reply directly to this mail.
+
   Best,
 
   Lars

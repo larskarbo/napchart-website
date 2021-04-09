@@ -12,6 +12,8 @@ export const baseConfig = {
     medium: 2.25,
     big: 3.5,
   },
+  labelTextSize: 1.75,
+  tagsTextSize: 2.25,
   baseFontSize: 'noscale:1', // all other font sizes multiply this
   fontColor: '#aaaaaa',
   cornerRadius: 3,
