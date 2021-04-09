@@ -1,5 +1,7 @@
 
 cd ~/imitate/server
+echo waiting 5 seconds...
+sleep 5
 git pull
 yarn
 yarn build
