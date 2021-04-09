@@ -67,7 +67,7 @@ export default function Polyphasic({ napchart }) {
         <div className="text-xs">(by <Link className="underline text-blue-500" to="/user/GeneralNguyen">@GeneralNguyen</Link>)</div></div>
 
         {schedules &&
-          schedules.map((schedule) => (
+          schedules.sort((a,b) => ('' + a.title).localeCompare(b.title)).map((schedule) => (
             <button
               key={schedule.chartid}
               className="flex justify-between w-full pl-2 pr-4 font-light border-t py-2 hover:bg-gray-100"
