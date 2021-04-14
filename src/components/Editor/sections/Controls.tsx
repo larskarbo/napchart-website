@@ -112,7 +112,7 @@ export const Controls = ({ napchart }) => {
                     navigate("/auth/register-premium")
                   }
                 }}
-                disabled
+                disabled={!user}
               >
                 Save to profile
               </Button>
