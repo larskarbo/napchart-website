@@ -40,7 +40,7 @@
 
 .biggrid {
   display: grid;
-  grid-template-columns: 340px auto;
+  grid-template-columns: 360px auto;
 }
 @media (max-width: 550px) {
   .biggrid {

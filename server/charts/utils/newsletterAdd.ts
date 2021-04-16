@@ -10,7 +10,7 @@ export const newsletterAdd = async (email: string, list: string) => {
   data.append('list', list)
 
 
-  const res = await axios({
+  await axios({
     method: 'post',
     url: process.env.SENDY_URL,
     headers: {

@@ -162,7 +162,7 @@ function App({ pathUsername }) {
 
           <ToolBar napchart={napchartObject} />
           <div className="flex flex-row flex-grow">
-            <div className="bg-gray-700 pt-24 w-16 text-sm">
+            <div className="bg-gray-700 pt-24 w-16 text-sm flex-shrink-0">
               {sections.map((section, i) => (
                 <button
                   onClick={() => setCurrentSection(i)}
