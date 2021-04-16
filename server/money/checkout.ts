@@ -13,10 +13,9 @@ const prices = {
 }
 
 const discountsObj = {
-  NapchartUser: 'promo_1IanRfLugp7Sf5UQzw7SIMJ1',
   poisonsamurai: 'promo_1IanRfLugp7Sf5UQXFurjojB',
   mammoth: 'promo_1IanRfLugp7Sf5UQrU1kHwlg',
-  barrow: 'promo_1IanRfLugp7Sf5UQEbFJjBAI',
+  barrow: 'promo_1Igwd0Lugp7Sf5UQFF6vS3NB',
   enteleform: 'promo_1IanRfLugp7Sf5UQ1B98eWJ2',
   larskarbo: 'promo_1IanVQLugp7Sf5UQeyIuV1Ba', // <- test
 }
