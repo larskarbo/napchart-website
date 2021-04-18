@@ -1,15 +1,12 @@
-import React from 'react'
 import { Link } from 'gatsby'
+import React from 'react'
+import { CgMail, CgProfile } from 'react-icons/cg'
+import { FaArrowUp } from 'react-icons/fa'
 import { useUser } from '../../auth/user-context'
-import { CgMail, CgProfile, CgPushUp } from 'react-icons/cg'
 import Button from '../common/Button'
-import {PublicUserObject} from "../../../server/utils/publicUserObject"
-import { FaArrowUp, FaUps } from 'react-icons/fa'
 
 export const AccountBar = () => {
   const { user } = useUser()
-  console.log('user: ', user);
-  
 
   return (
     <div className="flex">
@@ -22,7 +19,7 @@ export const AccountBar = () => {
               </Button>
             </Link>
           )}
-          {!(user?.isPremium) && (
+          {!user?.isPremium && (
             <Link to={`/auth/register-premium`}>
               <Button className="mt-4 mr-4 text-green-600" icon={<FaArrowUp className="mr-2" />}>
                 Upgrade

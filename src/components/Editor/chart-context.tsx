@@ -1,4 +1,3 @@
-// src/playingNow-context.js
 import { navigate } from 'gatsby'
 import React, { useContext, useEffect, useState } from 'react'
 import { useUser } from '../../auth/user-context'
@@ -11,8 +10,6 @@ import { ChartCreationReturn } from '../../../server/charts/createChart'
 import { getErrorMessage } from '../../utils/getErrorMessage';
 
 const ChartContext = React.createContext({})
-
-// const spotifyOriginal = new Spotify()
 
 export function ChartProvider({ children, chartid, initialData }) {
   const { user } = useUser()
@@ -36,14 +33,14 @@ export function ChartProvider({ children, chartid, initialData }) {
     custom_2: null,
     custom_3: null,
   })
-  console.log('customColors: ', customColors);
+  
 
   useEffect(() => {
     if (chartid && !initialData) {
       setLoading(true)
       request('GET', `/v1/getChart/${chartid}`)
         .then((res: ChartCreationReturn) => {
-          console.log('res: ', res);
+          
           
           setChartDocument(res.chartDocument)
           setLoading(false)
@@ -52,7 +49,7 @@ export function ChartProvider({ children, chartid, initialData }) {
           if(err?.response?.status == 404)(
             navigate("/404", {replace:true})
           )
-          console.log('getErrorMessage(err): ', getErrorMessage(err));
+          
           if(getErrorMessage(err) == "The chart is private"){
             alert("This chart is private")
             navigate("/app", {replace:true})

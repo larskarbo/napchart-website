@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaEdit, FaPen } from 'react-icons/fa'
 import { useUser } from '../../../auth/user-context'
 import { useChart } from '../chart-context'
+import { CompactPicker } from 'react-color'
+import useOnClickOutside from 'use-onclickoutside'
 
 var colors = {
   red: '#D02516',
@@ -15,20 +17,17 @@ var colors = {
   pink: '#ff94d4',
 }
 
-let colorpickervalue
-
 export default function ColorPicker({ napchart, activeColor, onClick }) {
   const { customColors, setCustomColors } = useChart()
 
   useEffect(() => {
-    if(!napchart){
+    if (!napchart) {
       return
     }
     napchart.custom_colors = customColors
-    if(!napchart?.data?.colorTags){
+    if (!napchart?.data?.colorTags) {
       return
     }
-    console.log('napchart?.data?.colorTags: ', napchart?.data?.colorTags);
     Object.entries(customColors)
       .filter(([_, value]) => value)
       .forEach(([key, value]) => {
@@ -38,7 +37,7 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
           napchart.data.colorTags.push({
             color: key,
             colorValue: value,
-            tag: ""
+            tag: '',
           })
         }
 
@@ -52,8 +51,6 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
           return t
         })
       })
-    console.log('customColors: ', customColors)
-    console.log('napchart.custom_colors: ', napchart.custom_colors)
   }, [customColors, napchart])
 
   // useEffect(() => {
@@ -86,41 +83,72 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
       {napchart && user?.isPremium && (
         <div className="flex">
           {['custom_0', 'custom_1', 'custom_2', 'custom_3'].map((color) => {
-            const enabled = customColors[color]
             return (
-              <div className="py-4 flex flex-1" key={color}>
-                <input
-                  type="color"
-                  id="body"
-                  name="body"
-                  value={customColors[color] || "#ffffff"}
-                  onChange={(e) => {
-                    colorpickervalue = e.target.value
-                  }}
-                  onBlur={(e) => {
-                    setCustomColors({
-                      ...customColors,
-                      [color]: colorpickervalue,
-                    })
-                  }}
-                />
-                <button
-                  className={clsx(
-                    'napchartDontLoseFocus w-4 flex center text-white text-xs flex-1 rounded-full h-8 mx-1 border-2',
-                    color == activeColor ? 'border-black border-opacity-20 shadow' : 'border-transparent',
-                  )}
-                  style={{
-                    backgroundColor: customColors[color],
-                  }}
-                  onClick={() => (enabled ? onClick(color) : null)}
-                >
-                  {color == activeColor ? <FaCheck /> : ''}
-                </button>
-              </div>
+              <OneColor
+                onSet={(colorHex) => {
+                  setCustomColors({
+                    ...customColors,
+                    [color]: colorHex,
+                  })
+                }}
+                color={color}
+                onClick={onClick}
+                customColors={customColors}
+                activeColor={activeColor}
+              />
             )
           })}
         </div>
       )}
+    </div>
+  )
+}
+
+const OneColor = ({ color, customColors, activeColor, onClick, onSet }) => {
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => setPickerOpen(false))
+
+  const enabled = customColors[color]
+  return (
+    <div className="py-4 flex flex-1" key={color}>
+      {pickerOpen && (
+        <div ref={ref} className="absolute bg-white p-4">
+          <CompactPicker
+            color={customColors[color] || '#ffffff'}
+            onChangeComplete={(color) => {
+              onSet(color.hex)
+              setPickerOpen(false)
+            }}
+          />
+        </div>
+      )}
+      <button
+        className={clsx(
+          'napchartDontLoseFocus w-4 flex center text-white text-xs flex-1 rounded-l-full h-8 ml-1 border-2',
+          color == activeColor ? 'border-black border-opacity-20 shadow' : 'border-gray-200 border-r-0',
+          !enabled && 'cursor-not-allowed',
+        )}
+        disabled={!enabled}
+        style={{
+          backgroundColor: customColors[color] || 'white',
+        }}
+        onClick={() => (enabled ? onClick(color) : null)}
+      >
+        {color == activeColor ? <FaCheck /> : ''}
+      </button>
+      <button
+        className={clsx(
+          'napchartDontLoseFocus  w-4 flex center text-xs flex-1 rounded-r-full h-8 mr-1 border-2 border-gray-200 border-l-1',
+          customColors[color] && 'text-white',
+        )}
+        style={{
+          backgroundColor: customColors[color] || 'white',
+        }}
+        onClick={() => setPickerOpen(true)}
+      >
+        <FaPen />
+      </button>
     </div>
   )
 }
