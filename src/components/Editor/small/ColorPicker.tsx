@@ -5,6 +5,7 @@ import { useUser } from '../../../auth/user-context'
 import { useChart } from '../chart-context'
 import { CompactPicker } from 'react-color'
 import useOnClickOutside from 'use-onclickoutside'
+import { compactColors } from './compactColors';
 
 var colors = {
   red: '#D02516',
@@ -113,13 +114,14 @@ const OneColor = ({ color, customColors, activeColor, onClick, onSet }) => {
   return (
     <div className="py-4 flex flex-1" key={color}>
       {pickerOpen && (
-        <div ref={ref} className="absolute bg-white p-4">
+        <div ref={ref} className="absolute z-10 bg-white p-4">
           <CompactPicker
             color={customColors[color] || '#ffffff'}
             onChangeComplete={(color) => {
               onSet(color.hex)
               setPickerOpen(false)
             }}
+            colors={compactColors}
           />
         </div>
       )}

@@ -25,9 +25,6 @@ const elementSchema = Joi.object({
     .required(),
 })
 
-const elementSchemaPremium = elementSchema.keys({
-  color: Joi.string().min(3).required(),
-})
 
 export const chartDataSchema = Joi.object({
   elements: Joi.array().items(elementSchema),
