@@ -182,7 +182,7 @@ const CheckoutForm = ({ plan }) => {
       .catch((err) => {
         notyf.error(getErrorMessage(err))
         request("POST", "/reportError", {
-          text: `Client payment error: ${getErrorMessage(err)}`
+          text: `Client payment error: ${getErrorMessage(err)} ${email} ${username} ${plan}`
         })
       })
       .finally(() => {
