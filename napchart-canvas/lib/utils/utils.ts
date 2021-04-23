@@ -3,8 +3,6 @@ import { baseConfig } from '../baseConfig'
 import { drawFrame, fullDraw } from '../draw/draw'
 import { clone, deepEach } from '../helperFunctions'
 import { initShape } from '../shape/shape'
-import debounce from 'lodash/debounce'
-
 export function scale(chart) {
   var canvas = chart.canvas
   retinaScale(chart)
@@ -34,7 +32,7 @@ export function retinaScale(chart) {
 }
 
 export function enableResponsiveness(chart) {
-  const resizeFunction = debounce(() => {
+  const resizeFunction = () => setTimeout(() => {
     
     scale(chart)
     initShape(chart)
