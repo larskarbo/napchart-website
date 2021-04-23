@@ -1,7 +1,7 @@
 import React from 'react'
 import { useChart } from '../chart-context'
 import { getProperLink } from '../../../utils/getProperLink'
-import { THUMB_BASE } from '../../../utils/request'
+import { BASE } from '../../../utils/request'
 import { useUser } from '../../../auth/user-context'
 
 export default function Export() {
@@ -15,7 +15,7 @@ export default function Export() {
           <div className="my-4">
             <label className="font-bold my-4">IMAGE</label>
             <div className="">
-              <a className="underline text-blue-500" href={`${THUMB_BASE}/api/getImage?chartid=` + chartid}>
+              <a className="underline text-blue-500" href={`${BASE}/v1/getImage/${chartid}`}>
                 Image link (600x600)
               </a>
             </div>
@@ -24,7 +24,7 @@ export default function Export() {
                 <a
                   className="underline text-blue-500"
                   download
-                  href={`${THUMB_BASE}/api/getImage?hr=1&chartid=` + chartid}
+                  href={`${BASE}/v1/getImage/${chartid}?hr=1`}
                 >
                   High res image link (2400x2400)
                 </a>

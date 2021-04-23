@@ -10,6 +10,7 @@ import Napchart from '../../napchart-canvas/lib/index'
 export const getImage = async function (req, res) {
   const chartid = req.params.chartid
   console.log('chartid: ', chartid)
+  var hr = req.query.hr;
 
   pool.query('SELECT * FROM charts WHERE chartid = $1 AND deleted = false', [chartid], (error, results) => {
     if (error) {
@@ -42,14 +43,10 @@ export const getImage = async function (req, res) {
       })
     }
 
-    const canvas = new Canvas(600, 600)
-    const ctx = canvas.getContext('2d')
-    const { width, height } = canvas
+    const size = hr ? 2400 : 600
 
-    // let path1 = new Path2D();
-    // path1.arc(100, 75, 50, 0, 0.3 * Math.PI)
-    // path1.arc(100, 75, 50, 0.3 * Math.PI, 0.6 * Math.PI)
-    // ctx.fill(path1)
+    const canvas = new Canvas(size, size)
+    const ctx = canvas.getContext('2d')
 
     Napchart.init(ctx, chartDocument.chartData || {}, {
       responsive: false,
