@@ -14,16 +14,15 @@ export default function (chart: chart, interactionState?: InteractionState) {
     //   ctx.globalAlpha = 0.9
     // }
 
-    createSegment(
+    const path = createSegment(
       chart,
       lane.end - config.paddingLanes,
       lane.start + config.paddingLanes,
       element.start,
-      element.end,
-      function () {
-        ctx.fill()
-      },
+      element.end
     )
+
+    ctx.fill(path)
 
     ctx.restore()
   })

@@ -144,6 +144,13 @@
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
 
+"@types/skia-canvas@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@types/skia-canvas/-/skia-canvas-0.9.0.tgz#89d212b9469ca5514e5fa100a77012e0abf33f01"
+  integrity sha512-L9ZracT68bj4LaDKKf/nGzXJdDmBdMQ/2vJ4Azy8eoXM/CtMk9QHkQv+tjzMk5Zs929c+EwMit7dwHa+9Unm6Q==
+  dependencies:
+    "@types/node" "*"
+
 "@types/stripe@^8.0.417":
   version "8.0.417"
   resolved "https://registry.yarnpkg.com/@types/stripe/-/stripe-8.0.417.tgz#b651677a9fc33be8ce8fd5bceadd7ca077214244"

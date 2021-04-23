@@ -25,6 +25,7 @@ import { verifyEmail } from './user/verifyEmail'
 import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
 import { verify } from './verify'
 import { newsletterAdd } from './charts/utils/newsletterAdd';
+import { getImage } from './charts/getImage';
 
 const app = express()
 
@@ -117,6 +118,7 @@ app.post('/money/stripe-webhook', stripeWebhook)
 // public API
 app.post('/v1/createSnapshot', createRateLimiter, verify('optional'), createSnapshot)
 app.get('/v1/getChart/:chartid', verify('optional'), getChart)
+app.get('/v1/getImage/:chartid', verify('optional'), getImage)
 
 app.get('/discourse-connect', verify('normal'), discourseHandler)
 

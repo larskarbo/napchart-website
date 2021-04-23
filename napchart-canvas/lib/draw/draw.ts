@@ -4,7 +4,14 @@ import bars from './content/bars'
 import { chart } from '../types'
 import colorTags from './content/colorTags'
 import handles from './content/handles'
-import { isNode } from '../../../src/utils/request';
+
+export let isNode
+
+try{
+  isNode = typeof window == "undefined"
+} catch(e) {
+  isNode = true
+}
 
 // textHelper
 var textHelper = require('./textHelper')
@@ -97,6 +104,7 @@ function drawFrameFunctions(chart: chart) {
   tasks.forEach(function (task) {
     task(chart)
   })
+
 }
 
 export function benchmark(chart) {

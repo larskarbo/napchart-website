@@ -257,6 +257,10 @@ export default function init(ctx, data: data, config) {
       chart.draw()
     },
 
+    createPath: function () {
+      return new Path2D()
+    },
+
     colorTag: function (color, tag) {
       // 1 delete if tag empty
       if (!color.includes("custom_") && tag == '') {
@@ -345,6 +349,10 @@ export default function init(ctx, data: data, config) {
   chart.ctx = ctx
   chart.canvas = ctx.canvas
   chart.unScaledConfig = initConfig(config)
+
+  if(config.createPath){
+    chart.createPath = config.createPath
+  }
 
   scale(chart)
 

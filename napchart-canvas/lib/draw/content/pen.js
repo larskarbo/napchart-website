@@ -11,16 +11,14 @@ module.exports = function (chart) {
     ctx.globalAlpha = 0.5
     var start = helpers.limit(minutes - 1)
     var end = helpers.limit(minutes + 1)
-    helpers.createSegment(
+    const path = helpers.createSegment(
       chart,
       lane.end - config.paddingLanes,
       lane.start + config.paddingLanes,
       start,
       end,
-      function () {
-        ctx.fill()
-      },
     )
+    ctx.fill(path)
 
     ctx.restore()
   }

@@ -16,7 +16,7 @@ module.exports = function (chart) {
     // ctx.setLineDash([1, 1])
 
     ctx.beginPath()
-    createCurve(chart, 0.01, 1439.9, lanes[i].end)
+    createCurve(chart, chart.ctx, 0.01, 1439.9, lanes[i].end)
     ctx.stroke()
 
     ctx.setLineDash([])
@@ -24,10 +24,10 @@ module.exports = function (chart) {
   ctx.restore()
 
   ctx.beginPath()
-  createCurve(chart, 0.01, 1439.9, lanes[0].start)
+  createCurve(chart, chart.ctx, 0.01, 1439.9, lanes[0].start)
   ctx.stroke()
 
   ctx.beginPath()
-  createCurve(chart, 0.01, 1439.9, lanes[lanes.length - 1].end)
+  createCurve(chart, chart.ctx, 0.01, 1439.9, lanes[lanes.length - 1].end)
   ctx.stroke()
 }

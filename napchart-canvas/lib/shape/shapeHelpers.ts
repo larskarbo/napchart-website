@@ -11,6 +11,7 @@ import {
   getPositionBetweenTwoValues,
   limit,
 } from '../helperFunctions'
+import { chart } from '../types'
 
 export const XYtoInfo = function (chart, x, y) {
   // will gather three things: minutes and distance and lane from basepoint
@@ -143,13 +144,11 @@ export const minutesToXY = function (chart, minutes, radius) {
   return point
 }
 
-export const createCurve = function (chart, start, end, radius, anticlockwise, callback) {
-  var ctx = chart.ctx
-  if (typeof anticlockwise === 'undefined') {
-    var anticlockwise = false
-  }
+export const createCurve = function (chart: chart, path: Path2D | CanvasRenderingContext2D, start, end, radius, anticlockwise=false, callback?) {
+
   // the reason for this silly function inside function: callback see at the end
-  function createCurve(start, end) {
+  function createCurveInner(start, end) {
+    console.log('start, end: ', start, end, anticlockwise);
     var shape = clone(chart.shape)
     if (anticlockwise) {
       shape.elements.reverse()
@@ -238,49 +237,51 @@ export const createCurve = function (chart, start, end, radius, anticlockwise, c
         i = -1
       }
     }
+    console.log('taskArray: ', taskArray);
     taskArray.forEach(function (task, i) {
       var shapeElement = task.shapeElement
       if (shapeElement.type === 'arc') {
         var shapeStart = shapeElement.startAngle - Math.PI / 2
         var start = shapeStart + task.start * shapeElement.radians
         var end = shapeStart + task.end * shapeElement.radians
-        ctx.arc(shapeElement.startPoint.x, shapeElement.startPoint.y, radius, start, end, anticlockwise)
+        path.arc(shapeElement.startPoint.x, shapeElement.startPoint.y, radius, start, end, anticlockwise)
       } else if (shapeElement.type === 'line') {
         var startPoint = minutesToXY(chart, shapeElement.start + shapeElement.minutes * task.start, radius)
         var endPoint = minutesToXY(chart, shapeElement.start + shapeElement.minutes * task.end, radius)
-        ctx.lineTo(startPoint.x, startPoint.y)
-        ctx.lineTo(endPoint.x, endPoint.y)
+        path.lineTo(startPoint.x, startPoint.y)
+        path.lineTo(endPoint.x, endPoint.y)
       }
     })
   }
+
   if (typeof callback === 'undefined') {
-    createCurve(start, end)
+    createCurveInner(start, end)
   } else {
     // callback makes it possible for this function to do two operations
     // instead of one, thus be able to draw when shape is a straight line
     if (!chart.shapeIsContinous && start > end) {
-      createCurve(start, 1440)
+      createCurveInner(start, 1440)
       callback()
 
       chart.ctx.beginPath() // this is a hotfix
-      createCurve(0, end)
+      createCurveInner(0, end)
       callback()
     } else {
-      createCurve(start, end)
+      createCurveInner(start, end)
       callback()
     }
   }
 }
 
-export const createSegment = function (chart, outer, inner, start, end, callback) {
+export const createSegment = function (chart: chart, outer, inner, start, end, callback?) {
+  const path = chart.createPath()
+
   function createSegment(start, end) {
-    var ctx = chart.ctx
-    ctx.beginPath()
-    createCurve(chart, start, end, outer)
-    createCurve(chart, end, start, inner, true)
-    ctx.closePath()
+    createCurve(chart, path, start, end, outer)
+    createCurve(chart, path, end, start, inner, true)
   }
 
+  console.log('callback: ', callback);
   if (typeof callback === 'undefined') {
     createSegment(start, end)
   } else {
@@ -289,7 +290,7 @@ export const createSegment = function (chart, outer, inner, start, end, callback
     if (!chart.shapeIsContinous && start > end) {
       createSegment(start, 1440)
       callback()
-
+      
       createSegment(0, end)
       callback()
     } else {
@@ -297,4 +298,6 @@ export const createSegment = function (chart, outer, inner, start, end, callback
       callback()
     }
   }
+  
+  return path
 }

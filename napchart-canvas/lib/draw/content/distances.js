@@ -65,7 +65,7 @@ module.exports = function (chart) {
 
         ctx.beginPath()
         // stroke
-        helpers.createCurve(chart, start, end, radius, false, () => {
+        helpers.createCurve(chart, chart.ctx, start, end, radius, false, () => {
           ctx.stroke()
         })
 

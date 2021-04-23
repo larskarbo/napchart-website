@@ -1,5 +1,5 @@
 {
-  "watch": ["."],
+  "watch": [".", "../napchart-canvas"],
   "ext": ".ts,.js",
   "ignore": [],
   "exec": "ts-node --transpile-only ./server.ts",
