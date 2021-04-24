@@ -16,6 +16,7 @@ import { Contact, Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
+import { BASE } from '../../utils/request'
 
 export default function Editor({ titleAndChartid, chartid, oldchartid, username, location, isApp }) {
   let realChartId
@@ -141,11 +142,11 @@ function App({ pathUsername }) {
         {description?.length && <meta name="description" content={description} />}
         <meta
           name="twitter:image"
-          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}`}
+          content={`${BASE}/v1/getImage/${chartid}`}
         />
         <meta
           property="og:image"
-          content={`https://thumb.napchart.com/api/getImage?chartid=${chartid}`}
+          content={`${BASE}/v1/getImage/${chartid}`}
         />
         <meta property="og:image:width" content="600" />
         <meta property="og:image:height" content="600" />

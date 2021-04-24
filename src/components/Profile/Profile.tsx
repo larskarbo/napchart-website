@@ -107,10 +107,6 @@ export default function Profile({ children, username }) {
                     <Chart interactive={false} chartData={chart.chartData} />
                   </div>
                 </Link>
-                {/* <img
-                    src={`https://thumb.napchart.com/api/getImage?width=250&height=250&chartid=${chart.chartid}`}
-                    className="w-44 h-44  bg-gray-400 rounded shadow-lg"
-                  ></img> */}
                 {isMe && (
                   <div className="relative">
                     <DropdownMenu
