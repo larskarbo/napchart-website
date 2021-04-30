@@ -34,8 +34,8 @@ export const sendEmailVerifyTokenEndpoint = async (req, res) => {
 const sendEmailVerificationOnly = async (userValue: PublicUserObject, userId, req) => {
   return pool
     .query(
-      `INSERT INTO user_tokens (token, password_reset, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
-      [genToken(), false, userId, requestIp.getClientIp(req)],
+      `INSERT INTO user_tokens (token, token_type, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
+      [genToken(), "email-verify", userId, requestIp.getClientIp(req)],
     )
     .then((hey) => {
       const { text, html } = makeEmail(hey.rows[0].token)

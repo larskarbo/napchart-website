@@ -22,7 +22,10 @@ export const setPassword = async (req, res) => {
   const { token, password } = validate.value
 
   const user_token_doc = (await pool.query('SELECT * FROM user_tokens WHERE token = $1', [token]))?.rows?.[0]
-  console.log('user_token_doc: ', user_token_doc)
+  if (user_token_doc.token_type != "password-reset") {
+    res.status(401).send({ message: 'wrong token type' })
+    return
+  }
   if (!user_token_doc) {
     res.status(401).send({ success: false, message: 'token not matching anything' })
     return
