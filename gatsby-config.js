@@ -8,6 +8,12 @@ module.exports = {
     siteUrl: `https://napchart.com`,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-plausible`,
+      options: {
+        domain: `napchart.com`,
+      },
+    },
     // {
     //   resolve: `gatsby-source-filesystem`,
     //   options: {
