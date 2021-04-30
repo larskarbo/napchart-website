@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { FaCheck, FaEdit, FaPen } from 'react-icons/fa'
-import { useUser } from '../../../auth/user-context'
-import { useChart } from '../chart-context'
-import { CompactPicker } from 'react-color'
+import React, { useEffect, useRef, useState } from 'react'
+import { HexColorPicker } from 'react-colorful'
+import { FaCheck, FaPen } from 'react-icons/fa'
 import useOnClickOutside from 'use-onclickoutside'
-import { compactColors } from './compactColors';
+import { useUser } from '../../../auth/user-context'
 import Button from '../../common/Button'
+import { useChart } from '../chart-context'
 
 var colors = {
   red: '#D02516',
@@ -113,17 +112,18 @@ const OneColor = ({ color, customColors, activeColor, onClick, onSet }) => {
 
   const enabled = customColors[color]
   return (
-    <div className="py-4 flex flex-1" key={color}>
+    <div className="py-4 flex flex-1 relative" key={color}>
       {pickerOpen && (
-        <div ref={ref} className="absolute shadow-xl border rounded z-10 bg-white p-4">
-          <CompactPicker
+        <div ref={ref} className="absolute left-16 bottom-0 shadow-xl border rounded z-10 bg-white p-4">
+          <HexColorPicker
             color={customColors[color] || '#ffffff'}
-            onChangeComplete={(color) => {
-              onSet(color.hex)
+            onChange={(color) => {
+              onSet(color)
             }}
-            colors={compactColors}
           />
-          <Button onClick={() => setPickerOpen(false)} className="mt-4">OK</Button>
+          <Button onClick={() => setPickerOpen(false)} className="mt-4">
+            OK
+          </Button>
         </div>
       )}
       <button
