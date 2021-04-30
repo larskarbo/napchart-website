@@ -79,17 +79,17 @@ app.get('/getUser', verify('no-email-check'), async (req, res) => {
 
 const mailRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 2,
+  max: 20,
 })
 
 const loginRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5,
+  max: 50,
 })
 
 const createRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5,
+  max: 50,
 })
 
 app.post('/login', loginRateLimiter, login)

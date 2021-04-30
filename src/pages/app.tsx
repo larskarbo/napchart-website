@@ -29,7 +29,7 @@ export default function App() {
       <Router>
         <LogOut path="/auth/logout" />
         <LoginPage path="/auth/login" />
-        {/* <RegisterPage path="/auth/register" /> */}
+        <RegisterPage path="/auth/register" />
         <PremiumPage path="/auth/register-premium" />
         <DiscourseConnect path="/auth/discourse-connect" />
         <SetPasswordPage path="/auth/set-password" />

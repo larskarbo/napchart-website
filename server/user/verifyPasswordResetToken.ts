@@ -5,12 +5,8 @@ export const verifyPasswordResetToken = async (req, res) => {
 
   const userToken = (await pool.query('SELECT * FROM user_tokens WHERE token = $1', [utoken]))?.rows?.[0]
   console.log('userToken: ', userToken)
-  if (userToken.token_type != "password-reset") {
-    res.status(401).send({ message: 'wrong token type' })
-    return
-  }
-  if (!userToken) {
-    res.status(401).send({ message: 'token not found' })
+  if (!userToken || userToken.token_type != "password-reset") {
+    res.status(401).send({ message: 'invalid token' })
     return
   }
 

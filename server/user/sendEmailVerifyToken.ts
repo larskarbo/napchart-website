@@ -8,7 +8,7 @@ import { sendMail } from './authUtils/mail'
 import requestIp from 'request-ip'
 import { WEB_BASE } from '../utils/webBase'
 import { PublicUserObject } from '../utils/publicUserObject'
-const genToken = customAlphabet(alphanumeric, 48)
+import { genToken } from './sendPasswordResetToken';
 
 export const sendEmailVerifyTokenEndpoint = async (req, res) => {
   const userValue:PublicUserObject = req.user

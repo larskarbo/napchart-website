@@ -196,36 +196,11 @@ const CheckoutForm = ({ plan }) => {
         <></>
       ) : (
         <>
-          <FormElement
-            title={'Choose a username'}
-            type="text"
-            name="username"
-            required
-            // value={searchParams.email}
-          />
-
-          <FormElement
-            title={'Email address'}
-            type="email"
-            name="email"
-            placeholder="you@email.com"
-            required
-            // value={searchParams.email}
-          />
-
-          <FormElement
-            title={'Password'}
-            type="password"
-            name="password"
-            placeholder="*******"
-            required
-            // value={searchParams.email}
-          />
         </>
       )}
 
       {/* <CardElement /> */}
-      <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-50">
+      <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-400 text-white font-medium">
         Become a Premium member!
       </Button>
     </form>

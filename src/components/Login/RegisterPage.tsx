@@ -1,31 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react'
-
-import { useLocation } from '@reach/router'
-import { Link, navigate } from 'gatsby'
-import { parse } from 'query-string'
+import { navigate } from 'gatsby'
+import React, { useRef, useState } from 'react'
+import { useQueryClient } from 'react-query'
+import { getErrorMessage } from '../../utils/getErrorMessage'
 import { request } from '../../utils/request'
 import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
-import { useUser } from '../../auth/user-context'
-import { getErrorMessage } from '../../utils/getErrorMessage'
-import { useQueryClient } from 'react-query';
+import { parse } from 'query-string'
 
 export default function RegisterPage({}) {
   const formRef = useRef()
   const [loading, setLoading] = useState(true)
   const queryClient = useQueryClient()
 
+  const searchParams = parse(location.search)
+  if (!searchParams.session_id) {
+    navigate('/auth/register-premium', { replace: true })
+  }
+
   const [msg, setMsg] = useState('')
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    const code = formRef.current.code.value
-
-    if (code != 'NAPCHART_V11') {
-      return alert('Wrong code')
-    }
     const email = formRef.current.email.value
     const password = formRef.current.password.value
     const passwordTwo = formRef.current.passwordTwo.value
@@ -40,9 +37,10 @@ export default function RegisterPage({}) {
       email,
       password,
       username,
+      session_id: searchParams.session_id,
     })
       .then((user) => {
-        queryClient.invalidateQueries("user")
+        queryClient.invalidateQueries('user')
 
         navigate('/user/' + user.username)
         // window.location.href =
@@ -50,6 +48,7 @@ export default function RegisterPage({}) {
       .catch(async (asdf) => {
         // console.log('asdf: ', );
         setMsg(getErrorMessage(asdf))
+
         console.log('asdf: ', asdf.response)
       })
   }
@@ -58,13 +57,6 @@ export default function RegisterPage({}) {
     <LoginLayout msg={msg}>
       <>
         <form ref={formRef} onSubmit={onSubmit}>
-          <FormElement
-            title={'Secret Code'}
-            type="text"
-            name="code"
-            // value={searchParams.email}
-          />
-
           <FormElement
             title={'Username'}
             type="text"

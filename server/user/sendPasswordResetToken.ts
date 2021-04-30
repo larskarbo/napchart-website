@@ -7,7 +7,7 @@ import { sendValidationError } from '../utils/sendValidationError'
 import { sendMail } from './authUtils/mail'
 import requestIp from 'request-ip'
 import { WEB_BASE } from '../utils/webBase'
-const genToken = customAlphabet(alphanumeric, 48)
+export const genToken = customAlphabet(alphanumeric, 48)
 
 const schema = Joi.object({
   email: Joi.string().email().required(),

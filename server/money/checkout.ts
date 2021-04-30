@@ -31,28 +31,6 @@ export const checkout = async function (req, res) {
   const { billingSchedule } = req.body
   const priceId = prices[billingSchedule]
 
-  const validate = schema.validate(req.body)
-
-  const { username, password, email } = validate?.value || {}
-
-  if (!req.userId) {
-    if (validate.error) {
-      sendValidationError(res, validate.error)
-      return
-    }
-
-    const existsUsername = await queryOne(`SELECT * from users WHERE username = $1`, [username])
-    if (existsUsername) {
-      res.status(401).send({ message: 'Username taken' })
-    }
-    const existsEmail = await queryOne(`SELECT * from users WHERE email = $1`, [email])
-    if (existsEmail) {
-      res.status(401).send({ message: 'Email is already in use' })
-    }
-  }
-
-  // See https://stripe.com/docs/api/checkout/sessions/create
-  // for additional parameters to pass.
   try {
     let config = {}
     if (billingSchedule == 'lifetime') {
@@ -78,9 +56,6 @@ export const checkout = async function (req, res) {
       metadata: {
         userId: req.userId,
         billingSchedule: billingSchedule,
-        username,
-        password,
-        email,
       },
       line_items: [
         {
@@ -91,7 +66,7 @@ export const checkout = async function (req, res) {
       // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
       // the actual Session ID is returned in the query parameter when your customer
       // is redirected to the success page.
-      success_url: `${WEB_BASE}/auth/login?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${WEB_BASE}/auth/register?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${WEB_BASE}/auth/register-premium?payment_canceled`,
     })
 
