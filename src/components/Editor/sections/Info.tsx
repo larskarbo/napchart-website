@@ -54,6 +54,11 @@ export const Info: FunctionComponent<InfoProps> = ({ setAmpm, ampm }) => {
 
 export const Contact = () => (
   <div className="my-4">
+    <p className="mb-4">
+      <strong>👉 PS:</strong> I'm building an AI video generation company. Create videos in seconds instead of days. Check out <a className="underline text-blue-500" href="https://personate.ai?ref=nc">
+        personate.ai
+      </a>
+    </p>
     <p>
       <strong>✉️ Contact:</strong> Reach out to me on{' '}
       <a className="underline text-blue-500" href="https://twitter.com/larskarbo">
