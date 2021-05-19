@@ -61,20 +61,5 @@ module.exports = {
       },
     },
     `gatsby-plugin-react-helmet`,
-    // {
-    //   resolve: `gatsby-plugin-canonical-urls`,
-    //   options: {
-    //     siteUrl: `https://napchart.com`,
-    //   },
-    // },
-    {
-      resolve: `gatsby-plugin-google-gtag`,
-      options: {
-        // You can add multiple tracking ids and a pageview event will be fired for all of them.
-        trackingIds: [
-          'UA-57727622-1', // Google Analytics / GA
-        ],
-      },
-    },
   ],
 }
