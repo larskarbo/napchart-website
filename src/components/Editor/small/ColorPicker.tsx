@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
-import { HexColorPicker } from 'react-colorful'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { HexColorPicker, HexColorInput } from 'react-colorful'
 import { FaCheck, FaPen } from 'react-icons/fa'
 import useOnClickOutside from 'use-onclickoutside'
 import { useUser } from '../../../auth/user-context'
@@ -59,6 +59,7 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
   //   if (colorTags) {
   //   }
   // }, [napchart?.data?.colorTags])
+  const [closeCounter, setCloseCounter] = useState(0)
 
   const { user } = useUser()
   var colorsArray = Object.keys(colors)
@@ -86,6 +87,9 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
           {['custom_0', 'custom_1', 'custom_2', 'custom_3'].map((color) => {
             return (
               <OneColor
+                closeCounter={closeCounter}
+                setCloseCounter={setCloseCounter}
+                colors={colors}
                 onSet={(colorHex) => {
                   setCustomColors({
                     ...customColors,
@@ -105,25 +109,66 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
   )
 }
 
-const OneColor = ({ color, customColors, activeColor, onClick, onSet }) => {
+const OneColor = ({ closeCounter, setCloseCounter, colors, color, customColors, activeColor, onClick, onSet }) => {
   const [pickerOpen, setPickerOpen] = useState(false)
   const ref = useRef(null)
-  useOnClickOutside(ref, () => setPickerOpen(false))
+  useOnClickOutside(ref, () => {
+    setPickerOpen(false)
+
+    setCloseCounter(closeCounter + 1)
+  })
+  const oldColor = useRef(() => color)
+  const [colorEntries, setColorEntries] = useState([])
 
   const enabled = customColors[color]
+  console.log('customColors: ', customColors)
+  useEffect(() => {
+    setColorEntries([...Object.entries(colors), ...Object.entries(customColors), ['asdf', color]].filter((v) => v[1]))
+  }, [closeCounter])
+  console.log('colorsEntries: ', colorEntries)
   return (
     <div className="py-4 flex flex-1 relative" key={color}>
       {pickerOpen && (
-        <div ref={ref} className="absolute left-16 bottom-0 shadow-xl border rounded z-10 bg-white p-4">
+        <div
+          ref={ref}
+          className="absolute left-16 bottom-0 shadow-xl border rounded z-10 bg-gray-50 border-gray-500 p-6"
+        >
           <HexColorPicker
             color={customColors[color] || '#ffffff'}
             onChange={(color) => {
               onSet(color)
             }}
           />
-          <Button onClick={() => setPickerOpen(false)} className="mt-4">
+          <div className="w-16">
+            <HexColorInput
+              className="mt-4 border p-1 text-xs w-full"
+              color={customColors[color] || '#ffffff'}
+              onChange={(color) => {
+                onSet(color)
+              }}
+            />
+            <div className="text-xs text- font-medium my-1">HEX</div>
+          </div>
+          <div className="border mb-2" />
+
+          <div className="flex flex-wrap">
+            {colorEntries.map((c) => (
+              <button
+                key={c[0]}
+                onClick={() => {
+                  onSet(c[1])
+                }}
+                className="w-4 h-4 mr-2 mb-2 border"
+                style={{
+                  backgroundColor: c[1],
+                }}
+              ></button>
+            ))}
+          </div>
+
+          {/* <Button onClick={() => setPickerOpen(false)} className="mt-4">
             OK
-          </Button>
+          </Button> */}
         </div>
       )}
       <button
