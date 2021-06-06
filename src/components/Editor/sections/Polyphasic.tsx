@@ -1,11 +1,10 @@
+import { Link } from 'gatsby'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { request } from '../../../utils/request'
-import ColorPicker from '../small/ColorPicker'
+import Chart from '../Chart'
 import Lanes from '../small/Lanes'
 import { ChartDocument } from '../types'
-import Chart from '../Chart';
-import { Link } from 'gatsby'
 
 export default function Polyphasic({ napchart }) {
   const [sleepLane, setSleepLane] = useState(0)
@@ -52,7 +51,13 @@ export default function Polyphasic({ napchart }) {
   return (
     <div className="pt-8">
       <div className="text-sm text-gray-800 font-ligt">
-        Clicking on any of the schedules will overwrite all elements in the selected lane
+        Clicking on any of the schedules will overwrite all elements in the selected lane.
+      </div>
+      <div className="text-sm mt-2 text-gray-800 font-ligt">
+        Check out polyphasic.net for{' '}
+        <a className="underline" target="_blank" href="https://www.polyphasic.net/polyphasic-sleep-schedules/">
+          more alternate variants to each schedule ↗
+        </a>
       </div>
       <div className="my-8">
         <Lanes
@@ -63,23 +68,33 @@ export default function Polyphasic({ napchart }) {
         />
       </div>
       <div className="border my-8 rounded">
-        <div className="bg-gray-100 px-4 py-2 font-light text-sm"><div>Sleep Schedules</div>
-        <div className="text-xs">(by <Link className="underline text-blue-500" to="/user/GeneralNguyen">@GeneralNguyen</Link>)</div></div>
+        <div className="bg-gray-100 px-4 py-2 font-light text-sm">
+          <div>Sleep Schedules</div>
+          <div className="text-xs">
+            (by{' '}
+            <Link className="underline text-blue-500" to="/user/GeneralNguyen">
+              @GeneralNguyen
+            </Link>
+            )
+          </div>
+        </div>
 
         {schedules &&
-          schedules.sort((a,b) => ('' + a.title).localeCompare(b.title)).map((schedule) => (
-            <button
-              key={schedule.chartid}
-              className="flex justify-between w-full pl-2 pr-4 font-light border-t py-2 hover:bg-gray-100"
-              onClick={() => changeSchedule(schedule)}
-            >
-              <div className="w-8 h-8 overflow-hidden">
-                <Chart interactive={false} chartData={schedule.chartData} />
-              </div>
-              <span>{schedule.title}</span>
-              <span className="duration">{calculateDuration(schedule)}</span>
-            </button>
-          ))}
+          schedules
+            .sort((a, b) => ('' + a.title).localeCompare(b.title))
+            .map((schedule) => (
+              <button
+                key={schedule.chartid}
+                className="flex justify-between w-full pl-2 pr-4 font-light border-t py-2 hover:bg-gray-100"
+                onClick={() => changeSchedule(schedule)}
+              >
+                <div className="w-8 h-8 overflow-hidden">
+                  <Chart interactive={false} chartData={schedule.chartData} />
+                </div>
+                <span>{schedule.title}</span>
+                <span className="duration">{calculateDuration(schedule)}</span>
+              </button>
+            ))}
       </div>
     </div>
   )

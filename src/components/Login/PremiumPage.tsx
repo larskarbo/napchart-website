@@ -1,17 +1,12 @@
+import { Elements, useStripe } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 import React, { useRef, useState } from 'react'
-
-import useOnClickOutside from 'use-onclickoutside'
 import ReactPlayer from 'react-player/vimeo'
 import { useUser } from '../../auth/user-context'
-import { CgProfile } from 'react-icons/cg'
-import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-import { Link } from 'gatsby'
-import { request } from '../../utils/request'
-import Button from '../common/Button'
-import { FormElement } from './FormElement'
-import { useNotyf } from '../../utils/requestHooks'
 import { getErrorMessage } from '../../utils/getErrorMessage'
+import { request } from '../../utils/request'
+import { useNotyf } from '../../utils/requestHooks'
+import Button from '../common/Button'
 
 enum Plan {
   Monthly = 'monthly',
@@ -150,10 +145,10 @@ const CheckoutForm = ({ plan }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if(!stripe){
-      notyf.error("Stripe is still loading, wait a few seconds and try again.")
-      request("POST", "/reportError", {
-        text: "Client error: Stripe is still loading, wait a few seconds and try again."
+    if (!stripe) {
+      notyf.error('Stripe is still loading, wait a few seconds and try again.')
+      request('POST', '/reportError', {
+        text: 'Client error: Stripe is still loading, wait a few seconds and try again.',
       })
     }
 
@@ -181,8 +176,8 @@ const CheckoutForm = ({ plan }) => {
       })
       .catch((err) => {
         notyf.error(getErrorMessage(err))
-        request("POST", "/reportError", {
-          text: `Client payment error: ${getErrorMessage(err)} ${email} ${username} ${plan}`
+        request('POST', '/reportError', {
+          text: `Client payment error: ${getErrorMessage(err)} ${email} ${username} ${plan}`,
         })
       })
       .finally(() => {
@@ -192,12 +187,7 @@ const CheckoutForm = ({ plan }) => {
 
   return (
     <form ref={formRef} className="mt-4" onSubmit={handleSubmit}>
-      {user ? (
-        <></>
-      ) : (
-        <>
-        </>
-      )}
+      {user ? <></> : <></>}
 
       {/* <CardElement /> */}
       <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-400 text-white font-medium">
