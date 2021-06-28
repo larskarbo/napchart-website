@@ -73,14 +73,13 @@ export default function Profile({ children, username }) {
             <Button className="mr-2" linkTo="/auth/logout" small>
               Log out
             </Button>
-            {user.billingSchedule == 'monthly' ||
-              (user.billingSchedule == 'yearly' && (
-                <form method="POST" action={`${BASE}/money/customer-portal/` + user.stripeCustomerId}>
-                  <Button className="mr-2" small>
-                    Billing management
-                  </Button>
-                </form>
-              ))}
+            {(user.billingSchedule == 'monthly' || user.billingSchedule == 'yearly') && (
+              <form method="POST" action={`${BASE}/money/customer-portal/` + user.stripeCustomerId}>
+                <Button className="mr-2" small>
+                  Billing management
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       )}
