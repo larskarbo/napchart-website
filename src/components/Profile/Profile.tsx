@@ -1,15 +1,16 @@
+import { HomeIcon } from '@heroicons/react/outline'
 import { Link } from 'gatsby'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { HiDotsVertical } from 'react-icons/hi'
 import { useQuery, useQueryClient } from 'react-query'
 import useOnClickOutside from 'use-onclickoutside'
 import { useUser } from '../../auth/user-context'
 import { getDataForServer } from '../../utils/getDataForServer'
 import { getProperLink } from '../../utils/getProperLink'
-import { request, BASE } from '../../utils/request'
+import { BASE, request } from '../../utils/request'
 import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../common/Button'
-import NotyfContext from '../common/NotyfContext'
+import Nav from '../common/Nav'
 import Chart from '../Editor/Chart'
 import { ChartData, ChartDocument } from '../Editor/types'
 
@@ -27,7 +28,6 @@ export default function Profile({ children, username }) {
       return request('GET', `/getChartsFromUser/${username}`)
     },
   )
-  const notyf = useContext(NotyfContext)
 
   const { user } = useUser()
   const isMe = username == user?.username
@@ -58,104 +58,127 @@ export default function Profile({ children, username }) {
   )
 
   return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center pt-36 bg-yellow-50">
-      <h1 className="text-2xl font pb-6">
-        <strong>{username}</strong>
-      </h1>
-      {isMe && (
-        <div className="flex flex-col center">
-          {user.isPremium && (
-            <span className="my-2 px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-yellow-700 rounded bg-yellow-200 ">
-              premium 🏅 ({user.billingSchedule})
-            </span>
+    <div>
+      <Nav activeRoute={'/users'} />
+
+      <div className=" w-full min-h-screen pt-12 flex flex-col items-center bg-yellow-50">
+        <div className="max-w-5xl ">
+          <nav className="flex" aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-4">
+              <li>
+                <div className="flex items-center">
+                  <a href={'/users'} className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                    Users
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div className="flex items-center">
+                  <svg
+                    className="flex-shrink-0 h-5 w-5 text-gray-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                  </svg>
+                  <a href={`/user/${username}`} className="ml-4  text-sm font-medium text-gray-500 hover:text-gray-700">
+                    {username}
+                  </a>
+                </div>
+              </li>
+            </ol>
+          </nav>
+          <h1 className="text-2xl text-center font pb-6">
+            <strong>{username}</strong>
+          </h1>
+          {isMe && (
+            <div className="flex flex-col center">
+              {user.isPremium && (
+                <span className="my-2 px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-yellow-700 rounded bg-yellow-200 ">
+                  premium 🏅 ({user.billingSchedule})
+                </span>
+              )}
+              <div className="flex">
+                {(user.billingSchedule == 'monthly' || user.billingSchedule == 'yearly') && (
+                  <form method="POST" action={`${BASE}/money/customer-portal/` + user.stripeCustomerId}>
+                    <Button className="mr-2" small>
+                      Billing management
+                    </Button>
+                  </form>
+                )}
+              </div>
+            </div>
           )}
-          <div className="flex">
-            <Button className="mr-2" linkTo="/auth/logout" small>
-              Log out
-            </Button>
-            {(user.billingSchedule == 'monthly' || user.billingSchedule == 'yearly') && (
-              <form method="POST" action={`${BASE}/money/customer-portal/` + user.stripeCustomerId}>
-                <Button className="mr-2" small>
-                  Billing management
-                </Button>
-              </form>
-            )}
+
+          <div className="w-full mx-auto mt-4 px-4 py-8 pt-5  bg-white rounded-lg shadow max-w-5xl">
+            <div className="flex"></div>
+            <h2 className="py-8  px-8 text-xl">Charts:</h2>
+            <div className="grid grid-cols-4 gap-8">
+              {charts &&
+                charts.map((chart) => (
+                  <div
+                    key={chart.chartid}
+                    className="rounded border bg-gray-50 hover:bg-gray-100 flex-1 p-2 flex flex-col flex-shrink-0"
+                  >
+                    <Link key={chart.chartid} to={getProperLink(chart.username, chart.title, chart.chartid)}>
+                      <div className="w-48 h-48 overflow-hidden">
+                        <Chart interactive={false} chartData={chart.chartData} />
+                      </div>
+                    </Link>
+                    {isMe && (
+                      <div className="relative">
+                        <DropdownMenu
+                          options={[
+                            {
+                              name: 'Delete',
+                              onClick: () => {
+                                if (window.confirm('Do you really want to delete this chart?')) {
+                                  deleteChart(chart.chartid)
+                                }
+                              },
+                            },
+                            {
+                              name: 'Duplicate',
+                              onClick: () => {
+                                duplicateChart({
+                                  chartData: chart.chartData,
+                                  title: chart.title,
+                                  description: chart.description,
+                                })
+                              },
+                            },
+                          ]}
+                        />
+                      </div>
+                    )}
+                    {chart.isPrivate && (
+                      <div>
+                        <span className="px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-blue-700 rounded bg-blue-200 ">
+                          🔒 private
+                        </span>
+                      </div>
+                    )}
+                    <div className="my-2 font-bold">{chart.title || 'Untitled'}</div>
+                    <div className="my-2">{truncate(chart.description, 30) || 'No description'}</div>
+                  </div>
+                ))}
+
+              {charts?.length == 0 && 'Your charts will show up here.'}
+            </div>
           </div>
         </div>
-      )}
 
-      <div className="w-full mt-4 px-4 py-8 pt-5 mx-3 bg-white rounded-lg shadow max-w-5xl">
-        <div className="flex">
-          <Link to={`/app`}>
-            <Button className="mt-4 mr-4">New chart +</Button>
-          </Link>
-          {/* <Button className="mt-4 mr-4" icon={<FaTrash />}>
-            Show Archived
-          </Button> */}
-        </div>
-        <h2 className="py-8 text-xl">Charts:</h2>
-        <div className="grid grid-cols-4 gap-8">
-          {charts &&
-            charts.map((chart) => (
-              <div
-                key={chart.chartid}
-                className="rounded border bg-gray-50 hover:bg-gray-100 flex-1 p-2 flex flex-col flex-shrink-0"
-              >
-                <Link key={chart.chartid} to={getProperLink(chart.username, chart.title, chart.chartid)}>
-                  <div className="w-48 h-48 overflow-hidden">
-                    <Chart interactive={false} chartData={chart.chartData} />
-                  </div>
-                </Link>
-                {isMe && (
-                  <div className="relative">
-                    <DropdownMenu
-                      options={[
-                        {
-                          name: 'Delete',
-                          onClick: () => {
-                            if (window.confirm('Do you really want to delete this chart?')) {
-                              deleteChart(chart.chartid)
-                            }
-                          },
-                        },
-                        {
-                          name: 'Duplicate',
-                          onClick: () => {
-                            duplicateChart({
-                              chartData: chart.chartData,
-                              title: chart.title,
-                              description: chart.description,
-                            })
-                          },
-                        },
-                      ]}
-                    />
-                  </div>
-                )}
-                {chart.isPrivate && (
-                  <div>
-                    <span className="px-2 text-xs mt-1 mr-1 inline-flex items-center py-1 font-medium text-blue-700 rounded bg-blue-200 ">
-                      🔒 private
-                    </span>
-                  </div>
-                )}
-                <div className="my-2 font-bold">{chart.title || 'Untitled'}</div>
-                <div className="my-2">{truncate(chart.description, 30) || 'No description'}</div>
-              </div>
-            ))}
-
-          {charts?.length == 0 && 'Your charts will show up here.'}
-        </div>
-      </div>
-
-      {/* <span className="my-2 text-sm opacity-50">
+        {/* <span className="my-2 text-sm opacity-50">
         No account yet?{" "}
         <a className="underline" href="/register">
           Login
         </a>
       </span> */}
 
-      <div className="pb-16"></div>
+        <div className="pb-16"></div>
+      </div>
     </div>
   )
 }

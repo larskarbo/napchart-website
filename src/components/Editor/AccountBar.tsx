@@ -10,7 +10,7 @@ export const AccountBar = () => {
 
   return (
     <div className="flex">
-      {user ? (
+      {user && (
         <>
           {!user.emailVerified && (
             <Link to={`/auth/verify-email`}>
@@ -26,18 +26,7 @@ export const AccountBar = () => {
               </Button>
             </Link>
           )}
-          <Link to={`/user/${user.username}`}>
-            <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
-              My profile
-            </Button>
-          </Link>
         </>
-      ) : (
-        <Link to={'/auth/login'}>
-          <Button className="mt-4 mr-4" icon={<CgProfile className="mr-2" />}>
-            Log in
-          </Button>
-        </Link>
       )}
     </div>
   )

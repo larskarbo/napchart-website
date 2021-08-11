@@ -14,7 +14,7 @@ export default function ({ napchart }) {
 
   return (
     <div className="py-2 px-4 border-b border-gray-600">
-      <Button
+      {/* <Button
         onClick={() => {
           const sure = confirm("Are you sure? You have unsaved changes.")
           if(sure){
@@ -25,7 +25,7 @@ export default function ({ napchart }) {
         className={``}
       >
         New chart +
-      </Button>
+      </Button> */}
       <div className="w-full flex items-center justify-between my-2">
         <div className="flex">
           <Button

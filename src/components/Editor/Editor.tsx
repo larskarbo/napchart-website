@@ -1,7 +1,7 @@
 import c from 'clsx'
 import { navigate } from 'gatsby-link'
 import Cookies from 'js-cookie'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import { Helmet } from 'react-helmet'
 import Button from '../common/Button'
 import { isLocal } from '../common/isLocal'
@@ -17,6 +17,8 @@ import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
 import { BASE } from '../../utils/request'
+import Nav from '../common/Nav'
+
 
 export default function Editor({ titleAndChartid, chartid, oldchartid, username, location, isApp }) {
   let realChartId
@@ -152,6 +154,8 @@ function App({ pathUsername }) {
         <meta property="og:image:height" content="600" />
         {title?.length ? <title>{`${title} - Napchart`}</title> : <title>{`Unnamed Napchart`}</title>}
       </Helmet>
+
+      <Nav activeRoute={"/app"} />
 
       <div
         className={c('biggrid', {

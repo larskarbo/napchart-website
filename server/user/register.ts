@@ -7,9 +7,9 @@ import { sendValidationError } from '../utils/sendValidationError'
 import { newsletterAdd } from '../charts/utils/newsletterAdd'
 import { sendMail } from './authUtils/mail'
 import marked from 'marked'
-const jwt = require('jsonwebtoken')
+import { injectAccessTokenCookie } from './authUtils/injectAccessTokenCookie';
 
-const Joi = require('joi')
+import Joi from "joi";
 const schema = Joi.object({
   username: usernameSchema,
   password: pwSchema,
@@ -57,14 +57,7 @@ export const register = async (req, res) => {
     )
     .then((hey) => {
       const userValue = hey.rows[0]
-      //use the payload to store information about the user such as email, user role, etc.
-      let payload = { email: email }
-
-      //create the access token with the shorter lifespan
-      let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'no secret', {
-        algorithm: 'HS256',
-        expiresIn: '30d',
-      })
+      
 
       newsletterAdd(email, process.env.SENDY_PREMIUM_LIST)
 
@@ -77,8 +70,7 @@ export const register = async (req, res) => {
         body_text: text,
       })
 
-      //send the access token to the client inside a cookie
-      res.cookie('jwt', accessToken, { secure: false, httpOnly: true })
+      injectAccessTokenCookie(res, email)
       res.send(publicUserObject(hey.rows[0]))
 
     })

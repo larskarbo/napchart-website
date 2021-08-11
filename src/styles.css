@@ -27,7 +27,7 @@
   .slider {
     display: block;
     position: absolute;
-    top: 0;
+    top: 80px;
     width: 80px;
   }
   .slider.right {

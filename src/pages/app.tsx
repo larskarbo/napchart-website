@@ -12,6 +12,7 @@ import { navigate } from 'gatsby-link';
 import VerifyEmailPage from '../components/Login/VerifyEmailPage';
 import { PremiumPage } from '../components/Login/PremiumPage';
 import OnlyChart from '../components/Editor/OnlyChart';
+import Users from '../components/Users/Users'
 
 export default function App() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -40,6 +41,7 @@ export default function App() {
         <New path="/new" />
         <Editor path="/app" isApp={true} />
         <Profile path="/user/:username" />
+        <Users path="/users" />
         <Editor path="/:oldchartid" />
         <Editor path="/snapshot/:chartid" />
         <Editor path="/:username/:titleAndChartid" />

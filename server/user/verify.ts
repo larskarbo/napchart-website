@@ -1,7 +1,7 @@
-import { publicUserObject } from "./utils/publicUserObject"
+import { publicUserObject } from "../utils/publicUserObject"
 
-const jwt = require('jsonwebtoken')
-const db = require('./database')
+import jwt from "jsonwebtoken";
+import { pool } from "../database";
 
 
 export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
@@ -21,7 +21,7 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
       //use the jwt.verify method to verify the access token
       //throws an error if the token has expired or has a invalid signature
       payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET || 'no secret')
-      db.pool.query('SELECT * FROM users WHERE email = $1;', [payload.email], (error, results) => {
+      pool.query('SELECT * FROM users WHERE email = $1;', [payload.email], (error, results) => {
         if (error) {
           throw error
         }

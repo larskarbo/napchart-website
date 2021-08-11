@@ -23,7 +23,7 @@ import { sendPasswordResetTokenEndpoint } from './user/sendPasswordResetToken'
 import { setPassword } from './user/setPassword'
 import { verifyEmail } from './user/verifyEmail'
 import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
-import { verify } from './verify'
+import { verify } from './user/verify'
 import { newsletterAdd } from './charts/utils/newsletterAdd';
 import { getImage } from './charts/getImage';
 
@@ -64,6 +64,13 @@ app.get('/', async (req, res) => {
 
 app.get('/users', verify('normal'), async (req, res) => {
   pool.query('SELECT * FROM users').then((hey) => {
+    res.send({ users: hey.rows })
+  })
+})
+
+
+app.get('/getUsers',  async (req, res) => {
+  pool.query('SELECT username FROM users').then((hey) => {
     res.send({ users: hey.rows })
   })
 })
