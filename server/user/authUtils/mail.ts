@@ -4,7 +4,7 @@ import { slackNotify } from '../../charts/utils/slackNotify'
 
 const transporter = nodemailer.createTransport({
   host: getEnv('SMTP_HOST'),
-  port: getEnv('SMTP_PORT') || '587',
+  port: getEnv('SMTP_PORT'),
   secure: false,
   auth: {
     user: getEnv('SMTP_USER'),
