@@ -1,3 +1,4 @@
+import { getEnv } from '@larskarbo/get-env'
 import jwt from 'jsonwebtoken'
 
 export function injectAccessTokenCookie(res: any, email: string) {
@@ -5,7 +6,7 @@ export function injectAccessTokenCookie(res: any, email: string) {
   let payload = { email: email }
 
   //create the access token with the shorter lifespan
-  let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET || 'no secret', {
+  let accessToken = jwt.sign(payload, getEnv('ACCESS_TOKEN_SECRET') || 'no secret', {
     algorithm: 'HS256',
     expiresIn: '30d',
   })

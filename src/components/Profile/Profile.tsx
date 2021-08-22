@@ -10,9 +10,11 @@ import { getProperLink } from '../../utils/getProperLink'
 import { BASE, request } from '../../utils/request'
 import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../common/Button'
+import Footer from '../common/Footer'
 import Nav from '../common/Nav'
 import Chart from '../Editor/Chart'
 import { ChartData, ChartDocument } from '../Editor/types'
+import QuickSeo from "next-quick-seo"
 
 function truncate(str, n) {
   if (str) {
@@ -59,6 +61,7 @@ export default function Profile({ children, username }) {
 
   return (
     <div>
+      {/* <QuickSeo /> */}
       <Nav activeRoute={'/users'} />
 
       <div className=" w-full min-h-screen pt-12 flex flex-col items-center bg-yellow-50">
@@ -177,7 +180,7 @@ export default function Profile({ children, username }) {
         </a>
       </span> */}
 
-        <div className="pb-16"></div>
+        <Footer />
       </div>
     </div>
   )

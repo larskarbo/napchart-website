@@ -3,7 +3,7 @@ import { isLocal } from '../components/common/isLocal'
 import { useMutation, useQuery } from 'react-query';
 import NotyfContext from '../components/common/NotyfContext';
 import { useContext } from 'react';
-import { getErrorMessage } from './getErrorMessage';
+import { getErrorMessage } from "get-error-message"
 
 export const useNotyf = () => {
   const notyf = useContext(NotyfContext)

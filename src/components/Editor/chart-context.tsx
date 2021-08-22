@@ -7,7 +7,7 @@ import NotyfContext from '../common/NotyfContext'
 import { getProperLink } from "../../utils/getProperLink"
 import { ChartData, ChartDocument } from './types'
 import { ChartCreationReturn } from '../../../server/charts/createChart'
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import { getErrorMessage } from 'get-error-message'
 
 const ChartContext = React.createContext({})
 

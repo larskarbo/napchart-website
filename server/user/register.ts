@@ -1,15 +1,16 @@
-import requestIp from 'request-ip'
-import { pwSchema, usernameSchema } from './authUtils/userSchema'
-import { publicUserObject } from '../utils/publicUserObject'
-import { pool } from '../database'
-import { encrypt } from './authUtils/encrypt'
-import { sendValidationError } from '../utils/sendValidationError'
-import { newsletterAdd } from '../charts/utils/newsletterAdd'
-import { sendMail } from './authUtils/mail'
+import { getEnv } from '@larskarbo/get-env'
+import Joi from 'joi'
 import marked from 'marked'
-import { injectAccessTokenCookie } from './authUtils/injectAccessTokenCookie';
+import requestIp from 'request-ip'
+import { newsletterAdd } from '../charts/utils/newsletterAdd'
+import { pool } from '../database'
+import { publicUserObject } from '../utils/publicUserObject'
+import { sendValidationError } from '../utils/sendValidationError'
+import { encrypt } from './authUtils/encrypt'
+import { injectAccessTokenCookie } from './authUtils/injectAccessTokenCookie'
+import { sendMail } from './authUtils/mail'
+import { pwSchema, usernameSchema } from './authUtils/userSchema'
 
-import Joi from "joi";
 const schema = Joi.object({
   username: usernameSchema,
   password: pwSchema,
@@ -17,7 +18,7 @@ const schema = Joi.object({
   session_id: Joi.string().required(),
 })
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe = require('stripe')(getEnv('STRIPE_SECRET_KEY'))
 
 export const register = async (req, res) => {
   const validate = schema.validate({
@@ -38,12 +39,12 @@ export const register = async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(session_id).catch(() => {
     return null
   })
-  if(!session){
+  if (!session) {
     return res.status(401).send('Invalid payment token')
   }
   const { billingSchedule } = session.metadata
   const { customer: stripeCustomerId } = session
-  if(!billingSchedule || !stripeCustomerId){
+  if (!billingSchedule || !stripeCustomerId) {
     return res.status(401).send('Invalid payment session')
   }
 
@@ -53,13 +54,12 @@ export const register = async (req, res) => {
     .query(
       `INSERT INTO users (username, email, password_hash, ip, plan, billing_schedule, stripe_customer_id)
       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [username, email, passwordHash, requestIp.getClientIp(req), "premium", billingSchedule, stripeCustomerId],
+      [username, email, passwordHash, requestIp.getClientIp(req), 'premium', billingSchedule, stripeCustomerId],
     )
     .then((hey) => {
       const userValue = hey.rows[0]
-      
 
-      newsletterAdd(email, process.env.SENDY_PREMIUM_LIST)
+      newsletterAdd(email, getEnv('SENDY_PREMIUM_LIST'))
 
       const { text, html } = makeEmail({ username: userValue.username, email: userValue.email })
 
@@ -72,7 +72,6 @@ export const register = async (req, res) => {
 
       injectAccessTokenCookie(res, email)
       res.send(publicUserObject(hey.rows[0]))
-
     })
     .catch((err) => {
       if (err?.constraint == 'users_email_key') {
@@ -84,7 +83,9 @@ export const register = async (req, res) => {
         return
       }
       if (err?.constraint == 'users_stripe_customer_id_key') {
-        res.status(400).send({ message: 'It seems like you try to use a payment token twice. Contact support for help.' })
+        res
+          .status(400)
+          .send({ message: 'It seems like you try to use a payment token twice. Contact support for help.' })
         return
       }
       res.status(400).send({ message: err.message })

@@ -1,3 +1,4 @@
+import { getEnv } from '@larskarbo/get-env'
 import axios from 'axios'
 
 export const slackNotify = async (text: string, obj?: any) => {
@@ -9,7 +10,7 @@ export const slackNotify = async (text: string, obj?: any) => {
     textToSend += '```'
   }
 
-  axios.post(process.env.SLACK_WEBHOOK_URL, {
+  axios.post(getEnv("SLACK_WEBHOOK_URL"), {
     text: textToSend,
   })
 }

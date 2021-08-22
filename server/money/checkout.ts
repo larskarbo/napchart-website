@@ -4,7 +4,8 @@ import { isDev, WEB_BASE } from '../utils/webBase'
 import { pwSchema, usernameSchema } from '../user/authUtils/userSchema'
 import { sendValidationError } from '../utils/sendValidationError'
 import { queryOne } from '../database'
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2020-08-27' })
+import { getEnv } from '@larskarbo/get-env'
+const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2020-08-27' })
 
 const prices = {
   monthly: isDev ? 'price_1IaPMXLugp7Sf5UQVU7KZNvA' : 'price_1IaeHPLugp7Sf5UQrTAHxuK7',
@@ -43,11 +44,11 @@ export const checkout = async function (req, res) {
       }
     }
     let discounts = []
-    console.log('req.user: ', req.user);
-    console.log('billingSchedule: ', billingSchedule);
+    console.log('req.user: ', req.user)
+    console.log('billingSchedule: ', billingSchedule)
     if (discountsObj[req.user?.username] && billingSchedule == 'lifetime') {
       discounts = [{ promotion_code: discountsObj[req.user.username] }]
-      console.log('discounts: ', discounts);
+      console.log('discounts: ', discounts)
     }
     const session = await stripe.checkout.sessions.create({
       ...config,

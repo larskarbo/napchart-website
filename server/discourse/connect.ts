@@ -1,3 +1,4 @@
+import { getEnv } from '@larskarbo/get-env'
 import { PublicUserObject } from '../utils/publicUserObject'
 
 const queryString = require('query-string')
@@ -8,6 +9,8 @@ const schema = Joi.object({
   sso: Joi.string().min(30).required(),
   sig: Joi.string().min(30).required(),
 })
+
+const DISCOURSE_CONNECT_SECRET = getEnv("DISCOURSE_CONNECT_SECRET")
 
 export const discourseHandler = async (req, res) => {
   const { sso, sig } = req.query
@@ -23,11 +26,8 @@ export const discourseHandler = async (req, res) => {
     return res.status(422).json({ error: message })
   }
 
-  if (!process.env.DISCOURSE_CONNECT_SECRET) {
-    return res.status(500).json({ error: 'No secret specified' })
-  }
 
-  const payload = require('crypto').createHmac('sha256', process.env.DISCOURSE_CONNECT_SECRET).update(sso).digest('hex')
+  const payload = require('crypto').createHmac('sha256', DISCOURSE_CONNECT_SECRET).update(sso).digest('hex')
 
   if (payload != sig) {
     return res.status(401).json({ error: "Payload couldn't be verified" })
@@ -53,7 +53,7 @@ export const discourseHandler = async (req, res) => {
 
   const newPayloadEncoded = Buffer.from(queryString.stringify(newPayload)).toString('base64')
   const newPayloadEncodedAndHashed = require('crypto')
-    .createHmac('sha256', process.env.DISCOURSE_CONNECT_SECRET)
+    .createHmac('sha256', DISCOURSE_CONNECT_SECRET)
     .update(newPayloadEncoded)
     .digest('hex')
 

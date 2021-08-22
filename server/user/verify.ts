@@ -1,8 +1,7 @@
-import { publicUserObject } from "../utils/publicUserObject"
-
-import jwt from "jsonwebtoken";
-import { pool } from "../database";
-
+import { getEnv } from '@larskarbo/get-env'
+import jwt from 'jsonwebtoken'
+import { pool } from '../database'
+import { publicUserObject } from '../utils/publicUserObject'
 
 export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
   function (req, res, next) {
@@ -20,7 +19,7 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
     try {
       //use the jwt.verify method to verify the access token
       //throws an error if the token has expired or has a invalid signature
-      payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET || 'no secret')
+      payload = jwt.verify(accessToken, getEnv('ACCESS_TOKEN_SECRET'))
       pool.query('SELECT * FROM users WHERE email = $1;', [payload.email], (error, results) => {
         if (error) {
           throw error
@@ -34,13 +33,12 @@ export const verify = (type: 'optional' | 'normal' | 'no-email-check') =>
             next()
             return
           } else {
-            if(type == 'optional'){
+            if (type == 'optional') {
               return next()
             }
             return res.status(401).send({
-              message: "Oops, looks like you need to verify your email."
+              message: 'Oops, looks like you need to verify your email.',
             })
-            
           }
           return
         }

@@ -1,13 +1,8 @@
+import { getEnv } from '@larskarbo/get-env'
 import Stripe from 'stripe'
-import { pool, queryOne } from '../database'
-import { encrypt } from '../user/authUtils/encrypt'
-import { sendMail } from '../user/authUtils/mail'
-import marked from 'marked'
 import { slackNotify } from '../charts/utils/slackNotify'
-import { newsletterAdd } from '../charts/utils/newsletterAdd'
-import { genToken } from '../user/sendPasswordResetToken'
-import { requestIp } from 'request-ip'
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2020-08-27' })
+import { pool } from '../database'
+const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2020-08-27' })
 
 export const stripeWebhook = async (req, res) => {
   // Retrieve the event by verifying the signature using the raw body and secret.
@@ -17,7 +12,7 @@ export const stripeWebhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.rawBody,
       req.headers['stripe-signature'],
-      process.env.STRIPE_WEBHOOK_SECRET,
+      getEnv('STRIPE_WEBHOOK_SECRET'),
     )
   } catch (err) {
     console.log(err)

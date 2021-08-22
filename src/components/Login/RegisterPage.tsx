@@ -1,12 +1,12 @@
 import { navigate } from 'gatsby'
 import React, { useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
-import { getErrorMessage } from '../../utils/getErrorMessage'
 import { request } from '../../utils/request'
 import { FormElement } from './FormElement'
 import LoginLayout from './LoginLayout'
 import { SubmitButton } from './SubmitButton'
 import { parse } from 'query-string'
+import { getErrorMessage } from 'get-error-message'
 
 export default function RegisterPage({}) {
   const formRef = useRef()

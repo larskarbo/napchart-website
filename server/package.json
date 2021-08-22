@@ -11,6 +11,7 @@
     "unused-exports": "ts-unused-exports tsconfig.json --exitWithCount"
   },
   "dependencies": {
+    "@larskarbo/get-env": "^1.0.0",
     "ava": "^3.14.0",
     "axios": "^0.21.1",
     "babel-register": "^6.26.0",

@@ -1,20 +1,21 @@
+import { getEnv } from '@larskarbo/get-env'
 import nodemailer from 'nodemailer'
 import { slackNotify } from '../../charts/utils/slackNotify'
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT || '587',
+  host: getEnv('SMTP_HOST'),
+  port: getEnv('SMTP_PORT') || '587',
   secure: false,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
+    user: getEnv('SMTP_USER'),
+    pass: getEnv('SMTP_PASSWORD'),
   },
 })
 
 export const sendMail = async ({ toAddress, subject, body_html, body_text }) => {
   // Specify the fields in the email.
   let mailOptions = {
-    from: process.env.SMTP_FROM,
+    from: getEnv('SMTP_FROM'),
     to: toAddress,
     subject: subject,
     text: body_text,
