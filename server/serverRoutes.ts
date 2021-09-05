@@ -24,8 +24,8 @@ import { setPassword } from './user/setPassword'
 import { verifyEmail } from './user/verifyEmail'
 import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
 import { verify } from './user/verify'
-import { newsletterAdd } from './charts/utils/newsletterAdd';
-import { getImage } from './charts/getImage';
+import { newsletterAdd } from './charts/utils/newsletterAdd'
+import { getImage } from './charts/getImage'
 
 const app = express()
 
@@ -33,14 +33,7 @@ var cors = require('cors')
 app.use(
   cors({
     credentials: true,
-    origin: [
-      'http://localhost:8000',
-      'http://localhost:8888',
-      'http://horse.loc:8000',
-      'http://horse.loc:8888',
-      'https://napchart.com',
-      /napchart.netlify.app$/,
-    ],
+    origin: ['http://localhost:3000', 'http://horse.loc:3000', 'https://napchart.com'],
   }),
 )
 
@@ -68,8 +61,7 @@ app.get('/users', verify('normal'), async (req, res) => {
   })
 })
 
-
-app.get('/getUsers',  async (req, res) => {
+app.get('/getUsers', async (req, res) => {
   pool.query('SELECT username FROM users').then((hey) => {
     res.send({ users: hey.rows })
   })
@@ -129,9 +121,9 @@ app.get('/v1/getImage/:chartid', verify('optional'), getImage)
 
 app.get('/discourse-connect', verify('normal'), discourseHandler)
 
-app.post("/reportError", (req, res) => {
+app.post('/reportError', (req, res) => {
   slackNotify(req.body.text, req.body.obj)
-  res.send({ok: "ok"})
+  res.send({ ok: 'ok' })
 })
 
 app.all('/*', (req, res) => {

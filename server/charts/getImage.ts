@@ -1,16 +1,13 @@
+import { Canvas, Path2D } from 'skia-canvas'
+import Napchart from '../../web/napchart-canvas/lib/index'
+import { ChartDocument } from '../../web/src/components/Editor/types'
 import { pool } from '../database'
 import { asyncIncrementVisit } from './utils/asyncIncrementVisit'
-import { ChartDocument } from '../../src/components/Editor/types'
-import { ChartCreationReturn } from './createChart'
-import { WEB_BASE } from '../utils/webBase'
-import { getProperLink } from '../utils/getProperLink'
-import { Canvas, loadImage, Path2D } from 'skia-canvas'
-import Napchart from '../../napchart-canvas/lib/index'
 
 export const getImage = async function (req, res) {
   const chartid = req.params.chartid
   console.log('chartid: ', chartid)
-  var hr = req.query.hr;
+  var hr = req.query.hr
 
   pool.query('SELECT * FROM charts WHERE chartid = $1 AND deleted = false', [chartid], (error, results) => {
     if (error) {
@@ -54,7 +51,7 @@ export const getImage = async function (req, res) {
       labelTextSize: 3,
       tagsTextSize: 3,
       colorTagsSize: 3,
-      createPath: () => new Path2D()
+      createPath: () => new Path2D(),
     })
 
     res.contentType('image/png')

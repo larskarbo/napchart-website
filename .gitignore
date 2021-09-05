@@ -16,11 +16,7 @@ build/
 web-build/
 samplex.xcworkspace
 
-fpb-buyers-all.*
-.cache
-
-public
-
+.next
 serviceAccountKey.json
 
 *.mp4
@@ -114,11 +110,6 @@ out
 .nuxt
 dist
 
-# Gatsby files
-.cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 .vuepress/dist
@@ -232,11 +223,6 @@ out
 .nuxt
 dist
 
-# Gatsby files
-.cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 .vuepress/dist
