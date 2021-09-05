@@ -9,7 +9,7 @@ export const getImage = async function (req, res) {
   console.log('chartid: ', chartid)
   var hr = req.query.hr
 
-  pool.query('SELECT * FROM charts WHERE chartid = $1 AND deleted = false', [chartid], (error, results) => {
+  pool.query('SELECT * FROM charts WHERE chartid = $1 AND deleted = false', [chartid], async (error, results) => {
     if (error) {
       throw error
     }
@@ -55,6 +55,6 @@ export const getImage = async function (req, res) {
     })
 
     res.contentType('image/png')
-    res.send(canvas.toBuffer('png'))
+    res.send(await canvas.png)
   })
 }
