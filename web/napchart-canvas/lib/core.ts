@@ -1,25 +1,19 @@
 /*
-import { fullDraw } from './draw/draw';
  *  Core module of Napchart
  *
  */
 
 import helpers from './helpers'
-import { init as interactCanvasInit } from './interactCanvas/interactCanvas'
-import { data } from './types'
-import { draw, initConfig, scale, verifyAndInitElements, enableResponsiveness } from './utils/utils'
-import { chart } from './types'
 import initHistory from './history/history'
+import { init as interactCanvasInit } from './interactCanvas/interactCanvas'
+import { changeShape, initShape } from './shape/shape'
+import { chart } from './types'
+import { draw, enableResponsiveness, initConfig, scale, verifyAndInitElements } from './utils/utils'
 
-import { initShape, changeShape } from './shape/shape'
-import { fullDraw, drawFrame, benchmark } from './draw/draw'
-
-export default function init(ctx, data: data, config) {
+export default function init(ctx, data, config) {
   // methods of instance:
 
-  var chart: chart = {
-    debugId: Math.random(),
-    
+  var chart: chart & any = {
     setHover: function (id, type) {
       this.hoverElement = {
         id,
@@ -263,7 +257,7 @@ export default function init(ctx, data: data, config) {
 
     colorTag: function (color, tag) {
       // 1 delete if tag empty
-      if (!color.includes("custom_") && tag == '') {
+      if (!color.includes('custom_') && tag == '') {
         return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
       }
 
@@ -297,10 +291,6 @@ export default function init(ctx, data: data, config) {
       chart.data = data
       initShape(chart)
       draw(chart)
-    },
-
-    benchmark: function () {
-      benchmark(this)
     },
 
     onSetSelected: function () {},
@@ -350,7 +340,7 @@ export default function init(ctx, data: data, config) {
   chart.canvas = ctx.canvas
   chart.unScaledConfig = initConfig(config)
 
-  if(config.createPath){
+  if (config.createPath) {
     chart.createPath = config.createPath
   }
 
@@ -367,8 +357,8 @@ export default function init(ctx, data: data, config) {
 
   chart.custom_colors = {}
 
-  chart.data.colorTags.forEach(ct => {
-    if(ct.color.includes("custom_")){
+  chart.data.colorTags.forEach((ct) => {
+    if (ct.color.includes('custom_')) {
       chart.custom_colors[ct.color] = ct.colorValue
     }
   })
@@ -384,7 +374,6 @@ export default function init(ctx, data: data, config) {
   chart.helpers = helpers
 
   chart.shapeIsContinous = true
-
 
   initShape(chart)
 

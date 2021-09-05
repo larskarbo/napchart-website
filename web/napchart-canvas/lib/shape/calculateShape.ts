@@ -155,7 +155,7 @@ export function calculateShape({ config, height, width, baseShapeObject, ratio, 
    * Center the shape
    */
 
-  var limits = {}
+  var limits: any = {}
 
   function pushLimits(point) {
     if (Object.keys(limits).length === 0) {

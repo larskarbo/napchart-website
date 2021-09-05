@@ -70,6 +70,7 @@ export function verifyAndInitElements(elements, chart) {
     if (typeof element.start === 'undefined' || typeof element.end === 'undefined') {
       throw new Error('Start and End properties are required!')
     }
+      // @ts-ignore
     var element = {
       start: element.start,
       end: element.end,

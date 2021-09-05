@@ -13,7 +13,7 @@ export const range = function (a, b, anticlockwise) {
 
 export const minutesToHoursMinutes = function (min) {
   var hours = Math.floor(min / 60) + ''
-  var minutes = (min % 60) + ''
+  var minutes = (min % 60)
   minutes = Math.floor(minutes)
 
   return {
@@ -103,15 +103,15 @@ export const isInsideAngle = function (point, start, end) {
 }
 
 export const distance = function (x, y, a) {
-  var y = a.y - y
-  var x = a.x - x
-  return Math.sqrt(y * y + x * x)
+  var y_adj = a.y - y
+  var x_adj = a.x - x
+  return Math.sqrt(y_adj * y_adj + x_adj * x_adj)
 }
 
-export const angleBetweenTwoPoints = function (x, y, a) {
-  var d = distance(x, y, a)
-  var y = (a.y - y) / d
-  var x = (a.x - x) / d
+export const angleBetweenTwoPoints = function (x_in, y_in, a) {
+  var d = distance(x_in, y_in, a)
+  var y = (a.y - y_in) / d
+  var x = (a.x - x_in) / d
 
   var angle = Math.atan(y / x)
   if (x >= 0) {
@@ -123,10 +123,11 @@ export const angleBetweenTwoPoints = function (x, y, a) {
 
 export const minutesToClock = function (chart, minutes) {
   minutes = Math.floor(minutes)
-  var hours = Math.floor(minutes / 60) + ''
+  var hours = Math.floor(minutes / 60)
+  let hoursString = hours + ''
   minutes = (minutes % 60) + ''
-  if (hours.length == 1) {
-    hours = '0' + hours
+  if ( hoursString.length == 1) {
+    hoursString = '0' + hoursString
   }
   if (minutes.length == 1) {
     minutes = '0' + minutes
@@ -138,7 +139,7 @@ export const minutesToClock = function (chart, minutes) {
     }
     return ((hours * 1 + 11) % 12) + 1 + ':' + minutes + (hours < 12 ? ' am' : ' pm')
   } else {
-    return hours + ':' + minutes
+    return hoursString + ':' + minutes
   }
 }
 

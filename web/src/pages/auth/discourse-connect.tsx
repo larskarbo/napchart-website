@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { parse } from 'query-string'
 import React, { useRef, useState } from 'react'
 import { useUser } from '../../auth/user-context'
 import LoginLayout from '../../components/Login/LoginLayout'
@@ -14,7 +13,7 @@ export default function DiscourseConnect({}) {
 
   console.log('{ user, loadingUser }: ', { user, loadingUser })
 
-  const searchParams = parse(location.search)
+  const searchParams = router.query
 
   const [msg, setMsg] = useState('')
 

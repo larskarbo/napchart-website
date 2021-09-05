@@ -17,8 +17,6 @@ export function init(chart) {
     return
   }
 
-  console.log("initing", chart.debugId)
-
   // helper function for event listeners
   function addListeners(element, eventNames, listener) {
     eventNames.split(' ').forEach((eventName) => {
@@ -47,7 +45,7 @@ export function init(chart) {
       e.stopPropagation()
       e.preventDefault()
     }
-    
+
     move(e, chart)
   })
 
@@ -230,7 +228,7 @@ function update(chart) {
   function move(hit, info) {
     // clone our element
     var originElement = chart.data.elements.find((element) => element.id == hit.elementId)
-    var changes = {
+    var changes: any = {
       // element containig id and changes that should be done
       id: originElement.id,
     }
@@ -243,7 +241,9 @@ function update(chart) {
         var start = minutes
         var end = originElement.end
       } else {
+        // @ts-ignore
         var start = originElement.start
+        // @ts-ignore
         var end = minutes
       }
 
@@ -321,6 +321,7 @@ function update(chart) {
       }
 
       var start = snap(limit(Math.round(info.minutes - positionInElement)))
+      // @ts-ignore
       var end = limit(start + originElement.duration)
 
       // check collision
@@ -433,7 +434,7 @@ function update(chart) {
 }
 
 // helper functions :
-function isCollision(chart, start, end, lane, id) {
+function isCollision(chart, start, end, lane, id = null) {
   // returns the element it finds, if not: false
   var found = chart.data.elements.find((element) => {
     if (id == element.id) {
@@ -539,7 +540,8 @@ function getCoordinates(position, chart) {
 }
 
 function snap(input) {
-  if(window.metaDown){
+  // @ts-ignore
+  if (window.metaDown) {
     return Math.round(input / 1) * 1
   }
   return Math.round(input / 5) * 5

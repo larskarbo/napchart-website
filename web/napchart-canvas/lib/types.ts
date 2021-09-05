@@ -7,6 +7,7 @@ export interface chart {
   ctx: CanvasRenderingContext2D
   draw: () => void
   history: any
+  [key: string]: any
 }
 
 

@@ -219,13 +219,16 @@ export const Controls = ({ napchart }) => {
       ) : (
         <div>
           <div className="my-8">
+            {/* @ts-ignore */}
             <Shapes napchart={napchart} />
           </div>
           <div className="my-8">
+            {/* @ts-ignore */}
             <SuperLanes napchart={napchart} />
           </div>
           <div className="my-8">
             <div className="field title is-6">Color:</div>
+            {/* @ts-ignore */}
             <SelectedElement napchart={napchart} />
           </div>
           <Feedback />

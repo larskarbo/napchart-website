@@ -1,7 +1,7 @@
 import { getErrorMessage } from 'get-error-message'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
-import { ChartCreationReturn } from '../../../../server/charts/createChart'
+import { ChartCreationReturn } from '../../../../server/charts/types'
 import { useUser } from '../../auth/user-context'
 import { getDataForServer } from '../../utils/getDataForServer'
 import { getProperLink } from '../../utils/getProperLink'
@@ -63,6 +63,7 @@ export function ChartProvider({ children, chartid, initialData }) {
 
       let customCs = {}
       chartDocument?.chartData?.colorTags.forEach((ct) => {
+      // @ts-ignore
         customCs[ct.color] = ct.colorValue
       })
       setCustomColors({

@@ -154,8 +154,11 @@ const CheckoutForm = ({ plan }) => {
       })
     }
 
+    // @ts-ignore
     const email = formRef?.current?.email?.value
+    // @ts-ignore
     const password = formRef?.current?.password?.value
+    // @ts-ignore
     const username = formRef?.current?.username?.value
 
     if (!user) {
@@ -192,7 +195,7 @@ const CheckoutForm = ({ plan }) => {
       {user ? <></> : <></>}
 
       {/* <CardElement /> */}
-      <Button loading={loading} type="submit" className="bbutton  mr-4 w-full bg-green-400 text-white font-medium">
+      <Button loading={loading} className="bbutton  mr-4 w-full bg-green-400 text-white font-medium">
         Become a Premium member!
       </Button>
     </form>

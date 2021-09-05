@@ -106,19 +106,3 @@ function drawFrameFunctions(chart: chart) {
   })
 
 }
-
-export function benchmark(chart) {
-  var iterations = 1000
-  var bigstart = Date.now()
-  for (task in tasks) {
-    var start = Date.now()
-    for (var i = 0; i < iterations; i++) {
-      tasks[task](chart, Napchart)
-    }
-    var end = Date.now()
-    console.log(`${task} x ${iterations} ` + (end - start) + ' ms')
-  }
-  var bigend = Date.now()
-  console.log(`Total: ` + (bigend - bigstart) + ' ms')
-  console.log(`One round: ` + (bigend - bigstart) / iterations + ' ms')
-}

@@ -1,8 +1,9 @@
+import { ChartCreationReturn } from './types';
 import requestIp from 'request-ip'
 import { sendValidationError } from '../utils/sendValidationError'
 import { findUniqueId } from './utils/findUniqueId'
 import { chartDataSchema, chartDataSchemaPremium, descriptionSchema, titleSchema } from './utils/schema'
-import { ChartDocument } from '../../src/components/Editor/types'
+import { ChartDocument } from '../../web/src/components/Editor/types'
 import Joi from 'joi'
 import { WEB_BASE } from '../utils/webBase'
 import { getProperLink } from '../utils/getProperLink'
@@ -21,10 +22,7 @@ const createChartSchemaPremium = createChartSchema.keys({
   chartData: chartDataSchemaPremium
 })
 
-export type ChartCreationReturn = {
-  chartDocument: ChartDocument
-  publicLink: string
-}
+
 
 
 

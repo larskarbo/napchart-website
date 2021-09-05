@@ -26,7 +26,9 @@ export default function LoginPage({ location }) {
 
   const login = useNCMutation(
     () => {
+    // @ts-ignore
       const email = formRef?.current?.email.value
+    // @ts-ignore
       const password = formRef?.current?.password.value
       return request('POST', '/login', {
         email,

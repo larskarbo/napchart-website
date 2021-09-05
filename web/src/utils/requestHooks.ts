@@ -11,7 +11,7 @@ export const useNotyf = () => {
   return notyf
 }
 
-export const useNCMutation = (func, options) => {
+export const useNCMutation:any = (func, options) => {
   const notyf = useNotyf()
 
   const mutation = useMutation(func, {

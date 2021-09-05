@@ -61,6 +61,7 @@ export default function Polyphasic({ napchart }) {
       </div>
       <div className="my-8">
         <Lanes
+          /* @ts-ignore */
           napchart={napchart}
           clickLane={setSleepLane}
           active={sleepLane}

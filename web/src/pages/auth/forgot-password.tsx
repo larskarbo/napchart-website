@@ -32,6 +32,7 @@ export default function ForgotPasswordPage() {
   const onSubmit = (e) => {
     e.preventDefault()
 
+    // @ts-ignore
     const email = formRef.current.email.value
 
     mutation.mutate(email)

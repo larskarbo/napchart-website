@@ -1,34 +1,37 @@
-import React, { useRef, useState } from 'react'
+import { getErrorMessage } from 'get-error-message'
+import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
-import { request } from '../../utils/request'
 import { FormElement } from '../../components/Login/FormElement'
 import LoginLayout from '../../components/Login/LoginLayout'
 import { SubmitButton } from '../../components/Login/SubmitButton'
-import { parse } from 'query-string'
-import { getErrorMessage } from 'get-error-message'
-import { useRouter } from 'next/router'
-
+import { request } from '../../utils/request'
 
 export default function RegisterPage({}) {
   const formRef = useRef()
-    const router = useRouter()
+  const router = useRouter()
 
-  const [loading, setLoading] = useState(true)
   const queryClient = useQueryClient()
 
-  const searchParams = parse(location.search)
-  if (!searchParams.session_id) {
-    router.replace('/auth/register-premium')
-  }
+  const searchParams = router.query
+  useEffect(() => {
+    if (!searchParams.session_id) {
+      router.replace('/auth/register-premium')
+    }
+  }, [searchParams])
 
   const [msg, setMsg] = useState('')
 
   const onSubmit = (e) => {
     e.preventDefault()
 
+    // @ts-ignore
     const email = formRef.current.email.value
+    // @ts-ignore
     const password = formRef.current.password.value
+    // @ts-ignore
     const passwordTwo = formRef.current.passwordTwo.value
+    // @ts-ignore
     const username = formRef.current.username.value
 
     if (password != passwordTwo) {

@@ -94,7 +94,7 @@ export const XYtoInfo = function (chart, x, y) {
   }
 
   if (isNaN(minutes) || isNaN(distance)) {
-    throw new 'ouch'()
+    throw new Error('ouch')
   }
 
   var lanes = chart.shape.lanes
@@ -110,6 +110,7 @@ export const minutesToXY = function (chart, minutes, radius) {
   var ctx = chart.ctx
   var shape = chart.shape
 
+      // @ts-ignore
   var minutes = limit(minutes)
   // Find out which shapeElement we find our point in
   var shapeElement = shape.elements.find(function (element) {
@@ -118,7 +119,7 @@ export const minutesToXY = function (chart, minutes, radius) {
 
   if (typeof shapeElement === 'undefined') {
     
-    throw new 'shapeElement==undefined'()
+    throw new Error('shapeElement==undefined')
   }
   // Decimal used to calculate where the point is inside the shape
   var positionInShape = getProgressBetweenTwoValues(minutes, shapeElement.start, shapeElement.end)
