@@ -10,7 +10,7 @@ try{
 }
 
 export const BASE = isLocal() ? `http://localhost:3200` : `https://api.napchart.com`
-export const WEB_BASE = isLocal() ? `http://localhost:8000` : `https://napchart.com`
+export const WEB_BASE = isLocal() ? `http://localhost:3000` : `https://napchart.com`
 
 let headers = {}
 

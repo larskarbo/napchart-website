@@ -14,11 +14,7 @@ export default function RegisterPage({}) {
   const queryClient = useQueryClient()
 
   const searchParams = router.query
-  useEffect(() => {
-    if (!searchParams.session_id) {
-      router.replace('/auth/register-premium')
-    }
-  }, [searchParams])
+  console.log('searchParams: ', searchParams);
 
   const [msg, setMsg] = useState('')
 
