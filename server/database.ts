@@ -1,5 +1,5 @@
 import { getEnv } from '@larskarbo/get-env'
-const { Pool } = require('pg')
+import { Pool } from 'pg'
 
 export const pool = new Pool({
   user: getEnv('PGUSER'),

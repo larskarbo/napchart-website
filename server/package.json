@@ -26,6 +26,7 @@
     "joi": "^17.4.0",
     "json-web-token": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "lorem-ipsum": "^2.0.3",
     "lowdb": "^1.0.0",
     "marked": "^2.0.1",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.11",
+    "@types/lodash": "^4.14.172",
     "@types/marked": "^2.0.3",
     "@types/node": "^14.14.36",
     "@types/request-ip": "^0.0.35",

@@ -5,6 +5,7 @@ import { ChartCreationReturn } from './createChart'
 import { WEB_BASE } from '../utils/webBase'
 import { getProperLink } from '../utils/getProperLink'
 
+
 //FIKK IKKJE TIL:
 // const chartidSchema =
 //   Joi.string().pattern(new RegExp(/([a-z]|\d){5,6}/), { name: '5-char chartid' }).required()
