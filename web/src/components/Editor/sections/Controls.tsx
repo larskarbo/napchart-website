@@ -11,6 +11,7 @@ import { getProperLink } from '../../../utils/getProperLink'
 import { WEB_BASE } from '../../../utils/request'
 import Button from '../../common/Button'
 import { ModalBase, ModalContext } from '../../common/ModalContext'
+import { globalObj } from '../../global'
 import Chart from '../Chart'
 import { useChart } from '../chart-context'
 import SelectedElement from '../small/SelectedElement'
@@ -201,16 +202,27 @@ export const Controls = ({ napchart }) => {
         <Button
           className="mr-2"
           onClick={() => {
-            alert("oops this doesn't work right now")
-            // router.push('/app')
+            // history.pushState(null, "yo" , "/app")
+            // globalObj.globalInitialData = {
+            //   initialChartDocument: {
+            //     chartData: napchart.data,
+            //     title: title,
+            //     description: description,
+            //   },
+            // }
+            setChartDocument({
+              ...chartDocument,
+              isSnapshot: false,
+            })
+            // router.push(`/app?loadSnapshot=${chartid}`)
             //  {
-            //   // state: {
-            //   //   initialChartDocument: {
-            //   //     chartData: napchart.data,
-            //   //     title: title,
-            //   //     description: description,
-            //   //   },
-            //   // },
+              // state: {
+              //   initialChartDocument: {
+              //     chartData: napchart.data,
+              //     title: title,
+              //     description: description,
+              //   },
+              // },
             // }
           }}
         >

@@ -41,9 +41,6 @@ export default function Nav({ activeRoute }) {
                     <NavElement href="/app" activeRoute={activeRoute}>
                       Editor
                     </NavElement>
-                    <NavElement href="/users" activeRoute={activeRoute}>
-                      Users
-                    </NavElement>
                   </div>
                 </div>
               </div>

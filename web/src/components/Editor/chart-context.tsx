@@ -7,6 +7,7 @@ import { getDataForServer } from '../../utils/getDataForServer'
 import { getProperLink } from '../../utils/getProperLink'
 import { request } from '../../utils/request'
 import NotyfContext from '../common/NotyfContext'
+import { globalObj } from '../global'
 import { ChartData, ChartDocument } from './types'
 
 const ChartContext = React.createContext({})
@@ -18,7 +19,7 @@ export function ChartProvider({ children, chartid, initialData }) {
   const [loading, setLoading] = useState(!initialData)
   const [requestLoading, setRequestLoading] = useState(false)
   const [dirty, setDirty] = useState(initialData && !chartid)
-  const [chartDocument, setChartDocument] = useState<ChartDocument | null>(initialData)
+  const [chartDocument, setChartDocument] = useState<ChartDocument | null>(globalObj.globalInitialData)
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
   const [lastUpdated, setLastUpdated] = useState(null)
@@ -34,6 +35,32 @@ export function ChartProvider({ children, chartid, initialData }) {
     custom_2: null,
     custom_3: null,
   })
+
+  const {loadSnapshot} = router.query
+  console.log('loadSnapshot: ', loadSnapshot);
+  useEffect(() => {
+    if (loadSnapshot) {
+      setLoading(true)
+      request('GET', `/v1/getChart/${loadSnapshot}`)
+        .then((res: ChartCreationReturn) => {
+          console.log('res.chartDocument: ', res.chartDocument);
+          setChartDocument({
+            chartData: res.chartDocument.chartData,
+            ...chartDocument
+          })
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log('err: ', err);
+          if (err?.response?.status == 404) router.replace('/404')
+
+          if (getErrorMessage(err) == 'The chart is private') {
+            alert('This chart is private')
+            router.replace('/app')
+          }
+        })
+    }
+  }, [loadSnapshot])
 
   useEffect(() => {
     if (chartid && !initialData) {
@@ -158,7 +185,7 @@ export function ChartProvider({ children, chartid, initialData }) {
         dirty,
         setDirty,
         clear: () => setChartDocument(null),
-        readOnly: chartid && (!isMyChart || chartDocument?.isSnapshot),
+        readOnly: false,//chartid && (!isMyChart || chartDocument?.isSnapshot),
         customColors,
         setCustomColors,
       }}

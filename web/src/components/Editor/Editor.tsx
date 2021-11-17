@@ -18,36 +18,11 @@ import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
 
-export default function Editor({ chartid=null, username=null, initialData=null }) {
-  console.log('initialData here: ', initialData);
-
-  // let realChartId
-  // if (chartid) {
-  //   realChartId = chartid
-  // } else if (titleAndChartid) {
-  //   if (/(\w|\d){9}/.test(titleAndChartid.slice(-9))) {
-  //     realChartId = titleAndChartid.slice(-9)
-  //   } else {
-  //     const lastPart = titleAndChartid.split('-').pop()
-  //     if (lastPart.length == 5 || lastPart.length == 6) {
-  //       realChartId = lastPart
-  //     }
-  //   }
-  // } else if (oldchartid) {
-  // if (oldchartid.length == 5 || oldchartid.length == 6) {
-  //   realChartId = oldchartid
-  // }
-  // }
-
-  // if (!realChartId && !isApp) {
-  //   router.replace('/404')
-  // }
+export default function Editor({ chartid = null, username = null, initialData = null }) {
+  console.log('initialData here: ', initialData)
 
   return (
-    <ChartProvider
-      chartid={chartid}
-       initialData={initialData}
-    >
+    <ChartProvider chartid={chartid} initialData={initialData}>
       <App pathUsername={username} />
     </ChartProvider>
   )
