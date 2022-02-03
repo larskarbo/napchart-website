@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useLocation } from 'react-router'
 import { getProperLink } from '../../utils/getProperLink'
 import { BASE } from '../../utils/request'
 import Button from '../common/Button'
@@ -18,12 +19,16 @@ import Polyphasic from './sections/Polyphasic'
 import ToolBar from './ToolBar'
 import WarnExit from './WarnExit'
 
-export default function Editor({ chartid = null, username = null, initialData = null }) {
-  console.log('initialData here: ', initialData)
+export default function Editor({ chartid = null, ...all }) {
+  let location = useLocation()
+  // @ts-ignore
+  const initialData = location.state?.initialChartDocument
+  console.log('location.state: ', location.state);
+  console.log('initialData: ', initialData);
 
   return (
     <ChartProvider chartid={chartid} initialData={initialData}>
-      <App pathUsername={username} />
+      <App />
     </ChartProvider>
   )
 }
@@ -45,7 +50,7 @@ const getAmpm = (): boolean => {
   }
 }
 
-function App({ pathUsername }) {
+function App({}) {
   const {
     chartid,
     loading,

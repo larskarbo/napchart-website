@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
+import { useParams } from 'react-router'
 import Editor from '../../components/Editor/Editor'
 
-export default function App() {
-  const router = useRouter()
-  const { titleAndChartid } = router.query
+export default function TitleAndChartId() {
+  let { titleAndChartid } = useParams()
   let chartid = null
   if (typeof titleAndChartid == 'string') {
     if (/(\w|\d){9}/.test(titleAndChartid.slice(-9))) {
@@ -15,7 +15,6 @@ export default function App() {
       }
     }
   }
-  console.log('chartid: ', chartid)
 
   return <Editor chartid={chartid} />
 }

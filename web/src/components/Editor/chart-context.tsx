@@ -1,25 +1,24 @@
 import { getErrorMessage } from 'get-error-message'
-import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { ChartCreationReturn } from '../../../../server/charts/types'
 import { useUser } from '../../auth/user-context'
 import { getDataForServer } from '../../utils/getDataForServer'
 import { getProperLink } from '../../utils/getProperLink'
 import { request } from '../../utils/request'
 import NotyfContext from '../common/NotyfContext'
-import { globalObj } from '../global'
 import { ChartData, ChartDocument } from './types'
 
 const ChartContext = React.createContext({})
 
 export function ChartProvider({ children, chartid, initialData }) {
   const { user } = useUser()
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(!initialData)
   const [requestLoading, setRequestLoading] = useState(false)
   const [dirty, setDirty] = useState(initialData && !chartid)
-  const [chartDocument, setChartDocument] = useState<ChartDocument | null>(globalObj.globalInitialData)
+  const [chartDocument, setChartDocument] = useState<ChartDocument | null>(initialData)
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
   const [lastUpdated, setLastUpdated] = useState(null)
@@ -36,32 +35,6 @@ export function ChartProvider({ children, chartid, initialData }) {
     custom_3: null,
   })
 
-  const {loadSnapshot} = router.query
-  console.log('loadSnapshot: ', loadSnapshot);
-  useEffect(() => {
-    if (loadSnapshot) {
-      setLoading(true)
-      request('GET', `/v1/getChart/${loadSnapshot}`)
-        .then((res: ChartCreationReturn) => {
-          console.log('res.chartDocument: ', res.chartDocument);
-          setChartDocument({
-            chartData: res.chartDocument.chartData,
-            ...chartDocument
-          })
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log('err: ', err);
-          if (err?.response?.status == 404) router.replace('/404')
-
-          if (getErrorMessage(err) == 'The chart is private') {
-            alert('This chart is private')
-            router.replace('/app')
-          }
-        })
-    }
-  }, [loadSnapshot])
-
   useEffect(() => {
     if (chartid && !initialData) {
       setLoading(true)
@@ -71,11 +44,11 @@ export function ChartProvider({ children, chartid, initialData }) {
           setLoading(false)
         })
         .catch((err) => {
-          if (err?.response?.status == 404) router.replace('/404')
+          if (err?.response?.status == 404) navigate('/404', { replace: true })
 
           if (getErrorMessage(err) == 'The chart is private') {
             alert('This chart is private')
-            router.replace('/app')
+            navigate('/app', { replace: true })
           }
         })
     }
@@ -90,7 +63,7 @@ export function ChartProvider({ children, chartid, initialData }) {
 
       let customCs = {}
       chartDocument?.chartData?.colorTags.forEach((ct) => {
-      // @ts-ignore
+        // @ts-ignore
         customCs[ct.color] = ct.colorValue
       })
       setCustomColors({
@@ -142,7 +115,7 @@ export function ChartProvider({ children, chartid, initialData }) {
         const { chartDocument } = res
 
         setDirty(false)
-        router.replace(getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid))
+        navigate(getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid), { replace: true })
       })
       .catch((err) => {
         notyf.error(getErrorMessage(err))
@@ -185,7 +158,7 @@ export function ChartProvider({ children, chartid, initialData }) {
         dirty,
         setDirty,
         clear: () => setChartDocument(null),
-        readOnly: false,//chartid && (!isMyChart || chartDocument?.isSnapshot),
+        readOnly: chartid && (!isMyChart || chartDocument?.isSnapshot),
         customColors,
         setCustomColors,
       }}

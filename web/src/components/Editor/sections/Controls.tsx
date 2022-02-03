@@ -18,7 +18,7 @@ import SelectedElement from '../small/SelectedElement'
 import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import { Feedback } from './Feedback'
-
+import { useNavigate } from 'react-router-dom'
 export const Controls = ({ napchart }) => {
   const router = useRouter()
 
@@ -52,6 +52,7 @@ export const Controls = ({ napchart }) => {
 
   const link = WEB_BASE + getProperLink(chartOwner, title, chartid)
   const [isCopied, setCopied] = useClipboard(link)
+  const navigate = useNavigate()
 
   return (
     <div className="">
@@ -169,14 +170,18 @@ export const Controls = ({ napchart }) => {
             >
               {isCopied ? 'Copied' : 'Link'}
             </Button>
-            {isPrivate ? (
-              <Button small onClick={() => setIsPrivate(false)}>
-                🔒 Chart is private{dirty && '*'}
-              </Button>
-            ) : (
-              <Button small onClick={() => setIsPrivate(true)}>
-                Chart is public{dirty && '*'}
-              </Button>
+            {!isSnapshot && (
+              <>
+                {isPrivate ? (
+                  <Button small onClick={() => setIsPrivate(false)}>
+                    🔒 Chart is private{dirty && '*'}
+                  </Button>
+                ) : (
+                  <Button small onClick={() => setIsPrivate(true)}>
+                    Chart is public{dirty && '*'}
+                  </Button>
+                )}
+              </>
             )}
             {/* <Button small className=" mx-1">
               Twitter
@@ -202,28 +207,15 @@ export const Controls = ({ napchart }) => {
         <Button
           className="mr-2"
           onClick={() => {
-            // history.pushState(null, "yo" , "/app")
-            // globalObj.globalInitialData = {
-            //   initialChartDocument: {
-            //     chartData: napchart.data,
-            //     title: title,
-            //     description: description,
-            //   },
-            // }
-            setChartDocument({
-              ...chartDocument,
-              isSnapshot: false,
+            navigate('/app', {
+              state: {
+                initialChartDocument: {
+                  chartData: napchart.data,
+                  title: title,
+                  description: description,
+                },
+              },
             })
-            // router.push(`/app?loadSnapshot=${chartid}`)
-            //  {
-              // state: {
-              //   initialChartDocument: {
-              //     chartData: napchart.data,
-              //     title: title,
-              //     description: description,
-              //   },
-              // },
-            // }
           }}
         >
           Enable editing

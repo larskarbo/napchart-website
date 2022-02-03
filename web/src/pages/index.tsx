@@ -1,17 +1,17 @@
 import React from 'react'
 
 import Logo from '../components/common/Logo'
-import Link from 'next/link'
 import Head from 'next/head'
 import Button from '../components/common/Button'
 import { QuickSeo } from 'next-quick-seo'
+import { SuperLink } from '../components/common/SuperLink'
 
 const TITLE = 'Napchart - Polyphasic Sleep Planner Calculator'
 const DESCRIPTION =
   'Plan your sleep and visualize complex time schedules with this sleep planner. All-in-one suite for sleep hacking and bio-optimization.'
 const URL = 'https://napchart.com/'
 
-export default class extends React.Component {
+export default class Index extends React.Component {
   constructor(props) {
     super(props)
 
@@ -26,7 +26,6 @@ export default class extends React.Component {
           <meta property="og:url" content={URL} />
           <link rel="canonical" href={URL} />
 
-
           <meta property="og:site_name" content="Napchart" />
           <meta name="twitter:card" content="summary_large_image" />
 
@@ -38,9 +37,9 @@ export default class extends React.Component {
           <div className="text-3xl">Napchart</div>
           <div className="text-sm my-2">24H Time visualizer</div>
           <div className="my-16">
-            <Link href="/app">
+            <SuperLink href="/app">
               <Button>Enter</Button>
-            </Link>
+            </SuperLink>
           </div>
         </section>
 

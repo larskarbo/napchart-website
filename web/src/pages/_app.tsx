@@ -9,7 +9,7 @@ import { UserProvider } from '../auth/user-context'
 import { ModalProvider } from '../components/common/ModalContext'
 const queryClient = new QueryClient()
 
-function MyApp({ Component, pageProps, config }) {
+function MyApp({ Component, pageProps }) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps, config }) {
                 <meta property="og:site_name" content="Napchart" />
               </Head>
 
-              <Component {...pageProps} config={config} />
+              <div suppressHydrationWarning>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</div>
             </PlausibleProvider>
           </UserProvider>
         </ModalProvider>
