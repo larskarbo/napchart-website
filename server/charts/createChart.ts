@@ -16,6 +16,7 @@ const createChartSchema = Joi.object({
   chartData: chartDataSchema,
   title: titleSchema,
   description: descriptionSchema,
+  isPrivate: Joi.boolean().optional().default(false),
 })
 
 const createChartSchemaPremium = createChartSchema.keys({
@@ -40,7 +41,7 @@ export const createChart = async function (req, res) {
     return sendValidationError(res, validate.error)
   }
 
-  const { title, description, api_flag_user, chartData } = validate.value
+  const { title, description, api_flag_user, chartData, isPrivate } = validate.value
 
 
   const chartid = await pRetry(findUniqueId, { retries: 3, minTimeout: 0 })
@@ -63,7 +64,7 @@ export const createChart = async function (req, res) {
   db.pool
     .query(
       `INSERT INTO charts (chartid, username, chart_data, title, description, is_snapshot, ip, is_private) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [chartid, username, chartData, title, description, isSnapshot, clientIp, false],
+      [chartid, username, chartData, title, description, isSnapshot, clientIp, isPrivate],
     )
     .then((hey) => {
       const chart = hey.rows[0]

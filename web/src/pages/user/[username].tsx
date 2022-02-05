@@ -44,11 +44,12 @@ export default function Profile({}) {
   })
 
   const { mutate: duplicateChart } = useNCMutation(
-    ({ chartData, title, description }: { chartData: ChartData; title: string; description: string }) =>
+    ({ chartData, title, description, isPrivate }: { chartData: ChartData; title: string; description: string; isPrivate: boolean }) =>
       request('POST', `/createChart`, {
         chartData: getDataForServer(chartData),
         title: title,
         description: description,
+        isPrivate: isPrivate,
       }),
     {
       onSuccess: () => {
@@ -144,6 +145,7 @@ export default function Profile({}) {
                                 chartData: chart.chartData,
                                 title: chart.title,
                                 description: chart.description,
+                                isPrivate: chart.isPrivate
                               })
                             },
                           },
