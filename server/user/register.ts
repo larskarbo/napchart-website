@@ -94,32 +94,31 @@ export const register = async (req, res) => {
 
 const makeEmail = ({ username, email }) => {
   const template: string = `
-  Hi!
+Hi!
 
-  Thanks for registering your Napchart account!
+Thanks for registering your Napchart account!
 
-  Username: ${username}
+Username: ${username}
 
-  Email: ${email}
+Email: ${email}
 
-  Password: (the one you set)
+Password: (the one you set)
 
-  ----
+----
 
-  Your account is in the system now, you can go ahead and log in at https://napchart.com/auth/login.
+Your account is in the system now, you can go ahead and log in at https://napchart.com/auth/login.
 
-  You will need to verify your email before the full feature set activates. Apologies in advance that everything is not 100% polished now as these new features are rolled out.
+You will need to verify your email before the full feature set activates. Apologies in advance that everything is not 100% polished now as these new features are rolled out.
 
-  Would also be awesome if you wanted to write a little introduction in the forums: https://forum.napchart.com/t/about-the-introductions-category/25
+Let me know any feedback you have!
 
-  Let me know any feedback you have!
+Feel free to reply directly to this mail.
 
-  Feel free to reply directly to this mail.
+Best,
 
-  Best,
-
-  Lars
-  `
+Lars
+`
+// Would also be awesome if you wanted to write a little introduction in the forums: https://forum.napchart.com/t/about-the-introductions-category/25
 
   const text = template
 

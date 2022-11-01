@@ -16,39 +16,36 @@ export default function SetPasswordPage({ mode }) {
   const router = useRouter()
 
   const searchParams = router.query
-  
-  useEffect(() => {
-    if (!searchParams?.utoken) {
-      alert('Link is malformed, double check that you have the right link')
-      router.push('/app/login')
-    }
-  },[searchParams?.utoken])
+  console.log('searchParams: ', searchParams)
 
   useEffect(() => {
-    request('POST', '/verifyPasswordResetToken', {
-      utoken: searchParams.utoken,
-    })
-      .then((res) => {
-        console.log('res: ', res)
-        setEmail(res.email)
+    if (router.query?.utoken) {
+      request('POST', '/verifyPasswordResetToken', {
+        utoken: searchParams.utoken,
       })
-      .catch((err) => {
-        setVerifyError(true)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
+        .then((res) => {
+          console.log('res: ', res)
+          setEmail(res.email)
+        })
+        .catch((err) => {
+          console.log('err: ', err.response.data)
+          setVerifyError(true)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }, [router.query?.utoken])
 
   const [msg, setMsg] = useState('')
 
   const mutation = useNCMutation(
     () => {
-    // @ts-ignore
+      // @ts-ignore
       const email = formRef.current.email.value
-    // @ts-ignore
+      // @ts-ignore
       const password = formRef.current.password.value
-    // @ts-ignore
+      // @ts-ignore
       const utoken = formRef.current.utoken.value
       return request('POST', '/setPassword', {
         email,
