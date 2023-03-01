@@ -13,7 +13,7 @@ mergeable:
         must_exclude:
           regex: 'NOCOMMIT|FIXME'
           message: 'Non-commitable keyword found!'
-      - do: and
+      - do: or
         message: '💩Migration detected: Please add the migration-approved label.'
         validate:
           # - do: and
