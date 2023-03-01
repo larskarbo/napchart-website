@@ -2,6 +2,10 @@ version: 2
 mergeable:
   - when: pull_request.*
     validate:
+      - do: description
+        must_exclude:
+          regex: "- \\[ \\]"
+          message: 'Check all the boxes to merge PR'
       - do: contents
         files: # determine which files contents to validate
           pr_diff: true # If true, validator will grab all the added and modified files in the head of the PR
@@ -9,3 +13,22 @@ mergeable:
         must_exclude:
           regex: 'NOCOMMIT|FIXME'
           message: 'Non-commitable keyword found!'
+      - do: and
+        message: '💩Migration detected: Please add the migration-approved label.'
+        validate:
+          # - do: and
+          #   validate:
+          - do: contents
+            files:
+              pr_diff: true
+            must_include:
+              regex: 'prisma/migrations/.*'
+          - do: label
+            must_include:
+              regex: 'migration-approved'
+              message: 'Migration detected: Please add the migration-approved label.'
+          # - do: contents
+          #   files:
+          #     pr_diff: true
+          #   must_exclude:
+          #     regex: "prisma/migrations/.*"
