@@ -27,6 +27,10 @@ mergeable:
             must_include:
               regex: 'migration-approved'
               message: 'Migration detected: Please add the migration-approved label.'
+        fail:
+          - do: comment
+            payload:
+              body: 'Migration detected -> Please add the migration-approved label.'
           # - do: contents
           #   files:
           #     pr_diff: true
