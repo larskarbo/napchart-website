@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const SubmitButton = ({ children, disabled = false }) => {
   return (
     <div className="mb-4">

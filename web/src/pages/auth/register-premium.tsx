@@ -72,13 +72,6 @@ const PremiumPageReal = ({ exit }) => {
                 Fully featured dark-mode. <i>(coming soon)</i>
               </li>
             </ul>
-            <li className="my-4 font-medium">Community</li>
-            <ul className="list-disc ml-8 font-light text-sm">
-              <li className="my-1">
-                <strong>Napchart Forum</strong>. Be able to post and participate in discussions. Voice your suggestions
-                and bugs. Your needs will be prioritized and your voice will be heard.
-              </li>
-            </ul>
           </ul>
         </div>
 

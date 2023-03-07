@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const FormElement = ({
   name,
   autoComplete = null,
@@ -17,7 +15,6 @@ export const FormElement = ({
       </label>
       <div className="mt- rounded-md shadow-sm">
         <input
-
           id={name}
           type={type}
           disabled={disabled}

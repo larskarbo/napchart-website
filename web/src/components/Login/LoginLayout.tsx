@@ -1,6 +1,3 @@
-import React from 'react'
-import { Contact } from '../Editor/sections/Info'
-
 export default function LoginLayout({ children, msg = '' }) {
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center justify-center bg-yellow-50">
@@ -12,13 +9,6 @@ export default function LoginLayout({ children, msg = '' }) {
         {msg && <div className="text-red-600 pb-4">{msg}</div>}
         {children}
       </div>
-
-      {/* <span className="my-2 text-sm opacity-50">
-        No account yet?{" "}
-        <a className="underline" href="/register">
-          Login
-        </a>
-      </span> */}
 
       <div className="pb-16"></div>
       <div className="my-4 text-sm text-gray-800">
