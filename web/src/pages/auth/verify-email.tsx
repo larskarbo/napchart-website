@@ -68,10 +68,10 @@ export default function VerifyEmailPage({}) {
         user.emailVerified ? (
           <>
             <div>Awesome! Your email is verified!</div>
-            <Link href="/app">
+            <Link href="/app" legacyBehavior>
               <Button>Go to app</Button>
             </Link>
-            <Link href={`/user/${user.username}`}>
+            <Link href={`/user/${user.username}`} legacyBehavior>
               <Button>Go to profile</Button>
             </Link>
           </>
@@ -90,11 +90,11 @@ export default function VerifyEmailPage({}) {
       ) : (
         <>
           <div>You are not logged in.</div>
-          <Link href="/auth/login">
+          <Link href="/auth/login" legacyBehavior>
             <Button icon={<FaLock />}>Log in here</Button>
           </Link>
         </>
       )}
     </LoginLayout>
-  )
+  );
 }

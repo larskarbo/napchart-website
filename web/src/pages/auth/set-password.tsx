@@ -1,12 +1,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { parse } from 'query-string'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { request } from '../../utils/request'
-import { useNCMutation } from '../../utils/requestHooks'
+import { useEffect, useRef, useState } from 'react'
 import { FormElement } from '../../components/Login/FormElement'
 import LoginLayout from '../../components/Login/LoginLayout'
 import { SubmitButton } from '../../components/Login/SubmitButton'
+import { request } from '../../utils/request'
+import { useNCMutation } from '../../utils/requestHooks'
 
 export default function SetPasswordPage({ mode }) {
   const formRef = useRef()
@@ -36,8 +35,6 @@ export default function SetPasswordPage({ mode }) {
         })
     }
   }, [router.query?.utoken])
-
-  const [msg, setMsg] = useState('')
 
   const mutation = useNCMutation(
     () => {
@@ -73,16 +70,16 @@ export default function SetPasswordPage({ mode }) {
       ) : verifyError ? (
         <>
           <div>
-            <p className="py-3">We couldn't verify the link. Maybe the link is malformed.</p>
+            <p className="py-3">We could not verify the link. Maybe the link is malformed.</p>
             <p className="py-3">
               Please{' '}
-              <Link href="/app/forgot-password">
+              <Link href="/app/forgot-password" legacyBehavior>
                 <span className="underline text-blue-500">request a new link</span>
               </Link>{' '}
             </p>
             <p className="py-3">
               You can also try to{' '}
-              <Link href="/app/login">
+              <Link href="/app/login" legacyBehavior>
                 <span className="underline text-blue-500">log in</span>
               </Link>
               .
@@ -127,5 +124,5 @@ export default function SetPasswordPage({ mode }) {
         </>
       )}
     </LoginLayout>
-  )
+  );
 }

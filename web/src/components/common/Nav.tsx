@@ -8,17 +8,17 @@ import { useUser } from '../../auth/user-context'
 const NavElement = ({ href, children, activeRoute }) => {
   const isActive = activeRoute === href
   return (
-    <Link href={href}>
-      <a
-        className={clsx(
-          isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-          ' px-3 py-2 rounded-md text-sm font-medium',
-        )}
-      >
-        {children}
-      </a>
-    </Link>
-  )
+    (<Link
+      href={href}
+      className={clsx(
+        isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+        ' px-3 py-2 rounded-md text-sm font-medium',
+      )}>
+
+      {children}
+
+    </Link>)
+  );
 }
 
 export default function Nav({ activeRoute }) {
@@ -32,7 +32,7 @@ export default function Nav({ activeRoute }) {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link href="/app">
+                  <Link href="/app" legacyBehavior>
                     <img className="h-8 " src="/logo.svg" alt="Napchart" />
                   </Link>
                 </div>
@@ -75,10 +75,12 @@ export default function Nav({ activeRoute }) {
                       <Menu.Items className="origin-top-right z-20 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
-                            <Link href={`/user/${user.username}`}>
-                              <a className={clsx(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            <Link
+                              href={`/user/${user.username}`}
+                              className={clsx(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                              
                                 Your Profile
-                              </a>
+                              
                             </Link>
                           )}
                         </Menu.Item>
@@ -102,5 +104,5 @@ export default function Nav({ activeRoute }) {
         </>
       )}
     </Disclosure>
-  )
+  );
 }

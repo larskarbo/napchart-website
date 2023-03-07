@@ -19,7 +19,7 @@ import SelectedElement from '../small/SelectedElement'
 import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import { Feedback } from './Feedback'
-export const Controls = ({ napchart }: { napchart: NapchartType | undefined }) => {
+export const Controls = ({ napchart }: { napchart: NapchartType }) => {
   const router = useRouter()
 
   if (!napchart) {
@@ -99,7 +99,7 @@ export const Controls = ({ napchart }: { napchart: NapchartType | undefined }) =
         <div className="flex justify-between my-4">
           <div className="">
             {isSnapshot ? 'Snapshot ' : ''}by{' '}
-            <Link href={`/user/${chartOwner}`}>
+            <Link href={`/user/${chartOwner}`} legacyBehavior>
               <span className="font-bold">@{chartOwner}</span>
             </Link>
           </div>
@@ -191,7 +191,7 @@ export const Controls = ({ napchart }: { napchart: NapchartType | undefined }) =
         </div>
       )}
     </div>
-  )
+  );
 }
 
 const SaveModal = ({ napchart, exit }) => {
@@ -226,7 +226,7 @@ const SaveModal = ({ napchart, exit }) => {
       </div>
       <div className="my-4">Organize Napcharts in your profile!</div>
       <div className="my-4">
-        If you don't want them in your profile and just want to share a quick link, generating a snapshot might be a
+        If you {"don't"} want them in your profile and just want to share a quick link, generating a snapshot might be a
         better option.
       </div>
       <Button onClick={() => newChart(napchart.data)}>Save to profile</Button>

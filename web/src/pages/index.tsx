@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Logo from '../components/common/Logo'
+import { Logo } from '../components/common/Logo'
 import Head from 'next/head'
 import Button from '../components/common/Button'
 import { QuickSeo } from 'next-quick-seo'
@@ -33,7 +33,7 @@ export default class Index extends React.Component {
         </Head>
 
         <section className="pt-36 w-full flex flex-col justify-center items-center">
-          <Logo logoText="Napchart" height="200" />
+          <Logo height={200} />
           <div className="text-3xl">Napchart</div>
           <div className="text-sm my-2">24H Time visualizer</div>
           <div className="my-16">

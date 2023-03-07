@@ -73,8 +73,8 @@ export default function Polyphasic({ napchart }) {
           <div>Sleep Schedules</div>
           <div className="text-xs">
             (by{' '}
-            <Link href="/user/GeneralNguyen">
-              <a className="underline text-blue-500">@GeneralNguyen</a>
+            <Link href="/user/GeneralNguyen" className="underline text-blue-500">
+              @GeneralNguyen
             </Link>
             )
           </div>
@@ -98,5 +98,5 @@ export default function Polyphasic({ napchart }) {
             ))}
       </div>
     </div>
-  )
+  );
 }

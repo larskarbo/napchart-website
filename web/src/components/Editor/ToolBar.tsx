@@ -1,11 +1,9 @@
-import React from 'react'
 import { FaRedo, FaUndo } from 'react-icons/fa'
 import { NapchartType } from '../../../napchart-canvas/lib/types'
 import Button from '../common/Button'
-import { useChart } from './chart-context'
 import { SnapshotLinkCreator } from './SnapshotLinkCreator'
 
-export default function ({ napchart }: { napchart: NapchartType }) {
+export const ToolBar = function ({ napchart }: { napchart: NapchartType }) {
   const canGoBack = napchart?.history?.canIGoBack(napchart)
 
   const canGoForward = napchart?.history?.canIGoForward(napchart)
@@ -33,3 +31,4 @@ export default function ({ napchart }: { napchart: NapchartType }) {
     </div>
   )
 }
+

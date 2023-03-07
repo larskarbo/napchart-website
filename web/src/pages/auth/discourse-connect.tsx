@@ -18,7 +18,7 @@ export default function DiscourseConnect({}) {
   const [msg, setMsg] = useState('')
 
   if (!searchParams.sso || !searchParams.sig) {
-    return <div>'Link is malformed, double check that you have the right link'</div>
+    return <div>Link is malformed, double check that you have the right link</div>
   }
   const onLogin = (e) => {
     e.preventDefault()

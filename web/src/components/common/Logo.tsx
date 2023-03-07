@@ -1,184 +1,196 @@
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 import Napchart from '../../../napchart-canvas/lib/index'
-import clsx from 'clsx'
-import * as uuid from 'uuid'
+import { NapchartType } from '../../../napchart-canvas/lib/types'
+import { ChartData } from '../Editor/types'
+var elements = [
+  {
+    end: 320,
+    start: 30,
+    lane: 0,
+    id: 4082,
+    text: '',
+    color: 'red',
+    duration: 240,
+  },
+  {
+    end: 680,
+    start: 390,
+    lane: 0,
+    id: 545,
+    text: '',
+    color: 'green',
+    duration: 240,
+  },
+  {
+    start: 750,
+    end: 1040,
+    lane: 0,
+    id: 8540,
+    text: '',
+    color: 'brown',
+    duration: 240,
+  },
+  {
+    start: 1110,
+    end: 1400,
+    lane: 0,
+    id: 9693,
+    text: '',
+    color: 'yellow',
+    duration: 240,
+  },
+]
 
-export default class Chart extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      napchart: false,
-      hasStartedSpinning: false,
-      ref: uuid.v4(),
-    }
-  }
+interface Props {
+  loading?: boolean
+  height: number
+  className?: string
+  white?: boolean
+  noInteraction?: boolean
+}
 
-  componentDidMount() {
-    this.initializeChart()
+export function Logo({ loading, height, className, white, noInteraction }: Props) {
+  const [napchart, setNapchart] = useState<NapchartType | null>(null)
+  const [hasStartedSpinning, setHasStartedSpinning] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const ref = useRef(uuid())
 
-    this.startSpin(() => {
-      this.endSpin(() => {})
+  useEffect(() => {
+    if (!canvasRef.current) return
+
+    initializeChart()
+    startSpin(() => {
+      endSpin(() => {})
     })
-  }
+  }, [canvasRef.current])
 
-  render() {
-    if (this.props.loading && !this.state.hasStartedSpinning && this.state.napchart) {
-      this.spinLoad()
+  useEffect(() => {
+    if (loading && !hasStartedSpinning && napchart) {
+      spinLoad()
     }
+  }, [loading, hasStartedSpinning, napchart])
 
-    var height = this.props.height
-    return (
-      <div className={'flex ' + this.props.className}>
-        <div className="canvasParent" style={{ width: height + 'px' }}>
-          <canvas width={height} height={height} ref={this.state.ref}></canvas>
-        </div>
-        
-      </div>
-    )
-  }
+  function initializeChart() {
+    const canvas = canvasRef.current
+    console.log('canvas: ', canvas)
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
 
-  initializeChart() {
-    var canvas = this.refs[this.state.ref]
-    var ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    var elements = [
-      {
-        end: 320,
-        start: 30,
-        lane: 0,
-        id: 4082,
-        text: '',
-        color: 'red',
-        duration: 240,
-      },
-      {
-        end: 680,
-        start: 390,
-        lane: 0,
-        id: 545,
-        text: '',
-        color: 'green',
-        duration: 240,
-      },
-      {
-        start: 750,
-        end: 1040,
-        lane: 0,
-        id: 8540,
-        text: '',
-        color: 'brown',
-        duration: 240,
-      },
-      {
-        start: 1110,
-        end: 1400,
-        lane: 0,
-        id: 9693,
-        text: '',
-        color: 'yellow',
-        duration: 240,
-      },
-    ]
-
-    if (this.props.white) {
-      elements = elements.map((e) => ({
+    let updatedElements = elements
+    if (white) {
+      updatedElements = updatedElements.map((e) => ({
         ...e,
         color: 'white',
       }))
     }
 
-    var napchart = Napchart.init(
-      ctx,
-      {
-        elements: elements,
-        shape: 'miniCircle',
-        lanes: 1,
-      },
-      {
-        text: false,
-        drawFace: false,
-        interaction: !this.props.noInteraction ? true : false,
-      },
-    )
+    const napchartData: Partial<ChartData> = {
+      elements: updatedElements,
+      shape: 'miniCircle',
+      lanes: 1,
+    }
+
+    const napchartOptions = {
+      text: false,
+      drawFace: false,
+      interaction: !noInteraction,
+    }
+    const napchart = Napchart.init(ctx, napchartData, napchartOptions)
 
     napchart.data.elements.forEach((element) => {
+      // @ts-ignore
       element.initialStart = element.start
+      // @ts-ignore
       element.initialEnd = element.end
     })
 
-    this.state.napchart = napchart
+    setNapchart(napchart)
   }
 
-  spinLoad = (callback) => {
-    this.setState({
-      hasStartedSpinning: true,
-    })
+  function spinLoad(callback?: () => void) {
+    setHasStartedSpinning(true)
 
-    var shouldIContinue = () => {
-      if (this.props.loading) {
-        this.continueSpin(shouldIContinue)
+    const shouldIContinue = () => {
+      if (loading) {
+        continueSpin(shouldIContinue)
       } else {
-        this.endSpin(() => {
-          this.setState({
-            hasStartedSpinning: false,
-          })
+        endSpin(() => {
+          setHasStartedSpinning(false)
         })
       }
     }
 
-    this.startSpin(() => {
-      this.continueSpin(shouldIContinue)
+    startSpin(() => {
+      continueSpin(shouldIContinue)
     })
   }
 
-  startSpin = (callback) => {
-    this.spin(500, easingEffects.easeInSine, 290, 1440 / 4, callback)
+  function startSpin(callback?: () => void) {
+    spin(500, easingEffects.easeInSine, 290, 1440 / 4, callback)
   }
 
-  continueSpin = (callback) => {
-    this.spin(250, easingEffects.linear, 1440 / 4, 1440 / 4, callback)
+  function continueSpin(callback?: () => void) {
+    spin(250, easingEffects.linear, 1440 / 4, 1440 / 4, callback)
   }
 
-  endSpin = (callback) => {
-    this.spin(500, easingEffects.easeOutSine, 1440 / 4, 290, callback)
+  function endSpin(callback?: () => void) {
+    spin(500, easingEffects.easeOutSine, 1440 / 4, 290, callback)
   }
 
-  spin(duration, easingEffect, animateFromDuration, animateToDuration, callback) {
-    var napchart = this.state.napchart
+  function spin(
+    duration: number,
+    easingEffect: (progress: number) => number,
+    animateFromDuration: number,
+    animateToDuration: number,
+    callback?: () => void,
+  ) {
+    if (!napchart) return
 
-    var start = Date.now()
+    const start = Date.now()
 
     function step() {
-      var now = Date.now()
-      var progress = Math.min((now - start) / duration, 1)
+      const now = Date.now()
+      let progress = Math.min((now - start) / duration, 1)
       if (progress >= 1) {
-        return callback()
+        return callback?.()
       }
-      var progress = easingEffect(progress)
+      progress = easingEffect(progress)
 
-      var newElements = napchart.data.elements.map((element) => {
-        var distance = 1440
+      const newElements = napchart.data.elements.map((element) => {
+        const distance = 1440
 
-        var sizeAnimate = 36 * progress
-        var thisDuration = animateFromDuration + (animateToDuration - animateFromDuration) * progress
-        // console.log(sizeAnimate)
-        var start = element.initialStart + distance * progress - sizeAnimate
-        var end = start + thisDuration
+        const sizeAnimate = 36 * progress
+        const thisDuration = animateFromDuration + (animateToDuration - animateFromDuration) * progress
+        // @ts-ignore
+        const start = element.initialStart + distance * progress - sizeAnimate
+        const end = start + thisDuration
+
         return {
           ...element,
           start,
-          end, // + distance * progress + sizeAnimate
+          end,
         }
       })
+
       napchart.setElements(newElements)
       if (progress < 1) {
-        // console.log(progress)
         requestAnimationFrame(step)
       }
     }
 
     step()
   }
+
+  return (
+    <div className={'flex ' + className}>
+      <div className="canvasParent" style={{ width: height + 'px' }}>
+        <canvas width={height} height={height} ref={canvasRef}></canvas>
+      </div>
+    </div>
+  )
 }
 
 var easingEffects = {

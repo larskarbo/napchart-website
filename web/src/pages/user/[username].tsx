@@ -121,7 +121,10 @@ export default function Profile({}) {
                   key={chart.chartid}
                   className="rounded border bg-gray-50 hover:bg-gray-100 flex-1 p-2 flex flex-col flex-shrink-0"
                 >
-                  <Link key={chart.chartid} href={getProperLink(chart.username, chart.title, chart.chartid)}>
+                  <Link
+                    key={chart.chartid}
+                    href={getProperLink(chart.username, chart.title, chart.chartid)}
+                    legacyBehavior>
                     <div className="w-48 h-48 overflow-hidden">
                       <Chart interactive={false} chartData={chart.chartData} />
                     </div>
@@ -170,7 +173,7 @@ export default function Profile({}) {
         </MainBox>
       </NewLayout>
     </div>
-  )
+  );
 }
 
 type Option = {

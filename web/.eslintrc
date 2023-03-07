@@ -1,6 +1,11 @@
 {
-    "extends": ["next", "next/core-web-vitals"],
+    "extends": [
+        "next",
+        "next/core-web-vitals"
+    ],
     "rules": {
-        "no-restricted-globals": "off"
+        "no-restricted-globals": "off",
+        "@next/next/no-html-link-for-pages": "warn",
+        "react-hooks/rules-of-hooks": "warn"
     }
-  }
+}

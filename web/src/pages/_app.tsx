@@ -14,7 +14,23 @@ declare module 'react-query/types/react/QueryClientProvider' {
   }
 }
 
+import { useEffect, useState } from 'react'
+
+// this is a hook we can use to avoid hydration issues
+// good post: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
+export function useHasMounted() {
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  return hasMounted
+}
+
 function MyApp({ Component, pageProps }) {
+  const hasMounted = useHasMounted()
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -25,7 +41,7 @@ function MyApp({ Component, pageProps }) {
                 <meta property="og:site_name" content="Napchart" />
               </Head>
 
-              <div suppressHydrationWarning>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</div>
+              <div>{hasMounted ? <Component {...pageProps} /> : null}</div>
             </PlausibleProvider>
           </UserProvider>
         </ModalProvider>

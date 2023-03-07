@@ -86,6 +86,7 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
           {['custom_0', 'custom_1', 'custom_2', 'custom_3'].map((color) => {
             return (
               <OneColor
+                key={color}
                 closeCounter={closeCounter}
                 setCloseCounter={setCloseCounter}
                 colors={colors}
@@ -120,11 +121,11 @@ const OneColor = ({ closeCounter, setCloseCounter, colors, color, customColors, 
   const [colorEntries, setColorEntries] = useState([])
 
   const enabled = customColors[color]
-  
+
   useEffect(() => {
     setColorEntries([...Object.entries(colors), ...Object.entries(customColors), ['asdf', color]].filter((v) => v[1]))
   }, [closeCounter])
-  
+
   return (
     <div className="py-4 flex flex-1 relative" key={color}>
       {pickerOpen && (

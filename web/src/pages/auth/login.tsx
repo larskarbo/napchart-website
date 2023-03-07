@@ -60,7 +60,7 @@ export default function LoginPage({ location }) {
         <div className="pb-4 text-gray-700 font-light">
           <div className="my-2 font-bold text-green-500">Payment successful!</div>
           <div className="my-2 text-sm ">
-            Now you'll need to login with your credentials and verify your email. Let me know if anything is not working
+            Now you will need to login with your credentials and verify your email. Let me know if anything is not working
             as expected.
           </div>
         </div>
@@ -68,10 +68,10 @@ export default function LoginPage({ location }) {
       {user ? (
         <>
           <div className="my-4">You are already logged in!</div>
-          <Link href="/app">
+          <Link href="/app" legacyBehavior>
             <SubmitButton>Go to app</SubmitButton>
           </Link>
-          <Link href="/auth/logout">
+          <Link href="/auth/logout" legacyBehavior>
             <SubmitButton>Log out</SubmitButton>
           </Link>
         </>
@@ -81,7 +81,7 @@ export default function LoginPage({ location }) {
             <div></div>
           ) : (
             <div className="pb-4 text-xs text-gray-700 font-light">
-              Don't you have an account?
+              {"Don't you have an account?"}
               <Button linkTo="/auth/register-premium" className="my-2">
                 Register
               </Button>
@@ -94,12 +94,12 @@ export default function LoginPage({ location }) {
 
             <SubmitButton>Log in</SubmitButton>
 
-            <Link href="/auth/forgot-password">
-              <a className="text-sm ">Forgot password?</a>
+            <Link href="/auth/forgot-password" className="text-sm ">
+              Forgot password?
             </Link>
           </form>
         </>
       )}
     </LoginLayout>
-  )
+  );
 }

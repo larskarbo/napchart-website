@@ -15,7 +15,7 @@ import { Controls } from './sections/Controls'
 import Export from './sections/Export'
 import { Contact, Info } from './sections/Info'
 import Polyphasic from './sections/Polyphasic'
-import ToolBar from './ToolBar'
+import { ToolBar } from './ToolBar'
 import WarnExit from './WarnExit'
 
 export default function Editor({ chartid = null, ...all }) {
@@ -72,7 +72,7 @@ function App({}) {
   }, [chartOwner, title, isSnapshot])
 
   if (chartid && loading) {
-    return <div>'Loading...'</div>
+    return <div>Loading...</div>
   }
 
   const setAmPmAndCookie = (newAmPm) => {
