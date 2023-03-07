@@ -1,7 +1,6 @@
 import c from 'clsx'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useLocation } from 'react-router'
 import { getProperLink } from '../../utils/getProperLink'
@@ -23,8 +22,8 @@ export default function Editor({ chartid = null, ...all }) {
   let location = useLocation()
   // @ts-ignore
   const initialData = location.state?.initialChartDocument
-  console.log('location.state: ', location.state);
-  console.log('initialData: ', initialData);
+  console.log('location.state: ', location.state)
+  console.log('initialData: ', initialData)
 
   return (
     <ChartProvider chartid={chartid} initialData={initialData}>
@@ -51,22 +50,10 @@ const getAmpm = (): boolean => {
 }
 
 function App({}) {
-  const {
-    chartid,
-    loading,
-    isSnapshot,
-    title,
-    description,
-    chartDataSlow,
-    chartDocument,
-    chartOwner,
-    setDirty,
-    readOnly,
-  } = useChart()
+  const { chartid, loading, isSnapshot, title, description, chartDataSlow, chartOwner, setDirty, readOnly } = useChart()
 
   const [_, setRandom] = useState(4)
   const [slideSidebarMobile, setSlideSidebarMobile] = useState(false)
-  const [showLinkModal, setShowLinkModal] = useState(false)
   const [currentSection, setCurrentSection] = useState(0)
   const [napchartObject, setNapchartObject] = useState(null)
 
@@ -81,8 +68,6 @@ function App({}) {
       } else {
         history.replaceState({}, '', getProperLink(chartOwner, title, chartid))
       }
-      // history.replaceState({}, '', `/user/${chartOwner}/chart/${urlTitle}${chartid}`)
-      // navigate(`/user/${chartOwner}/chart/${urlTitle}${chartid}`, { replace: true })
     }
   }, [chartOwner, title, isSnapshot])
 

@@ -5,8 +5,8 @@
  *
  */
 
-const { baseConfig } = require('./baseConfig')
+import { baseConfig } from './baseConfig'
 
-module.exports = function (Napchart) {
+export default function setConfig(Napchart) {
   Napchart.config = baseConfig
 }

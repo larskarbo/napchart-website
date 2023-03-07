@@ -3,6 +3,7 @@
  *
  */
 
+import { NapchartConfig } from './baseConfig'
 import helpers from './helpers'
 import initHistory from './history/history'
 import { init as interactCanvasInit } from './interactCanvas/interactCanvas'
@@ -10,7 +11,7 @@ import { changeShape, initShape } from './shape/shape'
 import { chart } from './types'
 import { draw, enableResponsiveness, initConfig, scale, verifyAndInitElements } from './utils/utils'
 
-export default function init(ctx, data, config) {
+export default function init(ctx: CanvasRenderingContext2D, data, config: Partial<NapchartConfig>) {
   // methods of instance:
 
   var chart: chart & any = {

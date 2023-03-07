@@ -1,11 +1,13 @@
+export type NapchartConfig = typeof baseConfig
+
 export const baseConfig = {
+  createPath: false, // unsure what this does
   interaction: true,
   penMode: true,
   baseRadius: 32,
   edgeRadius: 42,
   background: 'transparent',
-  font:
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+  font: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
   ampm: false,
   fontSize: {
     small: 1.75,

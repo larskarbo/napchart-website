@@ -31,7 +31,7 @@ export default function Chart({
     }
   }, [])
 
-  const initializeChart = (canvas) => {
+  const initializeChart = (canvas: HTMLCanvasElement) => {
     var ctx = canvas.getContext('2d')
 
     var napchart = Napchart.init(ctx, chartData || {}, {
@@ -40,11 +40,6 @@ export default function Chart({
       interaction: interactive,
       ...config,
     })
-
-    // drawOnly(ctx, chartData, {
-
-    // })
-    // return
 
     lastData = JSON.stringify(napchart.data)
 

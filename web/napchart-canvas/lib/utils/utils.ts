@@ -1,5 +1,5 @@
 // private
-import { baseConfig } from '../baseConfig'
+import { baseConfig, NapchartConfig } from '../baseConfig'
 import { drawFrame, fullDraw } from '../draw/draw'
 import { clone, deepEach } from '../helperFunctions'
 import { initShape } from '../shape/shape'
@@ -32,12 +32,12 @@ export function retinaScale(chart) {
 }
 
 export function enableResponsiveness(chart) {
-  const resizeFunction = () => setTimeout(() => {
-    
-    scale(chart)
-    initShape(chart)
-    fullDraw(chart)
-  }, 200)
+  const resizeFunction = () =>
+    setTimeout(() => {
+      scale(chart)
+      initShape(chart)
+      fullDraw(chart)
+    }, 200)
 
   window.addEventListener('resize', resizeFunction)
 
@@ -57,7 +57,7 @@ export function draw(chart) {
   }
 }
 
-export function initConfig(config) {
+export function initConfig(config: Partial<NapchartConfig>) {
   config = {
     ...JSON.parse(JSON.stringify(baseConfig)),
     ...config,
@@ -70,7 +70,7 @@ export function verifyAndInitElements(elements, chart) {
     if (typeof element.start === 'undefined' || typeof element.end === 'undefined') {
       throw new Error('Start and End properties are required!')
     }
-      // @ts-ignore
+    // @ts-ignore
     var element = {
       start: element.start,
       end: element.end,

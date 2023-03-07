@@ -2,23 +2,22 @@ import clsx from 'clsx'
 import format from 'date-fns/format'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaCheck, FaLink, FaLock } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import useClipboard from 'react-use-clipboard'
 import { useUser } from '../../../auth/user-context'
 import { getDataForServer } from '../../../utils/getDataForServer'
 import { getProperLink } from '../../../utils/getProperLink'
 import { WEB_BASE } from '../../../utils/request'
 import Button from '../../common/Button'
-import { ModalBase, ModalContext } from '../../common/ModalContext'
-import { globalObj } from '../../global'
+import { ModalBase } from '../../common/ModalContext'
 import Chart from '../Chart'
 import { useChart } from '../chart-context'
 import SelectedElement from '../small/SelectedElement'
 import Shapes from '../small/Shapes'
 import SuperLanes from '../small/SuperLanes'
 import { Feedback } from './Feedback'
-import { useNavigate } from 'react-router-dom'
 export const Controls = ({ napchart }) => {
   const router = useRouter()
 
@@ -35,12 +34,9 @@ export const Controls = ({ napchart }) => {
     setDescription,
     chartOwner,
     updateChart,
-    newChart,
     isMyChart,
     isSnapshot,
     lastUpdated,
-    chartDocument,
-    setChartDocument,
     isPrivate,
     setIsPrivate,
     readOnly,
@@ -57,16 +53,6 @@ export const Controls = ({ napchart }) => {
   return (
     <div className="">
       {saveModal && <SaveModal napchart={napchart} exit={() => setSaveModal(false)} />}
-      {/* <div className=" my-4 fullWidth">
-            <div className="font-bold pb-2">Title:</div>
-            <input
-              className="bg-transparent w-full"
-              placeholder="Title"
-              onChange={(event) => setTitle(event.target.value)}
-              value={title || ''}
-              type="text"
-            />
-          </div> */}
 
       {!readOnly && (
         <div className="flex justify-between my-4 items-center ">
@@ -76,31 +62,6 @@ export const Controls = ({ napchart }) => {
               <Button disabled={!dirty || !isMyChart} small className="mr-2" onClick={() => updateChart(napchart.data)}>
                 Save
               </Button>
-              {/* <Button
-                small
-                className="mr-2"
-                onClick={() => {
-                  let copyTitle = null
-                  if (title) {
-                    if (title.includes('Copy of')) {
-                      copyTitle = title
-                    } else {
-                      copyTitle = 'Copy of ' + title
-                    }
-                  }
-                  alert('No state')
-                  // localStorage.setItem('initialData', JSON.stringify({
-                  //   initialChartDocument: {
-                  //     chartData: napchart.data,
-                  //     title: copyTitle,
-                  //     description: description,
-                  //   },
-                  // }));
-                  // router.push('/app')
-                }}
-              >
-                Make copy
-              </Button> */}
             </div>
           ) : (
             <div className="flex">
@@ -146,7 +107,6 @@ export const Controls = ({ napchart }) => {
       )}
 
       <div className={clsx('text-sm my-4 w-full bg-white', !readOnly && 'border border-gray-400')}>
-        {/* <div className="font-bold pb-2">Description:</div> */}
         {readOnly ? (
           <>{description}</>
         ) : (
@@ -183,12 +143,6 @@ export const Controls = ({ napchart }) => {
                 )}
               </>
             )}
-            {/* <Button small className=" mx-1">
-              Twitter
-            </Button>
-            <Button small className=" mx-1">
-              Reddit
-            </Button> */}
           </div>
           <div className="text-gray-600 mt-2 text-xs">
             {lastUpdated && (
