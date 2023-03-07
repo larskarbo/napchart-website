@@ -328,7 +328,7 @@ export default function init(ctx: CanvasRenderingContext2D, data: Partial<ChartD
   var defaultData = {
     elements: [],
     colorTags: [],
-    shape: 'circle',
+    shape: 'circle' as const,
     lanes: 1,
     lanesConfig: {
       1: {

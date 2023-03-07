@@ -1,6 +1,6 @@
 import PlausibleProvider from 'next-plausible'
 import Head from 'next/head'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import '../tailwind.css'
 import '../styles.css'
 import 'notyf/notyf.min.css'
@@ -8,6 +8,11 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { UserProvider } from '../auth/user-context'
 import { ModalProvider } from '../components/common/ModalContext'
 const queryClient = new QueryClient()
+declare module 'react-query/types/react/QueryClientProvider' {
+  interface QueryClientProviderProps {
+    children?: ReactNode
+  }
+}
 
 function MyApp({ Component, pageProps }) {
   return (

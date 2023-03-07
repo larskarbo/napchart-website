@@ -5,7 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
-    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/react-stripe-js": "^1.16.5",
     "@stripe/stripe-js": "^1.13.2",
     "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",
