@@ -1,17 +1,13 @@
-import Joi from 'joi'
 import marked from 'marked'
-import { customAlphabet } from 'nanoid'
-import { alphanumeric } from 'nanoid-dictionary'
-import { pool } from '../database'
-import { sendValidationError } from '../utils/sendValidationError'
-import { sendMail } from './authUtils/mail'
 import requestIp from 'request-ip'
-import { WEB_BASE } from '../utils/webBase'
+import { getPrisma } from '../src/utils/prisma'
 import { PublicUserObject } from '../utils/publicUserObject'
-import { genToken } from './sendPasswordResetToken';
+import { WEB_BASE } from '../utils/webBase'
+import { sendMail } from './authUtils/mail'
+import { genToken } from './sendPasswordResetToken'
 
 export const sendEmailVerifyTokenEndpoint = async (req, res) => {
-  const userValue:PublicUserObject = req.user
+  const userValue: PublicUserObject = req.user
   if (!userValue) {
     res.status(401).send({ message: 'email not found' })
     return
@@ -27,20 +23,25 @@ export const sendEmailVerifyTokenEndpoint = async (req, res) => {
     })
     .catch((err) => {
       console.log('err: ', err)
-      res.status(400).send({ message: "Mail error" })
+      res.status(400).send({ message: 'Mail error' })
     })
 }
 
-const sendEmailVerificationOnly = async (userValue: PublicUserObject, userId, req) => {
-  return pool
-    .query(
-      `INSERT INTO user_tokens (token, token_type, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
-      [genToken(), "email-verify", userId, requestIp.getClientIp(req)],
-    )
-    .then((hey) => {
-      const { text, html } = makeEmail(hey.rows[0].token)
-      console.log('text: ', text)
-      // // transporter
+const prisma = getPrisma()
+
+export const sendEmailVerificationOnly = async (userValue: PublicUserObject, userId, req) => {
+  return prisma.user_token
+    .create({
+      data: {
+        token: genToken(),
+        token_type: 'email_verify',
+        user_id: userId,
+        ip: requestIp.getClientIp(req),
+        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    })
+    .then((token) => {
+      const { text, html } = makeEmail(token.token)
       return sendMail({
         subject: 'Napchart Verify Email',
         toAddress: userValue.email,

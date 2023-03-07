@@ -5,6 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
+    "@prisma/client": "4.11.0",
     "@stripe/react-stripe-js": "^1.16.5",
     "@stripe/stripe-js": "^1.13.2",
     "@types/node": "^14.14.37",
@@ -26,6 +27,7 @@
     "next-quick-seo": "^1.0.1",
     "notyf": "^3.9.0",
     "postcss": "^8.2.8",
+    "prisma": "^4.11.0",
     "react": "^18.2.0",
     "react-colorful": "^5.1.4",
     "react-dom": "^18.2.0",

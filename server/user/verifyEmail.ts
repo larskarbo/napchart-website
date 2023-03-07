@@ -1,31 +1,47 @@
-import { pool } from '../database'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 export const verifyEmail = async (req, res) => {
-  var utoken = req.body.utoken
+  var utoken = req.body.utoken as string
 
-  const userToken = (await pool.query('SELECT * FROM user_tokens WHERE token = $1', [utoken]))?.rows?.[0]
-  if (!userToken || userToken.token_type != "email-verify") {
+  const userToken = await prisma.user_token.findFirst({
+    where: {
+      token: utoken,
+    },
+  })
+  if (!userToken || userToken.token_type != 'email_verify') {
     res.status(401).send({ message: 'Invalid token' })
     return
   }
 
-  const userValue = (await pool.query('SELECT * FROM users WHERE id = $1', [userToken.user_id]))?.rows?.[0]
-  console.log('userValue: ', userValue);
-  
+  const userValue = await prisma.user.findUnique({
+    where: {
+      id: userToken.user_id,
+    },
+  })
+  console.log('userValue: ', userValue)
+
   if (!userValue) {
     res.status(401).send({ message: 'user not found' })
     return
   }
 
-  pool
-    .query(`UPDATE users SET email_verified=TRUE WHERE id=$1`, [userValue.id])
+  prisma.user
+    .update({
+      where: {
+        id: userValue.id,
+      },
+      data: {
+        email_verified: true,
+      },
+    })
     .then((hey) => {
-      if(hey.rowCount > 0){
+      if (hey) {
         res.send({
           sucess: true,
         })
       } else {
-        res.status(500).send({ message: "Error in the DB" })
+        res.status(500).send({ message: 'Error in the DB' })
       }
     })
     .catch((err) => {

@@ -1,15 +1,16 @@
 import { getEnv } from '@larskarbo/get-env'
+import { PrismaClient } from '@prisma/client'
 import Joi from 'joi'
 import marked from 'marked'
 import requestIp from 'request-ip'
-import { newsletterAdd } from '../charts/utils/newsletterAdd'
-import { pool } from '../database'
 import { publicUserObject } from '../utils/publicUserObject'
 import { sendValidationError } from '../utils/sendValidationError'
 import { encrypt } from './authUtils/encrypt'
 import { injectAccessTokenCookie } from './authUtils/injectAccessTokenCookie'
 import { sendMail } from './authUtils/mail'
 import { pwSchema, usernameSchema } from './authUtils/userSchema'
+
+const prisma = new PrismaClient()
 
 const schema = Joi.object({
   username: usernameSchema,
@@ -50,17 +51,19 @@ export const register = async (req, res) => {
 
   const passwordHash = await encrypt(password)
 
-  pool
-    .query(
-      `INSERT INTO users (username, email, password_hash, ip, plan, billing_schedule, stripe_customer_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [username, email, passwordHash, requestIp.getClientIp(req), 'premium', billingSchedule, stripeCustomerId],
-    )
-    .then((hey) => {
-      const userValue = hey.rows[0]
-
-      newsletterAdd(email, getEnv('SENDY_PREMIUM_LIST'))
-
+  prisma.user
+    .create({
+      data: {
+        username,
+        email,
+        password_hash: passwordHash as string,
+        ip: requestIp.getClientIp(req),
+        plan: 'premium',
+        billing_schedule: billingSchedule,
+        stripe_customer_id: stripeCustomerId,
+      },
+    })
+    .then((userValue) => {
       const { text, html } = makeEmail({ username: userValue.username, email: userValue.email })
 
       sendMail({
@@ -71,54 +74,54 @@ export const register = async (req, res) => {
       })
 
       injectAccessTokenCookie(res, email)
-      res.send(publicUserObject(hey.rows[0]))
+      res.send(publicUserObject(userValue))
     })
     .catch((err) => {
-      if (err?.constraint == 'users_email_key') {
+      if (err?.meta?.cause?.code == '23505' && err?.meta?.cause?.constraint == 'users_email_key') {
         res.status(400).send({ message: 'Email already exists' })
         return
       }
-      if (err?.constraint == 'users_username_key') {
+      if (err?.meta?.cause?.code == '23505' && err?.meta?.cause?.constraint == 'users_username_key') {
         res.status(400).send({ message: 'Username already exists' })
         return
       }
-      if (err?.constraint == 'users_stripe_customer_id_key') {
+      if (err?.meta?.cause?.code == '23505' && err?.meta?.cause?.constraint == 'users_stripe_customer_id_key') {
         res
           .status(400)
           .send({ message: 'It seems like you try to use a payment token twice. Contact support for help.' })
         return
       }
-      res.status(400).send({ message: err.message })
+      res.status(400).send({
+        message: err.message,
+      })
     })
 }
 
 const makeEmail = ({ username, email }) => {
   const template: string = `
-Hi!
-
-Thanks for registering your Napchart account!
-
-Username: ${username}
-
-Email: ${email}
-
-Password: (the one you set)
-
-----
-
-Your account is in the system now, you can go ahead and log in at https://napchart.com/auth/login.
-
-You will need to verify your email before the full feature set activates. Apologies in advance that everything is not 100% polished now as these new features are rolled out.
-
-Let me know any feedback you have!
-
-Feel free to reply directly to this mail.
-
-Best,
-
-Lars
-`
-// Would also be awesome if you wanted to write a little introduction in the forums: https://forum.napchart.com/t/about-the-introductions-category/25
+      Hi!
+      
+      Thanks for registering your Napchart account!
+      
+      Username: ${username}
+      
+      Email: ${email}
+      
+      Password: (the one you set)
+      
+      Your account is in the system now, you can go ahead and log in at https://napchart.com/auth/login.
+      
+      You will need to verify your email before the full feature set activates. Apologies in advance that everything is not 100% polished now as these new features are rolled out.
+      
+      Let me know any feedback you have!
+      
+      Feel free to reply directly to this mail.
+      
+      Best,
+      
+      Lars
+      `
+  // Would also be awesome if you wanted to write a little introduction in the forums: https://forum.napchart.com/t/about-the-introductions-category/25
 
   const text = template
 

@@ -1,10 +1,8 @@
+import { getEnv } from '@larskarbo/get-env'
 import Joi from 'joi'
 import Stripe from 'stripe'
-import { isDev, WEB_BASE } from '../utils/webBase'
 import { pwSchema, usernameSchema } from '../user/authUtils/userSchema'
-import { sendValidationError } from '../utils/sendValidationError'
-import { queryOne } from '../database'
-import { getEnv } from '@larskarbo/get-env'
+import { isDev, WEB_BASE } from '../utils/webBase'
 const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2020-08-27' })
 
 const prices = {

@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { chartDataSchema, chartDataSchemaPremium, titleSchema, descriptionSchema } from './utils/schema'
-import { pool } from '../database'
 import { getValidatedDataIfGood } from '../utils/sendValidationError'
+import { getPrisma } from '../src/utils/prisma'
 
 const updateChartSchema = Joi.object({
   chartData: chartDataSchema,
@@ -26,29 +26,54 @@ export const updateChart = async function (req, res) {
   }
 
   const { chartid } = req.params
-
   const username = req.user.username
 
   if (!username) {
     return res.status(401).send({ message: 'No username' })
   }
 
-  pool
-    .query(
-      `UPDATE charts SET chartid=$1, chart_data=$2, title=$3, description=$4, is_private=$5 WHERE chartid = $6 AND username = $7 RETURNING chartid`,
-      [chartid, chartData, title, description, isPrivate, chartid, username],
-    )
-    .then((hey) => {
-      if (hey.rows.length == 0) {
-        res.status(401).send({ message: 'No permission for this' })
-        return
-      }
-      res.send({
-        chartid,
-      })
+  const prisma = getPrisma()
+
+  const foundChart = await prisma.chart.findFirst({
+    where: {
+      chartid: chartid,
+      username: username,
+    },
+  })
+
+  if (!foundChart) {
+    res.status(404).send({ message: "The chart doesn't exist" })
+    return
+  }
+
+  try {
+    const updatedChart = await prisma.chart.update({
+      where: {
+        chartid: foundChart.chartid,
+      },
+      data: {
+        chart_data: chartData,
+        title: title,
+        description: description,
+        is_private: isPrivate,
+      },
+      select: {
+        chartid: true,
+      },
     })
-    .catch((err) => {
-      console.log('err: ', err)
-      res.status(400).send({ error: err })
+
+    if (!updatedChart) {
+      res.status(401).send({ message: 'No permission for this' })
+      return
+    }
+
+    res.send({
+      chartid,
     })
+  } catch (err) {
+    console.log('err: ', err)
+    res.status(400).send({ error: err })
+  } finally {
+    await prisma.$disconnect() // disconnect from the database
+  }
 }

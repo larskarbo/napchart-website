@@ -2,16 +2,18 @@ import Joi from 'joi'
 import marked from 'marked'
 import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
-import { pool } from '../database'
-import { sendValidationError } from '../utils/sendValidationError'
-import { sendMail } from './authUtils/mail'
 import requestIp from 'request-ip'
+import { getPrisma } from '../src/utils/prisma'
+import { sendValidationError } from '../utils/sendValidationError'
 import { WEB_BASE } from '../utils/webBase'
+import { sendMail } from './authUtils/mail'
 export const genToken = customAlphabet(alphanumeric, 48)
 
 const schema = Joi.object({
   email: Joi.string().email().required(),
 })
+
+const prisma = getPrisma()
 
 export const sendPasswordResetTokenEndpoint = async (req, res) => {
   const validate = schema.validate(req.body)
@@ -22,21 +24,24 @@ export const sendPasswordResetTokenEndpoint = async (req, res) => {
 
   const { email } = validate.value
 
-  const userValue = (await pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
+  const userValue = await prisma.user.findUnique({ where: { email } })
   if (!userValue) {
     res.status(401).send({ message: 'email not found' })
     return
   }
 
-  pool
-    .query(
-      `INSERT INTO user_tokens (token, token_type, user_id, ip, expires_at) VALUES ($1, $2, $3, $4, NOW() + INTERVAL '1 day') RETURNING *`,
-      [genToken(), "password-reset", userValue.id, requestIp.getClientIp(req)],
-    )
-    .then((hey) => {
-      const { text, html } = makeEmail(hey.rows[0].token)
-      console.log('text: ', text)
-      // // transporter
+  prisma.user_token
+    .create({
+      data: {
+        token: genToken(),
+        token_type: 'password_reset',
+        user_id: userValue.id,
+        ip: requestIp.getClientIp(req),
+        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    })
+    .then((token) => {
+      const { text, html } = makeEmail(token.token)
       sendMail({
         subject: 'Napchart Password Reset',
         toAddress: userValue.email,

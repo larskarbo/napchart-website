@@ -1,16 +1,15 @@
-import { ChartCreationReturn } from './types';
+import Joi from 'joi'
 import requestIp from 'request-ip'
+import { ChartData, ChartDocument } from '../../web/src/components/Editor/types'
+import { getPrisma } from '../src/utils/prisma'
+import { getProperLink } from '../utils/getProperLink'
 import { sendValidationError } from '../utils/sendValidationError'
+import { WEB_BASE } from '../utils/webBase'
+import { ChartCreationReturn } from './types'
 import { findUniqueId } from './utils/findUniqueId'
 import { chartDataSchema, chartDataSchemaPremium, descriptionSchema, titleSchema } from './utils/schema'
-import { ChartDocument } from '../../web/src/components/Editor/types'
-import Joi from 'joi'
-import { WEB_BASE } from '../utils/webBase'
-import { getProperLink } from '../utils/getProperLink'
-const db = require('../database')
-const pRetry = require('p-retry')
 
-
+const prisma = getPrisma()
 
 const createChartSchema = Joi.object({
   chartData: chartDataSchema,
@@ -20,18 +19,14 @@ const createChartSchema = Joi.object({
 })
 
 const createChartSchemaPremium = createChartSchema.keys({
-  chartData: chartDataSchemaPremium
+  chartData: chartDataSchemaPremium,
 })
-
-
-
-
 
 export const createChart = async function (req, res) {
   const isSnapshot = req.isSnapshot || false
 
   let schema = createChartSchema
-  if(req.user?.isPremium){
+  if (req.user?.isPremium) {
     schema = createChartSchemaPremium
   }
 
@@ -43,8 +38,7 @@ export const createChart = async function (req, res) {
 
   const { title, description, api_flag_user, chartData, isPrivate } = validate.value
 
-
-  const chartid = await pRetry(findUniqueId, { retries: 3, minTimeout: 0 })
+  const chartid = await findUniqueId(prisma)
 
   if (!chartid) {
     return res.status(500).send({
@@ -61,40 +55,47 @@ export const createChart = async function (req, res) {
   }
 
   const clientIp = requestIp.getClientIp(req)
-  db.pool
-    .query(
-      `INSERT INTO charts (chartid, username, chart_data, title, description, is_snapshot, ip, is_private) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [chartid, username, chartData, title, description, isSnapshot, clientIp, isPrivate],
-    )
-    .then((hey) => {
-      const chart = hey.rows[0]
 
-      const chartDocument: ChartDocument = {
-        chartData: chart.chart_data,
-        chartid: chart.chartid,
-        title: chart.title,
-        description: chart.description,
-        username: chart.username,
-        lastUpdated: chart.updated_at,
-        isSnapshot: chart.is_snapshot,
-        isPrivate: chart.is_private,
-      }
-
-      const sendThis: ChartCreationReturn = {
-        chartDocument,
-        publicLink:
-          WEB_BASE + (isSnapshot
-            ? `/snapshot/${chartDocument.chartid}`
-            : getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid)),
-      }
-
-      res.send(sendThis)
+  try {
+    const chart = await prisma.chart.create({
+      data: {
+        chartid: chartid,
+        username: username,
+        chart_data: chartData,
+        title: title,
+        description: description,
+        is_snapshot: isSnapshot,
+        ip: clientIp,
+        is_private: isPrivate,
+      },
     })
-    .catch((err) => {
-      if (err?.constraint == 'users_chartid_key') {
-        res.status(400).send({ message: 'Chartid already exists' })
-        return
-      }
-      res.status(400).send({ message: err.message })
-    })
+
+    const chartDocument: ChartDocument = {
+      chartData: chart.chart_data as unknown as ChartData,
+      chartid: chart.chartid,
+      title: chart.title,
+      description: chart.description,
+      username: chart.username,
+      lastUpdated: chart.updated_at,
+      isSnapshot: chart.is_snapshot,
+      isPrivate: chart.is_private,
+    }
+
+    const sendThis: ChartCreationReturn = {
+      chartDocument,
+      publicLink:
+        WEB_BASE +
+        (isSnapshot
+          ? `/snapshot/${chartDocument.chartid}`
+          : getProperLink(chartDocument.username, chartDocument.title, chartDocument.chartid)),
+    }
+
+    res.send(sendThis)
+  } catch (err) {
+    if (err?.meta?.constraintName == 'users_chartid_key') {
+      res.status(400).send({ message: 'Chartid already exists' })
+      return
+    }
+    res.status(400).send({ message: err.message })
+  }
 }

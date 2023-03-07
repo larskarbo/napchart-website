@@ -1,4 +1,7 @@
-import { pool } from '../../database'
+import { PrismaClient } from '@prisma/client'
 
-export const asyncIncrementVisit = (chartid) =>
-  pool.query('UPDATE charts set visits = visits + 1, last_visit = now() WHERE chartid = $1', [chartid])
+export const asyncIncrementVisit = async (prisma: PrismaClient, chartid: string) =>
+  prisma.chart.update({
+    where: { chartid },
+    data: { visits: { increment: 1 }, last_visit: new Date() },
+  })

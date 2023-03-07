@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model chart {
+  chartid     String               @id @db.VarChar(9)
+  chart_data  Json?                @default("{}")
+  title       String?              @db.VarChar(100)
+  description String?
+  username    String               @db.Citext
+  created_at  DateTime?            @default(now()) @db.Timestamp(6)
+  is_snapshot Boolean              @default(false)
+  updated_at  DateTime             @default(now()) @db.Timestamp(6)
+  visits      Int                  @default(0)
+  ip          String?
+  last_visit  DateTime?            @db.Timestamp(6)
+  deleted     Boolean              @default(false)
+  is_private  Boolean              @default(false)
+  users       user                 @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("charts")
+}
+
+model user_token {
+  id         Int                 @id @default(autoincrement())
+  token      String              @db.Char(48)
+  created_at DateTime            @default(now()) @db.Timestamp(6)
+  expires_at DateTime            @db.Timestamp(6)
+  used       Boolean             @default(false)
+  user_id    Int
+  ip         String
+  token_type token_type?
+  users      user                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("user_tokens")
+}
+
+model user {
+  id                 Int                  @id @default(autoincrement())
+  username           String               @unique @db.Citext
+  email              String               @unique @db.Citext
+  password_hash      String?              @db.Char(60)
+  created_at         DateTime?            @default(now()) @db.Timestamp(6)
+  email_verified     Boolean              @default(true)
+  ip                 String?
+  plan               String               @default("standard")
+  billing_schedule   String?
+  stripe_customer_id String?              @unique
+  charts             chart[]
+  user_tokens        user_token[]
+
+  @@map("users")
+}
+
+enum token_type {
+  email_verify        @map("email-verify")
+  password_reset      @map("password-reset")
+  payment_user_create @map("payment-user-create")
+}

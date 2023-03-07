@@ -1,7 +1,11 @@
 import { getEnv } from '@larskarbo/get-env'
 import Stripe from 'stripe'
 import { slackNotify } from '../charts/utils/slackNotify'
-import { pool } from '../database'
+import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../src/utils/prisma'
+
+const prisma = getPrisma()
+
 const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2020-08-27' })
 
 export const stripeWebhook = async (req, res) => {
@@ -30,13 +34,15 @@ export const stripeWebhook = async (req, res) => {
 
       if (userId) {
         slackNotify(`New purchase from known ID: ${userId}. Purchased ${billingSchedule}`)
-        pool
-          .query(`UPDATE users SET plan=$1, billing_schedule=$2, stripe_customer_id=$3 WHERE id=$4`, [
-            'premium',
-            billingSchedule,
-            event.data.object.customer,
-            userId,
-          ])
+        prisma.user
+          .update({
+            where: { id: userId },
+            data: {
+              plan: 'premium',
+              billing_schedule: billingSchedule,
+              stripe_customer_id: event.data.object.customer,
+            },
+          })
           .then(() => {
             return res.send({})
           })

@@ -8,24 +8,22 @@ import { createSnapshot } from './charts/createSnapshot'
 import { deleteChart } from './charts/deleteChart'
 import { getChart } from './charts/getChart'
 import { getChartsFromUser } from './charts/getChartsFromUser'
+import { getImage } from './charts/getImage'
 import { updateChart } from './charts/updateChart'
 import { slackNotify } from './charts/utils/slackNotify'
-import { pool } from './database'
-import { discourseHandler } from './discourse/connect'
 import { checkout } from './money/checkout'
 import { customerPortal } from './money/customer-portal'
 import { stripeWebhook } from './money/stripe-webhook'
+import { getPrisma } from './src/utils/prisma'
 import { login } from './user/login'
 import { logout } from './user/logout'
 import { register } from './user/register'
 import { sendEmailVerifyTokenEndpoint } from './user/sendEmailVerifyToken'
 import { sendPasswordResetTokenEndpoint } from './user/sendPasswordResetToken'
 import { setPassword } from './user/setPassword'
+import { verify } from './user/verify'
 import { verifyEmail } from './user/verifyEmail'
 import { verifyPasswordResetToken } from './user/verifyPasswordResetToken'
-import { verify } from './user/verify'
-import { newsletterAdd } from './charts/utils/newsletterAdd'
-import { getImage } from './charts/getImage'
 
 const app = express()
 
@@ -55,16 +53,16 @@ app.get('/', async (req, res) => {
   res.send({ status: 'Ok' })
 })
 
+const prisma = getPrisma()
+
 app.get('/users', verify('normal'), async (req, res) => {
-  pool.query('SELECT * FROM users').then((hey) => {
-    res.send({ users: hey.rows })
-  })
+  const users = await prisma.user.findMany()
+  res.send({ users })
 })
 
 app.get('/getUsers', async (req, res) => {
-  pool.query('SELECT username FROM users').then((hey) => {
-    res.send({ users: hey.rows })
-  })
+  const users = await prisma.user.findMany({ select: { username: true } })
+  res.send({ users })
 })
 
 app.get('/testAuth', verify('normal'), async (req, res) => {
@@ -118,8 +116,6 @@ app.post('/money/stripe-webhook', stripeWebhook)
 app.post('/v1/createSnapshot', createRateLimiter, verify('optional'), createSnapshot)
 app.get('/v1/getChart/:chartid', verify('optional'), getChart)
 app.get('/v1/getImage/:chartid', verify('optional'), getImage)
-
-app.get('/discourse-connect', verify('normal'), discourseHandler)
 
 app.post('/reportError', (req, res) => {
   slackNotify(req.body.text, req.body.obj)

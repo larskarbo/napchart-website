@@ -1,19 +1,21 @@
 import bcrypt from 'bcrypt'
-import { pool } from '../database'
+import { PrismaClient } from '@prisma/client'
 import { injectAccessTokenCookie } from './authUtils/injectAccessTokenCookie'
 
+const prisma = new PrismaClient()
+
 export const login = async (req, res) => {
-  var email = req.body.email
-  var password = req.body.password
-  const userValue = (await pool.query('SELECT * FROM users WHERE email = $1', [email]))?.rows?.[0]
-  if (!userValue) {
+  const email = req.body.email
+  const password = req.body.password
+  const user = await prisma.user.findUnique({ where: { email } })
+  if (!user) {
     console.log('email: ', email)
     res.status(401).send({ message: 'email not found' })
     return
   }
 
   const result = await new Promise((resolve) => {
-    bcrypt.compare(password, userValue.password_hash, function (err, result) {
+    bcrypt.compare(password, user.password_hash, function (err, result) {
       resolve(result)
     })
   })
@@ -25,5 +27,5 @@ export const login = async (req, res) => {
 
   injectAccessTokenCookie(res, email)
 
-  res.send(userValue)
+  res.send(user)
 }

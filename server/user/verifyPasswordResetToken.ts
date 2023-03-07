@@ -1,17 +1,26 @@
-import { pool } from '../database'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 export const verifyPasswordResetToken = async (req, res) => {
   var utoken = req.body.utoken
 
-  const userToken = (await pool.query('SELECT * FROM user_tokens WHERE token = $1', [utoken]))?.rows?.[0]
+  const userToken = await prisma.user_token.findFirst({
+    where: { token: utoken },
+  })
+
   console.log('userToken: ', userToken)
-  if (!userToken || userToken.token_type != "password-reset") {
+
+  if (!userToken || userToken.token_type != "password_reset") {
     res.status(401).send({ message: 'invalid token' })
     return
   }
 
-  const userValue = (await pool.query('SELECT * FROM users WHERE id = $1', [userToken.user_id]))?.rows?.[0]
+  const userValue = await prisma.user.findUnique({
+    where: { id: userToken.user_id },
+  })
+
   console.log('userValue: ', userValue)
+
   if (!userValue) {
     res.status(401).send({ message: 'email not found' })
     return
