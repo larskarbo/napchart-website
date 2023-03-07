@@ -18,7 +18,7 @@ export default function LoginLayout({ children, msg = '' }) {
             twitter
           </a>{' '}
           or{' '}
-          <a className="underline text-blue-500" href="mailto:lars@napchart.com">
+          <a className="underline text-blue-500" href="mailto:napchart@larskarbo.no">
             mail
           </a>
           .
