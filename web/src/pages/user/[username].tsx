@@ -1,19 +1,19 @@
 import { QuickSeo } from 'next-quick-seo'
 import Link from 'next/link'
-import React, { useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import { HiDotsVertical } from 'react-icons/hi'
-import { GetNextPageParamFunction, useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import useOnClickOutside from 'use-onclickoutside'
 import { useUser } from '../../auth/user-context'
-import { getDataForServer } from '../../utils/getDataForServer'
-import { getProperLink } from '../../utils/getProperLink'
-import { BASE, request } from '../../utils/request'
-import { useNCMutation } from '../../utils/requestHooks'
 import Button from '../../components/common/Button'
 import NewLayout, { MainBox } from '../../components/common/NewLayout'
 import Chart from '../../components/Editor/Chart'
 import { ChartData, ChartDocument } from '../../components/Editor/types'
-import { useRouter } from 'next/router'
+import { getDataForServer } from '../../utils/getDataForServer'
+import { getProperLink } from '../../utils/getProperLink'
+import { BASE, request } from '../../utils/request'
+import { useNCMutation } from '../../utils/requestHooks'
 
 function truncate(str, n) {
   if (str) {
@@ -44,7 +44,17 @@ export default function Profile({}) {
   })
 
   const { mutate: duplicateChart } = useNCMutation(
-    ({ chartData, title, description, isPrivate }: { chartData: ChartData; title: string; description: string; isPrivate: boolean }) =>
+    ({
+      chartData,
+      title,
+      description,
+      isPrivate,
+    }: {
+      chartData: ChartData
+      title: string
+      description: string
+      isPrivate: boolean
+    }) =>
       request('POST', `/createChart`, {
         chartData: getDataForServer(chartData),
         title: title,
@@ -66,9 +76,7 @@ export default function Profile({}) {
           <ol className="flex items-center space-x-4">
             <li>
               <div className="flex items-center">
-                <a className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                  Users
-                </a>
+                <a className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Users</a>
               </div>
             </li>
             <li>
@@ -124,7 +132,8 @@ export default function Profile({}) {
                   <Link
                     key={chart.chartid}
                     href={getProperLink(chart.username, chart.title, chart.chartid)}
-                    legacyBehavior>
+                    legacyBehavior
+                  >
                     <div className="w-48 h-48 overflow-hidden">
                       <Chart interactive={false} chartData={chart.chartData} />
                     </div>
@@ -148,7 +157,7 @@ export default function Profile({}) {
                                 chartData: chart.chartData,
                                 title: chart.title,
                                 description: chart.description,
-                                isPrivate: chart.isPrivate
+                                isPrivate: chart.isPrivate,
                               })
                             },
                           },
@@ -173,7 +182,7 @@ export default function Profile({}) {
         </MainBox>
       </NewLayout>
     </div>
-  );
+  )
 }
 
 type Option = {
@@ -187,7 +196,7 @@ const DropdownMenu = ({ options }: { options: Option[] }) => {
   return (
     <>
       <button
-        onMouseDown={() => {
+        onClick={() => {
           setContextMenu(!contextMenu)
         }}
         className={
