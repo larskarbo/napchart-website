@@ -1,6 +1,6 @@
 import { ChartData } from "../../src/components/Editor/types";
 
-export interface chart {
+export interface NapchartType {
   data: ChartData
   shape: any
   config: any

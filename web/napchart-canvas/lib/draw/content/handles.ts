@@ -1,8 +1,8 @@
 import { minutesToXY } from '../../shape/shapeHelpers'
-import { chart, InteractionState } from '../../types'
+import { NapchartType, InteractionState } from '../../types'
 import { circle, colorMap } from '../canvasHelpers'
 
-export default function handles(chart: chart, interactionState?: InteractionState) {
+export default function handles(chart: NapchartType, interactionState?: InteractionState) {
   var ctx = chart.ctx
   var config = chart.config
   var data = chart.data

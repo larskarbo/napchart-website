@@ -9,7 +9,46 @@ import { request } from '../../utils/request'
 import NotyfContext from '../common/NotyfContext'
 import { ChartData, ChartDocument } from './types'
 
-const ChartContext = React.createContext({})
+interface ChartContextValue {
+  updateChart: (chartData: ChartData) => void
+  newChart: (chartData: ChartData) => void
+  setChartDocument: React.Dispatch<React.SetStateAction<ChartDocument | null>>
+  chartid: string
+  isMyChart: boolean
+  loading: boolean
+  title: string | null
+  lastUpdated: Date | null
+  chartDocument: ChartDocument | null
+  isSnapshot: boolean
+  description: string | null
+  isPrivate: boolean
+  setIsPrivate: React.Dispatch<React.SetStateAction<boolean>>
+  setTitle: React.Dispatch<React.SetStateAction<string | null>>
+  setDescription: React.Dispatch<React.SetStateAction<string | null>>
+  requestLoading: boolean
+  chartDataSlow?: ChartData
+  chartOwner?: string
+  dirty: boolean
+  setDirty: React.Dispatch<React.SetStateAction<boolean>>
+  clear: () => void
+  readOnly: boolean
+  customColors: {
+    custom_0: string | null
+    custom_1: string | null
+    custom_2: string | null
+    custom_3: string | null
+  }
+  setCustomColors: React.Dispatch<
+    React.SetStateAction<{
+      custom_0: string | null
+      custom_1: string | null
+      custom_2: string | null
+      custom_3: string | null
+    }>
+  >
+}
+
+const ChartContext = React.createContext<ChartContextValue | null>(null)
 
 export function ChartProvider({ children, chartid, initialData }) {
   const { user } = useUser()
@@ -169,7 +208,7 @@ export function ChartProvider({ children, chartid, initialData }) {
 }
 
 export function useChart() {
-  const context: any = React.useContext(ChartContext)
+  const context: ChartContextValue = React.useContext(ChartContext)
   if (context === undefined) {
     throw new Error('useChart must be used within a ChartProvider')
   }

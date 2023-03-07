@@ -1,84 +1,82 @@
-// @ts-nocheck
 import React from 'react'
-import ColorPicker from './ColorPicker.tsx'
+import { NapchartType } from '../../../../napchart-canvas/lib/types'
+import ColorPicker from './ColorPicker'
 
-export default class extends React.Component {
-  render() {
-    var napchart = this.props.napchart
-    var selected = napchart.selectedElement
+type Props = {
+  napchart: NapchartType
+}
 
-    if (napchart) {
-      var element = napchart.data.elements.find((e) => e.id == selected)
-      var activeColor = typeof element == 'undefined' ? napchart.config.defaultColor : element.color
+const SelectedElement = ({ napchart }: Props) => {
+  const selected = napchart.selectedElement
 
-      return (
-        <div className="SelectedElement">
-          <div className="field">
-            <ColorPicker napchart={napchart} onClick={this.changeColor} activeColor={activeColor} />
-          </div>
-          <div className="field">
-            <input
-              style={{ color: activeColor }}
-              className="colorTag"
-              type="text"
-              placeholder={activeColor + ' ='}
-              onChange={this.changeColorTag}
-              value={this.colorTag(activeColor)}
-            />
-          </div>
+  if (napchart) {
+    const element = napchart.data.elements.find((e: any) => e.id === selected)
+    const activeColor = typeof element === 'undefined' ? napchart.config.defaultColor : element.color
 
-          {selected && (
-            <div>
-              <div className="field has-addons level is-mobile">
-                <div className="level-left">
-                  <div className="level-item">Selected element:</div>
-                  <div className="level-item">
-                    <button
-                      onClick={napchart.deleteElement.bind(napchart, selected)}
-                      className="napchartDontLoseFocus button"
-                    >
-                      Delete
+    const colorTag = (color: string) => {
+      const tagObj = napchart.data.colorTags.find((t: any) => t.color === color)
+
+      if (typeof tagObj === 'undefined') {
+        return ''
+      } else {
+        return tagObj.tag
+      }
+    }
+
+    const changeColor = (color: string) => {
+      napchart.changeColor(napchart.selectedElement, color)
+      napchart.config.defaultColor = color
+    }
+
+    const changeColorTag = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const activeColor = napchart.config.defaultColor
+
+      napchart.colorTag(activeColor, e.target.value)
+    }
+
+    return (
+      <div className="SelectedElement">
+        <div className="field">
+          <ColorPicker napchart={napchart} onClick={changeColor} activeColor={activeColor} />
+        </div>
+        <div className="field">
+          <input
+            style={{ color: activeColor }}
+            className="colorTag"
+            type="text"
+            placeholder={`${activeColor} =`}
+            onChange={changeColorTag}
+            value={colorTag(activeColor)}
+          />
+        </div>
+
+        {selected && (
+          <div>
+            <div className="field has-addons level is-mobile">
+              <div className="level-left">
+                <div className="level-item">Selected element:</div>
+                <div className="level-item">
+                  <button
+                    onClick={napchart.deleteElement.bind(napchart, selected)}
+                    className="napchartDontLoseFocus button"
+                  >
+                    Delete
+                  </button>
+                  {napchart.isTouchUser && (
+                    <button onClick={napchart.forceFocusSelected} className="napchartDontLoseFocus button">
+                      Edit text
                     </button>
-                    {napchart.isTouchUser && (
-                      <button onClick={napchart.forceFocusSelected} className="napchartDontLoseFocus button">
-                        Edit text
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      )
-    } else {
-      return null
-    }
-  }
-
-  colorTag = (color) => {
-    var napchart = this.props.napchart
-    var tagObj = napchart.data.colorTags.find((t) => t.color == color)
-
-    if (typeof tagObj == 'undefined') {
-      return ''
-    } else {
-      return tagObj.tag
-    }
-  }
-
-  changeColor = (color) => {
-    var napchart = this.props.napchart
-    napchart.changeColor(this.props.napchart.selectedElement, color)
-    napchart.config.defaultColor = color
-    this.forceUpdate()
-  }
-
-  changeColorTag = (e) => {
-    var napchart = this.props.napchart
-    var activeColor = napchart.config.defaultColor
-
-    napchart.colorTag(activeColor, e.target.value)
-    this.forceUpdate()
+          </div>
+        )}
+      </div>
+    )
+  } else {
+    return null
   }
 }
+
+export default SelectedElement

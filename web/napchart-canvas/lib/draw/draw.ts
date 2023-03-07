@@ -1,7 +1,7 @@
 // const bars = require('./content/bars2').default
 
 import bars from './content/bars'
-import { chart } from '../types'
+import { NapchartType } from '../types'
 import colorTags from './content/colorTags'
 import handles from './content/handles'
 
@@ -89,7 +89,7 @@ export function drawFrame(chart) {
   drawFrameFunctions(chart)
 }
 
-function drawFrameFunctions(chart: chart) {
+function drawFrameFunctions(chart: NapchartType) {
   if (typeof chart.ocanvas !== 'undefined') {
     chart.ctx.drawImage(chart.ocanvas, 0, 0)
   }

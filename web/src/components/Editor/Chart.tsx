@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react'
+import { NapchartConfig } from '../../../napchart-canvas/lib/baseConfig'
 import Napchart from '../../../napchart-canvas/lib/index'
+import { NapchartType } from '../../../napchart-canvas/lib/types'
+import { ChartData } from './types'
 
 let lastData = ''
 export default function Chart({
@@ -10,7 +13,15 @@ export default function Chart({
   setGlobalNapchart,
   amPm,
   config = {},
-}: any) {
+}: {
+  interactive?: boolean
+  responsive?: boolean
+  onUpdate?: () => void
+  chartData?: ChartData
+  setGlobalNapchart?: (napchart: NapchartType) => void
+  amPm?: boolean
+  config?: Partial<NapchartConfig>
+}) {
   const canvasRef = useRef(null)
 
   useEffect(() => {

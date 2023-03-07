@@ -159,10 +159,8 @@ function App({}) {
           </div>
           <div className="h-screen">
             <Chart
-              fullHeight
               responsive
               interactive={!readOnly}
-              napchartObject={napchartObject}
               chartData={chartDataSlow}
               setGlobalNapchart={setNapchartObject}
               amPm={amPm}

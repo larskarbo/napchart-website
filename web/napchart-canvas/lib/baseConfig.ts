@@ -2,6 +2,7 @@ export type NapchartConfig = typeof baseConfig
 
 export const baseConfig = {
   createPath: false, // unsure what this does
+  responsive: false,
   interaction: true,
   penMode: true,
   baseRadius: 32,

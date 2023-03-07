@@ -1,9 +1,9 @@
 import { duration, minutesToReadable } from '../../helperFunctions'
 import { minutesToXY } from '../../shape/shapeHelpers'
-import { chart, InteractionState } from '../../types'
+import { NapchartType, InteractionState } from '../../types'
 import { colorMap, fontSize } from '../canvasHelpers'
 
-export default function colorTags(chart: chart, interactionState?: InteractionState) {
+export default function colorTags(chart: NapchartType, interactionState?: InteractionState) {
   var ctx = chart.ctx
   var config = chart.config
 

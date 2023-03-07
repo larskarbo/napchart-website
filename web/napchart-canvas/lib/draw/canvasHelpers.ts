@@ -1,5 +1,5 @@
 import { createSegment } from '../shape/shapeHelpers'
-import { chart } from '../types'
+import { NapchartType } from '../types'
 
 export const strokeSegment = function (chart, start, end, config) {
   var ctx = chart.ctx
@@ -14,7 +14,7 @@ export const strokeSegment = function (chart, start, end, config) {
   ctx.restore()
 }
 
-export const colorMap = function (chart: chart, color: string) {
+export const colorMap = function (chart: NapchartType, color: string) {
   if(!color){
     return "red"
   }

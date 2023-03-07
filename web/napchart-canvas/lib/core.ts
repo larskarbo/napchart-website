@@ -3,18 +3,19 @@
  *
  */
 
+import { ChartData } from '../../src/components/Editor/types'
 import { NapchartConfig } from './baseConfig'
 import helpers from './helpers'
 import initHistory from './history/history'
 import { init as interactCanvasInit } from './interactCanvas/interactCanvas'
 import { changeShape, initShape } from './shape/shape'
-import { chart } from './types'
+import { NapchartType } from './types'
 import { draw, enableResponsiveness, initConfig, scale, verifyAndInitElements } from './utils/utils'
 
-export default function init(ctx: CanvasRenderingContext2D, data, config: Partial<NapchartConfig>) {
+export default function init(ctx: CanvasRenderingContext2D, data: Partial<ChartData>, config: Partial<NapchartConfig>) {
   // methods of instance:
 
-  var chart: chart & any = {
+  var partialChart: Partial<NapchartType> = {
     setHover: function (id, type) {
       this.hoverElement = {
         id,
@@ -75,7 +76,7 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
       // penMode, no element under cursor(hover), not dragging (active),
       // and that the pen location is made (it is in lane etc)
       return (
-        chart.config.penMode &&
+        partialChart.config.penMode &&
         Object.keys(this.hoverElement).length == 0 &&
         Object.keys(this.activeElement).length == 0 &&
         this.mousePenLocation
@@ -83,7 +84,7 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
     },
 
     initAndAddElements: function (newElements) {
-      newElements = verifyAndInitElements(newElements, chart)
+      newElements = verifyAndInitElements(newElements, partialChart)
 
       this.data.elements = [...this.data.elements, ...newElements]
 
@@ -139,7 +140,7 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
         this.deselect()
       }
 
-      this.history.add(chart, 'Delete element')
+      this.history.add(partialChart, 'Delete element')
 
       draw(this)
     },
@@ -188,9 +189,9 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
 
       this.data.lanes -= 1
 
-      chart.history.add(chart, 'Delete lane')
-      chart.needFullRedraw = true
-      initShape(chart)
+      partialChart.history.add(partialChart, 'Delete lane')
+      partialChart.needFullRedraw = true
+      initShape(partialChart)
       draw(this)
     },
 
@@ -210,7 +211,7 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
         locked: !current.locked,
       }
 
-      chart.needFullRedraw = true
+      partialChart.needFullRedraw = true
 
       draw(this)
     },
@@ -228,7 +229,7 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
 
     createElement: function (newElement) {
       var element = verifyAndInitElements([newElement], this)[0]
-      chart.data.elements.push(element)
+      partialChart.data.elements.push(element)
 
       draw(this)
 
@@ -247,9 +248,9 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
         }
       })
 
-      chart.history.add(chart, 'Change color')
+      partialChart.history.add(partialChart, 'Change color')
 
-      chart.draw()
+      partialChart.draw()
     },
 
     createPath: function () {
@@ -284,14 +285,14 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
     },
 
     draw: function () {
-      draw(chart)
+      draw(partialChart)
     },
 
     setDataCalcShapeAndDraw: function (data) {
       // used for thumb.napchart.com
-      chart.data = data
-      initShape(chart)
-      draw(chart)
+      partialChart.data = data
+      initShape(partialChart)
+      draw(partialChart)
     },
 
     onSetSelected: function () {},
@@ -301,24 +302,24 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
     // this function should only be used by a listener
     // to update napchart
     update: function (data) {
-      chart.data = data
+      partialChart.data = data
 
-      draw(chart)
+      draw(partialChart)
     },
 
     updateDimensions: function () {
       // probably because of resize
 
-      scale(chart)
+      scale(partialChart)
 
-      chart.needFullRedraw = true
-      initShape(chart)
+      partialChart.needFullRedraw = true
+      initShape(partialChart)
 
       draw(this)
     },
 
     changeShape: function (to) {
-      changeShape(chart, to)
+      changeShape(partialChart, to)
       this.data.shape = to
     },
   }
@@ -336,58 +337,59 @@ export default function init(ctx: CanvasRenderingContext2D, data, config: Partia
     },
   }
 
-  chart.destroyers = []
-  chart.ctx = ctx
-  chart.canvas = ctx.canvas
-  chart.unScaledConfig = initConfig(config)
+  partialChart.destroyers = []
+  partialChart.ctx = ctx
+  partialChart.canvas = ctx.canvas
+  partialChart.unScaledConfig = initConfig(config)
 
   if (config.createPath) {
-    chart.createPath = config.createPath
+    partialChart.createPath = config.createPath
   }
 
-  scale(chart)
+  scale(partialChart)
 
-  if (chart.config.responsive) {
-    enableResponsiveness(chart)
+  if (partialChart.config.responsive) {
+    enableResponsiveness(partialChart)
   }
 
-  chart.data = {
+  partialChart.data = {
     ...defaultData,
     ...data,
   }
 
-  chart.custom_colors = {}
+  partialChart.custom_colors = {}
 
-  chart.data.colorTags.forEach((ct) => {
+  partialChart.data.colorTags.forEach((ct) => {
     if (ct.color.includes('custom_')) {
-      chart.custom_colors[ct.color] = ct.colorValue
+      // @ts-ignore
+      partialChart.custom_colors[ct.color] = ct.colorValue
     }
   })
 
-  chart.hoverElement = {}
-  chart.activeElement = {}
-  chart.selectedElement = false
-  chart.mousePenLocation = false
-  chart.needFullRedraw = true
-  chart.isTouchUser = false
+  partialChart.hoverElement = {}
+  partialChart.activeElement = {}
+  partialChart.selectedElement = false
+  partialChart.mousePenLocation = false
+  partialChart.needFullRedraw = true
+  partialChart.isTouchUser = false
 
   // initialize:
-  chart.helpers = helpers
+  partialChart.helpers = helpers
 
-  chart.shapeIsContinous = true
+  partialChart.shapeIsContinous = true
 
-  initShape(chart)
+  initShape(partialChart)
 
-  if (chart.config.interaction) {
-    interactCanvasInit(chart)
+  if (partialChart.config.interaction) {
+    interactCanvasInit(partialChart)
   }
 
-  chart.history = initHistory()
-  chart.history.add(chart, 'Initial')
+  partialChart.history = initHistory()
+  partialChart.history.add(partialChart, 'Initial')
 
   // add properties like id, lane, color etc if not there
-  chart.data.elements = verifyAndInitElements(chart.data.elements, chart)
+  partialChart.data.elements = verifyAndInitElements(partialChart.data.elements, partialChart)
 
-  draw(chart)
-  return chart
+  draw(partialChart)
+  return partialChart as NapchartType
 }

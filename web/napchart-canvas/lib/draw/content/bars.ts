@@ -1,8 +1,8 @@
 import { createSegment } from '../../shape/shapeHelpers'
 import { colorMap } from '../canvasHelpers'
-import { chart, InteractionState } from '../../types'
+import { NapchartType, InteractionState } from '../../types'
 
-export default function (chart: chart, interactionState?: InteractionState) {
+export default function (chart: NapchartType, interactionState?: InteractionState) {
   const { ctx, config, data, shape } = chart
 
   // fill

@@ -11,7 +11,7 @@ import {
   getPositionBetweenTwoValues,
   limit,
 } from '../helperFunctions'
-import { chart } from '../types'
+import { NapchartType } from '../types'
 
 export const XYtoInfo = function (chart, x, y) {
   // will gather three things: minutes and distance and lane from basepoint
@@ -145,7 +145,7 @@ export const minutesToXY = function (chart, minutes, radius) {
   return point
 }
 
-export const createCurve = function (chart: chart, path: Path2D | CanvasRenderingContext2D, start, end, radius, anticlockwise=false, callback?) {
+export const createCurve = function (chart: NapchartType, path: Path2D | CanvasRenderingContext2D, start, end, radius, anticlockwise=false, callback?) {
 
   // the reason for this silly function inside function: callback see at the end
   function createCurveInner(start, end) {
@@ -274,7 +274,7 @@ export const createCurve = function (chart: chart, path: Path2D | CanvasRenderin
   }
 }
 
-export const createSegment = function (chart: chart, outer, inner, start, end, callback?) {
+export const createSegment = function (chart: NapchartType, outer, inner, start, end, callback?) {
   const path = chart.createPath()
 
   function createSegment(start, end) {
