@@ -3,21 +3,32 @@ import React, { useRef } from 'react'
 import useOnClickOutside from 'use-onclickoutside'
 import Button from './Button'
 
-export let ModalContext
-let { Provider } = (ModalContext = React.createContext(null))
+type ModalContent = {
+  content: JSX.Element
+  title: string
+}
 
-export let ModalProvider = ({ children }) => {
-  let { modal, handleModal, confirmDialouge, modalContent } = useModal()
+type ModalContextType = {
+  modal: boolean
+  handleModal: (content?: ModalContent) => void
+  confirmDialouge: (dialogue: { title: string, description: string }, onConfirm: () => void) => void
+  modalContent: ModalContent
+}
+
+export const ModalContext = React.createContext<ModalContextType | null>(null)
+
+export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
+  const { modal, handleModal, confirmDialouge, modalContent } = useModal()
   return (
-    <Provider value={{ modal, handleModal, confirmDialouge, modalContent }}>
+    <ModalContext.Provider value={{ modal, handleModal, confirmDialouge, modalContent }}>
       <Modal />
       {children}
-    </Provider>
+    </ModalContext.Provider>
   )
 }
 
 const Modal = () => {
-  let { modalContent, handleModal, modal } = React.useContext(ModalContext)
+  const { modalContent, handleModal, modal } = React.useContext(ModalContext)!
   const ref = useRef(null)
   const exit = () => modal && handleModal()
   useOnClickOutside(ref, exit)
@@ -31,7 +42,13 @@ const Modal = () => {
   )
 }
 
-export const ModalBase = ({ title, children, clickOutside }) => {
+type ModalBaseProps = {
+  title: string
+  children: React.ReactNode
+  clickOutside: () => void
+}
+
+export const ModalBase = ({ title, children, clickOutside }: ModalBaseProps) => {
   const ref = useRef(null)
   useOnClickOutside(ref, clickOutside)
 
@@ -52,13 +69,13 @@ export const ModalBase = ({ title, children, clickOutside }) => {
 }
 
 const useModal = () => {
-  let [modal, setModal] = React.useState(false)
-  let [modalContent, setModalContent] = React.useState({
+  const [modal, setModal] = React.useState(false)
+  const [modalContent, setModalContent] = React.useState<ModalContent>({
     content: <></>,
     title: '',
   })
 
-  let handleModal = (content?) => {
+  const handleModal = (content?: ModalContent) => {
     console.log('content: ', content)
     setModal(!modal)
     if (content) {
@@ -66,7 +83,7 @@ const useModal = () => {
     }
   }
 
-  const confirmDialouge = ({ title, description }, onConfirm) => {
+  const confirmDialouge = ({ title, description }: { title: string, description: string }, onConfirm: () => void) => {
     handleModal({
       title: title,
       content: (
