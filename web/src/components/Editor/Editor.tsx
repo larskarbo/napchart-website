@@ -128,13 +128,13 @@ function App({}) {
 
           <ToolBar napchart={napchartObject} />
           <div className="flex flex-row flex-grow">
-            <div className="bg-gray-700 pt-24 w-16 text-sm flex-shrink-0">
+            <div className="bg-red-900 pt-24 w-16 text-sm flex-shrink-0">
               {sections.map((section, i) => (
                 <button
                   onClick={() => setCurrentSection(i)}
                   key={i}
                   className={`text-white w-full h-16  font-light
-                    ${i == currentSection && 'bg-red-600'}
+                    ${i == currentSection && 'bg-gray-800'}
                     `}
                 >
                   {section.text}
