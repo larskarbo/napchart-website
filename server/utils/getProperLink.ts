@@ -1,8 +1,7 @@
-import slugify from 'slugify';
+import slugify from 'slugify'
 
+export const getProperLink = (chartOwner: string, title: string | undefined, chartid: string): string => {
+  const urlTitle = title ? slugify(title) + '-' : ''
 
-export const getProperLink = (chartOwner, title, chartid) => {
-  const urlTitle = title ? slugify(title) + '-' : '';
-
-  return `/${chartOwner}/${urlTitle}${chartid}`;
-};
+  return `/${chartOwner}/${urlTitle}${chartid}`
+}

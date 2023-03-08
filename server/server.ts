@@ -1,8 +1,9 @@
-require('dotenv').config()
+import { config } from 'dotenv'
+config()
 import app from './serverRoutes'
 import { isDev } from './utils/webBase'
 
-const http = require('http')
+import http from 'http'
 const server = http.createServer(app)
 const PORT = 3200
 

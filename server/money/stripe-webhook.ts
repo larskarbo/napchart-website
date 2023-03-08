@@ -1,7 +1,6 @@
 import { getEnv } from '@larskarbo/get-env'
 import Stripe from 'stripe'
 import { slackNotify } from '../charts/utils/slackNotify'
-import { PrismaClient } from '@prisma/client'
 import { getPrisma } from '../src/utils/prisma'
 
 const prisma = getPrisma()
@@ -25,11 +24,10 @@ export const stripeWebhook = async (req, res) => {
     return res.sendStatus(400)
   }
   // Extract the object from the event.
-  const dataObject = event.data.object
 
   switch (event.type) {
     case 'checkout.session.completed':
-      const { userId, billingSchedule, username, password, email } = event.data.object.metadata
+      const { userId, billingSchedule, username, email } = event.data.object.metadata
       console.log('event.data.object.metadata: ', event.data.object.metadata)
 
       if (userId) {
@@ -52,7 +50,7 @@ export const stripeWebhook = async (req, res) => {
           })
       } else {
         // we need to create a payment token
-        slackNotify(`New purchase from new user: ${username}. Purchased ${billingSchedule}`)
+        slackNotify(`New purchase from new user: ${username}/${email}. Purchased ${billingSchedule}`)
         // const passwordHash = await encrypt(password)
 
         // const userValue = await queryOne(
