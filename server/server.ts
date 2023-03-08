@@ -5,7 +5,7 @@ import { isDev } from './utils/webBase'
 
 import http from 'http'
 const server = http.createServer(app)
-const PORT = 3200 || process.env.PORT
+const PORT = process.env.PORT || 3200
 
 server.listen(PORT, () => {
   console.log(`${isDev ? '[DEVELOPMENT]' : ''} Listening to port ${PORT}`)
