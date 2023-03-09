@@ -3,6 +3,7 @@ import { duration, limit, minutesDistance, range } from '../helperFunctions'
 import { isInside } from '../helperFunctions'
 import { hitDetect } from './hitDetect'
 import { keyboard } from './keyboard'
+import { NapchartType } from '../types'
 
 /*
  *  interactCanvas
@@ -11,7 +12,7 @@ import { keyboard } from './keyboard'
  *  directly on the canvas with mouse or touch
  */
 
-export function init(chart) {
+export function init(chart: NapchartType) {
   if (!chart.config.interaction) {
     return
   }
@@ -78,7 +79,7 @@ export function init(chart) {
 var position // reason for this global var: update() function
 var keepAlive // little hacky: used to preserve keyboard.js focus when clicking outside chart
 
-function down(e, chart) {
+function down(e, chart: NapchartType) {
   position = getPosition(e)
   var hit = hitDetect(chart, getCoordinates(position, chart))
   e.stopPropagation()
@@ -99,17 +100,17 @@ function down(e, chart) {
   update(chart)
 }
 
-function blur(chart) {
+function blur(chart: NapchartType) {
   deselect(chart)
 }
 
-function penStart(e, chart) {
+function penStart(e, chart: NapchartType) {
   // listen and check which way user eventually drags mouse
   setMousePenLocation(e, chart)
   chart.listeningForPenMove = true
 }
 
-function move(e, chart) {
+function move(e, chart: NapchartType) {
   position = getPosition(e)
   var coordinates = getCoordinates(position, chart)
 
@@ -539,8 +540,7 @@ function getCoordinates(position, chart) {
 }
 
 function snap(input) {
-  // @ts-ignore
-  if (window.metaDown) {
+  if (window.xMetaDown) {
     return Math.round(input / 1) * 1
   }
   return Math.round(input / 5) * 5

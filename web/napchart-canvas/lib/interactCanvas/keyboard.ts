@@ -36,8 +36,9 @@ export const keyboard = {
       input.value = selectedElement?.text ?? ''
       input.focus()
       positionInput(input, selectedElement)
-      input.oninput = function (e) {
-        const value = e.target.value
+      input.oninput = function (e: Event) {
+        const target = e.target as HTMLInputElement
+        const value = target.value
 
         chart.updateElement({
           id: chart.selectedElement,
@@ -66,13 +67,12 @@ export const keyboard = {
     }
 
     // delete key
-    document.onkeydown = (evt) => {
-      evt = evt || window.event
-      if (evt.key === 'Meta' || evt.key === 'Control') {
-        window.metaDown = true
+    document.onkeydown = (event) => {
+      if (event.key === 'Meta' || event.key === 'Control') {
+        window.xMetaDown = true
       }
       if (
-        (evt.keyCode === 46 || (evt.keyCode === 8 && evt.metaKey)) &&
+        (event.key === 'Delete' || (event.key === 'Backspace' && event.metaKey)) &&
         chart.selectedElement &&
         input === document.activeElement
       ) {
@@ -80,11 +80,16 @@ export const keyboard = {
       }
     }
 
-    document.onkeyup = (evt) => {
-      evt = evt || window.event
-      if (evt.key === 'Meta' || evt.key === 'Control') {
-        window.metaDown = false
+    document.onkeyup = (event) => {
+      if (event.key === 'Meta' || event.key === 'Control') {
+        window.xMetaDown = false
       }
     }
   },
+}
+
+declare global {
+  interface Window {
+    xMetaDown: boolean
+  }
 }

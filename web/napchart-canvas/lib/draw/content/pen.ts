@@ -1,4 +1,3 @@
-import { baseConfig } from '../../baseConfig'
 import { limit } from '../../helperFunctions'
 import { createSegment } from '../../shape/shapeHelpers'
 import { NapchartType } from '../../types'
@@ -9,7 +8,6 @@ export function drawPen(chart: NapchartType): void {
   const { config } = chart
 
   if (chart.isPen()) {
-    console.log('chart.mousePenLocation: ', chart.mousePenLocation)
     const { minutes, lane: laneNum } = chart.mousePenLocation
     const lane = chart.shape.lanes[laneNum]
 

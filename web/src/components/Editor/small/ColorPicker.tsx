@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { HexColorInput, HexColorPicker } from 'react-colorful'
 import { FaCheck, FaPen } from 'react-icons/fa'
 import useOnClickOutside from 'use-onclickoutside'
+import { NapchartType } from '../../../../napchart-canvas/lib/types'
 import { useUser } from '../../../auth/user-context'
 import { useChart } from '../chart-context'
 
@@ -17,7 +18,15 @@ var colors = {
   pink: '#ff94d4',
 }
 
-export default function ColorPicker({ napchart, activeColor, onClick }) {
+export default function ColorPicker({
+  napchart,
+  activeColor,
+  onClick,
+}: {
+  napchart: NapchartType
+  activeColor: string
+  onClick: (color: string) => void
+}) {
   const { customColors, setCustomColors } = useChart()
 
   useEffect(() => {
@@ -53,11 +62,6 @@ export default function ColorPicker({ napchart, activeColor, onClick }) {
       })
   }, [customColors, napchart])
 
-  // useEffect(() => {
-  //   const colorTags = napchart?.data?.colorTags
-  //   if (colorTags) {
-  //   }
-  // }, [napchart?.data?.colorTags])
   const [closeCounter, setCloseCounter] = useState(0)
 
   const { user } = useUser()

@@ -251,61 +251,50 @@ export default function init(ctx: CanvasRenderingContext2D, data: Partial<ChartD
       partialChart.history.add(partialChart, 'Change color')
 
       partialChart.draw()
+
+      partialChart.onUpdate()
     },
 
     createPath: function () {
       return new Path2D()
     },
 
-    // colorTag: function (color, tag) {
-    //   // 1 delete if tag empty
-    //   if (!color.includes('custom_') && tag == '') {
-    //     return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
-    //   }
+    colorTag: function (color, tag) {
+      // 1 delete if tag empty
+      if (!color.includes('custom_') && tag == '') {
+        return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
+      }
 
-    //   // 2 create if not exist
-    //   var tagObj = this.data.colorTags.find((t) => t.color == color)
-    //   if (typeof tagObj == 'undefined') {
-    //     this.data.colorTags.push({
-    //       color: color,
-    //     })
-    //   }
+      // 2 create if not exist
+      var tagObj = this.data.colorTags.find((t) => t.color == color)
+      if (typeof tagObj == 'undefined') {
+        this.data.colorTags.push({
+          color: color,
+        })
+      }
 
-    //   // 3 change tag value
-    //   this.data.colorTags = this.data.colorTags.map((t) => {
-    //     if (t.color == color) {
-    //       return {
-    //         ...t,
-    //         tag: tag,
-    //       }
-    //     }
-    //     return t
-    //   })
-    //   draw(this)
-    // },
+      // 3 change tag value
+      this.data.colorTags = this.data.colorTags.map((t) => {
+        if (t.color == color) {
+          return {
+            ...t,
+            tag: tag,
+          }
+        }
+        return t
+      })
 
-    draw: function () {
-      draw(partialChart)
+      this.onUpdate()
+      draw(this)
     },
 
-    setDataCalcShapeAndDraw: function (data) {
-      // used for thumb.napchart.com
-      partialChart.data = data
-      initShape(partialChart)
+    draw: function () {
       draw(partialChart)
     },
 
     onSetSelected: function () {},
 
     onUpdate: function () {},
-
-    // this function should only be used by a listener
-    // to update napchart
-    update: function (data) {
-      partialChart.data = data
-
-      draw(partialChart)
-    },
 
     updateDimensions: function () {
       // probably because of resize

@@ -1,4 +1,5 @@
 // private
+import { Element } from '../../../src/components/Editor/types'
 import { baseConfig, NapchartConfig } from '../baseConfig'
 import { drawFrame, fullDraw } from '../draw/draw'
 import { clone, deepEach } from '../helperFunctions'
@@ -47,16 +48,14 @@ export function enableResponsiveness(chart) {
   })
 }
 
-type StatelessDataNeededForDraw = {}
-
-export function draw(chart: NapchartType, data: StatelessDataNeededForDraw) {
+export function draw(chart: NapchartType) {
   // here we need to determine how much we should redraw
   if (chart.needFullRedraw) {
     fullDraw(chart)
     chart.needFullRedraw = false
     chart.onUpdate() // notify listenersø
   } else {
-    drawFrame(chart, data)
+    drawFrame(chart)
   }
 }
 
@@ -68,7 +67,7 @@ export function initConfig(config: Partial<NapchartConfig>) {
   return config
 }
 
-export function verifyAndInitElements(elements, chart) {
+export function verifyAndInitElements(elements: Partial<Element>[], chart: NapchartType) {
   return elements.map((element) => {
     if (typeof element.start === 'undefined' || typeof element.end === 'undefined') {
       throw new Error('Start and End properties are required!')

@@ -57,7 +57,7 @@ export default function Chart({
     if (onUpdate) {
       napchart.onUpdate = () => {
         // TODO refactor
-        const nowData = JSON.stringify(napchart.data)
+        const nowData = JSON.stringify(napchart.data) + JSON.stringify(napchart.config.defaultColor)
         if (nowData != lastData) {
           lastData = nowData
           onUpdate()
