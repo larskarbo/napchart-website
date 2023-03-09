@@ -26,20 +26,6 @@ model chart {
   @@map("charts")
 }
 
-model user_token {
-  id         Int                 @id @default(autoincrement())
-  token      String              @db.Char(48)
-  created_at DateTime            @default(now()) @db.Timestamp(6)
-  expires_at DateTime            @db.Timestamp(6)
-  used       Boolean             @default(false)
-  user_id    Int
-  ip         String
-  token_type token_type?
-  users      user                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("user_tokens")
-}
-
 model user {
   id                 Int                  @id @default(autoincrement())
   username           String               @unique @db.Citext
@@ -56,6 +42,21 @@ model user {
 
   @@map("users")
 }
+
+model user_token {
+  id         Int                 @id @default(autoincrement())
+  token      String              @db.Char(48)
+  created_at DateTime            @default(now()) @db.Timestamp(6)
+  expires_at DateTime            @db.Timestamp(6)
+  used       Boolean             @default(false)
+  user_id    Int
+  ip         String
+  token_type token_type?
+  users      user                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("user_tokens")
+}
+
 
 enum token_type {
   email_verify        @map("email-verify")

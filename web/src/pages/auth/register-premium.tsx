@@ -100,8 +100,6 @@ const PremiumPageReal = ({ exit }) => {
             </button>
           </div>
 
-          {/* <h2 className="my-8 font-medium text-gray-800 text-lg text-center uppercase">User</h2>
-           */}
           {user && (
             <div
               className="mt-4 mr-4 flex items-center border border-gray-200 rounded p-2 px-4
@@ -151,9 +149,6 @@ const CheckoutForm = ({ plan }) => {
     const password = formRef?.current?.password?.value
     // @ts-ignore
     const username = formRef?.current?.username?.value
-
-    if (!user) {
-    }
 
     setLoading(true)
     return request('POST', '/money/checkout', {

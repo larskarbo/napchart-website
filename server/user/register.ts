@@ -12,6 +12,7 @@ import { pwSchema, usernameSchema } from './authUtils/userSchema'
 
 const prisma = new PrismaClient()
 
+const stripe = require('stripe')(getEnv('STRIPE_SECRET_KEY'))
 const schema = Joi.object({
   username: usernameSchema,
   password: pwSchema,
@@ -19,7 +20,6 @@ const schema = Joi.object({
   session_id: Joi.string().required(),
 })
 
-const stripe = require('stripe')(getEnv('STRIPE_SECRET_KEY'))
 
 export const register = async (req, res) => {
   const validate = schema.validate({

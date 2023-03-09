@@ -3,7 +3,7 @@ import Joi from 'joi'
 import Stripe from 'stripe'
 import { pwSchema, usernameSchema } from '../user/authUtils/userSchema'
 import { isDev, WEB_BASE } from '../utils/webBase'
-const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2020-08-27' })
+const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), { apiVersion: '2022-11-15' })
 
 const prices = {
   monthly: isDev ? 'price_1IaPMXLugp7Sf5UQVU7KZNvA' : 'price_1IaeHPLugp7Sf5UQrTAHxuK7',
@@ -18,13 +18,6 @@ const discountsObj = {
   enteleform: 'promo_1IanRfLugp7Sf5UQ1B98eWJ2',
   larskarbo: 'promo_1IanVQLugp7Sf5UQeyIuV1Ba', // <- test
 }
-
-const schema = Joi.object({
-  username: usernameSchema,
-  password: pwSchema,
-  email: Joi.string().email().required(),
-  billingSchedule: Joi.any(),
-})
 
 export const checkout = async function (req, res) {
   const { billingSchedule } = req.body

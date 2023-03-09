@@ -56,7 +56,6 @@ app.use(
 app.use(cookieParser())
 
 app.get('/', async (req, res) => {
-  slackNotify('test notification')
   res.send({ status: 'Ok' })
 })
 

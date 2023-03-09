@@ -14,7 +14,6 @@ export default function RegisterPage({}) {
   const queryClient = useQueryClient()
 
   const searchParams = router.query
-  console.log('searchParams: ', searchParams);
 
   const [msg, setMsg] = useState('')
 
@@ -58,6 +57,9 @@ export default function RegisterPage({}) {
   return (
     <LoginLayout msg={msg}>
       <>
+        {searchParams.session_id && (
+          <div className="mb-4">Thanks for your payment! Go ahead and fill in this to create your account.</div>
+        )}
         <form ref={formRef} onSubmit={onSubmit}>
           <FormElement
             title={'Username'}

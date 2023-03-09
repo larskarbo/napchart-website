@@ -20,7 +20,9 @@ export const stripeWebhook = async (req, res) => {
       case 'checkout.session.completed':
         const object = event.data.object as Stripe.Checkout.Session
         console.log('event.data: ', event.data)
-        const { userId, billingSchedule, username, email } = object.metadata
+        const { userId, billingSchedule } = object.metadata
+
+        const email = object.customer_email
 
         if (userId) {
           slackNotify(`New purchase from known ID: ${userId}. Purchased ${billingSchedule}`)
@@ -37,7 +39,7 @@ export const stripeWebhook = async (req, res) => {
               return res.send({})
             })
         } else {
-          slackNotify(`New purchase from new user: ${username}/${email}. Purchased ${billingSchedule}`)
+          slackNotify(`New purchase from new user: ${email}. Purchased ${billingSchedule}`)
           return res.send({})
         }
         break
