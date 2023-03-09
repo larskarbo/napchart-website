@@ -12,7 +12,7 @@ export interface ChartDocument {
 export interface ChartData {
   elements: Element[]
   colorTags: ColorTag[]
-  shape: 'circle' | 'wide' | 'line' | "miniCircle"
+  shape: 'circle' | 'wide' | 'line' | 'miniCircle'
   lanes: number
   lanesConfig: {}
 }
@@ -30,4 +30,5 @@ export interface Element {
 interface ColorTag {
   color: string
   tag: string
+  colorValue?: string
 }

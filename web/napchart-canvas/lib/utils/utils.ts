@@ -2,7 +2,7 @@
 import { Element } from '../../../src/components/Editor/types'
 import { baseConfig, NapchartConfig } from '../baseConfig'
 import { drawFrame, fullDraw } from '../draw/draw'
-import { clone, deepEach } from '../helperFunctions'
+import { clone, deepEach, duration } from '../helperFunctions'
 import { initShape } from '../shape/shape'
 import { NapchartType } from '../types'
 export function scale(chart) {
@@ -72,10 +72,10 @@ export function verifyAndInitElements(elements: Partial<Element>[], chart: Napch
     if (typeof element.start === 'undefined' || typeof element.end === 'undefined') {
       throw new Error('Start and End properties are required!')
     }
-    // @ts-ignore
-    var element = {
+    const newElement: Element = {
       start: element.start,
       end: element.end,
+      duration: duration(element.start, element.end),
       id: element.id || idGen(),
       lane: element.lane || 0,
       text: element.text || '',
@@ -86,7 +86,7 @@ export function verifyAndInitElements(elements: Partial<Element>[], chart: Napch
         Number of lanes: ${chart.shape.lanes.length}`)
     }
 
-    return element
+    return newElement
   })
 
   function idGen() {

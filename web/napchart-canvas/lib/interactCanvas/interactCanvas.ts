@@ -41,6 +41,7 @@ export function init(chart: NapchartType) {
 
   // move
   addListeners(document, 'mousemove touchmove', (e) => {
+    // @ts-ignore
     if (chart.data.activeElement) {
       e.stopPropagation()
       e.preventDefault()
