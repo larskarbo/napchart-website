@@ -22,7 +22,7 @@ export const stripeWebhook = async (req, res) => {
         console.log('event.data: ', event.data)
         const { userId, billingSchedule } = object.metadata
 
-        const email = object.customer_email
+        const email = object.customer_details.email
 
         if (userId) {
           slackNotify(`New purchase from known ID: ${userId}. Purchased ${billingSchedule}`)
