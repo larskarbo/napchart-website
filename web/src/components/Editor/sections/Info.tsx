@@ -54,12 +54,6 @@ export const Info: FunctionComponent<InfoProps> = ({ setAmpm, ampm }) => {
 
 export const Contact = () => (
   <div className="my-4">
-    <p className="mb-4">
-      <strong>👉 PS:</strong> If you are a developer, you should check out my
-      <a className="underline text-blue-500" href="https://www.turfemon.com/">
-        Typescript and Ethereum Blog
-      </a>
-    </p>
     <p>
       <strong>✉️ Contact:</strong> Reach out to me on{' '}
       <a className="underline text-blue-500" href="https://twitter.com/larskarbo">
