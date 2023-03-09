@@ -14,17 +14,13 @@ enum Plan {
   Lifetime = 'lifetime',
 }
 
-let stripePromise
-const getStripe = () => {
-  if (!stripePromise) {
-    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUB_KEY)
-  }
-  return stripePromise
-}
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUB_KEY)
 
 export default function PremiumPage({ exit }) {
   return (
-    <Elements stripe={getStripe()}>
+    <Elements stripe={stripePromise}>
       <PremiumPageReal exit={exit} />
     </Elements>
   )
@@ -133,6 +129,7 @@ const CheckoutForm = ({ plan }) => {
   console.log('plan: ', plan)
   const formRef = useRef()
   const stripe = useStripe()
+  console.log('stripe: ', stripe)
   const notyf = useNotyf()
   const { user } = useUser()
   const [loading, setLoading] = useState(false)
@@ -145,6 +142,7 @@ const CheckoutForm = ({ plan }) => {
       request('POST', '/reportError', {
         text: 'Client error: Stripe is still loading, wait a few seconds and try again.',
       })
+      return
     }
 
     // @ts-ignore
