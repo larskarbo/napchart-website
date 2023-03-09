@@ -1,7 +1,9 @@
-const { createCurve } = require('../../shape/shapeHelpers')
-module.exports = function (chart) {
+import { createCurve } from '../../shape/shapeHelpers'
+import { NapchartType } from '../../types'
+
+export function drawCircles(chart: NapchartType): void {
   const { ctx } = chart
-  var lanes = chart.shape.lanes
+  const lanes = chart.shape.lanes
 
   if (!chart.config.drawFace) {
     return
@@ -12,9 +14,7 @@ module.exports = function (chart) {
 
   ctx.save()
   ctx.strokeStyle = chart.config.face.weakerStrokeColor
-  for (var i = 0; i < lanes.length - 1; i++) {
-    // ctx.setLineDash([1, 1])
-
+  for (let i = 0; i < lanes.length - 1; i++) {
     ctx.beginPath()
     createCurve(chart, chart.ctx, 0.01, 1439.9, lanes[i].end)
     ctx.stroke()

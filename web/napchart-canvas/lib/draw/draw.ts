@@ -1,48 +1,27 @@
-// const bars = require('./content/bars2').default
-
 import bars from './content/bars'
 import { NapchartType } from '../types'
 import colorTags from './content/colorTags'
 import handles from './content/handles'
+import drawHandleTimes from './content/handleTimes'
+import { drawDistances } from './content/distances'
+import { drawLabels } from './content/labels'
+import { drawPen } from './content/pen'
+import { drawDurations } from './content/durations'
+import { drawCircles } from './face/circles'
+import { drawBackground } from './face/background'
+import { drawLines } from './face/lines'
+import { drawNumbers } from './face/numbers'
+
+import { textHelper } from './textHelper'
+import { clearChart } from './clear'
 
 export let isNode
 
-try{
-  isNode = typeof window == "undefined"
-} catch(e) {
+try {
+  isNode = typeof window == 'undefined'
+} catch (e) {
   isNode = true
 }
-
-// textHelper
-var textHelper = require('./textHelper')
-
-var clear = require('./clear')
-
-var tasks = [
-  // -- handleTimes
-  require('./content/handleTimes'),
-  // -- text
-  require('./content/text'),
-  // -- durations
-  require('./content/durations'),
-  // -- distances
-  require('./content/distances'),
-  // -- pen
-  require('./content/pen'),
-  // -- text strings
-  textHelper.writeAll,
-]
-
-var faceTasks = [
-  // -- circles
-  require('./face/background'),
-  // -- circles
-  require('./face/circles'),
-  // -- lines
-  require('./face/lines'),
-  // -- numbers
-  require('./face/numbers'),
-]
 
 export function fullDraw(chart, noocanvasplease = false) {
   var ctx = chart.ctx
@@ -51,14 +30,23 @@ export function fullDraw(chart, noocanvasplease = false) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
-  clear(chart)
+  clearChart(chart)
 
+  const drawFaceTasks = (chart: NapchartType) => {
+    // -- circles
+    drawCircles(chart)
+    // -- circles
+    drawBackground(chart)
+    // -- lines
+    drawLines(chart)
+
+    // -- numbers
+    drawNumbers(chart)
+  }
   if (isNode || noocanvasplease) {
     // we are in a node environment
     // dont do the offscreen thing
-    faceTasks.forEach(function (task) {
-      task(chart)
-    })
+    drawFaceTasks(chart)
 
     drawFrameFunctions(chart)
   } else {
@@ -71,10 +59,11 @@ export function fullDraw(chart, noocanvasplease = false) {
     // please don't get confused by this, you should really
     // just think that there is one chart object to rule
     // them all (each instance)
-    var faceChart = Object.assign({}, chart, { ctx: octx })
-    faceTasks.forEach(function (task) {
-      task(faceChart, octx)
-    })
+    var faceChart = {
+      ...chart,
+      ctx: octx,
+    }
+    drawFaceTasks(faceChart)
 
     drawFrameFunctions(chart)
   }
@@ -84,7 +73,7 @@ export function fullDraw(chart, noocanvasplease = false) {
 // that usually change
 // (does not update clock-face, settings, shape etc)
 export function drawFrame(chart) {
-  clear(chart)
+  clearChart(chart)
 
   drawFrameFunctions(chart)
 }
@@ -101,8 +90,19 @@ function drawFrameFunctions(chart: NapchartType) {
   // end
   colorTags(chart)
 
-  tasks.forEach(function (task) {
-    task(chart)
-  })
+  drawDistances(chart)
 
+  // -- handleTimes
+  drawHandleTimes(chart)
+
+  // -- text
+  drawLabels(chart)
+
+  // -- durations
+  drawDurations(chart)
+
+  // -- pen
+  drawPen(chart)
+
+  textHelper.writeAll(chart)
 }

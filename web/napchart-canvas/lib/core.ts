@@ -257,32 +257,32 @@ export default function init(ctx: CanvasRenderingContext2D, data: Partial<ChartD
       return new Path2D()
     },
 
-    colorTag: function (color, tag) {
-      // 1 delete if tag empty
-      if (!color.includes('custom_') && tag == '') {
-        return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
-      }
+    // colorTag: function (color, tag) {
+    //   // 1 delete if tag empty
+    //   if (!color.includes('custom_') && tag == '') {
+    //     return (this.data.colorTags = this.data.colorTags.filter((t) => t.color != color))
+    //   }
 
-      // 2 create if not exist
-      var tagObj = this.data.colorTags.find((t) => t.color == color)
-      if (typeof tagObj == 'undefined') {
-        this.data.colorTags.push({
-          color: color,
-        })
-      }
+    //   // 2 create if not exist
+    //   var tagObj = this.data.colorTags.find((t) => t.color == color)
+    //   if (typeof tagObj == 'undefined') {
+    //     this.data.colorTags.push({
+    //       color: color,
+    //     })
+    //   }
 
-      // 3 change tag value
-      this.data.colorTags = this.data.colorTags.map((t) => {
-        if (t.color == color) {
-          return {
-            ...t,
-            tag: tag,
-          }
-        }
-        return t
-      })
-      draw(this)
-    },
+    //   // 3 change tag value
+    //   this.data.colorTags = this.data.colorTags.map((t) => {
+    //     if (t.color == color) {
+    //       return {
+    //         ...t,
+    //         tag: tag,
+    //       }
+    //     }
+    //     return t
+    //   })
+    //   draw(this)
+    // },
 
     draw: function () {
       draw(partialChart)

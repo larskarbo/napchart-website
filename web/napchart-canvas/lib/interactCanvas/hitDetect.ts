@@ -1,28 +1,33 @@
-module.exports = function hitDetect(chart, coordinates) {
-  var canvas = chart.canvas
-  var data = chart.data
-  var helpers = chart.helpers
+import { NapchartType } from '../types'
+
+export function hitDetect(
+  chart: NapchartType,
+  coordinates: { x: number; y: number },
+): { elementId?: number; type?: string; distance?: number; positionInElement?: number } {
+  const canvas = chart.canvas
+  const data = chart.data
+  const helpers = chart.helpers
 
   // will return:
   // element
   // type (start, end, or middle)
   // distance
 
-  var hit = {}
+  let hit: { elementId?: number; type?: string; distance?: number; positionInElement?: number } = {}
 
   // hit detection of handles:
 
-  var distance
+  let distance: number
 
   data.elements.forEach(function (element) {
-    var lane = chart.shape.lanes[element.lane]
+    const lane = chart.shape.lanes[element.lane]
 
     // if element is not selected, continue
     if (!chart.isSelected(element.id)) {
       return
     }
     ;['start', 'end'].forEach(function (startOrEnd) {
-      var point = helpers.minutesToXY(chart, element[startOrEnd], lane.end)
+      const point = helpers.minutesToXY(chart, element[startOrEnd], lane.end)
 
       distance = helpers.distance(point.x, point.y, coordinates)
       if (distance < chart.config.handlesClickDistance) {
@@ -40,19 +45,19 @@ module.exports = function hitDetect(chart, coordinates) {
   // if no handle is hit, check for middle hit
 
   if (Object.keys(hit).length == 0) {
-    var info = helpers.XYtoInfo(chart, coordinates.x, coordinates.y)
+    const info = helpers.XYtoInfo(chart, coordinates.x, coordinates.y)
     if (!info) {
       return {}
     }
     // loop through elements
     data.elements.forEach(function (element) {
-      var lane = chart.shape.lanes[element.lane]
+      const lane = chart.shape.lanes[element.lane]
 
       // check if point is inside element horizontally
       if (helpers.isInside(info.minutes, element.start, element.end)) {
         // check if point is inside element vertically
-        var innerRadius = lane.start
-        var outerRadius = lane.end
+        const innerRadius = lane.start
+        const outerRadius = lane.end
         if (info.distance > innerRadius && info.distance < outerRadius) {
           hit = {
             elementId: element.id,

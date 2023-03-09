@@ -165,10 +165,6 @@ const OneColor = ({ closeCounter, setCloseCounter, colors, color, customColors, 
               ></button>
             ))}
           </div>
-
-          {/* <Button onClick={() => setPickerOpen(false)} className="mt-4">
-            OK
-          </Button> */}
         </div>
       )}
       <button

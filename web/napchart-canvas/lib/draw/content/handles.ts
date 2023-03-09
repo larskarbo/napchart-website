@@ -1,6 +1,6 @@
 import { minutesToXY } from '../../shape/shapeHelpers'
 import { NapchartType, InteractionState } from '../../types'
-import { circle, colorMap } from '../canvasHelpers'
+import { circle, colorToHex } from '../canvasHelpers'
 
 export default function handles(chart: NapchartType, interactionState?: InteractionState) {
   var ctx = chart.ctx
@@ -21,14 +21,14 @@ export default function handles(chart: NapchartType, interactionState?: Interact
     var handlePosition = minutesToXY(chart, element[startOrEnd], lane.end - config.paddingLanes)
 
     ctx.globalAlpha = 0.5
-    ctx.fillStyle = colorMap(chart, element.color)
+    ctx.fillStyle = colorToHex(chart, element.color)
 
     circle(chart, handlePosition, config.content.handles)
     ctx.fill()
 
     if (chart.isHover(element.id, startOrEnd) || chart.isActive(element.id, startOrEnd)) {
       ctx.globalAlpha = 0.2
-      ctx.fillStyle = colorMap(chart, element.color)
+      ctx.fillStyle = colorToHex(chart, element.color)
 
       circle(chart, handlePosition, config.handlesClickDistance)
       ctx.fill()

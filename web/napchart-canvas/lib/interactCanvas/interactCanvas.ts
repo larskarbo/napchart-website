@@ -1,6 +1,8 @@
 import { XYtoInfo } from '../shape/shapeHelpers'
 import { duration, limit, minutesDistance, range } from '../helperFunctions'
 import { isInside } from '../helperFunctions'
+import { hitDetect } from './hitDetect'
+import { keyboard } from './keyboard'
 
 /*
  *  interactCanvas
@@ -8,9 +10,6 @@ import { isInside } from '../helperFunctions'
  *  This module adds support for modifying a schedule
  *  directly on the canvas with mouse or touch
  */
-
-var hitDetect = require('./hitDetect')
-var keyboard = require('./keyboard')
 
 export function init(chart) {
   if (!chart.config.interaction) {

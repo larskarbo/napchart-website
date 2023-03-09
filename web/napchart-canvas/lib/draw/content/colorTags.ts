@@ -1,9 +1,9 @@
 import { duration, minutesToReadable } from '../../helperFunctions'
 import { minutesToXY } from '../../shape/shapeHelpers'
-import { NapchartType, InteractionState } from '../../types'
-import { colorMap, fontSize } from '../canvasHelpers'
+import { NapchartType } from '../../types'
+import { colorToHex, fontSize } from '../canvasHelpers'
 
-export default function colorTags(chart: NapchartType, interactionState?: InteractionState) {
+export default function colorTags(chart: NapchartType) {
   var ctx = chart.ctx
   var config = chart.config
 
@@ -18,7 +18,7 @@ export default function colorTags(chart: NapchartType, interactionState?: Intera
 
   var colorTags = chart.data.colorTags
   colorTags.forEach(function (tagObj) {
-    if(tagObj.tag.length == 0) return
+    if (tagObj.tag.length == 0) return
     textPosition.y += config.colorTagsSize * 1.5
     var minutes = chart.data.elements.reduce((minutes, element) => {
       if (element.color == tagObj.color) {
@@ -41,7 +41,7 @@ export default function colorTags(chart: NapchartType, interactionState?: Intera
     }
     ctx.save()
 
-    ctx.fillStyle = colorMap(chart, tagObj.color)
+    ctx.fillStyle = colorToHex(chart, tagObj.color)
     ctx.fillRect(squarePosition.x, squarePosition.y, squareSize, squareSize)
     ctx.restore()
   })

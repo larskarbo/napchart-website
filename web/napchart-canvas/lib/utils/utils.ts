@@ -3,6 +3,7 @@ import { baseConfig, NapchartConfig } from '../baseConfig'
 import { drawFrame, fullDraw } from '../draw/draw'
 import { clone, deepEach } from '../helperFunctions'
 import { initShape } from '../shape/shape'
+import { NapchartType } from '../types'
 export function scale(chart) {
   var canvas = chart.canvas
   retinaScale(chart)
@@ -46,14 +47,16 @@ export function enableResponsiveness(chart) {
   })
 }
 
-export function draw(chart) {
+type StatelessDataNeededForDraw = {}
+
+export function draw(chart: NapchartType, data: StatelessDataNeededForDraw) {
   // here we need to determine how much we should redraw
   if (chart.needFullRedraw) {
     fullDraw(chart)
     chart.needFullRedraw = false
-    chart.onUpdate() // notify listeners
+    chart.onUpdate() // notify listenersø
   } else {
-    drawFrame(chart)
+    drawFrame(chart, data)
   }
 }
 

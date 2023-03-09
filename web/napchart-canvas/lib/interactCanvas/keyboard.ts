@@ -1,22 +1,18 @@
-module.exports = {
+export const keyboard = {
   init: function (chart) {
-    var parent = chart.canvas.parentElement
+    const parent = chart.canvas.parentElement
 
-    var input = document.createElement('input')
+    const input = document.createElement('input')
     input.style.position = 'absolute'
     input.className = 'hiddenInput'
-    input.style.opacity = 0
+    input.style.opacity = '0'
     input.style.width = '100px'
     input.style.pointerEvents = 'none'
-    input.style.zIndex = 0
+    input.style.zIndex = '0'
     // hide native blue text cursor on iOS
-
     input.style.top = '0'
-
     input.style.left = '0'
-
     input.type = 'text'
-
     parent.appendChild(input)
 
     chart.forceFocusSelected = function () {
@@ -35,13 +31,13 @@ module.exports = {
       }
     }
 
-    function focusSelected(selected) {
-      var selectedElement = chart.data.elements.find((e) => e.id == selected)
-      input.value = selectedElement.text
+    function focusSelected(selected: string) {
+      const selectedElement = chart.data.elements.find((e) => e.id === selected)
+      input.value = selectedElement?.text ?? ''
       input.focus()
       positionInput(input, selectedElement)
       input.oninput = function (e) {
-        var value = e.target.value
+        const value = e.target.value
 
         chart.updateElement({
           id: chart.selectedElement,
@@ -50,33 +46,33 @@ module.exports = {
       }
     }
 
-    function positionInput(input, element) {
-      var helpers = chart.helpers
+    function positionInput(input: HTMLInputElement, element) {
+      const helpers = chart.helpers
 
-      var lane = chart.shape.lanes[element.lane]
-      var middleMinutes = helpers.middlePoint(element.start, element.end)
+      const lane = chart.shape.lanes[element.lane]
+      let middleMinutes = helpers.middlePoint(element.start, element.end)
       if (helpers.duration(element.start, element.end) < 90) {
         middleMinutes = Math.max(middleMinutes, element.start + 40)
       }
 
-      var radius = lane.end + chart.config.content.textDistance
-      if (element.lane == 0) {
-        var radius = lane.start - chart.config.content.textDistance
+      let radius = lane.end + chart.config.content.textDistance
+      if (element.lane === 0) {
+        radius = lane.start - chart.config.content.textDistance
       }
 
-      var textPosition = helpers.minutesToXY(chart, middleMinutes, radius)
+      const textPosition = helpers.minutesToXY(chart, middleMinutes, radius)
 
-      input.value = element.text
+      input.value = element?.text ?? ''
     }
 
     // delete key
     document.onkeydown = (evt) => {
       evt = evt || window.event
-      if(evt.key == "Meta" || evt.key == "Control"){
+      if (evt.key === 'Meta' || evt.key === 'Control') {
         window.metaDown = true
       }
       if (
-        (evt.keyCode == 46 || (evt.keyCode == 8 && evt.metaKey)) &&
+        (evt.keyCode === 46 || (evt.keyCode === 8 && evt.metaKey)) &&
         chart.selectedElement &&
         input === document.activeElement
       ) {
@@ -84,10 +80,9 @@ module.exports = {
       }
     }
 
-
     document.onkeyup = (evt) => {
       evt = evt || window.event
-      if(evt.key == "Meta" || evt.key == "Control"){
+      if (evt.key === 'Meta' || evt.key === 'Control') {
         window.metaDown = false
       }
     }

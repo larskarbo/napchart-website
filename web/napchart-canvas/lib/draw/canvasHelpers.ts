@@ -14,9 +14,9 @@ export const strokeSegment = function (chart, start, end, config) {
   ctx.restore()
 }
 
-export const colorMap = function (chart: NapchartType, color: string) {
+export const colorToHex = function (chart: NapchartType, color: string) {
   if(!color){
-    return "red"
+    return "#000000"
   }
   if (color.includes('#')) {
     return color

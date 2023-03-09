@@ -5,9 +5,6 @@ import initedShapes from './shape/shapes2'
 import { fullDraw } from './draw/draw'
 
 export function drawOnly(ctx, data, config) {
-  console.log('data: ', data)
-  const obj = {}
-
   const dData = {
     elements: [],
     colorTags: [],

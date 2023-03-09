@@ -17,7 +17,7 @@ export interface ChartData {
   lanesConfig: {}
 }
 
-interface Element {
+export interface Element {
   start: number
   end: number
   lane: number
