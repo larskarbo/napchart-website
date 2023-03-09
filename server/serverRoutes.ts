@@ -31,7 +31,13 @@ var cors = require('cors')
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://horse.loc:3000', 'https://napchart.com', /larskarbo-team\.vercel\.app/],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://horse.loc:3000',
+      'https://napchart.com',
+      /larskarbo-team\.vercel\.app/,
+    ],
   }),
 )
 
@@ -50,6 +56,7 @@ app.use(
 app.use(cookieParser())
 
 app.get('/', async (req, res) => {
+  slackNotify('test notification')
   res.send({ status: 'Ok' })
 })
 

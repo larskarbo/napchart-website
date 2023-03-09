@@ -30,7 +30,6 @@ export function useHasMounted() {
 
 function MyApp({ Component, pageProps }) {
   const hasMounted = useHasMounted()
-
   return (
     <>
       <QueryClientProvider client={queryClient}>

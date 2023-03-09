@@ -33,7 +33,6 @@ export default function Profile({}) {
   const isMe = user && username == user?.username
 
   const queryClient = useQueryClient()
-
   // const { data: billingInfo, isLoading } = useQuery('billingInfo', () => request('GET', `/getBillingInfo`), { enabled: isMe })
   // console.log('billingInfo: ', billingInfo);
 
