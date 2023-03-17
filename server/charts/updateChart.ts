@@ -2,6 +2,7 @@ import Joi from 'joi'
 import { chartDataSchema, chartDataSchemaPremium, titleSchema, descriptionSchema } from './utils/schema'
 import { getValidatedDataIfGood } from '../utils/sendValidationError'
 import { getPrisma } from '../src/utils/prisma'
+import { slackNotify } from './utils/slackNotify'
 
 const updateChartSchema = Joi.object({
   chartData: chartDataSchema,
@@ -44,6 +45,12 @@ export const updateChart = async function (req, res) {
   if (!foundChart) {
     res.status(404).send({ message: "The chart doesn't exist" })
     return
+  }
+
+  if (req.user?.isPremium) {
+    slackNotify(
+      `Premium chart updated by ${req.user.username}. https://napchart.com/${req.user.username}/charts/${chartid}`,
+    )
   }
 
   try {

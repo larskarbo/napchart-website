@@ -8,6 +8,7 @@ import { WEB_BASE } from '../utils/webBase'
 import { ChartCreationReturn } from './types'
 import { findUniqueId } from './utils/findUniqueId'
 import { chartDataSchema, chartDataSchemaPremium, descriptionSchema, titleSchema } from './utils/schema'
+import { slackNotify } from './utils/slackNotify'
 
 const prisma = getPrisma()
 
@@ -44,6 +45,12 @@ export const createChart = async function (req, res) {
     return res.status(500).send({
       message: "couldn't find unique id",
     })
+  }
+
+  if (req.user?.isPremium) {
+    slackNotify(
+      `Premium chart created by ${req.user.username}. https://napchart.com/${req.user.username}/charts/${chartid}`,
+    )
   }
 
   let username = req.user ? req.user.username : 'anonymous'
