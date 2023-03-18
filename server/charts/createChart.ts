@@ -49,7 +49,7 @@ export const createChart = async function (req, res) {
 
   if (req.user?.isPremium) {
     slackNotify(
-      `Premium chart created by ${req.user.username}. https://napchart.com/${req.user.username}/charts/${chartid}`,
+      `Premium chart created by ${req.user.username}. https://napchart.com/${req.user.username}/${chartid}`,
     )
   }
 
